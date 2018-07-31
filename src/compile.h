@@ -19,12 +19,14 @@ SEXP compile_(SEXP file_path) {
   int status = sass_compile_file_context(file_ctx);
 
   // print the result or the error to the stdout
-  if (status == 0) puts(sass_context_get_output_string(ctx));
-  else puts(sass_context_get_error_message(ctx));
+  if (status != 0)
+    error(sass_context_get_error_message(ctx));
+
+  const char* ret = sass_context_get_output_string(ctx);
 
   // release allocated memory
   sass_delete_file_context(file_ctx);
 
   // exit status
-  return ScalarInteger(status);
+  return mkString(ret);
 }
