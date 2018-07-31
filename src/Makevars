@@ -1,0 +1,2 @@
+PKG_LIBS = ./libsass/lib/libsass.a
+PKG_CPPFLAGS = -I./libsass/include
