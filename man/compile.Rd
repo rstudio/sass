@@ -4,7 +4,7 @@
 \alias{compile}
 \title{Compile .scss and .sass files to CSS}
 \usage{
-compile(input, ...)
+compile(input, ..., .list = NULL)
 }
 \arguments{
 \item{input}{path to .scss or .sass file, or string containing

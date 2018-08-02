@@ -9,7 +9,7 @@ test_that(".scss file compiles", {
 
 test_that("string input compiles", {
   expect_equal(
-    compile(data = "foo { margin: 122px * .3; }"),
+    compile("foo { margin: 122px * .3; }"),
     "foo {\n  margin: 36.6px; }\n"
   )
 })
