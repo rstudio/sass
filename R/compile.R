@@ -7,13 +7,13 @@
 #' code to compile.
 #' @param ... options to send to libSass. For a full list of supported
 #' options, see the options help page.
-#' @param .list send options as a list instead of function argument
+#' @param .list send options as a list instead of function arguments
 #'
 #' @return One element character vector containing the compiled CSS.
 #'
 #' @export
 compile <- function(input, ..., .list = NULL) {
-  if (is_null_or_empty(input)) {
+  if (is.null(input)) {
     stop("input is invalid")
   }
 
@@ -48,7 +48,7 @@ set_options <- function(opts) {
   # and then concatenate them however libSass wants
   default_opts <- list(
     precision = 5,
-    output_style = "nested",
+    output_style = "expanded",
     source_comments = FALSE,
     source_map_embed = FALSE,
     source_map_contents = FALSE,

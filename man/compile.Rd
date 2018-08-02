@@ -13,7 +13,7 @@ code to compile.}
 \item{...}{options to send to libSass. For a full list of supported
 options, see the options help page.}
 
-\item{.list}{send options as a list instead of function argument}
+\item{.list}{send options as a list instead of function arguments}
 }
 \value{
 One element character vector containing the compiled CSS.

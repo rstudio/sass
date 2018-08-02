@@ -1,2 +1,10 @@
 PKG_LIBS = ./libsass/lib/libsass.a
 PKG_CPPFLAGS = -I./libsass/include
+
+$(SHLIB): libsass/lib/libsass.a
+
+libsass/lib/libsass.a:
+	MAKEFLAGS= make -C libsass -j5
+
+clean:
+	MAKEFLAGS= make -C libsass clean
