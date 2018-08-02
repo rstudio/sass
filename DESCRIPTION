@@ -1,9 +1,9 @@
 Package: sass
 Type: Package
-Title: What the Package Does (Title Case)
+Title: CSS Compilers through libSass
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
+Author: Timothy Mastny
+Maintainer: Timothy Mastny <tim.mastny@gmail.com>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: What license is it under?
@@ -12,5 +12,3 @@ LazyData: true
 RoxygenNote: 6.0.1
 Suggests: 
     testthat
-Imports: 
-    Rcpp
