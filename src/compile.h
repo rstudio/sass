@@ -27,7 +27,7 @@ void set_options(struct Sass_Options* sass_options, SEXP options) {
 
   sass_option_set_output_path(sass_options, output_path);
   sass_option_set_output_style(sass_options, get_int_element(options, RSASS_OUTPUT_STYLE));
-  sass_option_set_is_indented_syntax_src(sass_options, get_bool_element(options, RSASS_IS_INDENTED_SYNTAX_SRC));
+  sass_option_set_is_indented_syntax_src(sass_options, get_bool_element(options, RSASS_INDENTED_SYNTAX));
   sass_option_set_source_comments(sass_options, get_bool_element(options, RSASS_SOURCE_COMMENTS));
   sass_option_set_omit_source_map_url(sass_options, get_bool_element(options, RSASS_OMIT_SOURCE_MAP_URL));
   sass_option_set_source_map_embed(sass_options, get_bool_element(options, RSASS_SOURCE_MAP_EMBED));

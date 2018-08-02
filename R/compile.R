@@ -53,7 +53,7 @@ set_options <- function(opts) {
     source_map_embed = FALSE,
     source_map_contents = FALSE,
     omit_source_map_url = FALSE,
-    is_indented_syntax_src = FALSE,
+    indented_syntax = FALSE,
     linefeed = 'lf',
     output_path = "",
     include_path = "",
