@@ -43,9 +43,7 @@ print.css <- function(x, ...) {
 
 set_options <- function(opts) {
   # order defined in optionsdef.h
-  # TODO:
-  # include_path needs to allow a vector of paths,
-  # and then concatenate them however libSass wants
+
   default_opts <- list(
     precision = 5,
     output_style = "expanded",
@@ -108,6 +106,14 @@ set_options <- function(opts) {
     lfcr = '\n\r',
     stop("invalid linefeed.")
   )
+
+  sep <- switch(
+    .Platform$OS.type,
+    unix = ":",
+    ";"
+  )
+
+  default_opts$include_path <- paste(default_opts$include_path, collapse = sep)
 
   default_opts
 }
