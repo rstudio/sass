@@ -5,3 +5,10 @@ $(SHLIB): libsass/lib/libsass.a
 
 libsass/lib/libsass.a:
 	CC=gcc MAKEFLAGS= $(MAKE) -C libsass -j5
+
+.PHONY: shlib-clean clean
+
+shlib-clean: clean
+
+clean:
+	CC=gcc MAKEFLAGS= $(MAKE) -C libsass -j5
