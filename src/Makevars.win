@@ -1,7 +1,8 @@
-PKG_LIBS = ./libsass/lib/libsass.a
+PKG_LIBS = -L/libsass/lib/ -lsass
 PKG_CPPFLAGS = -I./libsass/include
 
 $(SHLIB): libsass/lib/libsass.a
 
-libsass/lib/libsass.a:
-	CC=gcc MAKEFLAGS= $(MAKE) -C libsass -j5
+libsass/lib/libsass.dll:
+	CC=gcc BUILD=shared MAKEFLAGS= $(MAKE) -C libsass -j5
+
