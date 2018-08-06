@@ -5,6 +5,3 @@ $(SHLIB): libsass/lib/libsass.a
 
 libsass/lib/libsass.a:
 	CC=gcc MAKEFLAGS= $(MAKE) -C libsass -j5
-
-clean:
-	CC=gcc MAKEFLAGS= $(MAKE) -C libsass clean
