@@ -1,5 +1,6 @@
-PKG_LIBS = ./libsass/lib/libsass.a
+PKG_LIBS = ./libsass/lib/libsass.a $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
 PKG_CPPFLAGS = -I./libsass/include
+
 
 $(SHLIB): libsass/lib/libsass.a
 
