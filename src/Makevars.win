@@ -4,4 +4,4 @@ PKG_CPPFLAGS = -I./libsass/include
 $(SHLIB): libsass/lib/libsass.a
 
 libsass/lib/libsass.a:
-	MAKEFLAGS= $(MAKE) -C libsass -j5
+	CC=gcc $(MAKE) -C libsass -j5
