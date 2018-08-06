@@ -6,3 +6,7 @@ $(SHLIB): libsass/lib/libsass.a
 libsass/lib/libsass.dll:
 	CC=gcc BUILD=shared MAKEFLAGS= $(MAKE) -C libsass -j5
 
+shlib-clean: clean
+
+clean:
+	$(MAKE) -C libsass clean
