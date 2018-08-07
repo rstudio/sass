@@ -41,14 +41,13 @@ print.css <- function(x, ...) {
   cat(x)
 }
 
-#' @useDynLib sass compile_file_
+#' @useDynLib sass, .registration = TRUE
 compile_file <- function(file, opts) {
-  .Call(compile_file_, file, opts)
+  .Call(C_compile_file, file, opts)
 }
 
-#' @useDynLib sass compile_data_
 compile_data <- function(data, opts) {
-  .Call(compile_data_, data, opts)
+  .Call(C_compile_data, data, opts)
 }
 
 .onUnload <- function (libpath) {

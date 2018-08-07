@@ -1,3 +1,7 @@
 ^LICENSE\.md$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^src/libsass/\.editorconfig$
+^src/libsass/\.travis.yml$
+^src/libsass/m4/\.gitkeep$
+^src/libsass/\.github$

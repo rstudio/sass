@@ -33,7 +33,7 @@ void set_options(struct Sass_Options* sass_options, SEXP options) {
   sass_option_set_linefeed(sass_options, get_char_element(options, RSASS_LINEFEED));
 }
 
-SEXP compile_file_(SEXP file, SEXP options) {
+SEXP compile_file(SEXP file, SEXP options) {
 
   const char* input = CHAR(asChar(file));
 
@@ -57,7 +57,7 @@ SEXP compile_file_(SEXP file, SEXP options) {
   return ret;
 }
 
-SEXP compile_data_(SEXP data, SEXP options) {
+SEXP compile_data(SEXP data, SEXP options) {
 
   const char* data_string = CHAR(asChar(data));
   // sass_make_data_context expects char* not const char*
