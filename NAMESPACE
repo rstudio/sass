@@ -2,5 +2,6 @@
 
 S3method(print,css)
 export(compile)
+export(opts)
 useDynLib(sass,compile_data_)
 useDynLib(sass,compile_file_)

@@ -1,7 +1,7 @@
 context("compile")
 
 test_that(".scss file compiles", {
-  expected <- "foo {\n  margin: 36.6px; }\n\nbar {\n  margin: 63px; }\n"
+  expected <- "foo {\n  margin: 36.6px;\n}\n\nbar {\n  margin: 63px;\n}\n"
   class(expected) <- c('css', class(expected))
 
   expect_equal(
@@ -11,7 +11,7 @@ test_that(".scss file compiles", {
 })
 
 test_that("string input compiles", {
-  expected <- "foo {\n  margin: 36.6px; }\n"
+  expected <- "foo {\n  margin: 36.6px;\n}\n"
   class(expected) <- c('css', class(expected))
 
   expect_equal(
@@ -21,11 +21,11 @@ test_that("string input compiles", {
 })
 
 test_that("sass compiles", {
-  expected <- "foo {\n  margin: 36.6px; }\n\nbar {\n  margin: 63px; }\n"
+  expected <- "foo {\n  margin: 36.6px;\n}\n\nbar {\n  margin: 63px;\n}\n"
   class(expected) <- c('css', class(expected))
 
   expect_equal(
-    compile("foo.sass", indented_syntax = TRUE),
+    compile("foo.sass", opts(indented_syntax = TRUE)),
     expected
   )
 })

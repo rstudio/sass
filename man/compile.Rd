@@ -2,22 +2,24 @@
 % Please edit documentation in R/compile.R
 \name{compile}
 \alias{compile}
-\title{Compile .scss and .sass files to CSS}
+\title{Compile Sass to CSS}
 \usage{
-compile(input, ..., .list = NULL)
+compile(input, options = sass::opts())
 }
 \arguments{
-\item{input}{path to .scss or .sass file, or string containing
+\item{input}{Path to .scss or .sass file, or string containing
 code to compile.}
 
-\item{...}{options to send to libSass. For a full list of supported
-options, see the options help page.}
-
-\item{.list}{send options as a list instead of function arguments}
+\item{options}{Compiler options for Sass. Please specify options
+using \code{\link{opts}}.}
 }
 \value{
 One element character vector containing the compiled CSS.
 }
 \description{
-Compile .scss and .sass files to CSS using libSass.
+Compile Sass to CSS using libSass.
+}
+\examples{
+compile("foo { margin: 122px * .3; }")
+
 }

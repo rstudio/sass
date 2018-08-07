@@ -6,8 +6,6 @@ $(SHLIB): libsass/lib/libsass.a
 libsass/lib/libsass.a:
 	MAKEFLAGS= $(MAKE) -C libsass -j5
 
-.PHONY: shlib-clean clean
-
 shlib-clean: clean
 
 clean:
