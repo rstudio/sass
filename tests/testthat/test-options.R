@@ -5,7 +5,7 @@ test_that("indent width works", {
   css_default <- compile(scss)
 
   width <- 4
-  css_width <- compile(scss, indent_width = width)
+  css_width <- compile(scss, opts(indent_width = width))
   expect_equal(
     nchar(css_default) + width - 2,
     nchar(css_width)
@@ -14,7 +14,7 @@ test_that("indent width works", {
 
 test_that("indent as tabs works", {
   scss <- "foo { margin: 122px * .3; }"
-  css <- compile(scss, indent_width = 1, indent_type = 'tab')
+  css <- compile(scss, opts(indent_width = 1, indent_type = 'tab'))
   expect_equal(
     strsplit(css, "")[[1]][7],
     '\t'
@@ -30,21 +30,21 @@ test_that("linefeed works", {
     '\n'
   )
 
-  css_cr <- compile(scss, linefeed = 'cr')
+  css_cr <- compile(scss, opts(linefeed = 'cr'))
 
   expect_equal(
     strsplit(css_cr, "")[[1]][6],
     '\r'
   )
 
-  css_crlf <- compile(scss, linefeed = 'crlf')
+  css_crlf <- compile(scss, opts(linefeed = 'crlf'))
 
   expect_equal(
     paste0(strsplit(css_crlf, "")[[1]][6:7], collapse = ''),
     '\r\n'
   )
 
-  css_crlf <- compile(scss, linefeed = 'lfcr')
+  css_crlf <- compile(scss, opts(linefeed = 'lfcr'))
 
   expect_equal(
     paste0(strsplit(css_crlf, "")[[1]][6:7], collapse = ''),
@@ -62,13 +62,13 @@ test_that("precision works", {
     nchar(css)
   )
 
-  css <- compile(scss, precision = 0)
+  css <- compile(scss, opts(precision = 0))
   expect_equal(
     num_chars_no_precision,
     nchar(css)
   )
 
-  css <- compile(scss, precision = 10)
+  css <- compile(scss, opts(precision = 10))
   expect_equal(
     num_chars_no_precision +  11,
     nchar(css)
@@ -78,6 +78,6 @@ test_that("precision works", {
 test_that("source_comments work", {
   expect_lt(
     nchar(compile("foo.scss")),
-    nchar(compile("foo.scss", source_comments = TRUE))
+    nchar(compile("foo.scss", opts(source_comments = TRUE)))
   )
 })
