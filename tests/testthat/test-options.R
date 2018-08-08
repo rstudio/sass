@@ -77,7 +77,7 @@ test_that("precision works", {
 
 test_that("source_comments work", {
   expect_lt(
-    nchar(compile("foo.scss")),
-    nchar(compile("foo.scss", opts(source_comments = TRUE)))
+    nchar(compile("test-compile.scss")),
+    nchar(compile("test-compile.scss", opts(source_comments = TRUE)))
   )
 })

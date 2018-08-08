@@ -5,7 +5,7 @@ test_that(".scss file compiles", {
   class(expected) <- c('css', class(expected))
 
   expect_equal(
-    compile("foo.scss"),
+    compile("test-compile.scss"),
     expected
   )
 })
@@ -25,7 +25,7 @@ test_that("sass compiles", {
   class(expected) <- c('css', class(expected))
 
   expect_equal(
-    compile("foo.sass", opts(indented_syntax = TRUE)),
+    compile("test-compile.sass", opts(indented_syntax = TRUE)),
     expected
   )
 })

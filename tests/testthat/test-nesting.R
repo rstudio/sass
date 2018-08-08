@@ -1,25 +1,10 @@
 context('nesting')
 
 test_that('nesting works', {
-  expected <- "nav ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-nav li {
-  display: inline-block;
-}
-
-nav a {
-  display: block;
-  padding: 6px 12px;
-  text-decoration: none;
-}
-"
+  expected <- paste0(readLines("test-nesting-expected.css"), collapse = '\n')
   class(expected) <- c("css", class(expected))
 
-  css <- compile('nesting.scss')
+  css <- compile('test-nesting-input.scss')
 
   expect_equal(css, expected)
 })
