@@ -1,11 +1,5 @@
 #include "compile.h"
 #include <R_ext/Rdynload.h>
-/*
-void R_init_sass(DllInfo *info) {
-  R_RegisterCCallable("sass", "C_compile_file",  (DL_FUNC) &compile_file);
-  R_RegisterCCallable("sass", "C_compile_data",  (DL_FUNC) &compile_data);
-}
-*/
 
 static const R_CallMethodDef callMethods[]  = {
   {"C_compile_file", (DL_FUNC) &compile_file, 2},
