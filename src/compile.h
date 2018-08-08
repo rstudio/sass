@@ -5,6 +5,8 @@
 #include "optiondefs.h"
 #include "create_string.h"
 
+// TODO: add implements in compile.c and defintions here
+
 const char* get_char_element(SEXP list, int index) {
   return CHAR(asChar(VECTOR_ELT(list, index)));
 }
@@ -13,10 +15,16 @@ int get_bool_element(SEXP list, int index) {
   return asLogical(VECTOR_ELT(list, index));
 }
 
+// TODO: check types here
+// TODO: check that the index is within the length of list
+//       else error
 int get_int_element(SEXP list, int index) {
   return asInteger(VECTOR_ELT(list, index));
 }
 
+// TODO: potentially add more type checking to prevent segfault
+// look implementation on wrong types
+// TODO: check length of SEXP options
 void set_options(struct Sass_Options* sass_options, SEXP options) {
   sass_option_set_output_path(sass_options, get_char_element(options, RSASS_OUTPUT_PATH));
   sass_option_set_output_style(sass_options, get_int_element(options, RSASS_OUTPUT_STYLE));
@@ -37,6 +45,8 @@ SEXP compile_file(SEXP file, SEXP options) {
 
   const char* input = CHAR(asChar(file));
 
+  // TODO: do these structs get freeed?
+
   // create the file context and get all related structs
   struct Sass_File_Context* file_context = sass_make_file_context(input);
   struct Sass_Context* context = sass_file_context_get_context(file_context);
@@ -49,21 +59,20 @@ SEXP compile_file(SEXP file, SEXP options) {
   if (status != 0)
     error(sass_context_get_error_message(context));
 
-  // TODO: do I need to protect?
-  SEXP ret = mkString(sass_context_get_output_string(context));
+  SEXP ret = PROTECT(mkString(sass_context_get_output_string(context)));
 
   sass_delete_file_context(file_context);
 
+  UNPROTECT(1);
   return ret;
 }
 
 SEXP compile_data(SEXP data, SEXP options) {
 
   const char* data_string = CHAR(asChar(data));
-  // sass_make_data_context expects char* not const char*
-  // necessary because sass_compile_data_context tries to free
-  // string, so we need to allocate it
   char* input = create_string(data_string);
+
+  // TODO: do these structs get freeed?
 
   struct Sass_Data_Context* data_context = sass_make_data_context(input);
   struct Sass_Context* context = sass_data_context_get_context(data_context);
@@ -76,10 +85,10 @@ SEXP compile_data(SEXP data, SEXP options) {
   if (status != 0)
     error(sass_context_get_error_message(context));
 
-  // TODO: do I need to protect?
-  SEXP ret = mkString(sass_context_get_output_string(context));
+  SEXP ret = PROTECT(mkString(sass_context_get_output_string(context)));
 
   sass_delete_data_context(data_context);
 
+  UNPROTECT(1);
   return ret;
 }
