@@ -77,8 +77,12 @@ SEXP compile_file(SEXP file, SEXP options) {
 
   const char* input = CHAR(asChar(file));
 
-  // TODO: do these structs get freeed?
+  // freed by sass_delete_file_context
   struct Sass_File_Context* file_context = sass_make_file_context(input);
+
+  // Both context and options return the same file_context pointer
+  // which is freed by sass_delete_file_context
+  // https://github.com/sass/libsass/blob/ea0e39767600e879a2774509569a432b56cf4750/src/sass_context.cpp#L646
   struct Sass_Context* context = sass_file_context_get_context(file_context);
   struct Sass_Options* sass_options = sass_context_get_options(context);
 
@@ -100,10 +104,14 @@ SEXP compile_file(SEXP file, SEXP options) {
 SEXP compile_data(SEXP data, SEXP options) {
 
   const char* data_string = CHAR(asChar(data));
+  // sass_delete_data_context will free input
   char* input = create_string(data_string);
 
-  // TODO: do these structs get freeed?
+  // freed by sass_delete_data_context
   struct Sass_Data_Context* data_context = sass_make_data_context(input);
+  // Technically both context and options return the same data_context
+  // pointer which is freed by sass_delete_data_context
+  // https://github.com/sass/libsass/blob/ea0e39767600e879a2774509569a432b56cf4750/src/sass_context.cpp#L647
   struct Sass_Context* context = sass_data_context_get_context(data_context);
   struct Sass_Options* sass_options = sass_context_get_options(context);
 
