@@ -5,7 +5,7 @@ test_that(".scss file compiles", {
   class(expected) <- c('css', class(expected))
 
   expect_equal(
-    compile("test-compile.scss"),
+    compile_sass("test-compile.scss"),
     expected
   )
 })
@@ -15,7 +15,7 @@ test_that("string input compiles", {
   class(expected) <- c('css', class(expected))
 
   expect_equal(
-    compile("foo { margin: 122px * .3; }"),
+    compile_sass(text = "foo { margin: 122px * .3; }"),
     expected
   )
 })
@@ -25,7 +25,7 @@ test_that("sass compiles", {
   class(expected) <- c('css', class(expected))
 
   expect_equal(
-    compile("test-compile.sass", opts(indented_syntax = TRUE)),
+    compile_sass("test-compile.sass", opts(indented_syntax = TRUE)),
     expected
   )
 })

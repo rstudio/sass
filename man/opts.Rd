@@ -14,8 +14,8 @@ opts(precision = 5, output_style = "expanded", indented_syntax = FALSE,
 \item{precision}{Number of decimal places.}
 
 \item{output_style}{Bracketing and formatting style of the CSS output.
-Possible styles: \code{"nested"}, \code{"expanded"}, \code{"compact"},
-and \code{"compressed"}.}
+Possible styles: \code{"nested"}, \code{"expanded"}, \code{"compact"}, and
+\code{"compressed"}.}
 
 \item{indented_syntax}{Enables the compiler to parse Sass Indented Syntax,
 typically used with \code{.sass} files. Note: \code{compile} does not
@@ -24,34 +24,35 @@ autodetect file extensions or syntax. Please specify here.}
 \item{include_path}{Vector of paths used to resolve \code{@import}. Multiple
 paths are possible using a character vector.}
 
-\item{source_comments}{Annotates CSS output with line and file comments
-from Sass file for debugging.}
+\item{source_comments}{Annotates CSS output with line and file comments from
+Sass file for debugging.}
 
-\item{indent_type}{Specifies the indent type as \code{'space'} or \code{'tab'}.}
+\item{indent_type}{Specifies the indent type as \code{'space'} or
+\code{'tab'}.}
 
-\item{indent_width}{Number of tabs or spaces used for indentation. Maximum 10.}
+\item{indent_width}{Number of tabs or spaces used for indentation. Maximum
+10.}
 
-\item{linefeed}{Specifies how new lines should be delimited. Possible
-values: \code{'lf'}, \code{'cr'}, \code{'lfcr'}, and \code{'crlf'}.}
+\item{linefeed}{Specifies how new lines should be delimited. Possible values:
+\code{'lf'}, \code{'cr'}, \code{'lfcr'}, and \code{'crlf'}.}
 
-\item{output_path}{Specifies the location of the output file. Note:
-this option will not write the file on disk. It is only for internal
-reference with the source map.}
+\item{output_path}{Specifies the location of the output file. Note: this
+option will not write the file on disk. It is only for internal reference
+with the source map.}
 
-\item{source_map_file}{Specifies the location for Sass to write the
-source map.}
+\item{source_map_file}{Specifies the location for Sass to write the source
+map.}
 
-\item{source_map_root}{Value will be included as source root in the
-source map information.}
+\item{source_map_root}{Value will be included as source root in the source
+map information.}
 
 \item{source_map_embed}{Embeds the source map as a data URI.}
 
 \item{source_map_contents}{Includes the contents in the source map
 information.}
 
-\item{omit_source_map_url}{Disable the inclusion of source map
-information in the output file. Note: must specify \code{output_path}
-when \code{TRUE}.}
+\item{omit_source_map_url}{Disable the inclusion of source map information in
+the output file. Note: must specify \code{output_path} when \code{TRUE}.}
 }
 \value{
 List of Sass compiler options to be used with \code{\link{compile}}.
@@ -60,6 +61,6 @@ List of Sass compiler options to be used with \code{\link{compile}}.
 Set compiler options for Sass. Used with \code{\link{compile}}.
 }
 \examples{
-compile("foo { margin: 122px * .3; }", opts(output_style = "compact"))
+compile_sass("foo { margin: 122px * .3; }", opts(output_style = "compact"))
 
 }
