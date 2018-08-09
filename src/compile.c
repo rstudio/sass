@@ -4,21 +4,32 @@
 #include "optiondefs.h"
 #include "create_string.h"
 
-// TODO: add implements in compile.c and defintions here
-
 const char* get_char_element(SEXP list, int index) {
-  return CHAR(asChar(VECTOR_ELT(list, index)));
+  SEXP value = VECTOR_ELT(list, index);
+  if (TYPEOF(value) != STRSXP) {
+    error("Invalid type for option. Expected string.");
+  }
+  return CHAR(asChar(value));
 }
 
 int get_bool_element(SEXP list, int index) {
-  return asLogical(VECTOR_ELT(list, index));
+  SEXP value = VECTOR_ELT(list, index);
+  if (TYPEOF(value) != LGLSXP) {
+    error("Invalid type for option. Expected logical.");
+  }
+  return asLogical(value);
 }
 
-// TODO: check types here
 // TODO: check that the index is within the length of list
 //       else error
 int get_int_element(SEXP list, int index) {
-  return asInteger(VECTOR_ELT(list, index));
+  SEXP value = VECTOR_ELT(list, index);
+  // Even if real, coercing to integer works
+  // since it must be between 0 and 10
+  if ((TYPEOF(value) != INTSXP) && (TYPEOF(value) != REALSXP)) {
+    error("Invalid type for option. Expected integer.");
+  }
+  return asInteger(value);
 }
 
 // TODO: potentially add more type checking to prevent segfault

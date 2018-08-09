@@ -59,6 +59,9 @@ opts <- function(
   if (indent_width > 10) {
     warning("Maximum indent width is 10. Setting to 10...")
     indent_width <- 10
+  } else if (indent_width < 0) {
+    warning("Minimum indent width is 0. Setting to 0...")
+    indent_width <- 0
   }
 
   indent_type <- switch(
