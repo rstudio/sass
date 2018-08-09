@@ -109,7 +109,7 @@ SEXP compile_data(SEXP data, SEXP options) {
 
   // freed by sass_delete_data_context
   struct Sass_Data_Context* data_context = sass_make_data_context(input);
-  // Technically both context and options return the same data_context
+  // Both context and options return the same data_context
   // pointer which is freed by sass_delete_data_context
   // https://github.com/sass/libsass/blob/ea0e39767600e879a2774509569a432b56cf4750/src/sass_context.cpp#L647
   struct Sass_Context* context = sass_data_context_get_context(data_context);
