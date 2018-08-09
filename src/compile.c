@@ -54,6 +54,8 @@ void set_options(struct Sass_Options* sass_options, SEXP options) {
   int maximum_options = 13;
   if (length(options) > maximum_options) {
     error("Option list contains unsupported options.");
+  } else if (length(options) < maximum_options) {
+    error("Option list missing options.");
   }
 
   sass_option_set_output_path(sass_options, get_char_element(options, "output_path"));
