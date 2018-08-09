@@ -17,7 +17,7 @@
 #'   pass one or the other.
 #'
 #' @examples
-#' compile_sass("foo { margin: 122px * .3; }")
+#' compile_sass(text = "foo { margin: 122px * .3; }")
 #'
 #' @export
 compile_sass <- function(file = NULL, options = opts(), output = NULL, ..., text = NULL) {
@@ -29,7 +29,6 @@ compile_sass <- function(file = NULL, options = opts(), output = NULL, ..., text
   text_input <- FALSE
 
   if (!is.null(file)) {
-    # TODO: ask Alan about this pattern
     if (!file.exists(file)) {
       stop("Input file does not exist.")
     }

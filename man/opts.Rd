@@ -61,6 +61,6 @@ List of Sass compiler options to be used with \code{\link{compile}}.
 Set compiler options for Sass. Used with \code{\link{compile}}.
 }
 \examples{
-compile_sass("foo { margin: 122px * .3; }", opts(output_style = "compact"))
+compile_sass(text = "foo { margin: 122px * .3; }", options = opts(output_style = "compact"))
 
 }

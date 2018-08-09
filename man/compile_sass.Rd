@@ -31,6 +31,6 @@ Compile Sass to CSS using libSass.
   pass one or the other.
 }
 \examples{
-compile_sass("foo { margin: 122px * .3; }")
+compile_sass(text = "foo { margin: 122px * .3; }")
 
 }
