@@ -1,21 +1,22 @@
 #' Compiler Options for Sass
 #'
-#' Set compiler options for Sass. Used with \code{\link{compile}}.
+#' Set compiler options for Sass. Used with \code{\link{compile_sass}}.
 #'
 #'
 #' @param precision Number of decimal places.
 #' @param output_style Bracketing and formatting style of the CSS output.
 #'   Possible styles: \code{"nested"}, \code{"expanded"}, \code{"compact"}, and
 #'   \code{"compressed"}.
-#' @param indented_syntax Enables the compiler to parse Sass Indented Syntax,
-#'   typically used with \code{.sass} files. Note: \code{compile} does not
-#'   autodetect file extensions or syntax. Please specify here.
+#' @param indented_syntax Enables the compiler to parse Sass Indented Syntax in
+#'   strings. Note that the compiler automatically overrides this option to
+#'   \code{TRUE} or \code{FALSE} for files with .sass and .scss file extensions
+#'   respectively.
 #' @param indent_type Specifies the indent type as \code{'space'} or
 #'   \code{'tab'}.
 #' @param indent_width Number of tabs or spaces used for indentation. Maximum
 #'   10.
 #' @param include_path Vector of paths used to resolve \code{@import}. Multiple
-#'   paths are possible using a character vector.
+#'   paths are possible using a character vector of paths.
 #' @param source_comments Annotates CSS output with line and file comments from
 #'   Sass file for debugging.
 #' @param linefeed Specifies how new lines should be delimited. Possible values:
@@ -33,10 +34,14 @@
 #' @param omit_source_map_url Disable the inclusion of source map information in
 #'   the output file. Note: must specify \code{output_path} when \code{TRUE}.
 #'
-#' @return List of Sass compiler options to be used with \code{\link{compile}}.
+#' @return List of Sass compiler options to be used with
+#'   \code{\link{compile_sass}}.
 #'
 #' @examples
-#' compile_sass(text = "foo { margin: 122px * .3; }", options = opts(output_style = "compact"))
+#' compile_sass(
+#'   text = "foo { margin: 122px * .3; }",
+#'   options = opts(output_style = "compact")
+#' )
 #'
 #' @export
 opts <- function(

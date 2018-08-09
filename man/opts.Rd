@@ -17,12 +17,13 @@ opts(precision = 5, output_style = "expanded", indented_syntax = FALSE,
 Possible styles: \code{"nested"}, \code{"expanded"}, \code{"compact"}, and
 \code{"compressed"}.}
 
-\item{indented_syntax}{Enables the compiler to parse Sass Indented Syntax,
-typically used with \code{.sass} files. Note: \code{compile} does not
-autodetect file extensions or syntax. Please specify here.}
+\item{indented_syntax}{Enables the compiler to parse Sass Indented Syntax in
+strings. Note that the compiler automatically overrides this option to
+\code{TRUE} or \code{FALSE} for files with .sass and .scss file extensions
+respectively.}
 
 \item{include_path}{Vector of paths used to resolve \code{@import}. Multiple
-paths are possible using a character vector.}
+paths are possible using a character vector of paths.}
 
 \item{source_comments}{Annotates CSS output with line and file comments from
 Sass file for debugging.}
@@ -55,12 +56,16 @@ information.}
 the output file. Note: must specify \code{output_path} when \code{TRUE}.}
 }
 \value{
-List of Sass compiler options to be used with \code{\link{compile}}.
+List of Sass compiler options to be used with
+  \code{\link{compile_sass}}.
 }
 \description{
-Set compiler options for Sass. Used with \code{\link{compile}}.
+Set compiler options for Sass. Used with \code{\link{compile_sass}}.
 }
 \examples{
-compile_sass(text = "foo { margin: 122px * .3; }", options = opts(output_style = "compact"))
+compile_sass(
+  text = "foo { margin: 122px * .3; }",
+  options = opts(output_style = "compact")
+)
 
 }

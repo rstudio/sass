@@ -8,7 +8,8 @@ compile_sass(file = NULL, options = opts(), output = NULL, ...,
   text = NULL)
 }
 \arguments{
-\item{file}{Path to .scss or .sass Sass file.}
+\item{file}{Path to .scss or .sass Sass file. Note that the libSass compiler
+expects .sass files to use the Sass Indented Syntax.}
 
 \item{options}{Compiler options for Sass. Please specify options using
 \code{\link{opts}}.}
@@ -20,8 +21,9 @@ compile_sass(file = NULL, options = opts(), output = NULL, ...,
 \item{text}{Character vector of Sass code.}
 }
 \value{
-If \code{output = NULL}, returns a character vector of the compiled
-  CSS. If the output path is specified, compiled returns \code{NULL}.
+If \code{output = NULL}, the function returns a one element character
+  vector of the compiled CSS. If the output path is specified, the compiled
+  CSS is written to that file and the function has no return value.
 }
 \description{
 Compile Sass to CSS using libSass.

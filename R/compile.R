@@ -3,15 +3,17 @@
 #' Compile Sass to CSS using libSass.
 #'
 #'
-#' @param file Path to .scss or .sass Sass file.
+#' @param file Path to .scss or .sass Sass file. Note that the libSass compiler
+#'   expects .sass files to use the Sass Indented Syntax.
 #' @param options Compiler options for Sass. Please specify options using
 #'   \code{\link{opts}}.
 #' @param output Specifies path to output file for compiled CSS.
 #' @param ... Currently unused.
 #' @param text Character vector of Sass code.
 #'
-#' @return If \code{output = NULL}, returns a character vector of the compiled
-#'   CSS. If the output path is specified, compiled returns \code{NULL}.
+#' @return If \code{output = NULL}, the function returns a one element character
+#'   vector of the compiled CSS. If the output path is specified, the compiled
+#'   CSS is written to that file and the function has no return value.
 #'
 #' @note \code{file} and \code{text} cannot be compiled at the same time. Please
 #'   pass one or the other.
