@@ -1,29 +1,47 @@
 #include <R.h>
 #include "compile.h"
 #include "sass/context.h"
-#include "optiondefs.h"
 #include "create_string.h"
 
-const char* get_char_element(SEXP list, int index) {
+int get_index(SEXP list, const char* name) {
+  SEXP names = Rf_getAttrib(list, R_NamesSymbol);
+  if (isNull(names)) {
+    error("No named options in options list.");
+  }
+
+  int n = length(list);
+  for (int i = 0; i < n; i++) {
+    const char* element_name = CHAR(STRING_ELT(names, i));
+    if (strcmp(name, element_name) == 0) {
+      return i;
+    }
+  }
+  error("Option %s not found in option list.", name);
+}
+
+const char* get_char_element(SEXP list, const char* name) {
+  int index = get_index(list, name);
   SEXP value = VECTOR_ELT(list, index);
   if (TYPEOF(value) != STRSXP) {
-    error("Invalid type for option. Expected string.");
+    error("Invalid type for %s option. Expected string.", name);
   }
   return CHAR(asChar(value));
 }
 
-int get_bool_element(SEXP list, int index) {
+int get_bool_element(SEXP list, const char* name) {
+  int index = get_index(list, name);
   SEXP value = VECTOR_ELT(list, index);
   if (TYPEOF(value) != LGLSXP) {
-    error("Invalid type for option. Expected logical.");
+    error("Invalid type for %s option. Expected logical.", name);
   }
   return asLogical(value);
 }
 
-int get_int_element(SEXP list, int index) {
+int get_int_element(SEXP list, const char* name) {
+  int index = get_index(list, name);
   SEXP value = VECTOR_ELT(list, index);
   if ((TYPEOF(value) != INTSXP) && (TYPEOF(value) != REALSXP)) {
-    error("Invalid type for option. Expected integer.");
+    error("Invalid type for %s option. Expected integer.", name);
   }
   int i = asInteger(value);
   if ((i < 0) || (i > 10)) {
@@ -33,23 +51,24 @@ int get_int_element(SEXP list, int index) {
 }
 
 void set_options(struct Sass_Options* sass_options, SEXP options) {
-  if (length(options) > RSASS_LENGTH) {
+  int maximum_options = 13;
+  if (length(options) > maximum_options) {
     error("Option list contains unsupported options.");
   }
 
-  sass_option_set_output_path(sass_options, get_char_element(options, RSASS_OUTPUT_PATH));
-  sass_option_set_output_style(sass_options, get_int_element(options, RSASS_OUTPUT_STYLE));
-  sass_option_set_is_indented_syntax_src(sass_options, get_bool_element(options, RSASS_INDENTED_SYNTAX));
-  sass_option_set_source_comments(sass_options, get_bool_element(options, RSASS_SOURCE_COMMENTS));
-  sass_option_set_omit_source_map_url(sass_options, get_bool_element(options, RSASS_OMIT_SOURCE_MAP_URL));
-  sass_option_set_source_map_embed(sass_options, get_bool_element(options, RSASS_SOURCE_MAP_EMBED));
-  sass_option_set_source_map_contents(sass_options, get_bool_element(options, RSASS_SOURCE_MAP_CONTENTS));
-  sass_option_set_source_map_file(sass_options, get_char_element(options, RSASS_SOURCE_MAP_FILE));
-  sass_option_set_source_map_root(sass_options, get_char_element(options, RSASS_SOURCE_MAP_ROOT));
-  sass_option_set_include_path(sass_options, get_char_element(options, RSASS_INCLUDE_PATH));
-  sass_option_set_precision(sass_options, get_int_element(options, RSASS_PRECISION));
-  sass_option_set_indent(sass_options, get_char_element(options, RSASS_INDENT));
-  sass_option_set_linefeed(sass_options, get_char_element(options, RSASS_LINEFEED));
+  sass_option_set_output_path(sass_options, get_char_element(options, "output_path"));
+  sass_option_set_output_style(sass_options, get_int_element(options, "output_style"));
+  sass_option_set_is_indented_syntax_src(sass_options, get_bool_element(options, "indented_syntax"));
+  sass_option_set_source_comments(sass_options, get_bool_element(options, "source_comments"));
+  sass_option_set_omit_source_map_url(sass_options, get_bool_element(options, "omit_source_map_url"));
+  sass_option_set_source_map_embed(sass_options, get_bool_element(options, "source_map_embed"));
+  sass_option_set_source_map_contents(sass_options, get_bool_element(options, "source_map_contents"));
+  sass_option_set_source_map_file(sass_options, get_char_element(options, "source_map_file"));
+  sass_option_set_source_map_root(sass_options, get_char_element(options, "source_map_root"));
+  sass_option_set_include_path(sass_options, get_char_element(options, "include_path"));
+  sass_option_set_precision(sass_options, get_int_element(options, "precision"));
+  sass_option_set_indent(sass_options, get_char_element(options, "indent"));
+  sass_option_set_linefeed(sass_options, get_char_element(options, "linefeed"));
 }
 
 SEXP compile_file(SEXP file, SEXP options) {

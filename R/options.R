@@ -55,7 +55,6 @@ opts <- function(
   source_map_contents = FALSE,
   omit_source_map_url = FALSE
 ) {
-  # order defined in optionsdef.h
   if (indent_width > 10) {
     warning("Maximum indent width is 10. Setting to 10...")
     indent_width <- 10
