@@ -20,22 +20,23 @@ int get_bool_element(SEXP list, int index) {
   return asLogical(value);
 }
 
-// TODO: check that the index is within the length of list
-//       else error
 int get_int_element(SEXP list, int index) {
   SEXP value = VECTOR_ELT(list, index);
-  // Even if real, coercing to integer works
-  // since it must be between 0 and 10
   if ((TYPEOF(value) != INTSXP) && (TYPEOF(value) != REALSXP)) {
     error("Invalid type for option. Expected integer.");
   }
-  return asInteger(value);
+  int i = asInteger(value);
+  if ((i < 0) || (i > 10)) {
+    error("Invalid option. Integer value is out of range.");
+  }
+  return i;
 }
 
-// TODO: potentially add more type checking to prevent segfault
-// look implementation on wrong types
-// TODO: check length of SEXP options
 void set_options(struct Sass_Options* sass_options, SEXP options) {
+  if (length(options) > RSASS_LENGTH) {
+    error("Option list contains unsupported options.");
+  }
+
   sass_option_set_output_path(sass_options, get_char_element(options, RSASS_OUTPUT_PATH));
   sass_option_set_output_style(sass_options, get_int_element(options, RSASS_OUTPUT_STYLE));
   sass_option_set_is_indented_syntax_src(sass_options, get_bool_element(options, RSASS_INDENTED_SYNTAX));
@@ -56,8 +57,6 @@ SEXP compile_file(SEXP file, SEXP options) {
   const char* input = CHAR(asChar(file));
 
   // TODO: do these structs get freeed?
-
-  // create the file context and get all related structs
   struct Sass_File_Context* file_context = sass_make_file_context(input);
   struct Sass_Context* context = sass_file_context_get_context(file_context);
   struct Sass_Options* sass_options = sass_context_get_options(context);
@@ -83,7 +82,6 @@ SEXP compile_data(SEXP data, SEXP options) {
   char* input = create_string(data_string);
 
   // TODO: do these structs get freeed?
-
   struct Sass_Data_Context* data_context = sass_make_data_context(input);
   struct Sass_Context* context = sass_data_context_get_context(data_context);
   struct Sass_Options* sass_options = sass_context_get_options(context);
