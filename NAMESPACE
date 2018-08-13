@@ -3,4 +3,4 @@
 S3method(print,css)
 export(compile_sass)
 export(opts)
-useDynLib(sass, .registration = TRUE)
+useDynLib(sassr, .registration = TRUE)

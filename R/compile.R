@@ -79,7 +79,7 @@ print.css <- function(x, ...) {
   cat(x)
 }
 
-#' @useDynLib sass, .registration = TRUE
+#' @useDynLib sassr, .registration = TRUE
 compile_file <- function(file, opts) {
   .Call(C_compile_file, file, opts)
 }

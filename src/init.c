@@ -7,7 +7,7 @@ static const R_CallMethodDef callMethods[]  = {
   {NULL, NULL, 0}
 };
 
-void R_init_sass(DllInfo* info) {
+void R_init_sassr(DllInfo* info) {
   R_registerRoutines(info, NULL, callMethods, NULL, NULL);
   R_useDynamicSymbols(info, FALSE);
   R_forceSymbols(info, TRUE);
