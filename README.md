@@ -17,7 +17,7 @@ You can install the released version of sass from
 [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
-install.packages("sass")
+install.packages("sassr")
 ```
 
 You can install the latest development build from Github with:
