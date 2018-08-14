@@ -1,4 +1,4 @@
 library(testthat)
-library(sass)
+library(sassr)
 
-test_check("sass")
+test_check("sassr")
