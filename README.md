@@ -5,6 +5,8 @@
 
 [![Travis build
 status](https://travis-ci.org/rstudio/sassr.svg?branch=master)](https://travis-ci.org/rstudio/sassr)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/rstudio/sassr?branch=master&svg=true)](https://ci.appveyor.com/project/rstudio/sassr)
 
 Sassr is a CSS preprocessor, letting you use variables, nesting, and
 inheritance in CSS.
