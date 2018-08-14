@@ -1,14 +1,13 @@
 PKG_LIBS = ./libsass/lib/libsass.a -lstdc++
 PKG_CPPFLAGS = -I./libsass/include
 
-
 $(SHLIB): libsass/lib/libsass.a
 
 libsass/lib/libsass.a:
-	MAKEFLAGS= CC=$(CC) CXX=$(CXX) AR=$(AR) $(MAKE) -C libsass
+	MAKEFLAGS= CC="$(CC)" CFLAGS="$(CFLAGS)" CXX="$(CXX)" CXXFLAGS="$(CXXFLAGS)" AR="$(AR)" LDFLAGS="$(LDFLAGS)" $(MAKE) -C libsass
 
 shlib-clean: clean
 
 clean:
-	$(MAKE) -C libsass clean
-
+	MAKEFLAGS= $(MAKE) -C libsass clean
+	rm -f rm -f *.o *.so
