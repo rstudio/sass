@@ -4,8 +4,7 @@
 \alias{compile_sass}
 \title{Compile Sass to CSS}
 \usage{
-compile_sass(file = NULL, options = opts(), output = NULL, ...,
-  text = NULL)
+compile_sass(file = NULL, options = opts(), output = NULL, text = NULL)
 }
 \arguments{
 \item{file}{Path to .scss or .sass Sass file. Note that the libSass compiler
@@ -15,8 +14,6 @@ expects .sass files to use the Sass Indented Syntax.}
 \code{\link{opts}}.}
 
 \item{output}{Specifies path to output file for compiled CSS.}
-
-\item{...}{Currently unused.}
 
 \item{text}{Character vector of Sass code.}
 }

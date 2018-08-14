@@ -4,8 +4,9 @@
 #include "create_string.h"
 
 int get_index(SEXP list, const char* name) {
-  SEXP names = Rf_getAttrib(list, R_NamesSymbol);
+  SEXP names = PROTECT(Rf_getAttrib(list, R_NamesSymbol));
   if (isNull(names)) {
+    UNPROTECT(1);
     error("No named options in options list.");
   }
 
@@ -13,40 +14,49 @@ int get_index(SEXP list, const char* name) {
   for (int i = 0; i < n; i++) {
     const char* element_name = CHAR(STRING_ELT(names, i));
     if (strcmp(name, element_name) == 0) {
+      UNPROTECT(1);
       return i;
     }
   }
+  UNPROTECT(1);
   error("Option %s not found in option list.", name);
 }
 
 const char* get_char_element(SEXP list, const char* name) {
   int index = get_index(list, name);
-  SEXP value = VECTOR_ELT(list, index);
+  SEXP value = PROTECT(VECTOR_ELT(list, index));
   if (TYPEOF(value) != STRSXP) {
+    UNPROTECT(1);
     error("Invalid type for %s option. Expected string.", name);
   }
+  UNPROTECT(1);
   return CHAR(asChar(value));
 }
 
 int get_bool_element(SEXP list, const char* name) {
   int index = get_index(list, name);
-  SEXP value = VECTOR_ELT(list, index);
+  SEXP value = PROTECT(VECTOR_ELT(list, index));
   if (TYPEOF(value) != LGLSXP) {
+    UNPROTECT(1);
     error("Invalid type for %s option. Expected logical.", name);
   }
+  UNPROTECT(1);
   return asLogical(value);
 }
 
 int get_int_element(SEXP list, const char* name) {
   int index = get_index(list, name);
-  SEXP value = VECTOR_ELT(list, index);
+  SEXP value = PROTECT(VECTOR_ELT(list, index));
   if ((TYPEOF(value) != INTSXP) && (TYPEOF(value) != REALSXP)) {
+    UNPROTECT(1);
     error("Invalid type for %s option. Expected integer.", name);
   }
   int i = asInteger(value);
   if ((i < 0) || (i > 10)) {
+    UNPROTECT(1);
     error("Invalid option. Integer value is out of range.");
   }
+  UNPROTECT(1);
   return i;
 }
 

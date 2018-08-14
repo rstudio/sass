@@ -8,7 +8,6 @@
 #' @param options Compiler options for Sass. Please specify options using
 #'   \code{\link{opts}}.
 #' @param output Specifies path to output file for compiled CSS.
-#' @param ... Currently unused.
 #' @param text Character vector of Sass code.
 #'
 #' @return If \code{output = NULL}, the function returns a one element character
@@ -22,7 +21,7 @@
 #' compile_sass(text = "foo { margin: 122px * .3; }")
 #'
 #' @export
-compile_sass <- function(file = NULL, options = opts(), output = NULL, ..., text = NULL) {
+compile_sass <- function(file = NULL, options = opts(), output = NULL, text = NULL) {
   if (is.null(file) && is.null(text)) {
     stop("No input detected. Please supply Sass file or text to compile.")
   }
@@ -50,11 +49,6 @@ compile_sass <- function(file = NULL, options = opts(), output = NULL, ..., text
     stop("Please construct the compile options using sass::opts.")
   }
 
-  # check if output path is valid before compiling the Sass
-  if (!is.null(output)) {
-    write("", output)
-  }
-
   if (file_input) {
     css <- compile_file(file, options)
   } else {
@@ -63,13 +57,11 @@ compile_sass <- function(file = NULL, options = opts(), output = NULL, ..., text
 
   if (!is.null(output)) {
     write(css, output)
-    return()
+    class(css) <- c("css", class(css))
+    return(invisible(css))
   }
 
   # TODO: is there something that is already a css?
-  # maybe sass_css
-  # ask on slack
-  # possibly use "sass_css"?
   class(css) <- c("css", class(css))
   css
 }

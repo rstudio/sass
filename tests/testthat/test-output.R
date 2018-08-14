@@ -1,17 +1,17 @@
 context('output')
 
 test_that('writing to file works', {
+  file_name <- tempfile(fileext = ".css")
   compile_sass(
     "test-nesting-input.scss",
-    output = "output.txt"
+    output = file_name
   )
-  output <- paste0(readLines("output.txt"), collapse = '\n')
+  on.exit(unlink(file_name))
+  output <- paste0(readLines(file_name), collapse = '\n')
   expected <- paste0(readLines("test-nesting-expected.css"), collapse = '\n')
 
-  expect_true(file.exists("output.txt"))
+  expect_true(file.exists(file_name))
   expect_equal(output, expected)
-
-  unlink("output.txt")
 })
 
 test_that('writing to invalid path fails', {
