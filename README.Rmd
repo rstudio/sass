@@ -24,7 +24,7 @@ Sassr uses the [Sass](https://sass-lang.com/) CSS extension language. Sass is st
 
 ## Installation
 
-You can install the released version of sass from [CRAN](https://CRAN.R-project.org) with:
+You can install the released version of sassr from [CRAN](https://CRAN.R-project.org) with:
 
 ```r
 install.packages("sassr")
@@ -39,7 +39,7 @@ devtools::install_github("rstudio/sassr")
 
 ## Example
 
-At it's most basic, Sass allows you to format and perform operations on CSS code:
+At its most basic, Sass allows you to format and perform operations on CSS code:
 
 ```{r}
 library(sassr)

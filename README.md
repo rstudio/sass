@@ -18,7 +18,7 @@ in C++.
 
 ## Installation
 
-You can install the released version of sass from
+You can install the released version of sassr from
 [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
@@ -34,7 +34,7 @@ devtools::install_github("rstudio/sassr")
 
 ## Example
 
-At it’s most basic, Sass allows you to format and perform operations on
+At its most basic, Sass allows you to format and perform operations on
 CSS code:
 
 ``` r
