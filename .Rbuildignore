@@ -7,3 +7,4 @@
 ^src/libsass/\.travis.yml$
 ^src/libsass/m4/\.gitkeep$
 ^src/libsass/\.github$
+^\.travis\.yml$
