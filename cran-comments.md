@@ -5,7 +5,7 @@
 
 ## R CMD check results
 
-0 errors | 0 warnings | 3 notes
+0 errors | 0 warnings | 4 notes
 
 * This is a new release.
 
@@ -19,6 +19,13 @@ GNU make is used to build the underlying libSass library.
     ‘src/libsass/src/parser.hpp’
 
 This pragma is a part of the libSass library.
+
+* checking installed package size ... NOTE
+    installed size is  6.4Mb
+    sub-directories of 1Mb or more:
+      libs   6.3Mb
+
+THis is only a note on Windows builds.
 
 ## Downstream dependencies
 
