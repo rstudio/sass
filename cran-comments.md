@@ -25,7 +25,7 @@ This pragma is a part of the libSass library.
     sub-directories of 1Mb or more:
       libs   6.3Mb
 
-THis is only a note on Windows builds.
+This is only a note on Windows builds.
 
 ## Downstream dependencies
 

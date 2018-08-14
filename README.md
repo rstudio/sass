@@ -27,12 +27,13 @@ You can install the latest development build from Github with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("tmastny/sass")
+devtools::install_github("rstudio/sassr")
 ```
 
 ## Example
 
-At it’s most basic, Sass can do computations with standard CSS code:
+At it’s most basic, Sass allows you to format and perform operations on
+CSS code:
 
 ``` r
 library(sassr)
