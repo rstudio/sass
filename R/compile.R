@@ -89,5 +89,5 @@ compile_data <- function(data, opts) {
 }
 
 .onUnload <- function (libpath) {
-  library.dynam.unload("sass", libpath)
+  library.dynam.unload("sassr", libpath)
 }
