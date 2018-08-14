@@ -5,7 +5,7 @@ PKG_CPPFLAGS = -I./libsass/include
 $(SHLIB): libsass/lib/libsass.a
 
 libsass/lib/libsass.a:
-	MAKEFLAGS= CC=$(CC) CXX=$(CXX) AR=$(AR) $(MAKE) -C libsass -j5
+	MAKEFLAGS= CC=$(CC) CXX=$(CXX) AR=$(AR) $(MAKE) -C libsass
 
 shlib-clean: clean
 
