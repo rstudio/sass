@@ -18,33 +18,40 @@ knitr::opts_chunk$set(
 
 [![Travis build status](https://travis-ci.org/rstudio/sassr.svg?branch=master)](https://travis-ci.org/rstudio/sassr) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/rstudio/sassr?branch=master&svg=true)](https://ci.appveyor.com/project/rstudio/sassr)
 
-Sassr is a CSS preprocessor, letting you use variables, nesting, and inheritance in CSS.
+Sassr is a CSS preprocessor, letting R developers use variables, inheritance, and functions to generate dynamic style sheets.
 
 Sassr uses the [Sass](https://sass-lang.com/) CSS extension language. Sass is stable, powerful, and CSS compatiable. Sassr is an R wrapper for [LibSass](https://github.com/sass/libsass), a fast Sass compiler written in C++.
 
 ## Installation
 
-You can install the released version of sassr from [CRAN](https://CRAN.R-project.org) with:
-
+Install the released version of sassr from CRAN:
 ```r
 install.packages("sassr")
 ```
 
-You can install the latest development build from Github with:
-
+Install the latest development build from Github:
 ```r
 # install.packages("devtools")
 devtools::install_github("rstudio/sassr")
 ```
 
-## Example
+## Getting Started
 
-At its most basic, Sass allows you to format and perform operations on CSS code:
+The Sass language syntax is similar to CSS, but allows functions and variables, and can do arbitrary computations. 
 
 ```{r}
 library(sassr)
-compile_sass(text = "foo { margin: 122px * .3; }")
+compile_sass(text = "
+  $size: 100%;
+  foo { margin: $size * .33; }
+")
 ```
 
-For an overview of the major features such as variables, nesting, and imports check out the [Sass Basics](https://sass-lang.com/guide).
+For an overview of the major features of Sass such as variables, nesting, and imports check out the official [Sass Basics](https://sass-lang.com/guide).
+
+## Examples
+
+Checkout the Sassr Example [Shiny App](https://gallery.shinyapps.io/140-sassr-size/) and the website describing it.
+![](inst/shiny-app.gif)
+
 

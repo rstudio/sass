@@ -1,0 +1,164 @@
+---
+title: "Introduction to Sassr"
+author: "Timothy Mastny"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+runtime: shiny
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+For single [Rmarkdown](https://rmarkdown.rstudio.com/) documents or [Shiny](http://shiny.rstudio.com/) apps, styling with CSS or using custom themes such as [shinythemes](https://github.com/rstudio/shinythemes) works well.
+
+As an R developer, designing a default style sheet is difficult. The developer wants to provide a theme that works and looks good, while providing customization options for users. 
+
+This article will briefly show how to use sassr to generate style sheets based on user input.
+
+## Variables
+
+Sass variables are key to generating dynamic CSS. Because sassr compiles fast, you can define components of your styling at runtime based on user input.
+
+It is best practice to define your [variables](http://sass-lang.com/guide#topic-2) separately, and then [import](http://sass-lang.com/guide#topic-5) them into the main Sass file. For example, we'll define a color variable and use it to set the body's background color. 
+
+```css
+/* _variables.scss */
+$color: #FFFFFF;
+```
+```css
+/* new-style.scss */
+@import 'variables';
+body {
+  background-color: $color;
+}
+```
+
+The following application will demonstrate this example. We'll use Dean Attali's [colourpicker](https://github.com/daattali/colourpicker) to choose a color and write it to `_variables.scss`. 
+
+Then the app compiles `new-style.scss` and renders the new style.
+
+```{r echo = FALSE}
+knitr::include_app("http://127.0.0.1:3685", height = "600px")
+```
+
+## Functions
+
+If we choose a background color that is too dark, we won't be able to read the title **New Application**. Therefore, we need to make the font color depend on the background color.
+
+Sass offers many [built-in functions](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#functions) that help with dynamic styling, and you can always write [your own](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#function_directives).
+
+```css
+/* _variables.scss */
+$color: #FFFFFF;
+```
+```css
+/* new-style.scss */
+@import 'variables';
+body {
+  background-color: $color;
+}
+
+/* https://stackoverflow.com/a/3943023/6637133 */
+@function font-color($color) {
+  @return if(
+    red($color) * 0.299 + green($color) * 0.587 + blue($color) * 0.114 > 186,
+    #000000, #ffffff
+  );
+}
+
+h1 {
+  color: font-color($color);
+}
+```
+
+Now the header font color [depends](https://stackoverflow.com/a/3943023/6637133) on the background color, switching between black and white as necessary:
+
+```{r echo = FALSE}
+knitr::include_app("http://127.0.0.1:3415", height = "400px")
+```
+
+## Resizing
+
+Dynamic resizing based on user-input is also useful. Sass is fully CSS compatible, so any styling option is available.
+
+Here's we'll change the width of the image based on a slider:
+
+```css
+/* _variables.scss */
+$color: #FFFFFF;
+$width: 100;
+```
+```css
+/* new-style.scss */
+@import 'variables';
+body {
+  background-color: $color;
+}
+
+/* https://stackoverflow.com/a/3943023/6637133 */
+@function font-color($color) {
+  @return if(
+    red($color) * 0.299 + green($color) * 0.587 + blue($color) * 0.114 > 186,
+    #000000, #ffffff
+  );
+}
+
+h1 {
+  color: font-color($color);
+}
+
+.shiny-plot-output {
+  max-width: percentage($width / 100);
+}
+```
+
+```{r echo = FALSE}
+knitr::include_app("http://127.0.0.1:7561", height = "600px")
+```
+
+## CSS Formatting
+
+Sassr can also produce human readable or production ready CSS, depending on the need. 
+
+```{r}
+new_style <- "
+  $color: #FFFFFF;
+  $width: 100;
+  
+  body {
+    background-color: $color;
+  }
+  
+  /* https://stackoverflow.com/a/3943023/6637133 */
+  @function font-color($color) {
+    @return if(
+      red($color) * 0.299 + green($color) * 0.587 + blue($color) * 0.114 > 186,
+      #000000, #ffffff
+    );
+  }
+  
+  h1 {
+    color: font-color($color);
+  }
+  
+  .shiny-plot-output {
+    max-width: percentage($width / 100);
+  }
+"
+```
+
+```{r}
+library(sass)
+compile_sass(text = new_style, options = opts(output_style = "compressed"))
+```
+
+
+
