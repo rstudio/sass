@@ -3,7 +3,6 @@ title: "Introduction to Sassr"
 author: "Timothy Mastny"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
-runtime: shiny
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
@@ -41,17 +40,17 @@ body {
 }
 ```
 
-The following application will demonstrate this example. We'll use Dean Attali's [colourpicker](https://github.com/daattali/colourpicker) to choose a color and write it to `_variables.scss`. 
+The following [shiny app]("https://gallery.shinyapps.io/138-sassr-color") will demonstrate this example. We'll use Dean Attali's [colourpicker](https://github.com/daattali/colourpicker) to choose a color and write it to `_variables.scss`. 
 
 Then the app compiles `new-style.scss` and renders the new style.
 
 ```{r echo = FALSE}
-knitr::include_app("http://127.0.0.1:3685", height = "600px")
+knitr::include_app("https://gallery.shinyapps.io/138-sassr-color", height = "600px")
 ```
 
 ## Functions
 
-If we choose a background color that is too dark, we won't be able to read the title **New Application**. Therefore, we need to make the font color depend on the background color.
+If we choose a background color that is too dark, we won't be able to read the title **Sassr Example**. Therefore, we need to make the font color depend on the background color.
 
 Sass offers many [built-in functions](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#functions) that help with dynamic styling, and you can always write [your own](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#function_directives).
 
@@ -79,17 +78,17 @@ h1 {
 }
 ```
 
-Now the header font color [depends](https://stackoverflow.com/a/3943023/6637133) on the background color, switching between black and white as necessary:
+In our next [shiny app](https://gallery.shinyapps.io/139-sassr-font/), the font color now [depends](https://stackoverflow.com/a/3943023/6637133) on the background color, switching between black and white as necessary. 
 
 ```{r echo = FALSE}
-knitr::include_app("http://127.0.0.1:3415", height = "400px")
+knitr::include_app("https://gallery.shinyapps.io/139-sassr-font/", height = "400px")
 ```
 
 ## Resizing
 
 Dynamic resizing based on user-input is also useful. Sass is fully CSS compatible, so any styling option is available.
 
-Here's we'll change the width of the image based on a slider:
+In our last [shiny app](https://gallery.shinyapps.io/140-sassr-size/) we'll change the width of the image based on a slider:
 
 ```css
 /* _variables.scss */
@@ -121,12 +120,14 @@ h1 {
 ```
 
 ```{r echo = FALSE}
-knitr::include_app("http://127.0.0.1:7561", height = "600px")
+knitr::include_app("https://gallery.shinyapps.io/140-sassr-size/", height = "600px")
 ```
 
 ## CSS Formatting
 
 Sassr can also produce human readable or production ready CSS, depending on the need. 
+
+Here we'll convert the human readable Sass to minified CSS.
 
 ```{r}
 new_style <- "

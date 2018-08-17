@@ -4,7 +4,8 @@
 \alias{compile_sass}
 \title{Compile Sass to CSS}
 \usage{
-compile_sass(file = NULL, options = opts(), output = NULL, text = NULL)
+compile_sass(file = NULL, options = opts(), output = NULL,
+  text = NULL)
 }
 \arguments{
 \item{file}{Path to .scss or .sass Sass file. Note that the libSass compiler
