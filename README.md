@@ -54,5 +54,6 @@ Basics](https://sass-lang.com/guide).
 ## Examples
 
 Checkout the Sassr Example [Shiny
-App](https://gallery.shinyapps.io/140-sassr-size/) and the website
-describing it. ![](inst/shiny-app.gif)
+App](https://gallery.shinyapps.io/140-sassr-size/) and the sassr
+[website](https://rstudio.github.io/sassr/articles/sass.html).
+![](inst/shiny-app.gif)
