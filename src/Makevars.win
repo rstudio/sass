@@ -6,6 +6,8 @@ $(SHLIB): libsass/lib/libsass.a
 libsass/lib/libsass.a:
 	MAKEFLAGS= CC="$(CC)" CFLAGS="$(CFLAGS)" CXX="$(CXX)" AR="$(AR)" LDFLAGS="$(LDFLAGS)" $(MAKE) -C libsass
 
+.PHONY: shlib-clean clean
+
 shlib-clean: clean
 
 clean:
