@@ -11,3 +11,4 @@
 ^src/libsass/\.github$
 ^\.travis\.yml$
 ^appveyor\.yml$
+^man/figures/shiny-app.gif$
