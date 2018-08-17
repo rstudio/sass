@@ -10,4 +10,4 @@ shlib-clean: clean
 
 clean:
 	MAKEFLAGS= $(MAKE) -C libsass clean
-	rm -f rm -f *.o *.so
+	rm -f $(OBJECTS) $(SHLIB)
