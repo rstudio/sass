@@ -40,11 +40,11 @@
 #' @examples
 #' compile_sass(
 #'   text = "foo { margin: 122px * .3; }",
-#'   options = opts(output_style = "compact")
+#'   options = sass_options(output_style = "compact")
 #' )
 #'
 #' @export
-opts <- function(
+sass_options <- function(
   precision = 5,
   output_style = "expanded",
   indented_syntax = FALSE,

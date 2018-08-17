@@ -4,7 +4,7 @@
 \alias{compile_sass}
 \title{Compile Sass to CSS}
 \usage{
-compile_sass(file = NULL, options = opts(), output = NULL,
+compile_sass(file = NULL, options = sass_options(), output = NULL,
   text = NULL)
 }
 \arguments{
@@ -12,7 +12,7 @@ compile_sass(file = NULL, options = opts(), output = NULL,
 expects .sass files to use the Sass Indented Syntax.}
 
 \item{options}{Compiler options for Sass. Please specify options using
-\code{\link{opts}}.}
+\code{\link{sass_options}}.}
 
 \item{output}{Specifies path to output file for compiled CSS.}
 

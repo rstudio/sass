@@ -1,7 +1,7 @@
 context('option errors')
 
 test_that('unnamed options fail', {
-  sass_options <- opts()
+  sass_options <- sass_options()
   names(sass_options) <- NULL
   expect_error(
     compile_sass(text = "foo { margin: 122px * .3; }", options = sass_options),
@@ -10,7 +10,7 @@ test_that('unnamed options fail', {
 })
 
 test_that('too few options fail', {
-  sass_options <- opts()
+  sass_options <- sass_options()
   sass_options$precision <- NULL
   expect_error(
     compile_sass(text = "foo { margin: 122px * .3; }", options = sass_options),
@@ -19,7 +19,7 @@ test_that('too few options fail', {
 })
 
 test_that('too many options fail', {
-  sass_options <- opts()
+  sass_options <- sass_options()
   sass_options$new <- "hello"
   expect_error(
     compile_sass(text = "foo { margin: 122px * .3; }", options = sass_options),
@@ -28,7 +28,7 @@ test_that('too many options fail', {
 })
 
 test_that('wrong options fail', {
-  sass_options <- opts()
+  sass_options <- sass_options()
   sass_options$precision <- NULL
   sass_options$blah <- "hello"
   expect_error(
@@ -38,7 +38,7 @@ test_that('wrong options fail', {
 })
 
 test_that('wrong type fails', {
-  sass_options <- opts()
+  sass_options <- sass_options()
   sass_options$precision <- "hello"
   expect_error(
     compile_sass(text = "foo { margin: 122px * .3; }", options = sass_options),

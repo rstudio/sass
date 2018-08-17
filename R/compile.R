@@ -6,7 +6,7 @@
 #' @param file Path to .scss or .sass Sass file. Note that the libSass compiler
 #'   expects .sass files to use the Sass Indented Syntax.
 #' @param options Compiler options for Sass. Please specify options using
-#'   \code{\link{opts}}.
+#'   \code{\link{sass_options}}.
 #' @param output Specifies path to output file for compiled CSS.
 #' @param text Character vector of Sass code.
 #'
@@ -21,7 +21,7 @@
 #' compile_sass(text = "foo { margin: 122px * .3; }")
 #'
 #' @export
-compile_sass <- function(file = NULL, options = opts(), output = NULL, text = NULL) {
+compile_sass <- function(file = NULL, options = sass_options(), output = NULL, text = NULL) {
   if (is.null(file) && is.null(text)) {
     stop("No input detected. Please supply Sass file or text to compile.")
   }
@@ -46,7 +46,7 @@ compile_sass <- function(file = NULL, options = opts(), output = NULL, text = NU
   }
 
   if (!inherits(options, "sass_options")) {
-    stop("Please construct the compile options using sass::opts.")
+    stop("Please construct the compile options using sass::sass_options.")
   }
 
   if (file_input) {

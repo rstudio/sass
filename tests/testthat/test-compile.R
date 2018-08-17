@@ -25,7 +25,7 @@ test_that("sass compiles", {
   class(expected) <- c('css', class(expected))
 
   expect_equal(
-    compile_sass("test-compile.sass", opts(indented_syntax = TRUE)),
+    compile_sass("test-compile.sass", sass_options(indented_syntax = TRUE)),
     expected
   )
 })

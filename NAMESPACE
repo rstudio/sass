@@ -2,5 +2,5 @@
 
 S3method(print,css)
 export(compile_sass)
-export(opts)
+export(sass_options)
 useDynLib(sassr, .registration = TRUE)
