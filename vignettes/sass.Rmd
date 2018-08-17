@@ -157,7 +157,7 @@ new_style <- "
 ```
 
 ```{r}
-library(sass)
+library(sassr)
 opts <- sass_options(output_style = "compressed")
 compile_sass(text = new_style, options = opts)
 ```

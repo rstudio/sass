@@ -200,9 +200,10 @@
 <a class="sourceLine" id="cb7-22" data-line-number="22"><span class="st">    max-width: percentage($width / 100);</span></a>
 <a class="sourceLine" id="cb7-23" data-line-number="23"><span class="st">  }</span></a>
 <a class="sourceLine" id="cb7-24" data-line-number="24"><span class="st">"</span></a></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">library</span>(sass)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="../reference/compile_sass.html">compile_sass</a></span>(<span class="dt">text =</span> new_style, <span class="dt">options =</span> <span class="kw"><a href="../reference/opts.html">opts</a></span>(<span class="dt">output_style =</span> <span class="st">"compressed"</span>))</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; body{background-color:#fff}h1{color:#000}.shiny-plot-output{max-width:100%}</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">library</span>(sassr)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">opts &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sass_options.html">sass_options</a></span>(<span class="dt">output_style =</span> <span class="st">"compressed"</span>)</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw"><a href="../reference/compile_sass.html">compile_sass</a></span>(<span class="dt">text =</span> new_style, <span class="dt">options =</span> opts)</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; body{background-color:#fff}h1{color:#000}.shiny-plot-output{max-width:100%}</span></a></code></pre></div>
 </div>
   </div>
 

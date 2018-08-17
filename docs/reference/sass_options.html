@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compiler Options for Sass — opts • sassr</title>
+<title>Compiler Options for Sass — sass_options • sassr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="Compiler Options for Sass — opts" />
+<meta property="og:title" content="Compiler Options for Sass — sass_options" />
 
 <meta property="og:description" content="Set compiler options for Sass. Used with compile_sass." />
 <meta name="twitter:card" content="summary" />
@@ -114,7 +114,7 @@
     <div class="page-header">
     <h1>Compiler Options for Sass</h1>
     <small class="dont-index">Source: <a href='https://github.com/rstudio/sassr/blob/master/R/options.R'><code>R/options.R</code></a></small>
-    <div class="hidden name"><code>opts.Rd</code></div>
+    <div class="hidden name"><code>sass_options.Rd</code></div>
     </div>
 
     <div class="ref-description">
@@ -123,7 +123,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>opts</span>(<span class='kw'>precision</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>output_style</span> <span class='kw'>=</span> <span class='st'>"expanded"</span>,
+    <pre class="usage"><span class='fu'>sass_options</span>(<span class='kw'>precision</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>output_style</span> <span class='kw'>=</span> <span class='st'>"expanded"</span>,
   <span class='kw'>indented_syntax</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>include_path</span> <span class='kw'>=</span> <span class='st'>""</span>,
   <span class='kw'>source_comments</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>indent_type</span> <span class='kw'>=</span> <span class='st'>"space"</span>, <span class='kw'>indent_width</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='kw'>linefeed</span> <span class='kw'>=</span> <span class='st'>"lf"</span>, <span class='kw'>output_path</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>source_map_file</span> <span class='kw'>=</span> <span class='st'>""</span>,
@@ -216,7 +216,7 @@ the output file. Note: must specify <code>output_path</code> when <code>TRUE</co
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='compile_sass.html'>compile_sass</a></span>(
   <span class='kw'>text</span> <span class='kw'>=</span> <span class='st'>"foo { margin: 122px * .3; }"</span>,
-  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'>opts</span>(<span class='kw'>output_style</span> <span class='kw'>=</span> <span class='st'>"compact"</span>)
+  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'>sass_options</span>(<span class='kw'>output_style</span> <span class='kw'>=</span> <span class='st'>"compact"</span>)
 )</div><div class='output co'>#&gt; foo { margin: 36.6px; }</div><div class='input'>
 </div></pre>
   </div>
