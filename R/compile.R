@@ -21,7 +21,6 @@
 #' compile_sass(text = "foo { margin: 122px * .3; }")
 #'
 #' @export
-compile_sass <- function(file = NULL, options = sass_options(), output = NULL, text = NULL) {
   if (is.null(file) && is.null(text)) {
     stop("No input detected. Please supply Sass file or text to compile.")
   }
@@ -45,6 +44,7 @@ compile_sass <- function(file = NULL, options = sass_options(), output = NULL, t
          "or text, not both.")
   }
 
+sass <- function(input = NULL, options = sass_options(), output = NULL) {
   if (!inherits(options, "sass_options")) {
     stop("Please construct the compile options using sass::sass_options.")
   }
