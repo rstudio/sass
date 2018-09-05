@@ -30,21 +30,23 @@ sass <- function(input = NULL, options = sass_options(), output = NULL) {
   } else {
     css <- compile_data(input, options)
   }
+  class(css) <- "sass"
 
   if (!is.null(output)) {
     write(css, output)
-    class(css) <- c("css", class(css))
     return(invisible(css))
   }
 
-  # TODO: is there something that is already a css?
-  class(css) <- c("css", class(css))
   css
 }
 
+
+format.sass <- function(x, ...) {
+  as.character(x)
+}
 #' @export
-print.css <- function(x, ...) {
-  cat(x)
+print.sass <- function(x, ...) {
+  cat(format(x), "\n")
 }
 
 #' @useDynLib sassr, .registration = TRUE
