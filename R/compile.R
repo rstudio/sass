@@ -3,8 +3,8 @@
 #' Compile Sass to CSS using libSass.
 #'
 #'
-#' @param file Path to .scss or .sass Sass file. Note that the libSass compiler
-#'   expects .sass files to use the Sass Indented Syntax.
+#' @param input Raw Sass text or a file path to .scss or .sass Sass file.
+#'   Note that the libSass compiler expects .sass files to use the Sass Indented Syntax.
 #' @param options Compiler options for Sass. Please specify options using
 #'   \code{\link{sass_options}}.
 #' @param output Specifies path to output file for compiled CSS.
@@ -21,38 +21,14 @@
 #' compile_sass(text = "foo { margin: 122px * .3; }")
 #'
 #' @export
-  if (is.null(file) && is.null(text)) {
-    stop("No input detected. Please supply Sass file or text to compile.")
-  }
-
-  file_input <- FALSE
-  text_input <- FALSE
-
-  if (!is.null(file)) {
-    if (!file.exists(file)) {
-      stop("Input file does not exist.")
-    }
-    file_input <- TRUE
-  }
-
-  if (!is.null(text)) {
-    text_input <- TRUE
-  }
-
-  if (text_input && file_input) {
-    stop("Both file and text were supplied. Please supply only a Sass file ",
-         "or text, not both.")
-  }
-
 sass <- function(input = NULL, options = sass_options(), output = NULL) {
   if (!inherits(options, "sass_options")) {
     stop("Please construct the compile options using sass::sass_options.")
   }
-
-  if (file_input) {
-    css <- compile_file(file, options)
+  if (file.exists(input)) {
+    css <- compile_file(input, options)
   } else {
-    css <- compile_data(text, options)
+    css <- compile_data(input, options)
   }
 
   if (!is.null(output)) {
