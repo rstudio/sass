@@ -49,7 +49,7 @@ print.sass <- function(x, ...) {
   cat(format(x), "\n")
 }
 
-#' @useDynLib sassr, .registration = TRUE
+#' @useDynLib sass, .registration = TRUE
 compile_file <- function(file, opts) {
   .Call(C_compile_file, file, opts)
 }
@@ -59,5 +59,5 @@ compile_data <- function(data, opts) {
 }
 
 .onUnload <- function (libpath) {
-  library.dynam.unload("sassr", libpath)
+  library.dynam.unload("sass", libpath)
 }
