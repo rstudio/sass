@@ -1,10 +1,10 @@
-context('import')
+context("import")
 
-test_that('import works', {
-  imported_type <- 'html'
-  css <- sass('test-import.scss')
+test_that("import works", {
+  imported_type <- "html"
+  css <- sass("test-import.scss")
   expect_equal(
-    strsplit(css, ',')[[1]][1],
+    strsplit(css, ",")[[1]][1],
     imported_type
   )
 })

@@ -14,10 +14,10 @@ test_that("indent width works", {
 
 test_that("indent as tabs works", {
   scss <- "foo { margin: 122px * .3; }"
-  css <- sass(scss, options = sass_options(indent_width = 1, indent_type = 'tab'))
+  css <- sass(scss, options = sass_options(indent_width = 1, indent_type = "tab"))
   expect_equal(
     strsplit(css, "")[[1]][7],
-    '\t'
+    "\t"
   )
 })
 
@@ -27,28 +27,28 @@ test_that("linefeed works", {
 
   expect_equal(
     strsplit(css_lf, "")[[1]][6],
-    '\n'
+    "\n"
   )
 
-  css_cr <- sass(scss, options = sass_options(linefeed = 'cr'))
+  css_cr <- sass(scss, options = sass_options(linefeed = "cr"))
 
   expect_equal(
     strsplit(css_cr, "")[[1]][6],
-    '\r'
+    "\r"
   )
 
-  css_crlf <- sass(scss, options = sass_options(linefeed = 'crlf'))
+  css_crlf <- sass(scss, options = sass_options(linefeed = "crlf"))
 
   expect_equal(
-    paste0(strsplit(css_crlf, "")[[1]][6:7], collapse = ''),
-    '\r\n'
+    paste0(strsplit(css_crlf, "")[[1]][6:7], collapse = ""),
+    "\r\n"
   )
 
-  css_crlf <- sass(scss, options = sass_options(linefeed = 'lfcr'))
+  css_crlf <- sass(scss, options = sass_options(linefeed = "lfcr"))
 
   expect_equal(
-    paste0(strsplit(css_crlf, "")[[1]][6:7], collapse = ''),
-    '\n\r'
+    paste0(strsplit(css_crlf, "")[[1]][6:7], collapse = ""),
+    "\n\r"
   )
 })
 

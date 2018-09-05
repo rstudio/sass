@@ -1,6 +1,6 @@
-context('option errors')
+context("option errors")
 
-test_that('unnamed options fail', {
+test_that("unnamed options fail", {
   sass_options <- sass_options()
   names(sass_options) <- NULL
   expect_error(
@@ -9,7 +9,7 @@ test_that('unnamed options fail', {
   )
 })
 
-test_that('too few options fail', {
+test_that("too few options fail", {
   sass_options <- sass_options()
   sass_options$precision <- NULL
   expect_error(
@@ -18,7 +18,7 @@ test_that('too few options fail', {
   )
 })
 
-test_that('too many options fail', {
+test_that("too many options fail", {
   sass_options <- sass_options()
   sass_options$new <- "hello"
   expect_error(
@@ -27,7 +27,7 @@ test_that('too many options fail', {
   )
 })
 
-test_that('wrong options fail', {
+test_that("wrong options fail", {
   sass_options <- sass_options()
   sass_options$precision <- NULL
   sass_options$blah <- "hello"
@@ -37,7 +37,7 @@ test_that('wrong options fail', {
   )
 })
 
-test_that('wrong type fails', {
+test_that("wrong type fails", {
   sass_options <- sass_options()
   sass_options$precision <- "hello"
   expect_error(
@@ -45,5 +45,3 @@ test_that('wrong type fails', {
     "Invalid type for precision"
   )
 })
-
-
