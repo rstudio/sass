@@ -8,17 +8,13 @@
 #' @param options Compiler options for Sass. Please specify options using
 #'   \code{\link{sass_options}}.
 #' @param output Specifies path to output file for compiled CSS.
-#' @param text Character vector of Sass code.
 #'
 #' @return If \code{output = NULL}, the function returns a one element character
 #'   vector of the compiled CSS. If the output path is specified, the compiled
 #'   CSS is written to that file and the function has no return value.
 #'
-#' @note \code{file} and \code{text} cannot be compiled at the same time. Please
-#'   pass one or the other.
-#'
 #' @examples
-#' compile_sass(text = "foo { margin: 122px * .3; }")
+#' sass("foo { margin: 122px * .3; }")
 #'
 #' @export
 sass <- function(input = NULL, options = sass_options(), output = NULL) {

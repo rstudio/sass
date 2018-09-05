@@ -58,14 +58,14 @@ the output file. Note: must specify \code{output_path} when \code{TRUE}.}
 }
 \value{
 List of Sass compiler options to be used with
-  \code{\link{compile_sass}}.
+  \code{\link{sass}}.
 }
 \description{
-Set compiler options for Sass. Used with \code{\link{compile_sass}}.
+Set compiler options for Sass. Used with \code{\link{sass}}.
 }
 \examples{
-compile_sass(
-  text = "foo { margin: 122px * .3; }",
+sass(
+  "foo { margin: 122px * .3; }",
   options = sass_options(output_style = "compact")
 )
 

@@ -2,7 +2,7 @@ context('output')
 
 test_that('writing to file works', {
   file_name <- tempfile(fileext = ".css")
-  compile_sass(
+  sass(
     "test-nesting-input.scss",
     output = file_name
   )
@@ -17,7 +17,7 @@ test_that('writing to file works', {
 test_that('writing to invalid path fails', {
   expect_warning(
     expect_error(
-      compile_sass(
+      sass(
         "test-nesting-input.scss",
         output = "not/path/output.txt"
       )
