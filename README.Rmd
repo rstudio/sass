@@ -14,7 +14,8 @@ knitr::opts_chunk$set(
 ```
 
 
-# sass
+[![Sass Logo](man/figures/sass-logo-color.png)](https://sass-lang.com)
+
 
 [![Travis build status](https://travis-ci.org/rstudio/sass.svg?branch=master)](https://travis-ci.org/rstudio/sass) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/rstudio/sass?branch=master&svg=true)](https://ci.appveyor.com/project/rstudio/sass)
 
