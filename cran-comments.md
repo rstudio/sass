@@ -1,13 +1,32 @@
+# Comments
+
+## 2018-09-06
+
+This is a new release.
+
+
 ## Test environments
-* local OS X install, R 3.5.0
-* ubuntu 18.04 (docker), R 3.5.0
+* local OS X install, R 3.5.1
+  * 0 errors | 0 warnings | 4 notes
+    * checking installed package size ... NOTE
+      installed size is  6.0Mb
+      sub-directories of 1Mb or more:
+        figures   3.6Mb
+        libs      2.3Mb
+    * checking for GNU extensions in Makefiles ... NOTE
+      GNU make is a SystemRequirements.
+    * checking pragmas in C/C++ headers and code ... NOTE
+      File which contains pragma(s) suppressing diagnostics:
+        ‘src/libsass/src/parser.hpp’
+* ubuntu 14.04.5 (on travis-ci), R version 3.5.0 (2017-01-27)
+
 * win-builder (devel and release)
+
 
 ## R CMD check results
 
 0 errors | 0 warnings | 4 notes
 
-* This is a new release.
 
 * checking for GNU extensions in Makefiles ... NOTE
   GNU make is a SystemRequirements.
@@ -28,6 +47,12 @@ This pragma is a part of the libSass library.
 This is only a note on Windows builds.
 
 ## Downstream dependencies
+
+Initial release. No dependencies.
+
+
+
+## Extra check comments
 
 
 Failed `build_win`:
@@ -336,4 +361,3 @@ ERROR: compilation failed for package 'sassr'
 * removing 'd:/RCompile/CRANguest/R-devel/lib/sassr'
 In R CMD INSTALL
 ```
-
