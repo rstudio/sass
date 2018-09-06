@@ -1,5 +1,7 @@
 ---
-output: github_document
+output:
+  github_document:
+    html_preview: false
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -14,7 +16,7 @@ knitr::opts_chunk$set(
 ```
 
 
-[![Sass Logo](man/figures/sass-logo-color.png)](https://sass-lang.com)
+# [![Sass](man/figures/sass-logo-color.png)](https://sass-lang.com)
 
 
 [![Travis build status](https://travis-ci.org/rstudio/sass.svg?branch=master)](https://travis-ci.org/rstudio/sass) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/rstudio/sass?branch=master&svg=true)](https://ci.appveyor.com/project/rstudio/sass)
@@ -42,6 +44,7 @@ The Sass language syntax is similar to CSS, but allows functions and variables, 
 
 ```{r}
 library(sass)
+
 sass("
   $size: 100%;
   foo { margin: $size * .33; }

@@ -76,7 +76,8 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <div id="sass" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#sass" class="anchor"></a>sass</h1></div>
+<a href="#sass" class="anchor"></a><a href="https://sass-lang.com"><img src="reference/figures/sass-logo-color.png" alt="Sass"></a>
+</h1></div>
 
 <p>The <code>sass</code> R package is a CSS preprocessor, letting R developers use variables, inheritance, and functions to generate dynamic style sheets.</p>
 <p><code>sass</code> uses the <a href="https://sass-lang.com/">Sass</a> CSS extension language. Sass is stable, powerful, and CSS compatiable. <code>sass</code> is an R wrapper for <a href="https://github.com/sass/libsass">LibSass</a>, a fast Sass compiler written in C++.</p>
@@ -94,14 +95,15 @@
 <a href="#getting-started" class="anchor"></a>Getting Started</h2>
 <p>The Sass language syntax is similar to CSS, but allows functions and variables, and can do arbitrary computations.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(sass)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="reference/sass.html">sass</a></span>(<span class="st">"</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="st">  $size: 100%;</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="st">  foo { margin: $size * .33; }</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="st">"</span>)</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; foo {</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt;   margin: 33%;</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; }</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; </span></a></code></pre></div>
+<a class="sourceLine" id="cb3-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="reference/sass.html">sass</a></span>(<span class="st">"</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="st">  $size: 100%;</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="st">  foo { margin: $size * .33; }</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="st">"</span>)</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; foo {</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt;   margin: 33%;</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; }</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; </span></a></code></pre></div>
 <p>For an overview of the major features of Sass such as variables, nesting, and imports check out the official <a href="https://sass-lang.com/guide">Sass Basics</a>.</p>
 </div>
 <div id="examples" class="section level2">

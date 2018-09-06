@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Sass"
 author: "Timothy Mastny"
-date: "`r Sys.Date()`"
+date: "2018-08-14"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Vignette Title}

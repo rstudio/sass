@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# sass
+# [![Sass](man/figures/sass-logo-color.png)](https://sass-lang.com)
 
 [![Travis build
 status](https://travis-ci.org/rstudio/sass.svg?branch=master)](https://travis-ci.org/rstudio/sass)
@@ -38,8 +38,10 @@ variables, and can do arbitrary computations.
 
 ``` r
 library(sass)
-#>  [1] "sass"      "testthat"  "stats"     "graphics"  "grDevices"
-#>  [6] "utils"     "datasets"  "colorout"  "methods"   "base"
+#>  [1] "sass"      "bindrcpp"  "testthat"  "stats"     "graphics" 
+#>  [6] "grDevices" "utils"     "datasets"  "colorout"  "methods"  
+#> [11] "base"
+
 sass("
   $size: 100%;
   foo { margin: $size * .33; }
