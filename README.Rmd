@@ -1,4 +1,5 @@
 ---
+title: "README"
 output:
   github_document:
     html_preview: false
@@ -10,13 +11,13 @@ output:
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "man/figures/README-",
+  fig.path = "inst/figures/README-",
   out.width = "100%"
 )
 ```
 
 
-# [![Sass](man/figures/sass-logo-color.png)](https://sass-lang.com)
+# [![Sass](inst/figures/sass-logo-color.png)](https://sass-lang.com)
 
 
 [![Travis build status](https://travis-ci.org/rstudio/sass.svg?branch=master)](https://travis-ci.org/rstudio/sass) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/rstudio/sass?branch=master&svg=true)](https://ci.appveyor.com/project/rstudio/sass)
@@ -56,4 +57,4 @@ For an overview of the major features of Sass such as variables, nesting, and im
 ## Examples
 
 Checkout the `sass` Example [Shiny App](https://gallery.shinyapps.io/140-sass-size/) and the `sass` [website](https://rstudio.github.io/sass/articles/sass.html).
-![](man/figures/shiny-app.gif)
+![](inst/figures/shiny-app.gif)

@@ -1,7 +1,9 @@
+README
+================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# [![Sass](man/figures/sass-logo-color.png)](https://sass-lang.com)
+# [![Sass](inst/figures/sass-logo-color.png)](https://sass-lang.com)
 
 [![Travis build
 status](https://travis-ci.org/rstudio/sass.svg?branch=master)](https://travis-ci.org/rstudio/sass)
@@ -38,9 +40,9 @@ variables, and can do arbitrary computations.
 
 ``` r
 library(sass)
-#>  [1] "sass"      "bindrcpp"  "testthat"  "stats"     "graphics" 
-#>  [6] "grDevices" "utils"     "datasets"  "colorout"  "methods"  
-#> [11] "base"
+#>  [1] "sass"      "rhub"      "bindrcpp"  "testthat"  "stats"    
+#>  [6] "graphics"  "grDevices" "utils"     "datasets"  "colorout" 
+#> [11] "methods"   "base"
 
 sass("
   $size: 100%;
@@ -61,4 +63,4 @@ Basics](https://sass-lang.com/guide).
 Checkout the `sass` Example [Shiny
 App](https://gallery.shinyapps.io/140-sass-size/) and the `sass`
 [website](https://rstudio.github.io/sass/articles/sass.html).
-![](man/figures/shiny-app.gif)
+![](inst/figures/shiny-app.gif)

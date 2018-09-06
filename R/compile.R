@@ -1,10 +1,10 @@
 #' Compile Sass to CSS
 #'
-#' Compile Sass to CSS using libSass.
+#' Compile Sass to CSS using LibSass.
 #'
 #'
 #' @param input Raw Sass text or a file path to .scss or .sass Sass file.
-#'   Note that the libSass compiler expects .sass files to use the Sass Indented Syntax.
+#'   Note that the LibSass compiler expects .sass files to use the Sass Indented Syntax.
 #' @param options Compiler options for Sass. Please specify options using
 #'   \code{\link{sass_options}}.
 #' @param output Specifies path to output file for compiled CSS.

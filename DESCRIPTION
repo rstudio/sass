@@ -1,9 +1,9 @@
 Package: sass
-Title: Sass Compiler
+Title: Syntactically Awesome StyleSheets (Sass) Compiler
 Version: 0.1.0
 Authors@R: c(
     person("Timothy", "Mastny", email = "tim.mastny@gmail.com", role = c("aut", "cre")),
-    person("libsass project contributors", role = "cph", comment = "libsass library"),
+    person("LibSass project contributors", role = "cph", comment = "LibSass library"),
     person("RStudio", role = c("cph", "fnd"))
     )
 Description: A Sass compiler, powered by the LibSass library.

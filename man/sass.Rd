@@ -8,7 +8,7 @@ sass(input = NULL, options = sass_options(), output = NULL)
 }
 \arguments{
 \item{input}{Raw Sass text or a file path to .scss or .sass Sass file.
-Note that the libSass compiler expects .sass files to use the Sass Indented Syntax.}
+Note that the LibSass compiler expects .sass files to use the Sass Indented Syntax.}
 
 \item{options}{Compiler options for Sass. Please specify options using
 \code{\link{sass_options}}.}
@@ -21,7 +21,7 @@ If \code{output = NULL}, the function returns a one element character
   CSS is written to that file and the function has no return value.
 }
 \description{
-Compile Sass to CSS using libSass.
+Compile Sass to CSS using LibSass.
 }
 \examples{
 sass("foo { margin: 122px * .3; }")
