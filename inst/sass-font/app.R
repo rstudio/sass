@@ -9,7 +9,7 @@ output_css <- "new-style.css"
   `$color` = "#FFFFFF"
 )
 
-compile_sass(input_scss, output = output_css)
+sass(input_scss, output = output_css)
 
 ui <- fluidPage(
   headerPanel("Sass Font Example"),
@@ -43,7 +43,7 @@ server <- function(input, output) {
 
   compiled_css <- reactive({
     write(variables(), "_variables.scss")
-    compile_sass(input_scss, output = output_css)
+    sass(input_scss, output = output_css)
   })
 
   output$bgcolor <- renderUI({
