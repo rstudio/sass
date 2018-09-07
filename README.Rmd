@@ -11,20 +11,21 @@ output:
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "inst/figures/README-",
   out.width = "100%"
 )
 ```
 
 
-# [![Sass](inst/figures/sass-logo-color.png)](https://sass-lang.com)
+# sass <a href="https://sass-lang.com"><img src="man/figures/sass-logo-color.png" align="right" height = 150 style="background-color: white; padding-left: 20px;"/></a>
 
+[![Travis build status](https://travis-ci.org/rstudio/sass.svg?branch=master)](https://travis-ci.org/rstudio/sass)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/rstudio/sass?branch=master&svg=true)](https://ci.appveyor.com/project/rstudio/sass)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/sass)](https://cran.r-project.org/package=sass)
 
-[![Travis build status](https://travis-ci.org/rstudio/sass.svg?branch=master)](https://travis-ci.org/rstudio/sass) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/rstudio/sass?branch=master&svg=true)](https://ci.appveyor.com/project/rstudio/sass)
 
 The `sass` R package is a CSS preprocessor, letting R developers use variables, inheritance, and functions to generate dynamic style sheets.
 
-`sass` uses the [Sass](https://sass-lang.com/) CSS extension language. Sass is stable, powerful, and CSS compatiable. `sass` is an R wrapper for [LibSass](https://github.com/sass/libsass), a fast Sass compiler written in C++.
+`sass` uses the [Sass](https://sass-lang.com/) CSS extension language. [Sass](https://sass-lang.com/) is stable, powerful, and CSS compatiable. `sass` is an R wrapper for [LibSass](https://github.com/sass/libsass), a fast [Sass](https://sass-lang.com/) compiler written in C++.
 
 ## Installation
 
@@ -41,7 +42,7 @@ devtools::install_github("rstudio/sass")
 
 ## Getting Started
 
-The Sass language syntax is similar to CSS, but allows functions and variables, and can do arbitrary computations.
+The [Sass](https://sass-lang.com/) language syntax is similar to CSS, but allows functions and variables, and can do arbitrary computations.
 
 ```{r}
 library(sass)
@@ -52,7 +53,7 @@ sass("
 ")
 ```
 
-For an overview of the major features of Sass such as variables, nesting, and imports check out the official [Sass Basics](https://sass-lang.com/guide).
+For an overview of the major features of [Sass](https://sass-lang.com/) such as variables, nesting, and imports check out the official [Sass Basics](https://sass-lang.com/guide).
 
 ## Examples
 
