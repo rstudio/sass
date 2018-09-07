@@ -6,16 +6,16 @@ input_scss <- "new-style.scss"
 output_css <- "new-style.css"
 
 style_list <- list(
-  `$color` = "#FFFFFF"
+  `$color` = "#6498d2"
 )
 
 sass(input_scss, output = output_css)
 
 ui <- fluidPage(
-  headerPanel("Sass Example"),
+  headerPanel("Sass Color Example"),
 
   sidebarPanel(
-    colourInput("color", "Background Color", value = 'white',
+    colourInput("color", "Background Color", value = style_list[[1]],
                 showColour = "text")
   ),
 

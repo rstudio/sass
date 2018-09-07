@@ -13,7 +13,7 @@ style_list <- list(
 sass(input_scss, output = output_css)
 
 ui <- fluidPage(
-  headerPanel("Sass Example"),
+  headerPanel("Sass Size Example"),
 
   sidebarPanel(
     sliderInput("width", "Image Percent of Screen",
