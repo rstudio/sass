@@ -76,11 +76,11 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <div id="sass" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#sass" class="anchor"></a><a href="https://sass-lang.com"><img src="inst/figures/sass-logo-color.png" alt="Sass"></a>
+<a href="#sass" class="anchor"></a>sass <a href="https://sass-lang.com"><img src="reference/figures/sass-logo-color.png" align="right" height="150" style="background-color: white; padding-left: 20px;"></a>
 </h1></div>
 
 <p>The <code>sass</code> R package is a CSS preprocessor, letting R developers use variables, inheritance, and functions to generate dynamic style sheets.</p>
-<p><code>sass</code> uses the <a href="https://sass-lang.com/">Sass</a> CSS extension language. Sass is stable, powerful, and CSS compatiable. <code>sass</code> is an R wrapper for <a href="https://github.com/sass/libsass">LibSass</a>, a fast Sass compiler written in C++.</p>
+<p><code>sass</code> uses the <a href="https://sass-lang.com/">Sass</a> CSS extension language. <a href="https://sass-lang.com/">Sass</a> is stable, powerful, and CSS compatiable. <code>sass</code> is an R wrapper for <a href="https://github.com/sass/libsass">LibSass</a>, a fast <a href="https://sass-lang.com/">Sass</a> compiler written in C++.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -93,7 +93,7 @@
 <div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
 <a href="#getting-started" class="anchor"></a>Getting Started</h2>
-<p>The Sass language syntax is similar to CSS, but allows functions and variables, and can do arbitrary computations.</p>
+<p>The <a href="https://sass-lang.com/">Sass</a> language syntax is similar to CSS, but allows functions and variables, and can do arbitrary computations.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(sass)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="reference/sass.html">sass</a></span>(<span class="st">"</span></a>
@@ -104,12 +104,44 @@
 <a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt;   margin: 33%;</span></a>
 <a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; }</span></a>
 <a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; </span></a></code></pre></div>
-<p>For an overview of the major features of Sass such as variables, nesting, and imports check out the official <a href="https://sass-lang.com/guide">Sass Basics</a>.</p>
+<p>For an overview of the major features of <a href="https://sass-lang.com/">Sass</a> such as variables, nesting, and imports check out the official <a href="https://sass-lang.com/guide">Sass Basics</a>.</p>
 </div>
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
 <a href="#examples" class="anchor"></a>Examples</h2>
-<p>Checkout the <code>sass</code> Example <a href="https://gallery.shinyapps.io/140-sass-size/">Shiny App</a> and the <code>sass</code> <a href="https://rstudio.github.io/sass/articles/sass.html">website</a>. <img src="inst/figures/shiny-app.gif"></p>
+<ul>
+<li>Sass Vignette
+<ul>
+<li><a href="https://rstudio.github.io/sass/articles/sass.html" class="uri">https://rstudio.github.io/sass/articles/sass.html</a></li>
+</ul>
+</li>
+<li>Background color
+<ul>
+<li><a href="https://gallery.shinyapps.io/sass-color" class="uri">https://gallery.shinyapps.io/sass-color</a></li>
+<li><code><a href="http://www.rdocumentation.org/packages/shiny/topics/runApp">shiny::runApp(system.file("sass-color", package = "sass"))</a></code></li>
+</ul>
+</li>
+<li>Font Color
+<ul>
+<li><a href="https://gallery.shinyapps.io/sass-font" class="uri">https://gallery.shinyapps.io/sass-font</a></li>
+<li><code><a href="http://www.rdocumentation.org/packages/shiny/topics/runApp">shiny::runApp(system.file("sass-font", package = "sass"))</a></code></li>
+</ul>
+</li>
+<li>Sizing
+<ul>
+<li><a href="https://gallery.shinyapps.io/sass-size" class="uri">https://gallery.shinyapps.io/sass-size</a></li>
+<li><code><a href="http://www.rdocumentation.org/packages/shiny/topics/runApp">shiny::runApp(system.file("sass-size", package = "sass"))</a></code></li>
+</ul>
+</li>
+<li>Themes
+<ul>
+<li><a href="https://gallery.shinyapps.io/sass-theme" class="uri">https://gallery.shinyapps.io/sass-theme</a></li>
+<li><code><a href="http://www.rdocumentation.org/packages/shiny/topics/runApp">shiny::runApp(system.file("sass-theme", package = "sass"))</a></code></li>
+</ul>
+</li>
+</ul>
+<p><br></p>
+<p><img src="reference/figures/sass-color.gif"></p>
 </div>
 </div>
   </div>
@@ -147,6 +179,7 @@
 <ul class="list-unstyled">
 <li><a href="https://travis-ci.org/rstudio/sass"><img src="https://travis-ci.org/rstudio/sass.svg?branch=master" alt="Travis build status"></a></li>
 <li><a href="https://ci.appveyor.com/project/rstudio/sass"><img src="https://ci.appveyor.com/api/projects/status/github/rstudio/sass?branch=master&amp;svg=true" alt="AppVeyor build status"></a></li>
+<li><a href="https://cran.r-project.org/package=sass"><img src="http://www.r-pkg.org/badges/version/sass" alt="CRAN_Status_Badge"></a></li>
 </ul>
 </div>
 </div>
