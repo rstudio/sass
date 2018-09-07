@@ -40,12 +40,12 @@ body {
 }
 ```
 
-The following [shiny app]("https://gallery.shinyapps.io/138-sass-color") will demonstrate this example. We'll use Dean Attali's [colourpicker](https://github.com/daattali/colourpicker) to choose a color and write it to `_variables.scss`.
+The following [shiny app]("https://gallery.shinyapps.io/sass-color") will demonstrate this example. We'll use Dean Attali's [colourpicker](https://github.com/daattali/colourpicker) to choose a color and write it to `_variables.scss`.
 
 Then the app compiles `new-style.scss` and renders the new style.
 
 ```{r echo = FALSE}
-knitr::include_app("https://gallery.shinyapps.io/138-sass-color", height = "600px")
+knitr::include_app("https://gallery.shinyapps.io/sass-color", height = "600px")
 ```
 
 ## Functions
@@ -78,17 +78,17 @@ h1 {
 }
 ```
 
-In our next [shiny app](https://gallery.shinyapps.io/139-sass-font/), the font color now [depends](https://stackoverflow.com/a/3943023/6637133) on the background color, switching between black and white as necessary.
+In our next [shiny app](https://gallery.shinyapps.io/sass-font/), the font color now [depends](https://stackoverflow.com/a/3943023/6637133) on the background color, switching between black and white as necessary.
 
 ```{r echo = FALSE}
-knitr::include_app("https://gallery.shinyapps.io/139-sass-font/", height = "400px")
+knitr::include_app("https://gallery.shinyapps.io/sass-font/", height = "400px")
 ```
 
 ## Resizing
 
 Dynamic resizing based on user-input is also useful. Sass is fully CSS compatible, so any styling option is available.
 
-In our last [shiny app](https://gallery.shinyapps.io/140-sass-size/) we'll change the width of the image based on a slider:
+In our last [shiny app](https://gallery.shinyapps.io/sass-size/) we'll change the width of the image based on a slider:
 
 ```css
 /* _variables.scss */
@@ -120,8 +120,18 @@ h1 {
 ```
 
 ```{r echo = FALSE}
-knitr::include_app("https://gallery.shinyapps.io/140-sass-size/", height = "600px")
+knitr::include_app("https://gallery.shinyapps.io/sass-size/", height = "600px")
 ```
+
+
+## Theme switching
+
+Sass can create different themes quickly by using functions (or [mixins](https://sass-lang.com/guide)).  In the example below, we switch between different color themes.
+
+```{r echo = FALSE}
+knitr::include_app("https://gallery.shinyapps.io/sass-size/", height = "600px")
+```
+
 
 ## CSS Formatting
 

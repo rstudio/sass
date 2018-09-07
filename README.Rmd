@@ -56,5 +56,21 @@ For an overview of the major features of Sass such as variables, nesting, and im
 
 ## Examples
 
-Checkout the `sass` Example [Shiny App](https://gallery.shinyapps.io/140-sass-size/) and the `sass` [website](https://rstudio.github.io/sass/articles/sass.html).
-![](inst/figures/shiny-app.gif)
+* Sass Vignette
+  * https://rstudio.github.io/sass/articles/sass.html
+* Background color
+  * https://gallery.shinyapps.io/sass-color
+  * `shiny::runApp(system.file("sass-color", package = "sass"))`
+* Font Color
+  * https://gallery.shinyapps.io/sass-font
+  * `shiny::runApp(system.file("sass-font", package = "sass"))`
+* Sizing
+  * https://gallery.shinyapps.io/sass-size
+  * `shiny::runApp(system.file("sass-size", package = "sass"))`
+* Themes
+  * https://gallery.shinyapps.io/sass-theme
+  * `shiny::runApp(system.file("sass-theme", package = "sass"))`
+
+<br />
+
+![](man/figures/sass-color.gif)
