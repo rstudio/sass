@@ -20,11 +20,11 @@ For single [Rmarkdown](https://rmarkdown.rstudio.com/) documents or [Shiny](http
 
 As an R developer, designing a default style sheet is difficult. The developer wants to provide a theme that works and looks good, while providing customization options for users.
 
-This article will briefly show how to use `sass` to generate style sheets based on user input.
+This article will briefly show how to use the `sass` R package to generate style sheets based on user input.
 
 ## Variables
 
-Sass variables are key to generating dynamic CSS. Because `sass` compiles fast, you can define components of your styling at runtime based on user input.
+Sass variables are key to generating dynamic CSS. You can define components of your styling at runtime based on user input.
 
 It is best practice to define your [variables](http://sass-lang.com/guide#topic-2) separately, and then [import](http://sass-lang.com/guide#topic-5) them into the main Sass file. For example, we'll define a color variable and use it to set the body's background color.
 
@@ -168,6 +168,5 @@ new_style <- "
 
 ```{r}
 library(sass)
-opts <- sass_options(output_style = "compressed")
-sass::sass(new_style, options = opts)
+sass(new_style, options = sass_options(output_style = "compressed"))
 ```

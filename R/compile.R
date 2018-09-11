@@ -3,23 +3,21 @@
 #' Compile Sass to CSS using LibSass.
 #'
 #'
-#' @param input Raw Sass text or a file path to .scss or .sass Sass file.
+#' @param input Raw Sass text or a file path to a .scss or .sass Sass file.
 #'   Note that the LibSass compiler expects .sass files to use the Sass Indented Syntax.
 #' @param options Compiler options for Sass. Please specify options using
 #'   \code{\link{sass_options}}.
 #' @param output Specifies path to output file for compiled CSS.
-#'
-#' @return If \code{output = NULL}, the function returns a one element character
-#'   vector of the compiled CSS. If the output path is specified, the compiled
-#'   CSS is written to that file and the function has no return value.
-#'
+#' @return If \code{output = NULL}, the function returns a string value
+#'   of the compiled CSS. If the output path is specified, the compiled
+#'   CSS is written to that file.
+#' @seealso \url{http://sass-lang.com/guide}
+#' @export
 #' @examples
 #' sass("foo { margin: 122px * .3; }")
-#'
-#' @export
 sass <- function(input = NULL, options = sass_options(), output = NULL) {
   if (!inherits(options, "sass_options")) {
-    stop("Please construct the compile options using sass::sass_options.")
+    stop("Please construct the compile options using `sass::sass_options()`.")
   }
   if (file.exists(input)) {
     css <- compile_file(input, options)
