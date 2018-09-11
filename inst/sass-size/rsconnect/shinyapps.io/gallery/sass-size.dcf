@@ -5,8 +5,8 @@ account: gallery
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 429512
-bundleId: 1575268
+bundleId: 1580425
 url: https://gallery.shinyapps.io/sass-size/
-when: 1536356300.66891
+when: 1536677407.18111
 asMultiple: FALSE
 asStatic: FALSE
