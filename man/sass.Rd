@@ -7,8 +7,8 @@
 sass(input = NULL, options = sass_options(), output = NULL)
 }
 \arguments{
-\item{input}{Accepts raw Sass, file names, Sass file paths, and/or a named list of variables.
-See \code{\link{as_sass}} for more detail.}
+\item{input}{Accepts raw Sass, a named list of variables, or a list of raw Sass and/or named variables.
+See \code{\link{as_sass}} and \code{\link{sass_import}} / \code{\link{sass_file}} for more details.}
 
 \item{options}{Compiler options for Sass. Please specify options using
 \code{\link{sass_options}}.}
@@ -24,10 +24,22 @@ If \code{output = NULL}, the function returns a string value
 Compile Sass to CSS using LibSass.
 }
 \examples{
+# raw Sass input
 sass("foo { margin: 122px * .3; }")
+
+# list of inputs, including named variables
 sass(list(
   list(width = "122px"),
   "foo { margin: $width * .3; }"
+))
+
+
+# import a file
+tmp_file <- tempfile()
+writeLines("foo { margin: $width * .3; }", tmp_file)
+sass(list(
+  list(width = "122px"),
+  sass_file(tmp_file)
 ))
 }
 \seealso{

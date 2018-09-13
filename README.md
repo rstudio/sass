@@ -43,14 +43,15 @@ but allows functions and variables, and can do arbitrary computations.
 library(sass)
 
 sass("
-  $size: 100%;
+  $size: 50%;
   foo { margin: $size * .33; }
 ")
-#> foo {
-#>   margin: 33%;
-#> }
-#> 
 ```
+
+    #> /* CSS */
+    #> foo {
+    #>   margin: 16.5%;
+    #> }
 
 For an overview of the major features of [Sass](https://sass-lang.com/)
 such as variables, nesting, and imports check out the official [Sass

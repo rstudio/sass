@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compile Sass to CSS — sass • sass</title>
+<title>List to Sass converter — as_sass • sass</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Compile Sass to CSS — sass" />
+<meta property="og:title" content="List to Sass converter — as_sass" />
 
-<meta property="og:description" content="Compile Sass to CSS using LibSass." />
+<meta property="og:description" content="Converts multiple types of inputs to a single Sass input string for sass." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -103,75 +103,74 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compile Sass to CSS</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/sass/blob/master/R/sass.R'><code>R/sass.R</code></a></small>
-    <div class="hidden name"><code>sass.Rd</code></div>
+    <h1>List to Sass converter</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/sass/blob/master/R/as_sass.R'><code>R/as_sass.R</code></a></small>
+    <div class="hidden name"><code>as_sass.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Compile Sass to CSS using LibSass.</p>
+    <p>Converts multiple types of inputs to a single Sass input string for <code><a href='sass.html'>sass</a></code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>sass</span>(<span class='kw'>input</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='sass_options.html'>sass_options</a></span>(), <span class='kw'>output</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>as_sass</span>(<span class='no'>input</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>input</th>
-      <td><p>Accepts raw Sass, a named list of variables, or a list of raw Sass and/or named variables.
-See <code><a href='as_sass.html'>as_sass</a></code> and <code><a href='sass_import.html'>sass_import</a></code> / <code><a href='sass_import.html'>sass_file</a></code> for more details.</p></td>
-    </tr>
-    <tr>
-      <th>options</th>
-      <td><p>Compiler options for Sass. Please specify options using
-<code><a href='sass_options.html'>sass_options</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>output</th>
-      <td><p>Specifies path to output file for compiled CSS.</p></td>
+      <td><p>Either a</p><ul>
+<li><p>raw Sass string</p></li>
+<li><p>named list containing variable names and values</p></li>
+<li><p>Sass-like file name.</p></li>
+</ul></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>If <code>output = NULL</code>, the function returns a string value
-  of the compiled CSS. If the output path is specified, the compiled
-  CSS is written to that file.</p>
+    <p>a single character value to be supplied to <code><a href='sass.html'>sass</a></code></p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Note that the LibSass compiler expects .sass files to use the Sass Indented Syntax.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='http://sass-lang.com/guide'>http://sass-lang.com/guide</a></p></div>
+    <div class='dont-index'><p>Visit <a href='https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import'>https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import</a> for more details.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># raw Sass input</span>
-<span class='fu'>sass</span>(<span class='st'>"foo { margin: 122px * .3; }"</span>)</div><div class='output co'>#&gt; /* CSS */
-#&gt; foo {
-#&gt;   margin: 36.6px;
-#&gt; }
-#&gt; </div><div class='input'>
-<span class='co'># list of inputs, including named variables</span>
-<span class='fu'>sass</span>(<span class='fu'>list</span>(
-  <span class='fu'>list</span>(<span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>"122px"</span>),
-  <span class='st'>"foo { margin: $width * .3; }"</span>
-))</div><div class='output co'>#&gt; /* CSS */
-#&gt; foo {
-#&gt;   margin: 36.6px;
-#&gt; }
-#&gt; </div><div class='input'>
+    <pre class="examples"><div class='input'><span class='co'># regular Sass input</span>
+<span class='fu'>as_sass</span>(<span class='st'>"body { color: \"blue\"; }"</span>)</div><div class='output co'>#&gt; /* Sass */
+#&gt; body { color: "blue"; }</div><div class='input'>
+<span class='co'># add variable support</span>
+<span class='fu'>as_sass</span>(<span class='fu'>list</span>(
+  <span class='fu'>list</span>(<span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"blue"</span>),
+  <span class='st'>"body { color: $color; }"</span>
+))</div><div class='output co'>#&gt; /* Sass */
+#&gt; $color: blue;
+#&gt; body { color: $color; }</div><div class='input'>
+<span class='co'># add a file name</span>
+<span class='no'>someFile</span> <span class='kw'>&lt;-</span> <span class='fu'>tempfile</span>(<span class='st'>"variables"</span>)
+<span class='co'>## overwrite color to red</span>
+<span class='fu'>write</span>(<span class='st'>"$color: \"red\";"</span>, <span class='no'>someFile</span>)
 
-<span class='co'># import a file</span>
-<span class='no'>tmp_file</span> <span class='kw'>&lt;-</span> <span class='fu'>tempfile</span>()
-<span class='fu'>writeLines</span>(<span class='st'>"foo { margin: $width * .3; }"</span>, <span class='no'>tmp_file</span>)
-<span class='fu'>sass</span>(<span class='fu'>list</span>(
-  <span class='fu'>list</span>(<span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>"122px"</span>),
-  <span class='fu'><a href='sass_import.html'>sass_file</a></span>(<span class='no'>tmp_file</span>)
-))</div><div class='output co'>#&gt; /* CSS */
-#&gt; foo {
-#&gt;   margin: 36.6px;
+<span class='no'>input</span> <span class='kw'>&lt;-</span> <span class='fu'>as_sass</span>(<span class='fu'>list</span>(
+  <span class='fu'>list</span>(<span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"blue"</span>),
+  <span class='fu'><a href='sass_import.html'>sass_file</a></span>(<span class='no'>someFile</span>),
+  <span class='st'>"body { color: $color; }"</span>
+))
+<span class='no'>input</span></div><div class='output co'>#&gt; /* Sass */
+#&gt; $color: blue;
+#&gt; @import "/var/folders/0k/bxg5lhr92sq74mb1d446ql540000gp/T//Rtmp4q5YvV/variables2e6037afc8bb";
+#&gt; body { color: $color; }</div><div class='input'>
+<span class='co'>## final body color is red</span>
+<span class='fu'><a href='sass.html'>sass</a></span>(<span class='no'>input</span>)</div><div class='output co'>#&gt; /* CSS */
+#&gt; body {
+#&gt;   color: "red";
 #&gt; }
 #&gt; </div></pre>
   </div>
@@ -181,6 +180,8 @@ See <code><a href='as_sass.html'>as_sass</a></code> and <code><a href='sass_impo
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

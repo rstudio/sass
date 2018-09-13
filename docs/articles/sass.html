@@ -84,11 +84,11 @@
     
 <p>For single <a href="https://rmarkdown.rstudio.com/">Rmarkdown</a> documents or <a href="http://shiny.rstudio.com/">Shiny</a> apps, styling with CSS or using custom themes such as <a href="https://github.com/rstudio/shinythemes">shinythemes</a> works well.</p>
 <p>As an R developer, designing a default style sheet is difficult. The developer wants to provide a theme that works and looks good, while providing customization options for users.</p>
-<p>This article will briefly show how to use <code>sass</code> to generate style sheets based on user input.</p>
+<p>This article will briefly show how to use the <code>sass</code> R package to generate style sheets based on user input.</p>
 <div id="variables" class="section level2">
 <h2 class="hasAnchor">
 <a href="#variables" class="anchor"></a>Variables</h2>
-<p>Sass variables are key to generating dynamic CSS. Because <code>sass</code> compiles fast, you can define components of your styling at runtime based on user input.</p>
+<p>Sass variables are key to generating dynamic CSS. You can define components of your styling at runtime based on user input.</p>
 <p>It is best practice to define your <a href="http://sass-lang.com/guide#topic-2">variables</a> separately, and then <a href="http://sass-lang.com/guide#topic-5">import</a> them into the main Sass file. For example, we’ll define a color variable and use it to set the body’s background color.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode css"><code class="sourceCode css"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">/* _variables.scss */</span></a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">$color<span class="in">:</span> <span class="pp">#FFFFFF</span>;</a></code></pre></div>
@@ -144,7 +144,7 @@
 <a class="sourceLine" id="cb6-4" data-line-number="4">  <span class="kw">background-color</span>: $color;</a>
 <a class="sourceLine" id="cb6-5" data-line-number="5">}</a>
 <a class="sourceLine" id="cb6-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">/* https://stackoverflow.com/a/3943023/6637133 */</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">// https<span class="in">:</span>//stackoverflow<span class="fu">.com</span>/a/3943023/6637133</a>
 <a class="sourceLine" id="cb6-8" data-line-number="8"><span class="im">@function</span> font-color($color) {</a>
 <a class="sourceLine" id="cb6-9" data-line-number="9">  <span class="im">@return</span> if(</a>
 <a class="sourceLine" id="cb6-10" data-line-number="10">    red($color) * 0<span class="fu">.299</span> + green($color) * 0<span class="fu">.587</span> + blue($color) * 0<span class="fu">.114</span> &gt; 186,</a>
@@ -162,13 +162,6 @@
 <iframe src="https://gallery.shinyapps.io/sass-size/?showcase=0" width="700" height="600px">
 </iframe>
 </div>
-<div id="theme-switching" class="section level2">
-<h2 class="hasAnchor">
-<a href="#theme-switching" class="anchor"></a>Theme switching</h2>
-<p>Sass can create different themes quickly by using functions (or <a href="https://sass-lang.com/guide">mixins</a>). In the <a href="https://gallery.shinyapps.io/sass-theme/">shiny example app</a> below, we switch between different color themes.</p>
-<iframe src="https://gallery.shinyapps.io/sass-theme/?showcase=0" width="700" height="350px">
-</iframe>
-</div>
 <div id="css-formatting" class="section level2">
 <h2 class="hasAnchor">
 <a href="#css-formatting" class="anchor"></a>CSS Formatting</h2>
@@ -182,7 +175,7 @@
 <a class="sourceLine" id="cb7-6" data-line-number="6"><span class="st">    background-color: $color;</span></a>
 <a class="sourceLine" id="cb7-7" data-line-number="7"><span class="st">  }</span></a>
 <a class="sourceLine" id="cb7-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="st">  /* https://stackoverflow.com/a/3943023/6637133 */</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="st">  // https://stackoverflow.com/a/3943023/6637133</span></a>
 <a class="sourceLine" id="cb7-10" data-line-number="10"><span class="st">  @function font-color($color) {</span></a>
 <a class="sourceLine" id="cb7-11" data-line-number="11"><span class="st">    @return if(</span></a>
 <a class="sourceLine" id="cb7-12" data-line-number="12"><span class="st">      red($color) * 0.299 + green($color) * 0.587 + blue($color) * 0.114 &gt; 186,</span></a>
@@ -199,10 +192,9 @@
 <a class="sourceLine" id="cb7-23" data-line-number="23"><span class="st">  }</span></a>
 <a class="sourceLine" id="cb7-24" data-line-number="24"><span class="st">"</span></a></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">library</span>(sass)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">opts &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sass_options.html">sass_options</a></span>(<span class="dt">output_style =</span> <span class="st">"compressed"</span>)</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3">sass<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/sass/topics/sass">sass</a></span>(new_style, <span class="dt">options =</span> opts)</a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; body{background-color:#fff}h1{color:#000}.shiny-plot-output{max-width:100%}</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; </span></a></code></pre></div>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="../reference/sass.html">sass</a></span>(new_style, <span class="dt">options =</span> <span class="kw"><a href="../reference/sass_options.html">sass_options</a></span>(<span class="dt">output_style =</span> <span class="st">"compressed"</span>))</a></code></pre></div>
+body{background-color:#fff}h1{color:#000}.shiny-plot-output{max-width:100%}
+
 </div>
   </div>
 
@@ -214,7 +206,6 @@
 <li><a href="#variables">Variables</a></li>
       <li><a href="#functions">Functions</a></li>
       <li><a href="#resizing">Resizing</a></li>
-      <li><a href="#theme-switching">Theme switching</a></li>
       <li><a href="#css-formatting">CSS Formatting</a></li>
       </ul>
 </div>

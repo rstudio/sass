@@ -38,12 +38,14 @@ as_sass(list(
 someFile <- tempfile("variables")
 ## overwrite color to red
 write("$color: \\"red\\";", someFile)
+
 input <- as_sass(list(
   list(color = "blue"),
   sass_file(someFile),
   "body { color: $color; }"
 ))
 input
+
 ## final body color is red
 sass(input)
 }
