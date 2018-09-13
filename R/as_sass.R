@@ -63,26 +63,26 @@ as_sass_.logical <- function(input) {
 }
 
 as_sass_.list <- function(input) {
-  inputNames <- names(input)
+  input_names <- names(input)
 
   # if it is a list of independent items...
-  if (length(inputNames) == 0) {
-    inputVals <- lapply(input, as_sass_)
+  if (length(input_names) == 0) {
+    input_vals <- lapply(input, as_sass_)
 
-    compiled <- paste0(inputVals, collapse = "\n")
+    compiled <- paste0(input_vals, collapse = "\n")
     return(compiled)
   }
 
   # named list of variables
-  if (any(inputNames == "")) {
+  if (any(input_names == "")) {
     stop(
       "If providing sass with a named variable list.  All variables must be named. \n", "
-      Missing name at index: ", paste0(which(inputNames == ""), collapse = ", ")
+      Missing name at index: ", paste0(which(input_names == ""), collapse = ", ")
     )
   }
 
-  inputValues <- lapply(input, as_sass_)
-  paste0("$", inputNames, ": ", inputValues, ";", collapse = "\n")
+  input_values <- lapply(input, as_sass_)
+  paste0("$", input_names, ": ", input_values, ";", collapse = "\n")
 }
 
 as_sass_.character <- function(input) {
@@ -109,7 +109,7 @@ as_sass_.character <- function(input) {
 #' sass_import("$foo", FALSE)
 #' sass_file("foo.scss")
 sass_import <- function(input, quote = TRUE) {
-  quote_val <- {if (isTRUE(quote)) "\"" else ""}
+  quote_val <- (if (isTRUE(quote)) "\"" else "")
   paste0("@import ", quote_val, input, quote_val, ";")
 }
 #' @rdname sass_import
@@ -120,6 +120,7 @@ sass_file <- function(input) {
     return(sass_import(input))
   }
 
+  # nolint start
   # given a partial name, like 'folder/colors.ext'.
   ## should work for
   ### folder/colors.ext
@@ -128,6 +129,7 @@ sass_file <- function(input) {
   ### folder/_colors.ext
   ### folder/_colors.ext.scss
   ### folder/_colors.ext.sass
+  # nolint end
   file_possibilities <- expand.grid(
     c("", "_"),
     basename(input),

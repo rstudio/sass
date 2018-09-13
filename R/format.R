@@ -17,10 +17,10 @@ format.sass <- function(x, ...) {
 #' @export
 #' @noRd
 print.css <- function(x, ...) {
-  cat0("/* CSS */\n", format(x), "\n")
+  cat0("/* CSS */\n", format(x), "\n") # nolint
 }
 #' @export
 #' @noRd
 print.sass <- function(x, ...) {
-  cat0("/* Sass */\n", format(x), "\n")
+  cat0("/* Sass */\n", format(x), "\n") # nolint
 }
