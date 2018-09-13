@@ -28,12 +28,14 @@
 #' someFile <- tempfile("variables")
 #' ## overwrite color to red
 #' write("$color: \"red\";", someFile)
+#'
 #' input <- as_sass(list(
 #'   list(color = "blue"),
 #'   sass_file(someFile),
 #'   "body { color: $color; }"
 #' ))
 #' input
+#'
 #' ## final body color is red
 #' sass(input)
 as_sass <- function(input) {
@@ -45,7 +47,7 @@ as_sass_ <- function(input) {
 }
 
 as_sass_.default <- function(input) {
-  stop("as_sass_() not implemented for object of class: '", class(input)[1], "'")
+  stop("as_sass() not implemented for object of class: '", class(input)[1], "'")
 }
 
 as_sass_.NULL <- function(input) {
@@ -67,8 +69,11 @@ as_sass_.list <- function(input) {
 
   # if it is a list of independent items...
   if (length(input_names) == 0) {
-    input_vals <- lapply(input, as_sass_)
-
+    # must use `lapply(a, function(x) as_sass_(x))`
+    #   as `as_sass_` can not be found if using `lapply(a, as_sass_)`
+    input_vals <- lapply(input, function(x) {
+      as_sass_(x)
+    })
     compiled <- paste0(input_vals, collapse = "\n")
     return(compiled)
   }
@@ -81,7 +86,9 @@ as_sass_.list <- function(input) {
     )
   }
 
-  input_values <- lapply(input, as_sass_)
+  input_values <- lapply(input, function(x) {
+    as_sass_(x)
+  })
   paste0("$", input_names, ": ", input_values, ";", collapse = "\n")
 }
 
