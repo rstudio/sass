@@ -2,23 +2,14 @@ library(shiny)
 library(sass)
 library(colourpicker)
 
-input_scss <- "new-style.scss"
-output_css <- "new-style.css"
-
-style_list <- list(
-  `$color` = "#FFFFFF",
-  `$width` = "100"
-)
-
-sass(input_scss, output = output_css)
-
 ui <- fluidPage(
   headerPanel("Sass Size Example"),
+  uiOutput("sass"),
 
   sidebarPanel(
     sliderInput("width", "Image Percent of Screen",
                 min = 1, max = 100, value = 100),
-    colourInput("color", "Background Color", value = 'white',
+    colourInput("color", "Background Color", value = "#6498d2",
                 showColour = "text")
   ),
 
@@ -27,10 +18,8 @@ ui <- fluidPage(
     br()
   ),
 
-  column(6, verbatimTextOutput("scss")),
-  column(6, verbatimTextOutput("css")),
-
-  uiOutput("bgcolor")
+  column(6, verbatimTextOutput("scssTxt"), verbatimTextOutput("sassFile")),
+  column(6, verbatimTextOutput("cssTxt"))
 )
 
 server <- function(input, output) {
@@ -39,29 +28,38 @@ server <- function(input, output) {
   })
 
   variables <- reactive({
-    style_list$`$color` <- input$color
-    style_list$`$width` <- input$width
-    paste0(names(style_list), ": ", style_list, ";", collapse = '\n')
+    list(
+      color = input$color,
+      width = input$width
+    )
   })
 
+  sass_input <- reactive({
+    list(
+      variables(),
+      sass_file("sass-size.scss")
+    )
+  })
   compiled_css <- reactive({
-    write(variables(), "_variables.scss")
-    sass(input_scss, output = output_css)
+    sass(sass_input())
   })
 
-  output$bgcolor <- renderUI({
-    compiled_css()
-    includeCSS(output_css)
+  output$sass <- renderUI({
+    tags$head(tags$style(compiled_css()))
   })
 
-  output$scss <- renderText({
-    scss <- paste0(readLines("new-style.scss"), collapse = '\n')
-    paste0("/* _variables.scss */\n", variables(), "\n\n",
-           "/* new-style.scss */\n", scss)
+  output$scssTxt <- renderText({
+    paste0("/* Sass */\n", as_sass(sass_input()))
+  })
+  output$sassFile <- renderText({
+    paste0(
+      "/* sass-size.scss */\n\n",
+      paste0(readLines("sass-size.scss"), collapse = "\n")
+    )
   })
 
-  output$css <- renderText({
-    paste0("/* new-style.css */\n", compiled_css())
+  output$cssTxt <- renderText({
+    paste0("/* Compiled CSS */\n", compiled_css())
   })
 }
 

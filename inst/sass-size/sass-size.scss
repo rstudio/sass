@@ -1,5 +1,3 @@
-@import 'variables';
-
 body {
   background-color: $color;
 }
@@ -16,4 +14,8 @@ h1 {
   color: if(
     red($color) * 0.299 + green($color) * 0.587 + blue($color) * 0.114 > 186,
     #000000, #ffffff);
+}
+
+.shiny-plot-output {
+  max-width: percentage($width / 100);
 }
