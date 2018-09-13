@@ -44,13 +44,27 @@ devtools::install_github("rstudio/sass")
 
 The [Sass](https://sass-lang.com/) language syntax is similar to CSS, but allows functions and variables, and can do arbitrary computations.
 
-```{r}
+```{r, eval = FALSE}
 library(sass)
 
 sass("
-  $size: 100%;
+  $size: 50%;
   foo { margin: $size * .33; }
 ")
+```
+```{r, echo = FALSE}
+library(sass)
+cat(
+  paste(
+    capture.output({
+      print(sass("
+        $size: 50%;
+        foo { margin: $size * .33; }
+      "))
+    }),
+    collapse = "\n"
+  )
+)
 ```
 
 For an overview of the major features of [Sass](https://sass-lang.com/) such as variables, nesting, and imports check out the official [Sass Basics](https://sass-lang.com/guide).
