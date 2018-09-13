@@ -124,15 +124,6 @@ knitr::include_app("https://gallery.shinyapps.io/sass-size/", height = "600px")
 ```
 
 
-## Theme switching
-
-Sass can create different themes quickly by using functions (or [mixins](https://sass-lang.com/guide)).  In the [shiny example app](https://gallery.shinyapps.io/sass-theme/) below, we switch between different color themes.
-
-```{r echo = FALSE}
-knitr::include_app("https://gallery.shinyapps.io/sass-theme/", height = "350px")
-```
-
-
 ## CSS Formatting
 
 Sass can also produce human readable or production ready CSS, depending on the need.
