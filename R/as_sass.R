@@ -24,7 +24,7 @@
 #'   "body { color: $color; }"
 #' ))
 #'
-#' # add a file name
+#' \dontrun{# add a file name
 #' someFile <- tempfile("variables")
 #' ## overwrite color to red
 #' write("$color: \"red\";", someFile)
@@ -37,7 +37,7 @@
 #' input
 #'
 #' ## final body color is red
-#' sass(input)
+#' sass(input)}
 as_sass <- function(input) {
   as_html(as_sass_(input), "sass")
 }
@@ -114,7 +114,7 @@ as_sass_.character <- function(input) {
 #' @examples
 #' sass_import("foo")
 #' sass_import("$foo", FALSE)
-#' sass_file("foo.scss")
+#' \dontrun{sass_file("foo.scss")}
 sass_import <- function(input, quote = TRUE) {
   quote_val <- (if (isTRUE(quote)) "\"" else "")
   paste0("@import ", quote_val, input, quote_val, ";")
