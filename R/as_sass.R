@@ -122,34 +122,12 @@ sass_import <- function(input, quote = TRUE) {
 #' @rdname sass_import
 #' @export
 sass_file <- function(input) {
-  if (file.exists(input)) {
-    # is a file. return an @import statement
-    return(sass_import(input))
+
+  if (!file.exists(input)) {
+    stop("Could not find file: '", input, "' in dir: ", getwd())
   }
 
-  # nolint start
-  # given a partial name, like 'folder/colors.ext'.
-  ## should work for
-  ### folder/colors.ext
-  ### folder/colors.ext.scss
-  ### folder/colors.ext.sass
-  ### folder/_colors.ext
-  ### folder/_colors.ext.scss
-  ### folder/_colors.ext.sass
-  # nolint end
-  file_possibilities <- expand.grid(
-    c("", "_"),
-    basename(input),
-    c("", ".scss", ".sass")
-  )
-  file_possibilities <- apply(file_possibilities, 1, paste0, collapse = "")
-  if (dirname(input) != "") {
-    file_possibilities <- file.path(dirname(input), file_possibilities)
-  }
-  if (any(file.exists(file_possibilities))) {
-    # is a file. return an @import statement. Let Sass figure it out from here
-    return(sass_import(input))
-  }
-
-  stop("Could not find file: '", input, "'")
+  input <- normalizePath(input)
+  # is a file. return an @import statement
+  sass_import(input)
 }
