@@ -26,5 +26,5 @@ Create an import statement to be used within your Sass file. See \url{https://sa
 \examples{
 sass_import("foo")
 sass_import("$foo", FALSE)
-sass_file("foo.scss")
+\dontrun{sass_file("foo.scss")}
 }

@@ -153,6 +153,7 @@
 ))</div><div class='output co'>#&gt; /* Sass */
 #&gt; $color: blue;
 #&gt; body { color: $color; }</div><div class='input'>
+</div><span class='co'># NOT RUN {</span>
 <span class='co'># add a file name</span>
 <span class='no'>someFile</span> <span class='kw'>&lt;-</span> <span class='fu'>tempfile</span>(<span class='st'>"variables"</span>)
 <span class='co'>## overwrite color to red</span>
@@ -163,16 +164,11 @@
   <span class='fu'><a href='sass_import.html'>sass_file</a></span>(<span class='no'>someFile</span>),
   <span class='st'>"body { color: $color; }"</span>
 ))
-<span class='no'>input</span></div><div class='output co'>#&gt; /* Sass */
-#&gt; $color: blue;
-#&gt; @import "/var/folders/0k/bxg5lhr92sq74mb1d446ql540000gp/T//Rtmp4q5YvV/variables2e6037afc8bb";
-#&gt; body { color: $color; }</div><div class='input'>
+<span class='no'>input</span>
+
 <span class='co'>## final body color is red</span>
-<span class='fu'><a href='sass.html'>sass</a></span>(<span class='no'>input</span>)</div><div class='output co'>#&gt; /* CSS */
-#&gt; body {
-#&gt;   color: "red";
-#&gt; }
-#&gt; </div></pre>
+<span class='fu'><a href='sass.html'>sass</a></span>(<span class='no'>input</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

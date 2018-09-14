@@ -34,7 +34,7 @@ as_sass(list(
   "body { color: $color; }"
 ))
 
-# add a file name
+\dontrun{# add a file name
 someFile <- tempfile("variables")
 ## overwrite color to red
 write("$color: \\"red\\";", someFile)
@@ -47,7 +47,7 @@ input <- as_sass(list(
 input
 
 ## final body color is red
-sass(input)
+sass(input)}
 }
 \seealso{
 Visit \url{https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import} for more details.
