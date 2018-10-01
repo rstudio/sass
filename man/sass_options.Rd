@@ -29,14 +29,14 @@ paths are possible using a character vector of paths.}
 \item{source_comments}{Annotates CSS output with line and file comments from
 Sass file for debugging.}
 
-\item{indent_type}{Specifies the indent type as \code{'space'} or
-\code{'tab'}.}
+\item{indent_type}{Specifies the indent type as \code{"space"} or
+\code{"tab"}.}
 
 \item{indent_width}{Number of tabs or spaces used for indentation. Maximum
 10.}
 
 \item{linefeed}{Specifies how new lines should be delimited. Possible values:
-\code{'lf'}, \code{'cr'}, \code{'lfcr'}, and \code{'crlf'}.}
+\code{"lf"}, \code{"cr"}, \code{"lfcr"}, and \code{"crlf"}.}
 
 \item{output_path}{Specifies the location of the output file. Note: this
 option will not write the file on disk. It is only for internal reference
@@ -58,14 +58,14 @@ the output file. Note: must specify \code{output_path} when \code{TRUE}.}
 }
 \value{
 List of Sass compiler options to be used with
-  \code{\link{compile_sass}}.
+  \code{\link{sass}}.
 }
 \description{
-Set compiler options for Sass. Used with \code{\link{compile_sass}}.
+Set compiler options for Sass. Used with \code{\link{sass}}.
 }
 \examples{
-compile_sass(
-  text = "foo { margin: 122px * .3; }",
+sass(
+  "foo { margin: 122px * .3; }",
   options = sass_options(output_style = "compact")
 )
 

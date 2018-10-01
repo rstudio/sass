@@ -1,7 +1,7 @@
 ---
-title: "Introduction to Sassr"
+title: "Introduction to Sass"
 author: "Timothy Mastny"
-date: "`r Sys.Date()`"
+date: "2018-08-14"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
@@ -18,15 +18,15 @@ knitr::opts_chunk$set(
 
 For single [Rmarkdown](https://rmarkdown.rstudio.com/) documents or [Shiny](http://shiny.rstudio.com/) apps, styling with CSS or using custom themes such as [shinythemes](https://github.com/rstudio/shinythemes) works well.
 
-As an R developer, designing a default style sheet is difficult. The developer wants to provide a theme that works and looks good, while providing customization options for users. 
+As an R developer, designing a default style sheet is difficult. The developer wants to provide a theme that works and looks good, while providing customization options for users.
 
-This article will briefly show how to use sassr to generate style sheets based on user input.
+This article will briefly show how to use the `sass` R package to generate style sheets based on user input.
 
 ## Variables
 
-Sass variables are key to generating dynamic CSS. Because sassr compiles fast, you can define components of your styling at runtime based on user input.
+Sass variables are key to generating dynamic CSS. You can define components of your styling at runtime based on user input.
 
-It is best practice to define your [variables](http://sass-lang.com/guide#topic-2) separately, and then [import](http://sass-lang.com/guide#topic-5) them into the main Sass file. For example, we'll define a color variable and use it to set the body's background color. 
+It is best practice to define your [variables](http://sass-lang.com/guide#topic-2) separately, and then [import](http://sass-lang.com/guide#topic-5) them into the main Sass file. For example, we'll define a color variable and use it to set the body's background color.
 
 ```css
 /* _variables.scss */
@@ -40,17 +40,17 @@ body {
 }
 ```
 
-The following [shiny app]("https://gallery.shinyapps.io/138-sassr-color") will demonstrate this example. We'll use Dean Attali's [colourpicker](https://github.com/daattali/colourpicker) to choose a color and write it to `_variables.scss`. 
+The following [shiny app]("https://gallery.shinyapps.io/sass-color") will demonstrate this example. We'll use Dean Attali's [colourpicker](https://github.com/daattali/colourpicker) to choose a color and write it to `_variables.scss`.
 
 Then the app compiles `new-style.scss` and renders the new style.
 
 ```{r echo = FALSE}
-knitr::include_app("https://gallery.shinyapps.io/138-sassr-color", height = "600px")
+knitr::include_app("https://gallery.shinyapps.io/sass-color", height = "600px")
 ```
 
 ## Functions
 
-If we choose a background color that is too dark, we won't be able to read the title **Sassr Example**. Therefore, we need to make the font color depend on the background color.
+If we choose a background color that is too dark, we won't be able to read the title **Sass Example**. Therefore, we need to make the font color depend on the background color.
 
 Sass offers many [built-in functions](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#functions) that help with dynamic styling, and you can always write [your own](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#function_directives).
 
@@ -78,17 +78,17 @@ h1 {
 }
 ```
 
-In our next [shiny app](https://gallery.shinyapps.io/139-sassr-font/), the font color now [depends](https://stackoverflow.com/a/3943023/6637133) on the background color, switching between black and white as necessary. 
+In this [shiny example app](https://gallery.shinyapps.io/sass-font/), the font color now [depends](https://stackoverflow.com/a/3943023/6637133) on the background color, switching between black and white as necessary.
 
 ```{r echo = FALSE}
-knitr::include_app("https://gallery.shinyapps.io/139-sassr-font/", height = "400px")
+knitr::include_app("https://gallery.shinyapps.io/sass-font/", height = "400px")
 ```
 
 ## Resizing
 
 Dynamic resizing based on user-input is also useful. Sass is fully CSS compatible, so any styling option is available.
 
-In our last [shiny app](https://gallery.shinyapps.io/140-sassr-size/) we'll change the width of the image based on a slider:
+This [shiny example app](https://gallery.shinyapps.io/sass-size/) we'll change the width of the image based on a slider:
 
 ```css
 /* _variables.scss */
@@ -102,7 +102,7 @@ body {
   background-color: $color;
 }
 
-/* https://stackoverflow.com/a/3943023/6637133 */
+// https://stackoverflow.com/a/3943023/6637133
 @function font-color($color) {
   @return if(
     red($color) * 0.299 + green($color) * 0.587 + blue($color) * 0.114 > 186,
@@ -120,12 +120,13 @@ h1 {
 ```
 
 ```{r echo = FALSE}
-knitr::include_app("https://gallery.shinyapps.io/140-sassr-size/", height = "600px")
+knitr::include_app("https://gallery.shinyapps.io/sass-size/", height = "600px")
 ```
+
 
 ## CSS Formatting
 
-Sassr can also produce human readable or production ready CSS, depending on the need. 
+Sass can also produce human readable or production ready CSS, depending on the need.
 
 Here we'll convert the human readable Sass to minified CSS.
 
@@ -133,23 +134,23 @@ Here we'll convert the human readable Sass to minified CSS.
 new_style <- "
   $color: #FFFFFF;
   $width: 100;
-  
+
   body {
     background-color: $color;
   }
-  
-  /* https://stackoverflow.com/a/3943023/6637133 */
+
+  // https://stackoverflow.com/a/3943023/6637133
   @function font-color($color) {
     @return if(
       red($color) * 0.299 + green($color) * 0.587 + blue($color) * 0.114 > 186,
       #000000, #ffffff
     );
   }
-  
+
   h1 {
     color: font-color($color);
   }
-  
+
   .shiny-plot-output {
     max-width: percentage($width / 100);
   }
@@ -157,10 +158,6 @@ new_style <- "
 ```
 
 ```{r}
-library(sassr)
-opts <- sass_options(output_style = "compressed")
-compile_sass(text = new_style, options = opts)
+library(sass)
+sass(new_style, options = sass_options(output_style = "compressed"))
 ```
-
-
-

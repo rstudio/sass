@@ -1,6 +1,6 @@
 #' Compiler Options for Sass
 #'
-#' Set compiler options for Sass. Used with \code{\link{compile_sass}}.
+#' Set compiler options for Sass. Used with \code{\link{sass}}.
 #'
 #'
 #' @param precision Number of decimal places.
@@ -11,8 +11,8 @@
 #'   strings. Note that the compiler automatically overrides this option to
 #'   \code{TRUE} or \code{FALSE} for files with .sass and .scss file extensions
 #'   respectively.
-#' @param indent_type Specifies the indent type as \code{'space'} or
-#'   \code{'tab'}.
+#' @param indent_type Specifies the indent type as \code{"space"} or
+#'   \code{"tab"}.
 #' @param indent_width Number of tabs or spaces used for indentation. Maximum
 #'   10.
 #' @param include_path Vector of paths used to resolve \code{@import}. Multiple
@@ -20,7 +20,7 @@
 #' @param source_comments Annotates CSS output with line and file comments from
 #'   Sass file for debugging.
 #' @param linefeed Specifies how new lines should be delimited. Possible values:
-#'   \code{'lf'}, \code{'cr'}, \code{'lfcr'}, and \code{'crlf'}.
+#'   \code{"lf"}, \code{"cr"}, \code{"lfcr"}, and \code{"crlf"}.
 #' @param output_path Specifies the location of the output file. Note: this
 #'   option will not write the file on disk. It is only for internal reference
 #'   with the source map.
@@ -35,11 +35,11 @@
 #'   the output file. Note: must specify \code{output_path} when \code{TRUE}.
 #'
 #' @return List of Sass compiler options to be used with
-#'   \code{\link{compile_sass}}.
+#'   \code{\link{sass}}.
 #'
 #' @examples
-#' compile_sass(
-#'   text = "foo { margin: 122px * .3; }",
+#' sass(
+#'   "foo { margin: 122px * .3; }",
 #'   options = sass_options(output_style = "compact")
 #' )
 #'
@@ -52,7 +52,7 @@ sass_options <- function(
   source_comments = FALSE,
   indent_type = "space",
   indent_width = 2,
-  linefeed = 'lf',
+  linefeed = "lf",
   output_path = "",
   source_map_file = "",
   source_map_root = "",
@@ -70,9 +70,9 @@ sass_options <- function(
 
   indent_type <- switch(
     indent_type,
-    tab = '\t',
-    space = ' ',
-    stop("invalid indent type. Please specify 'space' or 'tab'.")
+    tab = "\t",
+    space = " ",
+    stop("invalid indent type. Please specify \"space\" or \"tab\".")
   )
 
   indent <- strrep(indent_type, indent_width)
@@ -83,15 +83,15 @@ sass_options <- function(
     expanded = 1,
     compact = 2,
     compressed = 3,
-    stop('output style not supported.')
+    stop("output style not supported.")
   )
 
   linefeed <- switch(
     linefeed,
-    lf = '\n',
-    cr = '\r',
-    crlf = '\r\n',
-    lfcr = '\n\r',
+    lf = "\n",
+    cr = "\r",
+    crlf = "\r\n",
+    lfcr = "\n\r",
     stop("invalid linefeed.")
   )
 

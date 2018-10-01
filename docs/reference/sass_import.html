@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compile Sass to CSS — compile_sass • sassr</title>
+<title>Sass Import — sass_import • sass</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Compile Sass to CSS — compile_sass" />
+<meta property="og:title" content="Sass Import — sass_import" />
 
-<meta property="og:description" content="Compile Sass to CSS using libSass." />
+<meta property="og:description" content="Create an import statement to be used within your Sass file. See https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import for more details." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -60,7 +60,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">sassr</a>
+        <a class="navbar-link" href="../index.html">sass</a>
         <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
       </span>
     </div>
@@ -74,19 +74,10 @@
   </a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../articles/sass.html">Get started</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/sass.html">Introduction to Sassr</a>
-    </li>
-  </ul>
+<li>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -95,7 +86,7 @@
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/rstudio/sassr">
+  <a href="https://github.com/rstudio/sass">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -112,60 +103,47 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compile Sass to CSS</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/sassr/blob/master/R/compile.R'><code>R/compile.R</code></a></small>
-    <div class="hidden name"><code>compile_sass.Rd</code></div>
+    <h1>Sass Import</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/sass/blob/master/R/as_sass.R'><code>R/as_sass.R</code></a></small>
+    <div class="hidden name"><code>sass_import.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Compile Sass to CSS using libSass.</p>
+    <p>Create an import statement to be used within your Sass file. See <a href='https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import'>https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import</a> for more details.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>compile_sass</span>(<span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='sass_options.html'>sass_options</a></span>(), <span class='kw'>output</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>text</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>sass_import</span>(<span class='no'>input</span>, <span class='kw'>quote</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='fu'>sass_file</span>(<span class='no'>input</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>file</th>
-      <td><p>Path to .scss or .sass Sass file. Note that the libSass compiler
-expects .sass files to use the Sass Indented Syntax.</p></td>
+      <th>input</th>
+      <td><p>Character string to be placed in an import statement.</p></td>
     </tr>
     <tr>
-      <th>options</th>
-      <td><p>Compiler options for Sass. Please specify options using
-<code><a href='sass_options.html'>sass_options</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>output</th>
-      <td><p>Specifies path to output file for compiled CSS.</p></td>
-    </tr>
-    <tr>
-      <th>text</th>
-      <td><p>Character vector of Sass code.</p></td>
+      <th>quote</th>
+      <td><p>Logical that determines if a double quote is added to the import value.  Defaults to <code>TRUE</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>If <code>output = NULL</code>, the function returns a one element character
-  vector of the compiled CSS. If the output path is specified, the compiled
-  CSS is written to that file and the function has no return value.</p>
+    <p>Fully defined Sass import string.</p>
     
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>file</code> and <code>text</code> cannot be compiled at the same time. Please
-  pass one or the other.</p>
+    <p><code>sass_file</code> adds extra checks to make sure an appropriate file path exists given the input value.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>compile_sass</span>(<span class='kw'>text</span> <span class='kw'>=</span> <span class='st'>"foo { margin: 122px * .3; }"</span>)</div><div class='output co'>#&gt; foo {
-#&gt;   margin: 36.6px;
-#&gt; }</div><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>sass_import</span>(<span class='st'>"foo"</span>)</div><div class='output co'>#&gt; [1] "@import \"foo\";"</div><div class='input'><span class='fu'>sass_import</span>(<span class='st'>"$foo"</span>, <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] "@import $foo;"</div><span class='co'># NOT RUN {</span>
+<span class='fu'>sass_file</span>(<span class='st'>"foo.scss"</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -174,7 +152,7 @@ expects .sass files to use the Sass Indented Syntax.</p></td>
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#note">Note</a></li>
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

@@ -1,13 +1,32 @@
+# Comments
+
+## 2018-09-06
+
+This is a new release.
+
+
 ## Test environments
-* local OS X install, R 3.5.0
-* ubuntu 18.04 (docker), R 3.5.0
+* local OS X install, R 3.5.1
+  * 0 errors | 0 warnings | 4 notes
+    * checking installed package size ... NOTE
+      installed size is  6.0Mb
+      sub-directories of 1Mb or more:
+        figures   3.6Mb
+        libs      2.3Mb
+    * checking for GNU extensions in Makefiles ... NOTE
+      GNU make is a SystemRequirements.
+    * checking pragmas in C/C++ headers and code ... NOTE
+      File which contains pragma(s) suppressing diagnostics:
+        ‘src/libsass/src/parser.hpp’
+* ubuntu 14.04.5 (on travis-ci), R version 3.5.0 (2017-01-27)
+
 * win-builder (devel and release)
+
 
 ## R CMD check results
 
 0 errors | 0 warnings | 4 notes
 
-* This is a new release.
 
 * checking for GNU extensions in Makefiles ... NOTE
   GNU make is a SystemRequirements.
@@ -28,6 +47,12 @@ This pragma is a part of the libSass library.
 This is only a note on Windows builds.
 
 ## Downstream dependencies
+
+Initial release. No dependencies.
+
+
+
+## Extra check comments
 
 
 Failed `build_win`:
@@ -173,13 +198,13 @@ In R CMD INSTALL
 ### Check
 
 ```
-* using log directory 'd:/RCompile/CRANguest/R-devel/sassr.Rcheck'
+* using log directory 'd:/RCompile/CRANguest/R-devel/sass.Rcheck'
 * using R Under development (unstable) (2018-08-13 r75131)
 * using platform: x86_64-w64-mingw32 (64-bit)
 * using session charset: ISO8859-1
-* checking for file 'sassr/DESCRIPTION' ... OK
+* checking for file 'sass/DESCRIPTION' ... OK
 * checking extension type ... Package
-* this is package 'sassr' version '0.1.0'
+* this is package 'sass' version '0.1.0'
 * package encoding: UTF-8
 * checking CRAN incoming feasibility ... NOTE
 Maintainer: 'Timothy Mastny <tim.mastny@gmail.com>'
@@ -192,15 +217,15 @@ New submission
 * checking for hidden files and directories ... OK
 * checking for portable file names ... OK
 * checking serialization versions ... OK
-* checking whether package 'sassr' can be installed ... ERROR
+* checking whether package 'sass' can be installed ... ERROR
 Installation failed.
-See 'd:/RCompile/CRANguest/R-devel/sassr.Rcheck/00install.out' for details.
+See 'd:/RCompile/CRANguest/R-devel/sass.Rcheck/00install.out' for details.
 * DONE
 Status: 1 ERROR, 1 NOTE
 ```
 
 ```
-* installing *source* package 'sassr' ...
+* installing *source* package 'sass' ...
 ** libs
 
 *** arch - i386
@@ -208,7 +233,7 @@ d:/Compiler/gcc-4.9.3/mingw_32/bin/gcc  -I"D:/RCompile/recent/R/include" -DNDEBU
 d:/Compiler/gcc-4.9.3/mingw_32/bin/gcc  -I"D:/RCompile/recent/R/include" -DNDEBUG -I./libsass/include    -I"d:/Compiler/gcc-4.9.3/local330/include"     -pedantic -O3 -Wall  -std=gnu99 -mtune=core2 -c create_string.c -o create_string.o
 d:/Compiler/gcc-4.9.3/mingw_32/bin/gcc  -I"D:/RCompile/recent/R/include" -DNDEBUG -I./libsass/include    -I"d:/Compiler/gcc-4.9.3/local330/include"     -pedantic -O3 -Wall  -std=gnu99 -mtune=core2 -c init.c -o init.o
 MAKEFLAGS= CC=d:/Compiler/gcc-4.9.3/mingw_32/bin/gcc  CXX=d:/Compiler/gcc-4.9.3/mingw_32/bin/g++  AR=d:/Compiler/gcc-4.9.3/mingw_32/bin/ar /usr/bin/make -C libsass
-make[1]: Entering directory `/cygdrive/d/temp/Rtmp0sLAgz/R.INSTALL1e654584363be/sassr/src-i386/libsass'
+make[1]: Entering directory `/cygdrive/d/temp/Rtmp0sLAgz/R.INSTALL1e654584363be/sass/src-i386/libsass'
 mkdir lib
 d:/Compiler/gcc-4.9.3/mingw_32/bin/gcc -Wall -O2 -I include -c -o src/cencode.o src/cencode.c
 d:/Compiler/gcc-4.9.3/mingw_32/bin/g++ -Wall -O2 -std=c++0x -I include -c -o src/ast.o src/ast.cpp
@@ -321,9 +346,9 @@ a - src/error_handling.o
 a - src/memory/SharedPtr.o
 a - src/utf8_string.o
 a - src/base64vlq.o
-make[1]: Leaving directory `/cygdrive/d/temp/Rtmp0sLAgz/R.INSTALL1e654584363be/sassr/src-i386/libsass'
-d:/Compiler/gcc-4.9.3/mingw_32/bin/gcc -shared -s -static-libgcc -o sassr.dll tmp.def compile.o create_string.o init.o ./libsass/lib/libsass.a -lstdc++ -Ld:/Compiler/gcc-4.9.3/local330/lib/i386 -Ld:/Compiler/gcc-4.9.3/local330/lib -LD:/RCompile/recent/R/bin/i386 -lR
-installing to d:/RCompile/CRANguest/R-devel/lib/sassr/libs/i386
+make[1]: Leaving directory `/cygdrive/d/temp/Rtmp0sLAgz/R.INSTALL1e654584363be/sass/src-i386/libsass'
+d:/Compiler/gcc-4.9.3/mingw_32/bin/gcc -shared -s -static-libgcc -o sass.dll tmp.def compile.o create_string.o init.o ./libsass/lib/libsass.a -lstdc++ -Ld:/Compiler/gcc-4.9.3/local330/lib/i386 -Ld:/Compiler/gcc-4.9.3/local330/lib -LD:/RCompile/recent/R/bin/i386 -lR
+installing to d:/RCompile/CRANguest/R-devel/lib/sass/libs/i386
 
 *** arch - x64
 d:/Compiler/gcc-4.9.3/mingw_64/bin/gcc -m64 -I"D:/RCompile/recent/R/include" -DNDEBUG -I./libsass/include    -I"d:/Compiler/gcc-4.9.3/local330/include"     -pedantic -O2 -Wall  -std=gnu99 -mtune=core2 -c compile.c -o compile.o
@@ -332,8 +357,7 @@ d:/Compiler/gcc-4.9.3/mingw_64/bin/gcc -m64 -I"D:/RCompile/recent/R/include" -DN
 MAKEFLAGS= CC=d:/Compiler/gcc-4.9.3/mingw_64/bin/gcc -m64 CXX=d:/Compiler/gcc-4.9.3/mingw_64/bin/g++ -m64 AR=d:/Compiler/gcc-4.9.3/mingw_64/bin/ar /usr/bin/make -C libsass
 -m64: not found
 make: *** [libsass/lib/libsass.a] Error 127
-ERROR: compilation failed for package 'sassr'
-* removing 'd:/RCompile/CRANguest/R-devel/lib/sassr'
+ERROR: compilation failed for package 'sass'
+* removing 'd:/RCompile/CRANguest/R-devel/lib/sass'
 In R CMD INSTALL
 ```
-

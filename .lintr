@@ -1,0 +1,10 @@
+linters: with_defaults(
+    line_length_linter(100),
+    NULL
+  )
+exclusions: c(
+    "inst/sass-color/app.R",
+    "inst/sass-font/app.R",
+    "inst/sass-size/app.R",
+    "inst/sass-theme/app.R"
+  )
