@@ -111,7 +111,7 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
 }
 
 cache_file_path <- function(cache_dir, input, options) {
-  cache_key <- digest::digest(sass_cache_key(list(input, options)), algo = "md5")
+  cache_key <- digest::digest(sass_cache_key(list(input, options, packageVersion("sass"))), algo = "md5")
   cache_file <- file.path(cache_dir, paste0(cache_key, ".sasscache.css"))
 
   cache_file
