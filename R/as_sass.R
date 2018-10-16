@@ -117,6 +117,11 @@ as_sass_.character <- function(input) {
 #' \dontrun{sass_file("foo.scss")}
 sass_import <- function(input, quote = TRUE) {
   quote_val <- (if (isTRUE(quote)) "\"" else "")
+  if (isTRUE(quote)) {
+    input <- gsub("\\\\", "\\\\\\\\", input)
+    input <- gsub("\"", "\\\\\\\"", input)
+    input <- gsub("'", "\\\\'", input)
+  }
   paste0("@import ", quote_val, input, quote_val, ";")
 }
 

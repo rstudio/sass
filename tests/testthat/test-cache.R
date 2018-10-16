@@ -18,7 +18,7 @@ test_that("throws on invalid cache dir", {
         cache_dir = "not/a/path"
       )
     ),
-    "No such file or directory"
+    "No such file or directory|cannot find the path"
   )
 })
 
@@ -31,7 +31,7 @@ test_that("throws on invalid output dir", {
     # Cache
     expect_error(
       sass("div { border: 1px solid black; }", output = "not/a/path.css"),
-      "No such file or directory"
+      "No such file or directory|cannot find the path"
     )
 
   })
