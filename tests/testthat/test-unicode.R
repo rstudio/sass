@@ -1,5 +1,8 @@
 context("unicode")
 
+# Disable sass cache
+options(sass.cache = FALSE)
+
 test_that("unicode variables work", {
   expected <- paste0(readLines("test-unicode-var-expected.css"), collapse = "\n")
   class(expected) <- c("css", "html", "character")

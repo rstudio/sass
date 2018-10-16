@@ -4,7 +4,8 @@
 \alias{sass}
 \title{Compile Sass to CSS}
 \usage{
-sass(input = NULL, options = sass_options(), output = NULL)
+sass(input = NULL, options = sass_options(), output = NULL,
+  cache_options = sass_cache_options())
 }
 \arguments{
 \item{input}{Accepts raw Sass, a named list of variables, or a list of raw Sass and/or named variables.
@@ -14,11 +15,15 @@ See \code{\link{as_sass}} and \code{\link{sass_import}} / \code{\link{sass_file}
 \code{\link{sass_options}}.}
 
 \item{output}{Specifies path to output file for compiled CSS.}
+
+\item{cache_options}{Caching options for Sass. Please specify options using
+\code{\link{sass_cache_options}}. Caching is turned off by default for
+interactive R sessions, and turned on for non-interactive ones.}
 }
 \value{
 If \code{output = NULL}, the function returns a string value
   of the compiled CSS. If the output path is specified, the compiled
-  CSS is written to that file.
+  CSS is written to that file and \code{invisible()} is returned.
 }
 \description{
 Compile Sass to CSS using LibSass.

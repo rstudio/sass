@@ -1,5 +1,8 @@
 context("inclue paths")
 
+# Disable sass cache
+options(sass.cache = FALSE)
+
 test_that("single path works", {
   scss <- "@import \"need\""
   css <- sass(scss, options = sass_options(include_path = "test-include-path/"))
