@@ -54,19 +54,14 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
     )
   }
 
-  options["cache"] <- NULL
-  options["cache_dir"] <- NULL
-
   if (use_cache) {
     if (file.exists(cache_file)) {
       if (!is.null(output)) {
         tryCatch({
-          file.copy(cache_file, output)
+          file.copy(cache_file, output, overwrite = TRUE)
         }, warning = function(w) {
           stop(conditionMessage(w))
         })
-        # size <- file.size(cache_file)
-        # writeBin(readBin(cache_file, raw(), size), output)
         return(invisible())
       } else {
         # TODO: Set encoding to UTF-8?
@@ -111,12 +106,10 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
 }
 
 cache_file_path <- function(cache_dir, input, options) {
-  cache_key <- digest::digest(sass_cache_key(list(input, options, packageVersion("sass"))), algo = "md5")
+  cache_key <- digest::digest(
+    sass_cache_key(list(input, options, utils::packageVersion("sass"))),
+    algo = "md5")
   cache_file <- file.path(cache_dir, paste0(cache_key, ".sasscache.css"))
 
   cache_file
-}
-
-wrap_css_result <- function(css_string) {
-  as_html(css_string, "css")
 }

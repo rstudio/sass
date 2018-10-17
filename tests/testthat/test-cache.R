@@ -59,6 +59,12 @@ test_that("reads from cache", {
     out_file <- tempfile(fileext = ".css")
     sass(input, options, out_file)
     expect_equal(readLines(cache_file), readLines(out_file))
+
+    # Ensure that out_file is overwritten if it already exists
+    writeLines("bogus", out_file)
+    # Check that we can overwrite the out_file
+    expect_error(sass(input, options, out_file), NA)
+    expect_equal(readLines(cache_file), readLines(out_file))
   })
 })
 

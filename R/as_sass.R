@@ -118,9 +118,9 @@ as_sass_.character <- function(input) {
 sass_import <- function(input, quote = TRUE) {
   quote_val <- (if (isTRUE(quote)) "\"" else "")
   if (isTRUE(quote)) {
-    input <- gsub("\\\\", "\\\\\\\\", input)
-    input <- gsub("\"", "\\\\\\\"", input)
-    input <- gsub("'", "\\\\'", input)
+    input <- gsub("\\", "\\\\", input, fixed = TRUE)
+    input <- gsub('"', '\\"', input, fixed = TRUE)
+    input <- gsub("'", "\\'", input, fixed = TRUE)
   }
   paste0("@import ", quote_val, input, quote_val, ";")
 }
@@ -145,9 +145,8 @@ sass_file <- function(input) {
 }
 
 # Given an object, return an object that can be \code{digest::digest}-ed into a
-# hash key. The default behavior is just the identity function which is usually
-# fine, but you can also add data to cause the cache key to vary by out-of-band
-# data (see \code{sass_cache_key.sass_file}).
+# hash key. This lets us vary the cache key with the timestamp of files imported
+# via `sass_file` directives (but not files that are imported by those files).
 sass_cache_key <- function(x) {
   if (inherits(x, "sass_file")) {
     # Add the file's mtime to the cache key. This will cause mtime changes to

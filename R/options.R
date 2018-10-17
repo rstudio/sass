@@ -139,6 +139,18 @@ sass_options <- function(
 #' exist, then compilation is performed and usual and the results are stored at
 #' that file path for next time.
 #'
+#' If a file that is included using \code{\link{sass_file}} changes on disk
+#' (i.e. its last-modified time changes), its previous cache entries will
+#' effectively be invalidated (not removed from disk, but they'll no longer be
+#' matched). However, if a file imported using \code{sass_file} itself imports
+#' other sass files using \code{@import}, changes to those files are invisible
+#' to the cache and you will end up with stale results.
+#'
+#' If a cache directory is explicitly specified (either via the \code{cache_dir}
+#' argument or via the \code{sass.cache_dir} R option), note that this package
+#' does not do any cleanup of that directory. If disk space is a concern, you
+#' will need to delete older entries from that directory yourself.
+#'
 #' @param cache Logical value indicating whether caching is performed. If no
 #'   value is provided, the R option \code{sass.cache} is consulted; if the
 #'   option is not set, then caching is performed only if the R session is not
