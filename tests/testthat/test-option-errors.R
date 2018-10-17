@@ -1,5 +1,8 @@
 context("option errors")
 
+# Disable sass cache
+options(sass.cache = FALSE)
+
 test_that("unnamed options fail", {
   sass_options <- sass_options()
   names(sass_options) <- NULL

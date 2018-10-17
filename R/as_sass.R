@@ -117,8 +117,14 @@ as_sass_.character <- function(input) {
 #' \dontrun{sass_file("foo.scss")}
 sass_import <- function(input, quote = TRUE) {
   quote_val <- (if (isTRUE(quote)) "\"" else "")
+  if (isTRUE(quote)) {
+    input <- gsub("\\", "\\\\", input, fixed = TRUE)
+    input <- gsub('"', '\\"', input, fixed = TRUE)
+    input <- gsub("'", "\\'", input, fixed = TRUE)
+  }
   paste0("@import ", quote_val, input, quote_val, ";")
 }
+
 #' @rdname sass_import
 #' @export
 sass_file <- function(input) {
@@ -127,7 +133,30 @@ sass_file <- function(input) {
     stop("Could not find file: '", input, "' in dir: ", getwd())
   }
 
-  input <- normalizePath(input)
+  input <- normalizePath(input, mustWork = TRUE)
   # is a file. return an @import statement
-  sass_import(input)
+  ret <- sass_import(input)
+
+  # Add metadata so we can stir the file mtime into a cache key on demand
+  class(ret) <- c("sass_file", class(ret))
+  attr(ret, "sass_file_path") <- input
+
+  ret
+}
+
+# Given an object, return an object that can be \code{digest::digest}-ed into a
+# hash key. This lets us vary the cache key with the timestamp of files imported
+# via `sass_file` directives (but not files that are imported by those files).
+sass_cache_key <- function(x) {
+  if (inherits(x, "sass_file")) {
+    # Add the file's mtime to the cache key. This will cause mtime changes to
+    # bust the cache.
+    input_path <- attr(x, "sass_file_path", exact = TRUE)
+    attr(x, "sass_timestamp") <- file.mtime(input_path)
+    x
+  } else if (inherits(x, "list")) {
+    lapply(x, sass_cache_key)
+  } else {
+    x
+  }
 }

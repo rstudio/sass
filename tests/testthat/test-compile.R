@@ -1,5 +1,8 @@
 context("compile")
 
+# Disable sass cache
+options(sass.cache = FALSE)
+
 test_that(".scss file compiles", {
   expected <- "foo {\n  margin: 36.6px;\n}\n\nbar {\n  margin: 63px;\n}\n"
   class(expected) <- c("css", "html", "character")
