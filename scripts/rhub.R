@@ -8,7 +8,7 @@ platforms <- c("windows-x86_64-release", rhub:::default_cran_check_platforms(bui
 
 check_output <- rhub::check_for_cran(
   build_file,
-  email = "barret@rstudio.com",
+  email = "rich@rstudio.com",
   platforms = platforms,
   show_status = FALSE
 )
