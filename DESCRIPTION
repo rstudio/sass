@@ -1,6 +1,6 @@
 Type: Package
 Package: sass
-Version: 0.1.0.9000
+Version: 0.1.1
 Title: Syntactically Awesome Style Sheets (Sass) for R
 Description: A Sass compiler, powered by the LibSass library.
 Authors@R: c(
