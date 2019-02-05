@@ -12,10 +12,11 @@ with_caching <- function(expr, cache_dir = getOption("sass.cache_dir", tempdir()
 test_that("throws on invalid cache dir", {
 
   expect_error(
-    sass("div { border: 1px solid black; }",
+    sass(
+      "div { border: 1px solid black; }",
       cache_options = sass_cache_options(
         cache = TRUE,
-        cache_dir = "not/a/path"
+        cache_dir = here::here("not", "a", "path")
       )
     ),
     "No such file or directory|cannot find the path"
@@ -30,7 +31,10 @@ test_that("throws on invalid output dir", {
 
     # Cache
     expect_error(
-      sass("div { border: 1px solid black; }", output = "not/a/path.css"),
+      sass(
+        "div { border: 1px solid black; }",
+        output = here::here("not", "a", "path.css")
+      ),
       "No such file or directory|cannot find the path"
     )
 
