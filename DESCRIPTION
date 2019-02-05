@@ -19,6 +19,7 @@ RoxygenNote: 6.1.1
 SystemRequirements: GNU make
 Imports: digest
 Suggests:
+    here,
     testthat,
     knitr,
     rmarkdown
