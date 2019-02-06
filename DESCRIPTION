@@ -5,7 +5,7 @@ Title: Syntactically Awesome Style Sheets (Sass) for R
 Description: A Sass compiler, powered by the LibSass library. With this,
     R developers can use variables, inheritance, and functions to generate
     dynamic style sheets. The package uses the Sass CSS extension language,
-    which is stable, powerful, and CSS compatiable.
+    which is stable, powerful, and CSS compatible.
 Authors@R: c(
     person("Timothy", "Mastny", , "tim.mastny@gmail.com", "aut"),
     person("Richard", "Iannone", , "rich@rstudio.com", c("aut", "cre"),
