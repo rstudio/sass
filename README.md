@@ -27,7 +27,7 @@ Install the released version of `sass` from CRAN:
 install.packages("sass")
 ```
 
-Install the latest development build from Github:
+Install the latest development build from GitHub:
 
 ``` r
 # install.packages("devtools")
@@ -37,7 +37,8 @@ devtools::install_github("rstudio/sass")
 ## Getting Started
 
 The [Sass](https://sass-lang.com/) language syntax is similar to CSS,
-but allows functions and variables, and can do arbitrary computations.
+but allows functions and variables, and it can do arbitrary
+computations.
 
 ``` r
 library(sass)
