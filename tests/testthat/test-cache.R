@@ -16,10 +16,9 @@ test_that("throws on invalid cache dir", {
       "div { border: 1px solid black; }",
       cache_options = sass_cache_options(
         cache = TRUE,
-        cache_dir = here::here("not", "a", "path")
+        cache_dir = file.path("not", "a", "path")
       )
-    ),
-    "No such file or directory|cannot find the path"
+    )
   )
 })
 
@@ -33,9 +32,8 @@ test_that("throws on invalid output dir", {
     expect_error(
       sass(
         "div { border: 1px solid black; }",
-        output = here::here("not", "a", "path.css")
-      ),
-      "No such file or directory|cannot find the path"
+        output = file.path("not", "a", "path.css")
+      )
     )
 
   })
