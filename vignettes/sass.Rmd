@@ -40,7 +40,7 @@ body {
 }
 ```
 
-The following [shiny app]("https://gallery.shinyapps.io/sass-color") will demonstrate this example. We'll use Dean Attali's [colourpicker](https://github.com/daattali/colourpicker) to choose a color and write it to `_variables.scss`.
+The following [shiny app](https://gallery.shinyapps.io/sass-color) will demonstrate this example. We'll use Dean Attali's [colourpicker](https://github.com/daattali/colourpicker) to choose a color and write it to `_variables.scss`.
 
 Then the app compiles `new-style.scss` and renders the new style.
 
