@@ -21,7 +21,6 @@
 #include "prelexer.hpp"
 #include "utf8_string.hpp"
 #include "sass_functions.hpp"
-#include "error_handling.hpp"
 #include "sass2scss.h"
 
 #ifdef _WIN32
@@ -324,8 +323,6 @@ namespace Sass {
     // (2) underscore + given
     // (3) underscore + given + extension
     // (4) given + extension
-    // (5) given + _index.scss
-    // (6) given + _index.sass
     std::vector<Include> resolve_includes(const std::string& root, const std::string& file, const std::vector<std::string>& exts)
     {
       std::string filename = join_paths(root, file);
@@ -352,25 +349,6 @@ namespace Sass {
         rel_path = join_paths(base, name + ext);
         abs_path = join_paths(root, rel_path);
         if (file_exists(abs_path)) includes.push_back({{ rel_path, root }, abs_path });
-      }
-      // index files
-      if (includes.size() == 0) {
-        // ignore directories that look like @import'able filename
-        for(auto ext : exts) {
-          if (ends_with(name, ext)) return includes;
-        }
-        // next test underscore index exts
-        for(auto ext : exts) {
-          rel_path = join_paths(base, join_paths(name, "_index" + ext));
-          abs_path = join_paths(root, rel_path);
-          if (file_exists(abs_path)) includes.push_back({{ rel_path, root }, abs_path });
-        }
-        // next test plain index exts
-        for(auto ext : exts) {
-          rel_path = join_paths(base, join_paths(name, "index" + ext));
-          abs_path = join_paths(root, rel_path);
-          if (file_exists(abs_path)) includes.push_back({{ rel_path, root }, abs_path });
-        }
       }
       // nothing found
       return includes;

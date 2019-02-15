@@ -11,7 +11,7 @@ namespace Sass {
   Cssize::Cssize(Context& ctx)
   : ctx(ctx),
     traces(ctx.traces),
-    block_stack(BlockStack()),
+    block_stack(std::vector<Block_Ptr>()),
     p_stack(std::vector<Statement_Ptr>())
   { }
 
@@ -507,6 +507,11 @@ namespace Sass {
     }
 
     return flatten(result);
+  }
+
+  Statement_Ptr Cssize::fallback_impl(AST_Node_Ptr n)
+  {
+    return static_cast<Statement_Ptr>(n);
   }
 
   void Cssize::append_block(Block_Ptr b, Block_Ptr cur)

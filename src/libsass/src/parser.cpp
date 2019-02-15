@@ -1663,7 +1663,7 @@ namespace Sass {
       if (match< ampersand >()) {
         warning("In Sass, \"&&\" means two copies of the parent selector. You probably want to use \"and\" instead.", pstate);
       }
-      return SASS_MEMORY_NEW(Parent_Reference, pstate); }
+      return SASS_MEMORY_NEW(Parent_Selector, pstate); }
 
     if (lex< kwd_important >())
     { return SASS_MEMORY_NEW(String_Constant, pstate, "!important"); }
@@ -2191,13 +2191,13 @@ namespace Sass {
     return SASS_MEMORY_NEW(Function_Call, call_pos, name, args);
   }
 
-  Function_Call_Obj Parser::parse_function_call_schema()
+  Function_Call_Schema_Obj Parser::parse_function_call_schema()
   {
     String_Obj name = parse_identifier_schema();
     ParserState source_position_of_call = pstate;
     Arguments_Obj args = parse_arguments();
 
-    return SASS_MEMORY_NEW(Function_Call, source_position_of_call, name, args);
+    return SASS_MEMORY_NEW(Function_Call_Schema, source_position_of_call, name, args);
   }
 
   Content_Obj Parser::parse_content_directive()

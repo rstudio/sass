@@ -24,8 +24,6 @@ namespace Sass {
         ss << indent;
         ss << "on line ";
         ss << trace.pstate.line + 1;
-        ss << ":";
-        ss << trace.pstate.column + 1;
         ss << " of " << rel_path;
         // ss << trace.caller;
         first = false;
@@ -35,8 +33,6 @@ namespace Sass {
         ss << indent;
         ss << "from line ";
         ss << trace.pstate.line + 1;
-        ss << ":";
-        ss << trace.pstate.column + 1;
         ss << " of " << rel_path;
       }
 

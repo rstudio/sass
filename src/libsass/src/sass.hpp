@@ -14,17 +14,11 @@
 // aplies to MSVC and MinGW
 #ifdef _WIN32
 // we do not want the ERROR macro
-# ifndef NOGDI
-#  define NOGDI
-# endif
+# define NOGDI
 // we do not want the min/max macro
-# ifndef NOMINMAX
-#  define NOMINMAX
-# endif
+# define NOMINMAX
 // we do not want the IN/OUT macro
-# ifndef _NO_W32_PSEUDO_MODIFIERS
-#  define _NO_W32_PSEUDO_MODIFIERS
-# endif
+# define _NO_W32_PSEUDO_MODIFIERS
 #endif
 
 
@@ -96,10 +90,13 @@ struct Sass_Inspect_Options {
   // Precision for fractional numbers
   int precision;
 
+  // Do not compress colors in selectors
+  bool in_selector;
+
   // initialization list (constructor with defaults)
   Sass_Inspect_Options(Sass_Output_Style style = Sass::NESTED,
-                       int precision = 5)
-  : output_style(style), precision(precision)
+                       int precision = 5, bool in_selector = false)
+  : output_style(style), precision(precision), in_selector(in_selector)
   { }
 
 };

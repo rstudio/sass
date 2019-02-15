@@ -78,9 +78,6 @@ namespace Sass {
     static void setTaint(bool val) {
       taint = val;
     }
-
-    virtual const std::string to_string() const = 0;
-
     virtual ~SharedObj();
     long getRefCount() {
       return refcounter;
@@ -172,14 +169,6 @@ namespace Sass {
       }
       return *this;
     }
-
-    // allow implicit conversion to string
-    // relies on base class implementation
-    operator const std::string() const {
-      if (node) return node->to_string();
-      else return std::string("[NULLPTR]");
-    }
-
     ~SharedImpl() {};
   public:
     operator T*() const {
