@@ -22,7 +22,7 @@ However, for some Shiny apps and R packages like [gt](https://github.com/rstudio
 
 The `sass` R package facilitates dynamic styling by compiling the CSS extension language [Sass](https://sass-lang.com), which allows CSS to be parameterized with variables, functions, and calculations.
 
-This article will briefly demonstrate how to compile custom CSS in a live Shiny to change stlying in response to user input.
+This article will briefly demonstrate how to compile custom CSS in a live Shiny to change styling in response to user input.
 
 ## Variables
 
