@@ -26,7 +26,7 @@ This article will briefly demonstrate how to compile custom CSS in a live Shiny 
 
 ## Variables
 
-Sass variables are key to generating dynamic CSS, because they define the components of the styling can be changed during compilation.
+Sass variables are key to generating dynamic CSS, because they define the components of the styling that can be changed during compilation.
 
 It is best practice to define your [variables](http://sass-lang.com/guide#topic-2) separately, and then [import](http://sass-lang.com/guide#topic-5) them into the main Sass file. For example, we'll define a color variable and use it to set the body's background color.
 
