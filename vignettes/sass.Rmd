@@ -88,7 +88,7 @@ knitr::include_app("https://gallery.shinyapps.io/sass-font/", height = "400px")
 
 ## Resizing
 
-Since Sass is fully CSS compatible, any styling option is available, including dimensions like height and width of images.
+Since Sass is fully CSS compatible, any styling option is available, including dimensions like height and width.
 
 In this [example app](https://gallery.shinyapps.io/sass-size/) we'll change the width of the image based on a slider:
 
