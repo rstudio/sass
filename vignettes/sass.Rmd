@@ -16,15 +16,15 @@ knitr::opts_chunk$set(
 )
 ```
 
-For single [Rmarkdown](https://rmarkdown.rstudio.com/) documents or [Shiny](http://shiny.rstudio.com/) apps, styling with CSS or using custom themes such as [shinythemes](https://github.com/rstudio/shinythemes) works well.
+CSS Styling options for [R Markdown](https://bookdown.org/yihui/rmarkdown/custom-css-1.html) and [Shiny](https://shiny.rstudio.com/articles/css.html) allow users to completely customize the appearance of their documentations and dashboards. 
 
-As an R developer, designing a default style sheet is difficult. The developer wants to provide a theme that works and looks good, while providing customization options for users.
+However, for some Shiny apps and R packages like [gt](https://github.com/rstudio/gt), styling needs to be dynamically generated based on user-input.
 
-This article will briefly show how to use the `sass` R package to generate style sheets based on user input.
+This article will briefly demonstrate how the Sass R package can be used to compile custom CSS to use in a live Shiny app using variables, functions, and calculated parameters.
 
 ## Variables
 
-Sass variables are key to generating dynamic CSS. You can define components of your styling at runtime based on user input.
+Sass variables are key to generating dynamic CSS. You can define components of your styling at run-time based on user input.
 
 It is best practice to define your [variables](http://sass-lang.com/guide#topic-2) separately, and then [import](http://sass-lang.com/guide#topic-5) them into the main Sass file. For example, we'll define a color variable and use it to set the body's background color.
 
