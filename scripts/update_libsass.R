@@ -7,7 +7,13 @@
 
   ROOT <- rprojroot::find_package_root_file()
   setwd(ROOT)
-  LIBSASS_VERSION <- "3.5.5"
+
+  # Getting libsass at a recent commit to avoid gcc-8
+  # compilation warnings (current release 3.5.5 doesn't
+  # have gcc-8 fixes in place)
+
+  # This is from version 3.5.2-161-gb260
+  LIBSASS_VERSION <- "b260394263f8db363e0b1bd335edcead011800c3"
 
   url <- sprintf(
     "https://github.com/sass/libsass/archive/%s.tar.gz",
@@ -30,5 +36,4 @@
   )
 
   message("Saved in ", finaldir)
-
 })()
