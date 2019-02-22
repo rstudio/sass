@@ -1,4 +1,7 @@
+// sass.hpp must go before all system headers to get the
+// __EXTENSIONS__ fix on Solaris.
 #include "sass.hpp"
+
 #include <iostream>
 #include <typeinfo>
 #include <string>
@@ -76,11 +79,6 @@ namespace Sass {
     }
     if (l->length() == 0) return 0;
     return l.detach();
-  }
-
-  Expression_Ptr Listize::fallback_impl(AST_Node_Ptr n)
-  {
-    return Cast<Expression>(n);
   }
 
 }

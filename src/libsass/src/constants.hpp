@@ -18,6 +18,16 @@ namespace Sass {
     extern const unsigned long Specificity_Pseudo;
     extern const unsigned long Specificity_ID;
 
+    // Selector unification order;
+    extern const int UnificationOrder_Element;
+    extern const int UnificationOrder_Id;
+    extern const int UnificationOrder_Class;
+    extern const int UnificationOrder_Attribute;
+    extern const int UnificationOrder_PseudoClass;
+    extern const int UnificationOrder_Wrapped;
+    extern const int UnificationOrder_PseudoElement;
+    extern const int UnificationOrder_Placeholder;
+
     // sass keywords
     extern const char at_root_kwd[];
     extern const char import_kwd[];
@@ -116,6 +126,9 @@ namespace Sass {
     extern const char neq[];
     extern const char true_kwd[];
     extern const char false_kwd[];
+
+    // definition keywords
+    extern const char using_kwd[];
 
     // miscellaneous punctuation and delimiters
     extern const char percent_str[];

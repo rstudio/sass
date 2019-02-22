@@ -1,6 +1,10 @@
 #ifndef SASS_LISTIZE_H
 #define SASS_LISTIZE_H
 
+// sass.hpp must go before all system headers to get the
+// __EXTENSIONS__ fix on Solaris.
+#include "sass.hpp"
+
 #include <vector>
 #include <iostream>
 
@@ -15,8 +19,6 @@ namespace Sass {
 
   class Listize : public Operation_CRTP<Expression_Ptr, Listize> {
 
-    Expression_Ptr fallback_impl(AST_Node_Ptr n);
-
   public:
     Listize();
     ~Listize() { }
@@ -25,8 +27,10 @@ namespace Sass {
     Expression_Ptr operator()(Complex_Selector_Ptr);
     Expression_Ptr operator()(Compound_Selector_Ptr);
 
+    // generic fallback
     template <typename U>
-    Expression_Ptr fallback(U x) { return fallback_impl(x); }
+    Expression_Ptr fallback(U x)
+    { return Cast<Expression>(x); }
   };
 
 }

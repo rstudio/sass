@@ -4,6 +4,7 @@
 #include <string>
 #include <sstream>
 #include <stdexcept>
+#include "units.hpp"
 #include "position.hpp"
 #include "backtrace.hpp"
 #include "ast_fwd_decl.hpp"
@@ -36,8 +37,20 @@ namespace Sass {
 
     class InvalidSass : public Base {
       public:
-        InvalidSass(ParserState pstate, Backtraces traces, std::string msg);
-        virtual ~InvalidSass() throw() {};
+        InvalidSass(InvalidSass& other) : Base(other), owned_src(other.owned_src) {
+          // Assumes that `this` will outlive `other`.
+          other.owned_src = nullptr;
+        }
+
+        // Required because the copy constructor's argument is not const.
+        // Can't use `std::move` here because we build on Visual Studio 2013.
+        InvalidSass(InvalidSass &&other) : Base(other), owned_src(other.owned_src) {
+          other.owned_src = nullptr;
+        }
+
+        InvalidSass(ParserState pstate, Backtraces traces, std::string msg, char* owned_src = nullptr);
+        virtual ~InvalidSass() throw() { sass_free_memory(owned_src); };
+        char *owned_src;
     };
 
     class InvalidParent : public Base {

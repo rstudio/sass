@@ -1,4 +1,7 @@
+// sass.hpp must go before all system headers to get the
+// __EXTENSIONS__ fix on Solaris.
 #include "sass.hpp"
+
 #ifdef _WIN32
 # ifdef __MINGW32__
 #  ifndef off64_t
@@ -21,6 +24,8 @@
 #include "prelexer.hpp"
 #include "utf8_string.hpp"
 #include "sass_functions.hpp"
+#include "error_handling.hpp"
+#include "util.hpp"
 #include "sass2scss.h"
 
 #ifdef _WIN32
@@ -79,7 +84,10 @@ namespace Sass {
         wchar_t resolved[32768];
         // windows unicode filepaths are encoded in utf16
         std::string abspath(join_paths(get_cwd(), path));
-        std::wstring wpath(UTF_8::convert_to_utf16("\\\\?\\" + abspath));
+        if (!(abspath[0] == '/' && abspath[1] == '/')) {
+          abspath = "//?/" + abspath;
+        }
+        std::wstring wpath(UTF_8::convert_to_utf16(abspath));
         std::replace(wpath.begin(), wpath.end(), '/', '\\');
         DWORD rv = GetFullPathNameW(wpath.c_str(), 32767, resolved, NULL);
         if (rv > 32767) throw Exception::OperationError("Path is too long");
@@ -323,6 +331,8 @@ namespace Sass {
     // (2) underscore + given
     // (3) underscore + given + extension
     // (4) given + extension
+    // (5) given + _index.scss
+    // (6) given + _index.sass
     std::vector<Include> resolve_includes(const std::string& root, const std::string& file, const std::vector<std::string>& exts)
     {
       std::string filename = join_paths(root, file);
@@ -349,6 +359,25 @@ namespace Sass {
         rel_path = join_paths(base, name + ext);
         abs_path = join_paths(root, rel_path);
         if (file_exists(abs_path)) includes.push_back({{ rel_path, root }, abs_path });
+      }
+      // index files
+      if (includes.size() == 0) {
+        // ignore directories that look like @import'able filename
+        for(auto ext : exts) {
+          if (ends_with(name, ext)) return includes;
+        }
+        // next test underscore index exts
+        for(auto ext : exts) {
+          rel_path = join_paths(base, join_paths(name, "_index" + ext));
+          abs_path = join_paths(root, rel_path);
+          if (file_exists(abs_path)) includes.push_back({{ rel_path, root }, abs_path });
+        }
+        // next test plain index exts
+        for(auto ext : exts) {
+          rel_path = join_paths(base, join_paths(name, "index" + ext));
+          abs_path = join_paths(root, rel_path);
+          if (file_exists(abs_path)) includes.push_back({{ rel_path, root }, abs_path });
+        }
       }
       // nothing found
       return includes;
@@ -411,7 +440,10 @@ namespace Sass {
         wchar_t resolved[32768];
         // windows unicode filepaths are encoded in utf16
         std::string abspath(join_paths(get_cwd(), path));
-        std::wstring wpath(UTF_8::convert_to_utf16("\\\\?\\" + abspath));
+        if (!(abspath[0] == '/' && abspath[1] == '/')) {
+          abspath = "//?/" + abspath;
+        }
+        std::wstring wpath(UTF_8::convert_to_utf16(abspath));
         std::replace(wpath.begin(), wpath.end(), '/', '\\');
         DWORD rv = GetFullPathNameW(wpath.c_str(), 32767, resolved, NULL);
         if (rv > 32767) throw Exception::OperationError("Path is too long");

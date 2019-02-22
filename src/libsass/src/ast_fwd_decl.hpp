@@ -30,12 +30,13 @@ namespace Sass {
   typedef Simple_Selector* Simple_Selector_Ptr;
   typedef Simple_Selector const* Simple_Selector_Ptr_Const;
 
+  class Parent_Reference;
+  typedef Parent_Reference* Parent_Reference_Ptr;
+  typedef Parent_Reference const* Parent_Reference_Ptr_Const;
+
   class PreValue;
   typedef PreValue* PreValue_Ptr;
   typedef PreValue const* PreValue_Ptr_Const;
-  class Thunk;
-  typedef Thunk* Thunk_Ptr;
-  typedef Thunk const* Thunk_Ptr_Const;
   class Block;
   typedef Block* Block_Ptr;
   typedef Block const* Block_Ptr_Const;
@@ -149,9 +150,6 @@ namespace Sass {
   class Function_Call;
   typedef Function_Call* Function_Call_Ptr;
   typedef Function_Call const* Function_Call_Ptr_Const;
-  class Function_Call_Schema;
-  typedef Function_Call_Schema* Function_Call_Schema_Ptr;
-  typedef Function_Call_Schema const* Function_Call_Schema_Ptr_Const;
   class Custom_Warning;
   typedef Custom_Warning* Custom_Warning_Ptr;
   typedef Custom_Warning const* Custom_Warning_Ptr_Const;
@@ -168,6 +166,12 @@ namespace Sass {
   class Color;
   typedef Color* Color_Ptr;
   typedef Color const* Color_Ptr_Const;
+  class Color_RGBA;
+  typedef Color_RGBA* Color_RGBA_Ptr;
+  typedef Color_RGBA const* Color_RGBA_Ptr_Const;
+  class Color_HSLA;
+  typedef Color_HSLA* Color_HSLA_Ptr;
+  typedef Color_HSLA const* Color_HSLA_Ptr_Const;
   class Boolean;
   typedef Boolean* Boolean_Ptr;
   typedef Boolean const* Boolean_Ptr_Const;
@@ -241,9 +245,9 @@ namespace Sass {
   class Placeholder_Selector;
   typedef Placeholder_Selector* Placeholder_Selector_Ptr;
   typedef Placeholder_Selector const* Placeholder_Selector_Ptr_Const;
-  class Element_Selector;
-  typedef Element_Selector* Element_Selector_Ptr;
-  typedef Element_Selector const* Element_Selector_Ptr_Const;
+  class Type_Selector;
+  typedef Type_Selector* Type_Selector_Ptr;
+  typedef Type_Selector const* Type_Selector_Ptr_Const;
   class Class_Selector;
   typedef Class_Selector* Class_Selector_Ptr;
   typedef Class_Selector const* Class_Selector_Ptr_Const;
@@ -301,7 +305,6 @@ namespace Sass {
   IMPL_MEM_OBJ(Comment);
   IMPL_MEM_OBJ(PreValue);
   IMPL_MEM_OBJ(Has_Block);
-  IMPL_MEM_OBJ(Thunk);
   IMPL_MEM_OBJ(If);
   IMPL_MEM_OBJ(For);
   IMPL_MEM_OBJ(Each);
@@ -319,12 +322,13 @@ namespace Sass {
   IMPL_MEM_OBJ(Binary_Expression);
   IMPL_MEM_OBJ(Unary_Expression);
   IMPL_MEM_OBJ(Function_Call);
-  IMPL_MEM_OBJ(Function_Call_Schema);
   IMPL_MEM_OBJ(Custom_Warning);
   IMPL_MEM_OBJ(Custom_Error);
   IMPL_MEM_OBJ(Variable);
   IMPL_MEM_OBJ(Number);
   IMPL_MEM_OBJ(Color);
+  IMPL_MEM_OBJ(Color_RGBA);
+  IMPL_MEM_OBJ(Color_HSLA);
   IMPL_MEM_OBJ(Boolean);
   IMPL_MEM_OBJ(String_Schema);
   IMPL_MEM_OBJ(String);
@@ -340,6 +344,7 @@ namespace Sass {
   IMPL_MEM_OBJ(At_Root_Query);
   IMPL_MEM_OBJ(Null);
   IMPL_MEM_OBJ(Parent_Selector);
+  IMPL_MEM_OBJ(Parent_Reference);
   IMPL_MEM_OBJ(Parameter);
   IMPL_MEM_OBJ(Parameters);
   IMPL_MEM_OBJ(Argument);
@@ -348,7 +353,7 @@ namespace Sass {
   IMPL_MEM_OBJ(Selector_Schema);
   IMPL_MEM_OBJ(Simple_Selector);
   IMPL_MEM_OBJ(Placeholder_Selector);
-  IMPL_MEM_OBJ(Element_Selector);
+  IMPL_MEM_OBJ(Type_Selector);
   IMPL_MEM_OBJ(Class_Selector);
   IMPL_MEM_OBJ(Id_Selector);
   IMPL_MEM_OBJ(Attribute_Selector);
@@ -368,21 +373,42 @@ namespace Sass {
       return ex.isNull() ? 0 : ex->hash();
     }
   };
+  template <class T>
+  bool OrderFunction(const T& lhs, const T& rhs) {
+      return !lhs.isNull() && !rhs.isNull() && *lhs < *rhs;
+  };
   struct OrderNodes {
     template <class T>
     bool operator() (const T& lhs, const T& rhs) const {
-      return !lhs.isNull() && !rhs.isNull() && *lhs < *rhs;
+      return OrderFunction<T>(lhs, rhs);
     }
   };
-  struct CompareNodes {
-    template <class T>
-    bool operator() (const T& lhs, const T& rhs) const {
+  template <class T>
+  bool CompareFunction(const T& lhs, const T& rhs) {
       // code around sass logic issue. 1px == 1 is true
       // but both items are still different keys in maps
       if (dynamic_cast<Number*>(lhs.ptr()))
         if (dynamic_cast<Number*>(rhs.ptr()))
           return lhs->hash() == rhs->hash();
       return !lhs.isNull() && !rhs.isNull() && *lhs == *rhs;
+  }
+  struct CompareNodes {
+    template <class T>
+    bool operator() (const T& lhs, const T& rhs) const {
+      return CompareFunction<T>(lhs, rhs);
+    }
+  };
+
+  struct HashPtr {
+    template <class T>
+    size_t operator() (const T *ref) const {
+      return ref->hash();
+    }
+  };
+  struct ComparePtrs {
+    template <class T>
+    bool operator() (const T *lhs, const T *rhs) const {
+      return *lhs == *rhs;
     }
   };
 
@@ -413,13 +439,20 @@ namespace Sass {
   typedef std::pair<Complex_Selector_Obj, SubSetMapPairs> SubSetMapResult;
   typedef std::vector<SubSetMapResult> SubSetMapResults;
 
+  typedef std::set<Selector_Obj, OrderNodes> SelectorSet;
+
   typedef std::deque<Complex_Selector_Obj> ComplexSelectorDeque;
   typedef std::set<Simple_Selector_Obj, OrderNodes> SimpleSelectorSet;
   typedef std::set<Complex_Selector_Obj, OrderNodes> ComplexSelectorSet;
   typedef std::set<Compound_Selector_Obj, OrderNodes> CompoundSelectorSet;
   typedef std::unordered_set<Simple_Selector_Obj, HashNodes, CompareNodes> SimpleSelectorDict;
 
-  typedef std::vector<Sass_Import_Entry>* ImporterStack;
+  typedef std::vector<Block_Ptr> BlockStack;
+  typedef std::vector<Sass_Callee> CalleeStack;
+  typedef std::vector<AST_Node_Obj> CallStack;
+  typedef std::vector<Media_Block_Ptr> MediaStack;
+  typedef std::vector<Selector_List_Obj> SelectorStack;
+  typedef std::vector<Sass_Import_Entry> ImporterStack;
 
   // only to switch implementations for testing
   #define environment_map std::map
@@ -452,6 +485,7 @@ namespace Sass {
   DECLARE_BASE_CAST(PreValue)
   DECLARE_BASE_CAST(Value)
   DECLARE_BASE_CAST(List)
+  DECLARE_BASE_CAST(Color)
   DECLARE_BASE_CAST(String)
   DECLARE_BASE_CAST(String_Constant)
   DECLARE_BASE_CAST(Supports_Condition)

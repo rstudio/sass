@@ -13,8 +13,6 @@ namespace Sass {
     // import all the class-specific methods and override as desired
     using Operation_CRTP<void, Inspect>::operator();
 
-    void fallback_impl(AST_Node_Ptr n);
-
   public:
 
     Inspect(const Emitter& emi);
@@ -53,12 +51,12 @@ namespace Sass {
     virtual void operator()(Binary_Expression_Ptr);
     virtual void operator()(Unary_Expression_Ptr);
     virtual void operator()(Function_Call_Ptr);
-    virtual void operator()(Function_Call_Schema_Ptr);
     // virtual void operator()(Custom_Warning_Ptr);
     // virtual void operator()(Custom_Error_Ptr);
     virtual void operator()(Variable_Ptr);
     virtual void operator()(Number_Ptr);
-    virtual void operator()(Color_Ptr);
+    virtual void operator()(Color_RGBA_Ptr);
+    virtual void operator()(Color_HSLA_Ptr);
     virtual void operator()(Boolean_Ptr);
     virtual void operator()(String_Schema_Ptr);
     virtual void operator()(String_Constant_Ptr);
@@ -82,7 +80,7 @@ namespace Sass {
     // selectors
     virtual void operator()(Selector_Schema_Ptr);
     virtual void operator()(Placeholder_Selector_Ptr);
-    virtual void operator()(Element_Selector_Ptr);
+    virtual void operator()(Type_Selector_Ptr);
     virtual void operator()(Class_Selector_Ptr);
     virtual void operator()(Id_Selector_Ptr);
     virtual void operator()(Attribute_Selector_Ptr);
@@ -95,8 +93,6 @@ namespace Sass {
     virtual std::string lbracket(List_Ptr);
     virtual std::string rbracket(List_Ptr);
 
-    // template <typename U>
-    // void fallback(U x) { fallback_impl(reinterpret_cast<AST_Node_Ptr>(x)); }
   };
 
 }

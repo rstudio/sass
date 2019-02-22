@@ -1,4 +1,7 @@
+// sass.hpp must go before all system headers to get the
+// __EXTENSIONS__ fix on Solaris.
 #include "sass.hpp"
+
 #include <string>
 #include <cstdlib>
 #include <cstring>
@@ -23,12 +26,19 @@
 #include "listize.hpp"
 #include "extend.hpp"
 #include "remove_placeholders.hpp"
-#include "functions.hpp"
 #include "sass_functions.hpp"
 #include "backtrace.hpp"
 #include "sass2scss.h"
 #include "prelexer.hpp"
 #include "emitter.hpp"
+#include "fn_utils.hpp"
+#include "fn_miscs.hpp"
+#include "fn_maps.hpp"
+#include "fn_lists.hpp"
+#include "fn_colors.hpp"
+#include "fn_numbers.hpp"
+#include "fn_strings.hpp"
+#include "fn_selectors.hpp"
 
 namespace Sass {
   using namespace Constants;
@@ -405,7 +415,7 @@ namespace Sass {
       Argument_Obj loc_arg = SASS_MEMORY_NEW(Argument, pstate, loc);
       Arguments_Obj loc_args = SASS_MEMORY_NEW(Arguments, pstate);
       loc_args->append(loc_arg);
-      Function_Call_Ptr new_url = SASS_MEMORY_NEW(Function_Call, pstate, "url", loc_args);
+      Function_Call_Ptr new_url = SASS_MEMORY_NEW(Function_Call, pstate, std::string("url"), loc_args);
       imp->urls().push_back(new_url);
     }
     else {
@@ -556,7 +566,7 @@ namespace Sass {
   {
 
     // check if entry file is given
-    if (input_path.empty()) return 0;
+    if (input_path.empty()) return {};
 
     // create absolute path from input filename
     // ToDo: this should be resolved via custom importers
@@ -602,7 +612,7 @@ namespace Sass {
   {
 
     // check if source string is given
-    if (!source_c_str) return 0;
+    if (!source_c_str) return {};
 
     // convert indented sass syntax
     if(c_options.is_indented_syntax_src) {
@@ -645,11 +655,11 @@ namespace Sass {
   Block_Obj Context::compile()
   {
     // abort if there is no data
-    if (resources.size() == 0) return 0;
+    if (resources.size() == 0) return {};
     // get root block from the first style sheet
     Block_Obj root = sheets.at(entry_path).root;
     // abort on invalid root
-    if (root.isNull()) return 0;
+    if (root.isNull()) return {};
     Env global; // create root environment
     // register built-in functions on env
     register_built_in_functions(*this, &global);
@@ -752,7 +762,7 @@ namespace Sass {
                                        ParserState("[built-in function]"),
                                        0,
                                        name,
-                                       0,
+                                       {},
                                        0,
                                        true);
     (*env)[name + "[f]"] = stub;
