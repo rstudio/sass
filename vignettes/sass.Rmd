@@ -16,15 +16,17 @@ knitr::opts_chunk$set(
 )
 ```
 
-For single [Rmarkdown](https://rmarkdown.rstudio.com/) documents or [Shiny](http://shiny.rstudio.com/) apps, styling with CSS or using custom themes such as [shinythemes](https://github.com/rstudio/shinythemes) works well.
+CSS styling for [R Markdown](https://bookdown.org/yihui/rmarkdown/custom-css-1.html) and [Shiny](https://shiny.rstudio.com/articles/css.html) allows users to completely customize the appearance of their documentations and dashboards. 
 
-As an R developer, designing a default style sheet is difficult. The developer wants to provide a theme that works and looks good, while providing customization options for users.
+However, for some Shiny apps and R packages like [gt](https://github.com/rstudio/gt), styling needs to be dynamically generated based on user input.
 
-This article will briefly show how to use the `sass` R package to generate style sheets based on user input.
+The `sass` R package facilitates dynamic styling by compiling the CSS extension language [Sass](https://sass-lang.com), which allows CSS to be parameterized with variables, functions, and calculations.
+
+This article will briefly demonstrate how to compile custom CSS in a live Shiny to change styling in response to user input.
 
 ## Variables
 
-Sass variables are key to generating dynamic CSS. You can define components of your styling at runtime based on user input.
+Sass variables are key to generating dynamic CSS, because they define the components of the styling that can be changed during compilation.
 
 It is best practice to define your [variables](http://sass-lang.com/guide#topic-2) separately, and then [import](http://sass-lang.com/guide#topic-5) them into the main Sass file. For example, we'll define a color variable and use it to set the body's background color.
 
@@ -50,7 +52,7 @@ knitr::include_app("https://gallery.shinyapps.io/sass-color", height = "600px")
 
 ## Functions
 
-If we choose a background color that is too dark, we won't be able to read the title **Sass Example**. Therefore, we need to make the font color depend on the background color.
+If we choose a background color that is too dark, we won't be able to read the title. Therefore, the font color must depend on the background color.
 
 Sass offers many [built-in functions](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#functions) that help with dynamic styling, and you can always write [your own](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#function_directives).
 
@@ -86,9 +88,9 @@ knitr::include_app("https://gallery.shinyapps.io/sass-font/", height = "400px")
 
 ## Resizing
 
-Dynamic resizing based on user-input is also useful. Sass is fully CSS compatible, so any styling option is available.
+Since Sass is fully CSS compatible, any styling option is available, including dimensions like height and width.
 
-This [shiny example app](https://gallery.shinyapps.io/sass-size/) we'll change the width of the image based on a slider:
+In this [example app](https://gallery.shinyapps.io/sass-size/) we'll change the width of the image based on a slider:
 
 ```css
 /* _variables.scss */
@@ -126,9 +128,9 @@ knitr::include_app("https://gallery.shinyapps.io/sass-size/", height = "600px")
 
 ## CSS Formatting
 
-Sass can also produce human readable or production ready CSS, depending on the need.
+Sass can also format the CSS output with different indentation styles.
 
-Here we'll convert the human readable Sass to minified CSS.
+Here we'll convert the readable Sass to minified CSS.
 
 ```{r}
 new_style <- "
