@@ -1,16 +1,34 @@
 #ifndef SASS_UTIL_H
 #define SASS_UTIL_H
 
+// sass.hpp must go before all system headers to get the
+// __EXTENSIONS__ fix on Solaris.
+#include "sass.hpp"
+
+#include "sass/base.h"
+#include "ast_fwd_decl.hpp"
+
+#include <cstring>
 #include <vector>
 #include <string>
 #include <assert.h>
-#include "sass.hpp"
-#include "sass/base.h"
-#include "ast_fwd_decl.hpp"
+#include <math.h>
 
 #define SASS_ASSERT(cond, msg) assert(cond && msg)
 
 namespace Sass {
+
+  template <typename T>
+  T clip(const T& n, const T& lower, const T& upper) {
+    return std::max(lower, std::min(n, upper));
+  }
+
+  template <typename T>
+  T absmod(const T& n, const T& r) {
+    T m = std::fmod(n, r);
+    if (m < 0.0) m += r;
+    return m;
+  }
 
   double round(double val, size_t precision = 0);
   double sass_strtod(const char* str);
@@ -33,6 +51,43 @@ namespace Sass {
   bool is_color_doublet(double r, double g, double b);
 
   bool peek_linefeed(const char* start);
+
+  // Returns true iff `elements` ⊆ `container`.
+  template <typename C, typename T>
+  bool contains_all(C container, T elements) {
+    for (const auto &el : elements) {
+      if (container.find(el) == container.end()) return false;
+    }
+    return true;
+  }
+
+  // C++20 `starts_with` equivalent.
+  // See https://en.cppreference.com/w/cpp/string/basic_string/starts_with
+  inline bool starts_with(const std::string& str, const char* prefix, size_t prefix_len) {
+    return str.compare(0, prefix_len, prefix) == 0;
+  }
+
+  inline bool starts_with(const std::string& str, const char* prefix) {
+    return starts_with(str, prefix, std::strlen(prefix));
+  }
+
+  // C++20 `ends_with` equivalent.
+  // See https://en.cppreference.com/w/cpp/string/basic_string/ends_with
+  inline bool ends_with(const std::string& str, const std::string& suffix) {
+    return suffix.size() <= str.size() && std::equal(suffix.rbegin(), suffix.rend(), str.rbegin());
+  }
+
+  inline bool ends_with(const std::string& str, const char* suffix, size_t suffix_len) {
+    if (suffix_len > str.size()) return false;
+    const char* suffix_it = suffix + suffix_len;
+    const char* str_it = str.c_str() + str.size();
+    while (suffix_it != suffix) if (*(--suffix_it) != *(--str_it)) return false;
+    return true;
+  }
+
+  inline bool ends_with(const std::string& str, const char* suffix) {
+    return ends_with(str, suffix, std::strlen(suffix));
+  }
 
   namespace Util {
 

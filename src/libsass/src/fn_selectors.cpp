@@ -83,7 +83,10 @@ namespace Sass {
           str->quote_mark(0);
         }
         std::string exp_src = exp->to_string();
-        Selector_List_Obj sel = Parser::parse_selector(exp_src.c_str(), ctx, traces);
+        Selector_List_Obj sel = Parser::parse_selector(exp_src.c_str(), ctx, traces,
+                                                       exp->pstate(), pstate.src,
+                                                       /*allow_parent=*/false);
+
         parsedSelectors.push_back(sel);
       }
 
@@ -116,32 +119,26 @@ namespace Sass {
 
             // Must be a simple sequence
             if( childSeq->combinator() != Complex_Selector::Combinator::ANCESTOR_OF ) {
-              std::string msg("Can't append \"");
-              msg += childSeq->to_string();
-              msg += "\" to \"";
-              msg += parentSeqClone->to_string();
-              msg += "\" for `selector-append'";
-              error(msg, pstate, traces);
+              error("Can't append \"" + childSeq->to_string() + "\" to \"" +
+                parentSeqClone->to_string() + "\" for `selector-append'", pstate, traces);
             }
 
             // Cannot be a Universal selector
-            Element_Selector_Obj pType = Cast<Element_Selector>(childSeq->head()->first());
+            Type_Selector_Obj pType = Cast<Type_Selector>(childSeq->head()->first());
             if(pType && pType->name() == "*") {
-              std::string msg("Can't append \"");
-              msg += childSeq->to_string();
-              msg += "\" to \"";
-              msg += parentSeqClone->to_string();
-              msg += "\" for `selector-append'";
-              error(msg, pstate, traces);
+              error("Can't append \"" + childSeq->to_string() + "\" to \"" +
+                parentSeqClone->to_string() + "\" for `selector-append'", pstate, traces);
             }
 
             // TODO: Add check for namespace stuff
 
-            // append any selectors in childSeq's head
-            parentSeqClone->innermost()->head()->concat(base->head());
-
-            // Set parentSeqClone new tail
-            parentSeqClone->innermost()->tail( base->tail() );
+            Complex_Selector_Ptr lastComponent = parentSeqClone->mutable_last();
+            if (lastComponent->head() == nullptr) {
+              std::string msg = "Parent \"" + parentSeqClone->to_string() + "\" is incompatible with \"" + base->to_string() + "\"";
+              error(msg, pstate, traces);
+            }
+            lastComponent->head()->concat(base->head());
+            lastComponent->tail(base->tail());
 
             newElements.push_back(parentSeqClone);
           }

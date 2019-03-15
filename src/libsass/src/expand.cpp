@@ -1,4 +1,7 @@
+// sass.hpp must go before all system headers to get the
+// __EXTENSIONS__ fix on Solaris.
 #include "sass.hpp"
+
 #include <iostream>
 #include <typeinfo>
 
@@ -30,13 +33,13 @@ namespace Sass {
     selector_stack(SelectorStack()),
     media_stack(MediaStack())
   {
-    env_stack.push_back(0);
+    env_stack.push_back(nullptr);
     env_stack.push_back(env);
-    block_stack.push_back(0);
-    call_stack.push_back(0);
-    if (stack == NULL) { selector_stack.push_back(0); }
+    block_stack.push_back(nullptr);
+    call_stack.push_back({});
+    if (stack == NULL) { selector_stack.push_back({}); }
     else { selector_stack.insert(selector_stack.end(), stack->begin(), stack->end()); }
-    media_stack.push_back(0);
+    media_stack.push_back(nullptr);
   }
 
   Env* Expand::environment()
@@ -50,7 +53,7 @@ namespace Sass {
   {
     if (selector_stack.size() > 0)
       return selector_stack.back();
-    return 0;
+    return {};
   }
 
   // blocks create new variable scopes
@@ -86,7 +89,7 @@ namespace Sass {
       Keyframe_Rule_Obj k = SASS_MEMORY_NEW(Keyframe_Rule, r->pstate(), bb);
       if (r->selector()) {
         if (Selector_List_Ptr s = r->selector()) {
-          selector_stack.push_back(0);
+          selector_stack.push_back({});
           k->name(s->eval(eval));
           selector_stack.pop_back();
         }
@@ -140,7 +143,7 @@ namespace Sass {
       env_stack.push_back(&env);
     }
     sel->set_media_block(media_stack.back());
-    Block_Obj blk = 0;
+    Block_Obj blk;
     if (r->block()) blk = operator()(r->block());
     Ruleset_Ptr rr = SASS_MEMORY_NEW(Ruleset,
                                   r->pstate(),
@@ -175,7 +178,7 @@ namespace Sass {
     // Looks like we are able to reset block reference for copy
     // Good as it will ensure a low memory overhead for this fix
     // So this is a cheap solution with a minimal price
-    ctx.ast_gc.push_back(cpy); cpy->block(0);
+    ctx.ast_gc.push_back(cpy); cpy->block({});
     Expression_Obj mq = eval(m->media_queries());
     std::string str_mq(mq->to_string(ctx.c_options));
     char* str = sass_copy_c_string(str_mq.c_str());
@@ -202,7 +205,7 @@ namespace Sass {
     if (ae) ae = ae->perform(&eval);
     else ae = SASS_MEMORY_NEW(At_Root_Query, a->pstate());
 
-    LOCAL_FLAG(at_root_without_rule, true);
+    LOCAL_FLAG(at_root_without_rule, Cast<At_Root_Query>(ae)->exclude("rule"));
     LOCAL_FLAG(in_keyframes, false);
 
                                        ;
@@ -221,7 +224,7 @@ namespace Sass {
     Block_Ptr ab = a->block();
     Selector_List_Ptr as = a->selector();
     Expression_Ptr av = a->value();
-    selector_stack.push_back(0);
+    selector_stack.push_back({});
     if (av) av = av->perform(&eval);
     if (as) as = eval(as);
     selector_stack.pop_back();
@@ -483,7 +486,7 @@ namespace Sass {
   {
     std::vector<std::string> variables(e->variables());
     Expression_Obj expr = e->list()->perform(&eval);
-    List_Obj list = 0;
+    List_Obj list;
     Map_Obj map;
     if (expr->concrete_type() == Expression::MAP) {
       map = Cast<Map>(expr);
@@ -640,7 +643,7 @@ namespace Sass {
 
   Statement* Expand::operator()(Extension_Ptr e)
   {
-    if (Selector_List_Ptr extender = selector()) {
+    if (Selector_List_Obj extender = selector()) {
       Selector_List_Ptr sl = e->selector();
       // abort on invalid selector
       if (sl == NULL) return NULL;
@@ -652,7 +655,7 @@ namespace Sass {
           sl = eval(sl->schema());
           block_stack.pop_back();
         } else {
-          selector_stack.push_back(0);
+          selector_stack.push_back({});
           sl = eval(sl->schema());
           selector_stack.pop_back();
         }
@@ -662,7 +665,7 @@ namespace Sass {
           cs->head()->media_block(media_stack.back());
         }
       }
-      selector_stack.push_back(0);
+      selector_stack.push_back({});
       expand_selector_list(sl, extender);
       selector_stack.pop_back();
     }
@@ -730,11 +733,13 @@ namespace Sass {
     Env new_env(def->environment());
     env_stack.push_back(&new_env);
     if (c->block()) {
+      Parameters_Obj params = c->block_parameters();
+      if (!params) params = SASS_MEMORY_NEW(Parameters, c->pstate());
       // represent mixin content blocks as thunks/closures
       Definition_Obj thunk = SASS_MEMORY_NEW(Definition,
                                           c->pstate(),
                                           "@content",
-                                          SASS_MEMORY_NEW(Parameters, c->pstate()),
+                                          params,
                                           c->block(),
                                           Definition::MIXIN);
       thunk->environment(env);
@@ -776,13 +781,16 @@ namespace Sass {
     if (!env->has("@content[m]")) return 0;
 
     if (block_stack.back()->is_root()) {
-      selector_stack.push_back(0);
+      selector_stack.push_back({});
     }
+
+    Arguments_Obj args = c->arguments();
+    if (!args) args = SASS_MEMORY_NEW(Arguments, c->pstate());
 
     Mixin_Call_Obj call = SASS_MEMORY_NEW(Mixin_Call,
                                        c->pstate(),
                                        "@content",
-                                       SASS_MEMORY_NEW(Arguments, c->pstate()));
+                                       args);
 
     Trace_Obj trace = Cast<Trace>(call->perform(this));
 
