@@ -11,20 +11,31 @@
 
 namespace Sass {
 
+  #define ATTACH_ABSTRACT_CRTP_PERFORM_METHODS()\
+    virtual void perform(Operation<void>* op) = 0; \
+    virtual Value_Ptr perform(Operation<Value_Ptr>* op) = 0; \
+    virtual std::string perform(Operation<std::string>* op) = 0; \
+    virtual AST_Node_Ptr perform(Operation<AST_Node_Ptr>* op) = 0; \
+    virtual Selector_Ptr perform(Operation<Selector_Ptr>* op) = 0; \
+    virtual Statement_Ptr perform(Operation<Statement_Ptr>* op) = 0; \
+    virtual Expression_Ptr perform(Operation<Expression_Ptr>* op) = 0; \
+    virtual union Sass_Value* perform(Operation<union Sass_Value*>* op) = 0; \
+    virtual Supports_Condition_Ptr perform(Operation<Supports_Condition_Ptr>* op) = 0; \
+
   // you must add operators to every class
   // ensures `this` of actual instance type
   // we therefore call the specific operator
   // they are virtual so most specific is used
   #define ATTACH_CRTP_PERFORM_METHODS()\
-    virtual void perform(Operation<void>* op) { return (*op)(this); } \
-    virtual Value_Ptr perform(Operation<Value_Ptr>* op) { return (*op)(this); } \
-    virtual std::string perform(Operation<std::string>* op) { return (*op)(this); } \
-    virtual AST_Node_Ptr perform(Operation<AST_Node_Ptr>* op) { return (*op)(this); } \
-    virtual Selector_Ptr perform(Operation<Selector_Ptr>* op) { return (*op)(this); } \
-    virtual Statement_Ptr perform(Operation<Statement_Ptr>* op) { return (*op)(this); } \
-    virtual Expression_Ptr perform(Operation<Expression_Ptr>* op) { return (*op)(this); } \
-    virtual union Sass_Value* perform(Operation<union Sass_Value*>* op) { return (*op)(this); } \
-    virtual Supports_Condition_Ptr perform(Operation<Supports_Condition_Ptr>* op) { return (*op)(this); } \
+    virtual void perform(Operation<void>* op) override { return (*op)(this); } \
+    virtual Value_Ptr perform(Operation<Value_Ptr>* op) override { return (*op)(this); } \
+    virtual std::string perform(Operation<std::string>* op) override { return (*op)(this); } \
+    virtual AST_Node_Ptr perform(Operation<AST_Node_Ptr>* op) override { return (*op)(this); } \
+    virtual Selector_Ptr perform(Operation<Selector_Ptr>* op) override { return (*op)(this); } \
+    virtual Statement_Ptr perform(Operation<Statement_Ptr>* op) override { return (*op)(this); } \
+    virtual Expression_Ptr perform(Operation<Expression_Ptr>* op) override { return (*op)(this); } \
+    virtual union Sass_Value* perform(Operation<union Sass_Value*>* op) override { return (*op)(this); } \
+    virtual Supports_Condition_Ptr perform(Operation<Supports_Condition_Ptr>* op) override { return (*op)(this); } \
 
   template<typename T>
   class Operation {
@@ -70,6 +81,8 @@ namespace Sass {
     virtual T operator()(Variable_Ptr x)               = 0;
     virtual T operator()(Number_Ptr x)                 = 0;
     virtual T operator()(Color_Ptr x)                  = 0;
+    virtual T operator()(Color_RGBA_Ptr x)             = 0;
+    virtual T operator()(Color_HSLA_Ptr x)             = 0;
     virtual T operator()(Boolean_Ptr x)                = 0;
     virtual T operator()(String_Schema_Ptr x)          = 0;
     virtual T operator()(String_Quoted_Ptr x)          = 0;
@@ -92,7 +105,7 @@ namespace Sass {
     // selectors
     virtual T operator()(Selector_Schema_Ptr x)        = 0;
     virtual T operator()(Placeholder_Selector_Ptr x)   = 0;
-    virtual T operator()(Element_Selector_Ptr x)       = 0;
+    virtual T operator()(Type_Selector_Ptr x)       = 0;
     virtual T operator()(Class_Selector_Ptr x)         = 0;
     virtual T operator()(Id_Selector_Ptr x)            = 0;
     virtual T operator()(Attribute_Selector_Ptr x)     = 0;
@@ -151,6 +164,8 @@ namespace Sass {
     T operator()(Variable_Ptr x)               { return static_cast<D*>(this)->fallback(x); }
     T operator()(Number_Ptr x)                 { return static_cast<D*>(this)->fallback(x); }
     T operator()(Color_Ptr x)                  { return static_cast<D*>(this)->fallback(x); }
+    T operator()(Color_RGBA_Ptr x)             { return static_cast<D*>(this)->fallback(x); }
+    T operator()(Color_HSLA_Ptr x)             { return static_cast<D*>(this)->fallback(x); }
     T operator()(Boolean_Ptr x)                { return static_cast<D*>(this)->fallback(x); }
     T operator()(String_Schema_Ptr x)          { return static_cast<D*>(this)->fallback(x); }
     T operator()(String_Constant_Ptr x)        { return static_cast<D*>(this)->fallback(x); }
@@ -173,7 +188,7 @@ namespace Sass {
     // selectors
     T operator()(Selector_Schema_Ptr x)        { return static_cast<D*>(this)->fallback(x); }
     T operator()(Placeholder_Selector_Ptr x)   { return static_cast<D*>(this)->fallback(x); }
-    T operator()(Element_Selector_Ptr x)       { return static_cast<D*>(this)->fallback(x); }
+    T operator()(Type_Selector_Ptr x)       { return static_cast<D*>(this)->fallback(x); }
     T operator()(Class_Selector_Ptr x)         { return static_cast<D*>(this)->fallback(x); }
     T operator()(Id_Selector_Ptr x)            { return static_cast<D*>(this)->fallback(x); }
     T operator()(Attribute_Selector_Ptr x)     { return static_cast<D*>(this)->fallback(x); }
@@ -186,10 +201,9 @@ namespace Sass {
     // fallback with specific type U
     // will be called if not overloaded
     template <typename U> T fallback(U x)
-    { 
-      std::string msg(typeid(*this).name());
-      msg += ": CRTP not implemented for ";
-      throw std::runtime_error(msg + typeid(*x).name());
+    {
+      throw std::runtime_error(
+        std::string(typeid(*this).name()) + ": CRTP not implemented for " + typeid(x).name());
     }
 
   };

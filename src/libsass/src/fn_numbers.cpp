@@ -1,3 +1,7 @@
+// sass.hpp must go before all system headers to get the
+// __EXTENSIONS__ fix on Solaris.
+#include "sass.hpp"
+
 #include <cstdint>
 #include <cstdlib>
 #include <cmath>
@@ -8,7 +12,6 @@
 #include <algorithm>
 
 #include "ast.hpp"
-#include "sass.hpp"
 #include "units.hpp"
 #include "fn_utils.hpp"
 #include "fn_numbers.hpp"
@@ -102,7 +105,7 @@ namespace Sass {
     BUILT_IN(min)
     {
       List_Ptr arglist = ARG("$numbers", List);
-      Number_Obj least = NULL;
+      Number_Obj least;
       for (size_t i = 0, L = arglist->length(); i < L; ++i) {
         Expression_Obj val = arglist->value_at_index(i);
         Number_Obj xi = Cast<Number>(val);
@@ -120,7 +123,7 @@ namespace Sass {
     BUILT_IN(max)
     {
       List_Ptr arglist = ARG("$numbers", List);
-      Number_Obj greatest = NULL;
+      Number_Obj greatest;
       for (size_t i = 0, L = arglist->length(); i < L; ++i) {
         Expression_Obj val = arglist->value_at_index(i);
         Number_Obj xi = Cast<Number>(val);

@@ -1,4 +1,7 @@
+// sass.hpp must go before all system headers to get the
+// __EXTENSIONS__ fix on Solaris.
 #include "sass.hpp"
+
 #include "ast.hpp"
 #include "to_value.hpp"
 
@@ -29,7 +32,13 @@ namespace Sass {
   }
 
   // Color is a valid value
-  Value_Ptr To_Value::operator()(Color_Ptr c)
+  Value_Ptr To_Value::operator()(Color_RGBA_Ptr c)
+  {
+    return c;
+  }
+
+  // Color is a valid value
+  Value_Ptr To_Value::operator()(Color_HSLA_Ptr c)
   {
     return c;
   }

@@ -39,7 +39,7 @@
 <li>
   <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
-     
+
   </a>
 </li>
 <li>
@@ -56,7 +56,7 @@
 <li>
   <a href="https://github.com/rstudio/sass">
     <span class="fa fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul>
@@ -67,22 +67,22 @@
 </div>
 <!--/.navbar -->
 
-      
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Introduction to Sass</h1>
                         <h4 class="author">Timothy Mastny</h4>
-            
+
             <h4 class="date">2018-08-14</h4>
-      
+
       <small class="dont-index">Source: <a href="https://github.com/rstudio/sass/blob/master/vignettes/sass.Rmd"><code>vignettes/sass.Rmd</code></a></small>
       <div class="hidden name"><code>sass.Rmd</code></div>
 
     </div>
 
-    
-    
+
+
 <p>For single <a href="https://rmarkdown.rstudio.com/">Rmarkdown</a> documents or <a href="http://shiny.rstudio.com/">Shiny</a> apps, styling with CSS or using custom themes such as <a href="https://github.com/rstudio/shinythemes">shinythemes</a> works well.</p>
 <p>As an R developer, designing a default style sheet is difficult. The developer wants to provide a theme that works and looks good, while providing customization options for users.</p>
 <p>This article will briefly show how to use the <code>sass</code> R package to generate style sheets based on user input.</p>
@@ -100,8 +100,6 @@
 <a class="sourceLine" id="cb2-5" title="5">}</a></code></pre></div>
 <p>The following <a href="https://gallery.shinyapps.io/sass-color">shiny app</a> will demonstrate this example. We’ll use Dean Attali’s <a href="https://github.com/daattali/colourpicker">colourpicker</a> to choose a color and write it to <code>_variables.scss</code>.</p>
 <p>Then the app compiles <code>new-style.scss</code> and renders the new style.</p>
-<iframe src="https://gallery.shinyapps.io/sass-color?showcase=0" width="700" height="600px">
-</iframe>
 </div>
 <div id="functions" class="section level2">
 <h2 class="hasAnchor">
@@ -128,8 +126,6 @@
 <a class="sourceLine" id="cb4-16" title="16">  <span class="kw">color</span>: font-color<span class="fu">(</span>$color<span class="fu">)</span><span class="op">;</span></a>
 <a class="sourceLine" id="cb4-17" title="17">}</a></code></pre></div>
 <p>In this <a href="https://gallery.shinyapps.io/sass-font/">shiny example app</a>, the font color now <a href="https://stackoverflow.com/a/3943023/6637133">depends</a> on the background color, switching between black and white as necessary.</p>
-<iframe src="https://gallery.shinyapps.io/sass-font/?showcase=0" width="700" height="400px">
-</iframe>
 </div>
 <div id="resizing" class="section level2">
 <h2 class="hasAnchor">
@@ -225,7 +221,7 @@ body{background-color:#fff}h1{color:#000}.shiny-plot-output{max-width:100%}
       </footer>
 </div>
 
-  
+
 
   </body>
 </html>

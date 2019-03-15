@@ -1,4 +1,7 @@
+// sass.hpp must go before all system headers to get the
+// __EXTENSIONS__ fix on Solaris.
 #include "sass.hpp"
+
 #ifdef _WIN32
 # ifdef __MINGW32__
 #  ifndef off64_t
@@ -22,6 +25,7 @@
 #include "utf8_string.hpp"
 #include "sass_functions.hpp"
 #include "error_handling.hpp"
+#include "util.hpp"
 #include "sass2scss.h"
 
 #ifdef _WIN32
@@ -80,7 +84,10 @@ namespace Sass {
         wchar_t resolved[32768];
         // windows unicode filepaths are encoded in utf16
         std::string abspath(join_paths(get_cwd(), path));
-        std::wstring wpath(UTF_8::convert_to_utf16("\\\\?\\" + abspath));
+        if (!(abspath[0] == '/' && abspath[1] == '/')) {
+          abspath = "//?/" + abspath;
+        }
+        std::wstring wpath(UTF_8::convert_to_utf16(abspath));
         std::replace(wpath.begin(), wpath.end(), '/', '\\');
         DWORD rv = GetFullPathNameW(wpath.c_str(), 32767, resolved, NULL);
         if (rv > 32767) throw Exception::OperationError("Path is too long");
@@ -433,7 +440,10 @@ namespace Sass {
         wchar_t resolved[32768];
         // windows unicode filepaths are encoded in utf16
         std::string abspath(join_paths(get_cwd(), path));
-        std::wstring wpath(UTF_8::convert_to_utf16("\\\\?\\" + abspath));
+        if (!(abspath[0] == '/' && abspath[1] == '/')) {
+          abspath = "//?/" + abspath;
+        }
+        std::wstring wpath(UTF_8::convert_to_utf16(abspath));
         std::replace(wpath.begin(), wpath.end(), '/', '\\');
         DWORD rv = GetFullPathNameW(wpath.c_str(), 32767, resolved, NULL);
         if (rv > 32767) throw Exception::OperationError("Path is too long");

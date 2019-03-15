@@ -58,7 +58,8 @@ namespace Sass {
     Expression_Ptr operator()(Function_Call_Ptr);
     Expression_Ptr operator()(Variable_Ptr);
     Expression_Ptr operator()(Number_Ptr);
-    Expression_Ptr operator()(Color_Ptr);
+    Expression_Ptr operator()(Color_RGBA_Ptr);
+    Expression_Ptr operator()(Color_HSLA_Ptr);
     Expression_Ptr operator()(Boolean_Ptr);
     Expression_Ptr operator()(String_Schema_Ptr);
     Expression_Ptr operator()(String_Quoted_Ptr);
@@ -87,7 +88,7 @@ namespace Sass {
     Id_Selector_Ptr operator()(Id_Selector_Ptr s) { return s; };
     Class_Selector_Ptr operator()(Class_Selector_Ptr s) { return s; };
     Pseudo_Selector_Ptr operator()(Pseudo_Selector_Ptr s) { return s; };
-    Element_Selector_Ptr operator()(Element_Selector_Ptr s) { return s; };
+    Type_Selector_Ptr operator()(Type_Selector_Ptr s) { return s; };
     Attribute_Selector_Ptr operator()(Attribute_Selector_Ptr s) { return s; };
     Placeholder_Selector_Ptr operator()(Placeholder_Selector_Ptr s) { return s; };
 

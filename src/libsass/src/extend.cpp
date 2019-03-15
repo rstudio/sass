@@ -1,4 +1,7 @@
+// sass.hpp must go before all system headers to get the
+// __EXTENSIONS__ fix on Solaris.
 #include "sass.hpp"
+
 #include "extend.hpp"
 #include "context.hpp"
 #include "backtrace.hpp"
@@ -283,10 +286,10 @@ namespace Sass {
   static bool parentSuperselector(Complex_Selector_Ptr pOne, Complex_Selector_Ptr pTwo) {
     // TODO: figure out a better way to create a Complex_Selector from scratch
     // TODO: There's got to be a better way. This got ugly quick...
-    Element_Selector_Obj fakeParent = SASS_MEMORY_NEW(Element_Selector, ParserState("[FAKE]"), "temp");
+    Type_Selector_Obj fakeParent = SASS_MEMORY_NEW(Type_Selector, ParserState("[FAKE]"), "temp");
     Compound_Selector_Obj fakeHead = SASS_MEMORY_NEW(Compound_Selector, ParserState("[FAKE]"), 1 /*size*/);
     fakeHead->elements().push_back(fakeParent);
-    Complex_Selector_Obj fakeParentContainer = SASS_MEMORY_NEW(Complex_Selector, ParserState("[FAKE]"), Complex_Selector::ANCESTOR_OF, fakeHead /*head*/, NULL /*tail*/);
+    Complex_Selector_Obj fakeParentContainer = SASS_MEMORY_NEW(Complex_Selector, ParserState("[FAKE]"), Complex_Selector::ANCESTOR_OF, fakeHead /*head*/, {} /*tail*/);
 
     pOne->set_innermost(fakeParentContainer, Complex_Selector::ANCESTOR_OF);
     pTwo->set_innermost(fakeParentContainer, Complex_Selector::ANCESTOR_OF);
@@ -440,8 +443,8 @@ namespace Sass {
     //DEBUG_PRINTLN(LCS, "LCS: X=" << x << " Y=" << y)
     // TODO: make printComplexSelectorDeque and use DEBUG_EXEC AND DEBUG_PRINTLN HERE to get equivalent output
 
-    x.push_front(NULL);
-    y.push_front(NULL);
+    x.push_front({});
+    y.push_front({});
 
     LCSTable table;
     lcs_table(x, y, comparator, table);
@@ -643,10 +646,10 @@ namespace Sass {
   static bool parentSuperselector(const Node& one, const Node& two) {
     // TODO: figure out a better way to create a Complex_Selector from scratch
     // TODO: There's got to be a better way. This got ugly quick...
-    Element_Selector_Obj fakeParent = SASS_MEMORY_NEW(Element_Selector, ParserState("[FAKE]"), "temp");
+    Type_Selector_Obj fakeParent = SASS_MEMORY_NEW(Type_Selector, ParserState("[FAKE]"), "temp");
     Compound_Selector_Obj fakeHead = SASS_MEMORY_NEW(Compound_Selector, ParserState("[FAKE]"), 1 /*size*/);
     fakeHead->elements().push_back(fakeParent);
-    Complex_Selector_Obj fakeParentContainer = SASS_MEMORY_NEW(Complex_Selector, ParserState("[FAKE]"), Complex_Selector::ANCESTOR_OF, fakeHead /*head*/, NULL /*tail*/);
+    Complex_Selector_Obj fakeParentContainer = SASS_MEMORY_NEW(Complex_Selector, ParserState("[FAKE]"), Complex_Selector::ANCESTOR_OF, fakeHead /*head*/, {} /*tail*/);
 
     Complex_Selector_Obj pOneWithFakeParent = nodeToComplexSelector(one);
     pOneWithFakeParent->set_innermost(fakeParentContainer, Complex_Selector::ANCESTOR_OF);
@@ -1595,7 +1598,7 @@ namespace Sass {
       // out and aren't operated on.
       Complex_Selector_Obj pNewSelector = SASS_MEMORY_CLONE(pExtComplexSelector); // ->first();
 
-      Complex_Selector_Obj pNewInnerMost = SASS_MEMORY_NEW(Complex_Selector, pSelector->pstate(), Complex_Selector::ANCESTOR_OF, pUnifiedSelector, NULL);
+      Complex_Selector_Obj pNewInnerMost = SASS_MEMORY_NEW(Complex_Selector, pSelector->pstate(), Complex_Selector::ANCESTOR_OF, pUnifiedSelector, {});
 
       Complex_Selector::Combinator combinator = pNewSelector->clear_innermost();
       pNewSelector->set_innermost(pNewInnerMost, combinator);
@@ -1851,8 +1854,7 @@ namespace Sass {
     // Ruby Equivalent: flatten
     Node flattened(flatten(trimmed, 1));
 
-    DEBUG_PRINTLN(EXTEND_COMPLEX, ">>>>> EXTENDED: " << extendedSelectors)
-    DEBUG_PRINTLN(EXTEND_COMPLEX, "EXTEND COMPLEX END: " << complexSelector)
+    DEBUG_PRINTLN(EXTEND_COMPLEX, "FLATTENED: " << flattened)
 
     // memory results in a map table - since extending is very expensive
     memoizeComplex.insert(std::pair<Complex_Selector_Obj, Node>(selector, flattened));
@@ -1943,7 +1945,7 @@ namespace Sass {
                 // special case for ruby ass
                 if (sl->empty()) {
                   // this seems inconsistent but it is how ruby sass seems to remove parentheses
-                  cpy_head->append(SASS_MEMORY_NEW(Element_Selector, hs->pstate(), ws->name()));
+                  cpy_head->append(SASS_MEMORY_NEW(Type_Selector, hs->pstate(), ws->name()));
                 }
                 // has wrapped not selectors
                 else if (ws->name() == ":not") {
@@ -1956,10 +1958,10 @@ namespace Sass {
                       Wrapped_Selector_Obj cpy_ws = SASS_MEMORY_COPY(ws);
                       Selector_List_Obj cpy_ws_sl = SASS_MEMORY_NEW(Selector_List, sl->pstate());
                       // remove parent selectors from inner selector
-                      Compound_Selector_Obj ext_head = NULL;
+                      Compound_Selector_Obj ext_head;
                       if (ext_cs->first()) ext_head = ext_cs->first()->head();
                       if (ext_head && ext_head && ext_head->length() > 0) {
-                        cpy_ws_sl->append(ext_cs->first());
+                        cpy_ws_sl->append(ext_cs->mutable_first());
                       }
                       // assign list to clone
                       cpy_ws->selector(cpy_ws_sl);
@@ -2086,8 +2088,8 @@ namespace Sass {
     if (b->is_root()) {
       // debug_subset_map(subset_map);
       for(auto const &it : subset_map.values()) {
-        Complex_Selector_Ptr sel = NULL;
-        Compound_Selector_Ptr ext = NULL;
+        Complex_Selector_Ptr_Const sel = nullptr;
+        Compound_Selector_Ptr_Const ext = nullptr;
         if (it.first) sel = it.first->first();
         if (it.second) ext = it.second;
         if (ext && (ext->extended() || ext->is_optional())) continue;
