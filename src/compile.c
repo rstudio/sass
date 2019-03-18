@@ -1,7 +1,6 @@
 #include <R.h>
 #include "compile.h"
 #include "sass/context.h"
-#include "create_string.h"
 
 int get_index(SEXP list, const char* name) {
   SEXP names = PROTECT(Rf_getAttrib(list, R_NamesSymbol));
@@ -115,7 +114,7 @@ SEXP compile_data(SEXP data, SEXP options) {
 
   const char* data_string = CHAR(asChar(data));
   // sass_delete_data_context will free input
-  char* input = create_string(data_string);
+  char* input = sass_copy_c_string(data_string);
 
   // freed by sass_delete_data_context
   struct Sass_Data_Context* data_context = sass_make_data_context(input);
