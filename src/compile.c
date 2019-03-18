@@ -114,8 +114,12 @@ SEXP compile_file(SEXP file, SEXP options) {
 SEXP compile_data(SEXP data, SEXP options) {
 
   const char* data_string = CHAR(asChar(data));
+  // Use strlen() instead of Rf_nChar() because we can safely expect the string
+  // to be null-terminated, and because nChar (I think) returns number of
+  // characters, not number of bytes.
+  int data_string_len = strlen(data_string);
   // sass_delete_data_context will free input
-  char* input = create_string(data_string);
+  char* input = create_string(data_string, data_string_len);
 
   // freed by sass_delete_data_context
   struct Sass_Data_Context* data_context = sass_make_data_context(input);
