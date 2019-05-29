@@ -12,8 +12,8 @@
   # compilation warnings (current release 3.5.5 doesn't
   # have gcc-8 fixes in place)
 
-  # This is from version 3.5.2-161-gb260
-  LIBSASS_VERSION <- "b260394263f8db363e0b1bd335edcead011800c3"
+  # This is from version 3.6.0-6-ga46a
+  LIBSASS_VERSION <- "a46a281c9f5f7cbc32cfa3abd866319766de1165"
 
   url <- sprintf(
     "https://github.com/sass/libsass/archive/%s.tar.gz",
