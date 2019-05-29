@@ -2,6 +2,7 @@
 #include "expand.hpp"
 #include "fn_utils.hpp"
 #include "fn_miscs.hpp"
+#include "util_string.hpp"
 
 namespace Sass {
 
@@ -23,7 +24,7 @@ namespace Sass {
     Signature type_of_sig = "type-of($value)";
     BUILT_IN(type_of)
     {
-      Expression_Ptr v = ARG("$value", Expression);
+      Expression* v = ARG("$value", Expression);
       return SASS_MEMORY_NEW(String_Quoted, pstate, v->type());
     }
 
@@ -56,14 +57,14 @@ namespace Sass {
     Signature function_exists_sig = "function-exists($name)";
     BUILT_IN(function_exists)
     {
-      String_Constant_Ptr ss = Cast<String_Constant>(env["$name"]);
+      String_Constant* ss = Cast<String_Constant>(env["$name"]);
       if (!ss) {
         error("$name: " + (env["$name"]->to_string()) + " is not a string for `function-exists'", pstate, traces);
       }
 
       std::string name = Util::normalize_underscores(unquote(ss->value()));
 
-      if(d_env.has_global(name+"[f]")) {
+      if(d_env.has(name+"[f]")) {
         return SASS_MEMORY_NEW(Boolean, pstate, true);
       }
       else {
@@ -76,7 +77,7 @@ namespace Sass {
     {
       std::string s = Util::normalize_underscores(unquote(ARG("$name", String_Constant)->value()));
 
-      if(d_env.has_global(s+"[m]")) {
+      if(d_env.has(s+"[m]")) {
         return SASS_MEMORY_NEW(Boolean, pstate, true);
       }
       else {
@@ -101,8 +102,8 @@ namespace Sass {
     BUILT_IN(call)
     {
       std::string name;
-      Function_Ptr ff = Cast<Function>(env["$name"]);
-      String_Constant_Ptr ss = Cast<String_Constant>(env["$name"]);
+      Function* ff = Cast<Function>(env["$name"]);
+      String_Constant* ss = Cast<String_Constant>(env["$name"]);
 
       if (ss) {
         name = Util::normalize_underscores(unquote(ss->value()));
@@ -118,19 +119,19 @@ namespace Sass {
 
       Arguments_Obj args = SASS_MEMORY_NEW(Arguments, pstate);
       // std::string full_name(name + "[f]");
-      // Definition_Ptr def = d_env.has(full_name) ? Cast<Definition>((d_env)[full_name]) : 0;
-      // Parameters_Ptr params = def ? def->parameters() : 0;
+      // Definition* def = d_env.has(full_name) ? Cast<Definition>((d_env)[full_name]) : 0;
+      // Parameters* params = def ? def->parameters() : 0;
       // size_t param_size = params ? params->length() : 0;
       for (size_t i = 0, L = arglist->length(); i < L; ++i) {
         Expression_Obj expr = arglist->value_at_index(i);
         // if (params && params->has_rest_parameter()) {
         //   Parameter_Obj p = param_size > i ? (*params)[i] : 0;
-        //   List_Ptr list = Cast<List>(expr);
+        //   List* list = Cast<List>(expr);
         //   if (list && p && !p->is_rest_parameter()) expr = (*list)[0];
         // }
         if (arglist->is_arglist()) {
           Expression_Obj obj = arglist->at(i);
-          Argument_Obj arg = (Argument_Ptr) obj.ptr(); // XXX
+          Argument_Obj arg = (Argument*) obj.ptr(); // XXX
           args->append(SASS_MEMORY_NEW(Argument,
                                        pstate,
                                        expr,
@@ -183,13 +184,18 @@ namespace Sass {
     Signature inspect_sig = "inspect($value)";
     BUILT_IN(inspect)
     {
-      Expression_Ptr v = ARG("$value", Expression);
+      Expression* v = ARG("$value", Expression);
       if (v->concrete_type() == Expression::NULL_VAL) {
-        return SASS_MEMORY_NEW(String_Quoted, pstate, "null");
+        return SASS_MEMORY_NEW(String_Constant, pstate, "null");
       } else if (v->concrete_type() == Expression::BOOLEAN && v->is_false()) {
-        return SASS_MEMORY_NEW(String_Quoted, pstate, "false");
+        return SASS_MEMORY_NEW(String_Constant, pstate, "false");
       } else if (v->concrete_type() == Expression::STRING) {
-        return Cast<String>(v);
+        String_Constant *s = Cast<String_Constant>(v);
+        if (s->quote_mark()) {
+          return SASS_MEMORY_NEW(String_Constant, pstate, quote(s->value(), s->quote_mark()));
+        } else {
+          return s;
+        }
       } else {
         // ToDo: fix to_sass for nested parentheses
         Sass_Output_Style old_style;
@@ -217,7 +223,7 @@ namespace Sass {
     Signature get_function_sig = "get-function($name, $css: false)";
     BUILT_IN(get_function)
     {
-      String_Constant_Ptr ss = Cast<String_Constant>(env["$name"]);
+      String_Constant* ss = Cast<String_Constant>(env["$name"]);
       if (!ss) {
         error("$name: " + (env["$name"]->to_string()) + " is not a string for `get-function'", pstate, traces);
       }
@@ -227,7 +233,7 @@ namespace Sass {
 
       Boolean_Obj css = ARG("$css", Boolean);
       if (!css->is_false()) {
-        Definition_Ptr def = SASS_MEMORY_NEW(Definition,
+        Definition* def = SASS_MEMORY_NEW(Definition,
                                          pstate,
                                          name,
                                          SASS_MEMORY_NEW(Parameters, pstate),
@@ -241,7 +247,7 @@ namespace Sass {
         error("Function not found: " + name, pstate, traces);
       }
 
-      Definition_Ptr def = Cast<Definition>(d_env[full_name]);
+      Definition* def = Cast<Definition>(d_env[full_name]);
       return SASS_MEMORY_NEW(Function, pstate, def, false);
     }
 
