@@ -1,0 +1,348 @@
+Remove libsass test files (the entire `test` directory) since they contain unicode
+directory paths, and R CMD check provides a warning.
+
+diff --git a/src/libsass/test/Makefile b/src/libsass/test/Makefile
+deleted file mode 100644
+index f990a43..0000000
+--- a/src/libsass/test/Makefile
++++ /dev/null
+@@ -1,24 +0,0 @@
+-CXX ?= c++
+-CXXFLAGS := -I ../include/ -std=c++11 -fsanitize=address -g -O1 -fno-omit-frame-pointer
+-
+-test: test_shared_ptr test_util_string
+-
+-test_shared_ptr: build/test_shared_ptr
+-	@ASAN_OPTIONS="symbolize=1" build/test_shared_ptr
+-
+-test_util_string: build/test_util_string
+-	@ASAN_OPTIONS="symbolize=1" build/test_util_string
+-
+-build:
+-	@mkdir build
+-
+-build/test_shared_ptr: test_shared_ptr.cpp ../src/memory/SharedPtr.cpp | build
+-	$(CXX) $(CXXFLAGS) -o build/test_shared_ptr test_shared_ptr.cpp ../src/memory/SharedPtr.cpp
+-
+-build/test_util_string: test_util_string.cpp ../src/util_string.cpp | build
+-	$(CXX) $(CXXFLAGS) -o build/test_util_string test_util_string.cpp ../src/util_string.cpp
+-
+-clean: | build
+-	rm -rf build
+-
+-.PHONY: test test_shared_ptr test_util_string clean
+diff --git a/src/libsass/test/e2e/unicode-pwd/Sáss-UŢF8/input.scss b/src/libsass/test/e2e/unicode-pwd/Sáss-UŢF8/input.scss
+deleted file mode 100644
+index 2d4b287..0000000
+--- a/src/libsass/test/e2e/unicode-pwd/Sáss-UŢF8/input.scss
++++ /dev/null
+@@ -1,3 +0,0 @@
+-span.utf8-in-path {
+-  margin: auto;
+-}
+diff --git a/src/libsass/test/e2e/unicode-pwd/Sáss-UŢF8/output.css b/src/libsass/test/e2e/unicode-pwd/Sáss-UŢF8/output.css
+deleted file mode 100644
+index 2d4b287..0000000
+--- a/src/libsass/test/e2e/unicode-pwd/Sáss-UŢF8/output.css
++++ /dev/null
+@@ -1,3 +0,0 @@
+-span.utf8-in-path {
+-  margin: auto;
+-}
+diff --git a/src/libsass/test/test_shared_ptr.cpp b/src/libsass/test/test_shared_ptr.cpp
+deleted file mode 100644
+index 6b1ccc2..0000000
+--- a/src/libsass/test/test_shared_ptr.cpp
++++ /dev/null
+@@ -1,162 +0,0 @@
+-#include "../src/memory/SharedPtr.hpp"
+-
+-#include <iostream>
+-#include <memory>
+-#include <sstream>
+-#include <string>
+-
+-#define ASSERT(cond) \
+-  if (!(cond)) { \
+-    std::cerr << "Assertion failed: " #cond " at " __FILE__ << ":" << __LINE__ << std::endl; \
+-    return false; \
+-  } \
+-
+-class TestObj : public Sass::SharedObj {
+- public:
+-  TestObj(bool *destroyed) : destroyed_(destroyed) {}
+-  ~TestObj() { *destroyed_ = true; }
+-  const std::string to_string() const {
+-    std::ostringstream result;
+-    result << "refcount=" << refcount << " destroyed=" << *destroyed_;
+-    return result.str();
+-  }
+- private:
+-  bool *destroyed_;
+-};
+-
+-using SharedTestObj = Sass::SharedImpl<TestObj>;
+-
+-bool TestOneSharedPtr() {
+-  bool destroyed = false;
+-  {
+-    SharedTestObj a = new TestObj(&destroyed);
+-  }
+-  ASSERT(destroyed);
+-  return true;
+-}
+-
+-bool TestTwoSharedPtrs() {
+-  bool destroyed = false;
+-  {
+-    SharedTestObj a = new TestObj(&destroyed);
+-    {
+-      SharedTestObj b = a;
+-    }
+-    ASSERT(!destroyed);
+-  }
+-  ASSERT(destroyed);
+-  return true;
+-}
+-
+-bool TestSelfAssignment() {
+-  bool destroyed = false;
+-  {
+-    SharedTestObj a = new TestObj(&destroyed);
+-    a = a;
+-    ASSERT(!destroyed);
+-  }
+-  ASSERT(destroyed);
+-  return true;
+-}
+-
+-bool TestPointerAssignment() {
+-  bool destroyed = false;
+-  std::unique_ptr<TestObj> ptr(new TestObj(&destroyed));
+-  {
+-    SharedTestObj a = ptr.get();
+-  }
+-  ASSERT(destroyed);
+-  ptr.release();
+-  return true;
+-}
+-
+-bool TestOneSharedPtrDetach() {
+-  bool destroyed = false;
+-  std::unique_ptr<TestObj> ptr(new TestObj(&destroyed));
+-  {
+-    SharedTestObj a = ptr.get();
+-    a.detach();
+-  }
+-  ASSERT(!destroyed);
+-  return true;
+-}
+-
+-bool TestTwoSharedPtrsDetach() {
+-  bool destroyed = false;
+-  std::unique_ptr<TestObj> ptr(new TestObj(&destroyed));
+-  {
+-    SharedTestObj a = ptr.get();
+-    {
+-      SharedTestObj b = a;
+-      b.detach();
+-    }
+-    ASSERT(!destroyed);
+-    a.detach();
+-  }
+-  ASSERT(!destroyed);
+-  return true;
+-}
+-
+-bool TestSelfAssignDetach() {
+-  bool destroyed = false;
+-  std::unique_ptr<TestObj> ptr(new TestObj(&destroyed));
+-  {
+-    SharedTestObj a = ptr.get();
+-    a = a.detach();
+-    ASSERT(!destroyed);
+-  }
+-  ASSERT(destroyed);
+-  ptr.release();
+-  return true;
+-}
+-
+-bool TestDetachedPtrIsNotDestroyedUntilAssignment() {
+-  bool destroyed = false;
+-  std::unique_ptr<TestObj> ptr(new TestObj(&destroyed));
+-  {
+-    SharedTestObj a = ptr.get();
+-    SharedTestObj b = a;
+-    ASSERT(a.detach() == ptr.get());
+-    ASSERT(!destroyed);
+-  }
+-  ASSERT(!destroyed);
+-  {
+-    SharedTestObj c = ptr.get();
+-    ASSERT(!destroyed);
+-  }
+-  ASSERT(destroyed);
+-  ptr.release();
+-  return true;
+-}
+-
+-bool TestDetachNull() {
+-  SharedTestObj a;
+-  ASSERT(a.detach() == nullptr);
+-  return true;
+-}
+-
+-#define TEST(fn) \
+-  if (fn()) { \
+-    passed.push_back(#fn); \
+-  } else { \
+-    failed.push_back(#fn); \
+-    std::cerr << "Failed: " #fn << std::endl; \
+-  } \
+-
+-int main(int argc, char **argv) {
+-  std::vector<std::string> passed;
+-  std::vector<std::string> failed;
+-  TEST(TestOneSharedPtr);
+-  TEST(TestTwoSharedPtrs);
+-  TEST(TestSelfAssignment);
+-  TEST(TestPointerAssignment);
+-  TEST(TestOneSharedPtrDetach);
+-  TEST(TestTwoSharedPtrsDetach);
+-  TEST(TestSelfAssignDetach);
+-  TEST(TestDetachedPtrIsNotDestroyedUntilAssignment);
+-  TEST(TestDetachNull);
+-  std::cerr << argv[0] << ": Passed: " << passed.size()
+-            << ", failed: " << failed.size()
+-            << "." << std::endl;
+-  return failed.size();
+-}
+diff --git a/src/libsass/test/test_util_string.cpp b/src/libsass/test/test_util_string.cpp
+deleted file mode 100644
+index 5c73430..0000000
+--- a/src/libsass/test/test_util_string.cpp
++++ /dev/null
+@@ -1,123 +0,0 @@
+-#include "../src/util_string.hpp"
+-
+-#include <iostream>
+-#include <sstream>
+-#include <string>
+-#include <vector>
+-
+-namespace {
+-
+-std::string escape_string(const std::string& str) {
+-  std::string out;
+-  out.reserve(str.size());
+-  for (char c : str) {
+-    switch (c) {
+-      case '\n':
+-        out.append("\\n");
+-        break;
+-      case '\r':
+-        out.append("\\r");
+-        break;
+-      case '\f':
+-        out.append("\\f");
+-        break;
+-      default:
+-        out += c;
+-    }
+-  }
+-  return out;
+-}
+-
+-#define ASSERT_STR_EQ(a, b) \
+-  if (a != b) { \
+-    std::cerr << \
+-      "Expected LHS == RHS at " << __FILE__ << ":" << __LINE__ << \
+-      "\n  LHS: [" << escape_string(a) << "]" \
+-      "\n  RHS: [" << escape_string(b) << "]" << \
+-      std::endl; \
+-    return false; \
+-  } \
+-
+-bool TestNormalizeNewlinesNoNewline() {
+-  std::string input = "a";
+-  std::string normalized = Sass::Util::normalize_newlines(input);
+-  ASSERT_STR_EQ(input, normalized);
+-  return true;
+-}
+-
+-bool TestNormalizeNewlinesLF() {
+-  std::string input = "a\nb";
+-  std::string normalized = Sass::Util::normalize_newlines(input);
+-  ASSERT_STR_EQ(input, normalized);
+-  return true;
+-}
+-
+-bool TestNormalizeNewlinesCR() {
+-  std::string normalized = Sass::Util::normalize_newlines("a\rb");
+-  ASSERT_STR_EQ("a\nb", normalized);
+-  return true;
+-}
+-
+-bool TestNormalizeNewlinesCRLF() {
+-  std::string normalized = Sass::Util::normalize_newlines("a\r\nb\r\n");
+-  ASSERT_STR_EQ("a\nb\n", normalized);
+-  return true;
+-}
+-
+-bool TestNormalizeNewlinesFF() {
+-  std::string normalized = Sass::Util::normalize_newlines("a\fb\f");
+-  ASSERT_STR_EQ("a\nb\n", normalized);
+-  return true;
+-}
+-
+-bool TestNormalizeNewlinesMixed() {
+-  std::string normalized = Sass::Util::normalize_newlines("a\fb\nc\rd\r\ne\ff");
+-  ASSERT_STR_EQ("a\nb\nc\nd\ne\nf", normalized);
+-  return true;
+-}
+-
+-bool TestNormalizeUnderscores() {
+-  std::string normalized = Sass::Util::normalize_underscores("a_b_c");
+-  ASSERT_STR_EQ("a-b-c", normalized);
+-  return true;
+-}
+-
+-bool TestNormalizeDecimalsLeadingZero() {
+-  std::string normalized = Sass::Util::normalize_decimals("0.5");
+-  ASSERT_STR_EQ("0.5", normalized);
+-  return true;
+-}
+-
+-bool TestNormalizeDecimalsNoLeadingZero() {
+-  std::string normalized = Sass::Util::normalize_decimals(".5");
+-  ASSERT_STR_EQ("0.5", normalized);
+-  return true;
+-}
+-
+-}  // namespace
+-
+-#define TEST(fn) \
+-  if (fn()) { \
+-    passed.push_back(#fn); \
+-  } else { \
+-    failed.push_back(#fn); \
+-    std::cerr << "Failed: " #fn << std::endl; \
+-  } \
+-
+-int main(int argc, char **argv) {
+-  std::vector<std::string> passed;
+-  std::vector<std::string> failed;
+-  TEST(TestNormalizeNewlinesNoNewline);
+-  TEST(TestNormalizeNewlinesLF);
+-  TEST(TestNormalizeNewlinesCR);
+-  TEST(TestNormalizeNewlinesCRLF);
+-  TEST(TestNormalizeNewlinesFF);
+-  TEST(TestNormalizeNewlinesMixed);
+-  TEST(TestNormalizeUnderscores);
+-  TEST(TestNormalizeDecimalsLeadingZero);
+-  TEST(TestNormalizeDecimalsNoLeadingZero);
+-  std::cerr << argv[0] << ": Passed: " << passed.size()
+-            << ", failed: " << failed.size()
+-            << "." << std::endl;
+-  return failed.size();
+-}
