@@ -1,4 +1,5 @@
 # Script to update libsass from https://github.com/sass/libsass/
+# After running this, run the scripts/apply_libsass_patches.R script
 
 (function() {
   owd <- getwd()
