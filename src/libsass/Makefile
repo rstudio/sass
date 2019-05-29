@@ -200,13 +200,13 @@ debug-shared: shared
 lib:
 	$(MKDIR) lib
 
-lib/libsass.a: $(COBJECTS) $(OBJECTS) | lib
+lib/libsass.a: $(COBJECTS) $(OBJECTS) lib
 	$(AR) rcvs $@ $(COBJECTS) $(OBJECTS)
 
-lib/libsass.so: $(COBJECTS) $(OBJECTS) | lib
+lib/libsass.so: $(COBJECTS) $(OBJECTS) lib
 	$(CXX) -shared $(LDFLAGS) -o $@ $(COBJECTS) $(OBJECTS) $(LDLIBS)
 
-lib/libsass.dll: $(COBJECTS) $(OBJECTS) $(RCOBJECTS) | lib
+lib/libsass.dll: $(COBJECTS) $(OBJECTS) $(RCOBJECTS) lib
 	$(CXX) -shared $(LDFLAGS) -o $@ $(COBJECTS) $(OBJECTS) $(RCOBJECTS) $(LDLIBS) -s -Wl,--subsystem,windows,--out-implib,lib/libsass.a
 
 %.o: %.c
