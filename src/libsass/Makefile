@@ -74,7 +74,7 @@ else
 endif
 
 ifndef SASS_LIBSASS_PATH
-	SASS_LIBSASS_PATH = $(CURDIR)
+	SASS_LIBSASS_PATH = .
 endif
 ifdef SASS_LIBSASS_PATH
 	CFLAGS   += -I $(SASS_LIBSASS_PATH)/include
