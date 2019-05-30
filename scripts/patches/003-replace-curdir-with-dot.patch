@@ -1,0 +1,17 @@
+An instance of the `CURDIR` builtin variable was removed and simply replaced
+with a `.`. This replacement was performed since this builtin is not available
+in Make 3.79.1 (which is used by Rtools 3.4).
+
+diff --git a/src/libsass/Makefile b/src/libsass/Makefile
+index 9255f0d..ee36d92 100644
+--- a/src/libsass/Makefile
++++ b/src/libsass/Makefile
+@@ -74,7 +74,7 @@ else
+ endif
+
+ ifndef SASS_LIBSASS_PATH
+-	SASS_LIBSASS_PATH = $(CURDIR)
++	SASS_LIBSASS_PATH = .
+ endif
+ ifdef SASS_LIBSASS_PATH
+ 	CFLAGS   += -I $(SASS_LIBSASS_PATH)/include
