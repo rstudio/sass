@@ -1,0 +1,26 @@
+This removes some diagnostic pragma marks that produce a NOTE during
+R CMD check.
+
+diff --git a/src/libsass/src/parser.hpp b/src/libsass/src/parser.hpp
+index 05f81d1..64231e8 100644
+--- a/src/libsass/src/parser.hpp
++++ b/src/libsass/src/parser.hpp
+@@ -76,9 +76,6 @@ namespace Sass {
+     // branches. This is not a bug, just a merging of behaviour into
+     // one function
+
+-#pragma clang diagnostic push
+-#pragma clang diagnostic ignored "-Wtautological-compare"
+-
+ #endif
+
+
+@@ -235,8 +232,6 @@ namespace Sass {
+
+ #ifdef __clang__
+
+-#pragma clang diagnostic pop
+-
+ #endif
+
+     void error(std::string msg);
