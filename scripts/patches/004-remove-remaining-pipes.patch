@@ -1,0 +1,60 @@
+The order-only prerequisite operators (|) were removed since they cannot be
+interpreted by Make 3.79.1 (which is used by Rtools 3.4). This patch removes
+the remaining pipe operators (an earlier patch removed a few but not all
+instances).
+
+diff --git a/src/libsass/Makefile b/src/libsass/Makefile
+index ee36d92..667c081 100644
+--- a/src/libsass/Makefile
++++ b/src/libsass/Makefile
+@@ -229,17 +229,16 @@ shared: $(SHAREDLIB)
+ $(DESTDIR)$(PREFIX):
+ 	$(MKDIR) $(DESTDIR)$(PREFIX)
+
+-$(DESTDIR)$(PREFIX)/lib: | $(DESTDIR)$(PREFIX)
++$(DESTDIR)$(PREFIX)/lib:
+ 	$(MKDIR) $(DESTDIR)$(PREFIX)/lib
+
+-$(DESTDIR)$(PREFIX)/include: | $(DESTDIR)$(PREFIX)
++$(DESTDIR)$(PREFIX)/include:
+ 	$(MKDIR) $(DESTDIR)$(PREFIX)/include
+
+-$(DESTDIR)$(PREFIX)/include/sass: | $(DESTDIR)$(PREFIX)/include
++$(DESTDIR)$(PREFIX)/include/sass:
+ 	$(MKDIR) $(DESTDIR)$(PREFIX)/include/sass
+
+-$(DESTDIR)$(PREFIX)/include/%.h: include/%.h \
+-                                 | $(DESTDIR)$(PREFIX)/include/sass
++$(DESTDIR)$(PREFIX)/include/%.h: include/%.h
+ 	$(INSTALL) -v -m0644 "$<" "$@"
+
+ install-headers: $(DESTDIR)$(PREFIX)/include/sass.h \
+@@ -250,16 +249,13 @@ install-headers: $(DESTDIR)$(PREFIX)/include/sass.h \
+                  $(DESTDIR)$(PREFIX)/include/sass/context.h \
+                  $(DESTDIR)$(PREFIX)/include/sass/functions.h
+
+-$(DESTDIR)$(PREFIX)/lib/%.a: lib/%.a \
+-                             | $(DESTDIR)$(PREFIX)/lib
++$(DESTDIR)$(PREFIX)/lib/%.a: lib/%.a
+ 	@$(INSTALL) -v -m0755 "$<" "$@"
+
+-$(DESTDIR)$(PREFIX)/lib/%.so: lib/%.so \
+-                             | $(DESTDIR)$(PREFIX)/lib
++$(DESTDIR)$(PREFIX)/lib/%.so: lib/%.so
+ 	@$(INSTALL) -v -m0755 "$<" "$@"
+
+-$(DESTDIR)$(PREFIX)/lib/%.dll: lib/%.dll \
+-                               | $(DESTDIR)$(PREFIX)/lib
++$(DESTDIR)$(PREFIX)/lib/%.dll: lib/%.dll
+ 	@$(INSTALL) -v -m0755 "$<" "$@"
+
+ install-static: $(DESTDIR)$(PREFIX)/lib/libsass.a
+@@ -287,7 +283,7 @@ test_full: $(SASSC_BIN)
+ test_probe: $(SASSC_BIN)
+ 	$(RUBY_BIN) $(SASS_SPEC_PATH)/sass-spec.rb -c $(SASSC_BIN) --impl libsass --probe-todo $(LOG_FLAGS) $(SASS_SPEC_PATH)/$(SASS_SPEC_SPEC_DIR)
+
+-clean-objects: | lib
++clean-objects:
+ 	-$(RM) lib/*.a lib/*.so lib/*.dll lib/*.la
+ 	-$(RMDIR) lib
+ clean: clean-objects
