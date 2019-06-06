@@ -1,0 +1,14 @@
+This adds a newline to the end of file. Lack of a terminating newline
+produces a NOTE during R CMD check.
+
+diff --git a/src/libsass/src/fn_numbers.hpp b/src/libsass/src/fn_numbers.hpp
+index dba96be..67bec46 100644
+--- a/src/libsass/src/fn_numbers.hpp
++++ b/src/libsass/src/fn_numbers.hpp
+@@ -42,4 +42,4 @@ namespace Sass {
+
+ }
+
+-#endif
+\ No newline at end of file
++#endif
