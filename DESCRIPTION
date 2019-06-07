@@ -13,8 +13,15 @@ Authors@R: c(
     person("Barret", "Schloerke", , "barret@rstudio.com", "aut",
            comment = c(ORCID = "0000-0001-9986-114X")),
     person("Joe", "Cheng", , "joe@rstudio.com", c("aut", "rev")),
-    person("LibSass project contributors", role = "cph", comment = "LibSass library"),
-    person("RStudio", role = c("cph", "fnd"))
+    person(family = "RStudio", role = c("cph", "fnd")),
+    person(family = "Sass Open Source Foundation", role = c("ctb", "cph"),
+           comment = "LibSass library"),
+    person("Hampton", "Catlin", role = c("ctb", "cph"),
+           comment = "LibSass library"),
+    person("Nathan", "Weizenbaum", role = c("ctb", "cph"),
+           comment = "LibSass library"),
+    person("Chris", "Eppstein", role = c("ctb", "cph"),
+           comment = "LibSass library")
     )
 License: MIT + file LICENSE
 URL: https://github.com/rstudio/sass
