@@ -14,7 +14,7 @@ namespace Sass {
   namespace Functions {
 
     bool string_argument(AST_Node_Obj obj) {
-      String_Constant_Ptr s = Cast<String_Constant>(obj);
+      String_Constant* s = Cast<String_Constant>(obj);
       if (s == nullptr) return false;
       const std::string& str = s->value();
       return starts_with(str, "calc(") ||
@@ -225,7 +225,7 @@ namespace Sass {
         );
       }
 
-      Number_Ptr alpha = ARG("$alpha", Number);
+      Number* alpha = ARG("$alpha", Number);
       if (alpha && alpha->unit() == "%") {
         Number_Obj val = SASS_MEMORY_COPY(alpha);
         val->numerators.clear(); // convert
@@ -275,9 +275,9 @@ namespace Sass {
     Signature adjust_hue_sig = "adjust-hue($color, $degrees)";
     BUILT_IN(adjust_hue)
     {
-      Color_Ptr col = ARG("$color", Color);
+      Color* col = ARG("$color", Color);
       double degrees = ARGVAL("$degrees");
-      Color_HSLA_Obj copy = col->toHSLA(true);
+      Color_HSLA_Obj copy = col->copyAsHSLA();
       copy->h(absmod(copy->h() + degrees, 360.0));
       return copy.detach();
     }
@@ -285,9 +285,9 @@ namespace Sass {
     Signature lighten_sig = "lighten($color, $amount)";
     BUILT_IN(lighten)
     {
-      Color_Ptr col = ARG("$color", Color);
+      Color* col = ARG("$color", Color);
       double amount = DARG_U_PRCT("$amount");
-      Color_HSLA_Obj copy = col->toHSLA(true);
+      Color_HSLA_Obj copy = col->copyAsHSLA();
       copy->l(clip(copy->l() + amount, 0.0, 100.0));
       return copy.detach();
 
@@ -296,9 +296,9 @@ namespace Sass {
     Signature darken_sig = "darken($color, $amount)";
     BUILT_IN(darken)
     {
-      Color_Ptr col = ARG("$color", Color);
+      Color* col = ARG("$color", Color);
       double amount = DARG_U_PRCT("$amount");
-      Color_HSLA_Obj copy = col->toHSLA(true);
+      Color_HSLA_Obj copy = col->copyAsHSLA();
       copy->l(clip(copy->l() - amount, 0.0, 100.0));
       return copy.detach();
     }
@@ -311,9 +311,9 @@ namespace Sass {
         return SASS_MEMORY_NEW(String_Quoted, pstate, "saturate(" + env["$color"]->to_string(ctx.c_options) + ")");
       }
 
-      Color_Ptr col = ARG("$color", Color);
+      Color* col = ARG("$color", Color);
       double amount = DARG_U_PRCT("$amount");
-      Color_HSLA_Obj copy = col->toHSLA(true);
+      Color_HSLA_Obj copy = col->copyAsHSLA();
       copy->s(clip(copy->s() + amount, 0.0, 100.0));
       return copy.detach();
     }
@@ -321,9 +321,9 @@ namespace Sass {
     Signature desaturate_sig = "desaturate($color, $amount)";
     BUILT_IN(desaturate)
     {
-      Color_Ptr col = ARG("$color", Color);
+      Color* col = ARG("$color", Color);
       double amount = DARG_U_PRCT("$amount");
-      Color_HSLA_Obj copy = col->toHSLA(true);
+      Color_HSLA_Obj copy = col->copyAsHSLA();
       copy->s(clip(copy->s() - amount, 0.0, 100.0));
       return copy.detach();
     }
@@ -332,13 +332,13 @@ namespace Sass {
     BUILT_IN(grayscale)
     {
       // CSS3 filter function overload: pass literal through directly
-      Number_Ptr amount = Cast<Number>(env["$color"]);
+      Number* amount = Cast<Number>(env["$color"]);
       if (amount) {
         return SASS_MEMORY_NEW(String_Quoted, pstate, "grayscale(" + amount->to_string(ctx.c_options) + ")");
       }
 
-      Color_Ptr col = ARG("$color", Color);
-      Color_HSLA_Obj copy = col->toHSLA(true);
+      Color* col = ARG("$color", Color);
+      Color_HSLA_Obj copy = col->copyAsHSLA();
       copy->s(0.0); // just reset saturation
       return copy.detach();
     }
@@ -350,8 +350,8 @@ namespace Sass {
     Signature complement_sig = "complement($color)";
     BUILT_IN(complement)
     {
-      Color_Ptr col = ARG("$color", Color);
-      Color_HSLA_Obj copy = col->toHSLA(true);
+      Color* col = ARG("$color", Color);
+      Color_HSLA_Obj copy = col->copyAsHSLA();
       copy->h(absmod(copy->h() - 180.0, 360.0));
       return copy.detach();
     }
@@ -360,14 +360,14 @@ namespace Sass {
     BUILT_IN(invert)
     {
       // CSS3 filter function overload: pass literal through directly
-      Number_Ptr amount = Cast<Number>(env["$color"]);
+      Number* amount = Cast<Number>(env["$color"]);
       if (amount) {
         return SASS_MEMORY_NEW(String_Quoted, pstate, "invert(" + amount->to_string(ctx.c_options) + ")");
       }
 
-      Color_Ptr col = ARG("$color", Color);
+      Color* col = ARG("$color", Color);
       double weight = DARG_U_PRCT("$weight");
-      Color_RGBA_Obj inv = col->toRGBA(true);
+      Color_RGBA_Obj inv = col->copyAsRGBA();
       inv->r(clip(255.0 - inv->r(), 0.0, 255.0));
       inv->g(clip(255.0 - inv->g(), 0.0, 255.0));
       inv->b(clip(255.0 - inv->b(), 0.0, 255.0));
@@ -382,13 +382,13 @@ namespace Sass {
     Signature opacity_sig = "opacity($color)";
     BUILT_IN(alpha)
     {
-      String_Constant_Ptr ie_kwd = Cast<String_Constant>(env["$color"]);
+      String_Constant* ie_kwd = Cast<String_Constant>(env["$color"]);
       if (ie_kwd) {
         return SASS_MEMORY_NEW(String_Quoted, pstate, "alpha(" + ie_kwd->value() + ")");
       }
 
       // CSS3 filter function overload: pass literal through directly
-      Number_Ptr amount = Cast<Number>(env["$color"]);
+      Number* amount = Cast<Number>(env["$color"]);
       if (amount) {
         return SASS_MEMORY_NEW(String_Quoted, pstate, "opacity(" + amount->to_string(ctx.c_options) + ")");
       }
@@ -400,7 +400,7 @@ namespace Sass {
     Signature fade_in_sig = "fade-in($color, $amount)";
     BUILT_IN(opacify)
     {
-      Color_Ptr col = ARG("$color", Color);
+      Color* col = ARG("$color", Color);
       double amount = DARG_U_FACT("$amount");
       Color_Obj copy = SASS_MEMORY_COPY(col);
       copy->a(clip(col->a() + amount, 0.0, 1.0));
@@ -411,7 +411,7 @@ namespace Sass {
     Signature fade_out_sig = "fade-out($color, $amount)";
     BUILT_IN(transparentize)
     {
-      Color_Ptr col = ARG("$color", Color);
+      Color* col = ARG("$color", Color);
       double amount = DARG_U_FACT("$amount");
       Color_Obj copy = SASS_MEMORY_COPY(col);
       copy->a(std::max(col->a() - amount, 0.0));
@@ -425,14 +425,14 @@ namespace Sass {
     Signature adjust_color_sig = "adjust-color($color, $red: false, $green: false, $blue: false, $hue: false, $saturation: false, $lightness: false, $alpha: false)";
     BUILT_IN(adjust_color)
     {
-      Color_Ptr col = ARG("$color", Color);
-      Number_Ptr r = Cast<Number>(env["$red"]);
-      Number_Ptr g = Cast<Number>(env["$green"]);
-      Number_Ptr b = Cast<Number>(env["$blue"]);
-      Number_Ptr h = Cast<Number>(env["$hue"]);
-      Number_Ptr s = Cast<Number>(env["$saturation"]);
-      Number_Ptr l = Cast<Number>(env["$lightness"]);
-      Number_Ptr a = Cast<Number>(env["$alpha"]);
+      Color* col = ARG("$color", Color);
+      Number* r = Cast<Number>(env["$red"]);
+      Number* g = Cast<Number>(env["$green"]);
+      Number* b = Cast<Number>(env["$blue"]);
+      Number* h = Cast<Number>(env["$hue"]);
+      Number* s = Cast<Number>(env["$saturation"]);
+      Number* l = Cast<Number>(env["$lightness"]);
+      Number* a = Cast<Number>(env["$alpha"]);
 
       bool rgb = r || g || b;
       bool hsl = h || s || l;
@@ -441,7 +441,7 @@ namespace Sass {
         error("Cannot specify HSL and RGB values for a color at the same time for `adjust-color'", pstate, traces);
       }
       else if (rgb) {
-        Color_RGBA_Obj c = col->toRGBA(true);
+        Color_RGBA_Obj c = col->copyAsRGBA();
         if (r) c->r(c->r() + DARG_R_BYTE("$red"));
         if (g) c->g(c->g() + DARG_R_BYTE("$green"));
         if (b) c->b(c->b() + DARG_R_BYTE("$blue"));
@@ -449,7 +449,7 @@ namespace Sass {
         return c.detach();
       }
       else if (hsl) {
-        Color_HSLA_Obj c = col->toHSLA(true);
+        Color_HSLA_Obj c = col->copyAsHSLA();
         if (h) c->h(c->h() + absmod(h->value(), 360.0));
         if (s) c->s(c->s() + DARG_R_PRCT("$saturation"));
         if (l) c->l(c->l() + DARG_R_PRCT("$lightness"));
@@ -470,14 +470,14 @@ namespace Sass {
     Signature scale_color_sig = "scale-color($color, $red: false, $green: false, $blue: false, $hue: false, $saturation: false, $lightness: false, $alpha: false)";
     BUILT_IN(scale_color)
     {
-      Color_Ptr col = ARG("$color", Color);
-      Number_Ptr r = Cast<Number>(env["$red"]);
-      Number_Ptr g = Cast<Number>(env["$green"]);
-      Number_Ptr b = Cast<Number>(env["$blue"]);
-      Number_Ptr h = Cast<Number>(env["$hue"]);
-      Number_Ptr s = Cast<Number>(env["$saturation"]);
-      Number_Ptr l = Cast<Number>(env["$lightness"]);
-      Number_Ptr a = Cast<Number>(env["$alpha"]);
+      Color* col = ARG("$color", Color);
+      Number* r = Cast<Number>(env["$red"]);
+      Number* g = Cast<Number>(env["$green"]);
+      Number* b = Cast<Number>(env["$blue"]);
+      Number* h = Cast<Number>(env["$hue"]);
+      Number* s = Cast<Number>(env["$saturation"]);
+      Number* l = Cast<Number>(env["$lightness"]);
+      Number* a = Cast<Number>(env["$alpha"]);
 
       bool rgb = r || g || b;
       bool hsl = h || s || l;
@@ -486,7 +486,7 @@ namespace Sass {
         error("Cannot specify HSL and RGB values for a color at the same time for `scale-color'", pstate, traces);
       }
       else if (rgb) {
-        Color_RGBA_Obj c = col->toRGBA(true);
+        Color_RGBA_Obj c = col->copyAsRGBA();
         double rscale = (r ? DARG_R_PRCT("$red") : 0.0) / 100.0;
         double gscale = (g ? DARG_R_PRCT("$green") : 0.0) / 100.0;
         double bscale = (b ? DARG_R_PRCT("$blue") : 0.0) / 100.0;
@@ -498,7 +498,7 @@ namespace Sass {
         return c.detach();
       }
       else if (hsl) {
-        Color_HSLA_Obj c = col->toHSLA(true);
+        Color_HSLA_Obj c = col->copyAsHSLA();
         double hscale = (h ? DARG_R_PRCT("$hue") : 0.0) / 100.0;
         double sscale = (s ? DARG_R_PRCT("$saturation") : 0.0) / 100.0;
         double lscale = (l ? DARG_R_PRCT("$lightness") : 0.0) / 100.0;
@@ -524,14 +524,14 @@ namespace Sass {
     Signature change_color_sig = "change-color($color, $red: false, $green: false, $blue: false, $hue: false, $saturation: false, $lightness: false, $alpha: false)";
     BUILT_IN(change_color)
     {
-      Color_Ptr col = ARG("$color", Color);
-      Number_Ptr r = Cast<Number>(env["$red"]);
-      Number_Ptr g = Cast<Number>(env["$green"]);
-      Number_Ptr b = Cast<Number>(env["$blue"]);
-      Number_Ptr h = Cast<Number>(env["$hue"]);
-      Number_Ptr s = Cast<Number>(env["$saturation"]);
-      Number_Ptr l = Cast<Number>(env["$lightness"]);
-      Number_Ptr a = Cast<Number>(env["$alpha"]);
+      Color* col = ARG("$color", Color);
+      Number* r = Cast<Number>(env["$red"]);
+      Number* g = Cast<Number>(env["$green"]);
+      Number* b = Cast<Number>(env["$blue"]);
+      Number* h = Cast<Number>(env["$hue"]);
+      Number* s = Cast<Number>(env["$saturation"]);
+      Number* l = Cast<Number>(env["$lightness"]);
+      Number* a = Cast<Number>(env["$alpha"]);
 
       bool rgb = r || g || b;
       bool hsl = h || s || l;
@@ -540,7 +540,7 @@ namespace Sass {
         error("Cannot specify HSL and RGB values for a color at the same time for `change-color'", pstate, traces);
       }
       else if (rgb) {
-        Color_RGBA_Obj c = col->toRGBA(true);
+        Color_RGBA_Obj c = col->copyAsRGBA();
         if (r) c->r(DARG_U_BYTE("$red"));
         if (g) c->g(DARG_U_BYTE("$green"));
         if (b) c->b(DARG_U_BYTE("$blue"));
@@ -548,7 +548,7 @@ namespace Sass {
         return c.detach();
       }
       else if (hsl) {
-        Color_HSLA_Obj c = col->toHSLA(true);
+        Color_HSLA_Obj c = col->copyAsHSLA();
         if (h) c->h(absmod(h->value(), 360.0));
         if (s) c->s(DARG_U_PRCT("$saturation"));
         if (l) c->l(DARG_U_PRCT("$lightness"));
@@ -568,7 +568,7 @@ namespace Sass {
     Signature ie_hex_str_sig = "ie-hex-str($color)";
     BUILT_IN(ie_hex_str)
     {
-      Color_Ptr col = ARG("$color", Color);
+      Color* col = ARG("$color", Color);
       Color_RGBA_Obj c = col->toRGBA();
       double r = clip(c->r(), 0.0, 255.0);
       double g = clip(c->g(), 0.0, 255.0);

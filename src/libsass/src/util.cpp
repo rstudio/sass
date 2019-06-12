@@ -163,42 +163,64 @@ namespace Sass {
     std::replace(str.begin(), str.end(), '\n', ' ');
   }
 
-  // bell characters are replaced with spaces
-  // also eats spaces after line-feeds (ltrim)
+  // 1. Removes whitespace after newlines.
+  // 2. Replaces newlines with spaces.
+  //
+  // This method only considers LF and CRLF as newlines.
   std::string string_to_output(const std::string& str)
   {
-    std::string out("");
-    bool lf = false;
-    for (auto i : str) {
-      if (i == '\n') {
-        out += ' ';
-        lf = true;
-      } else if (!(lf && isspace(i))) {
-        out += i;
-        lf = false;
+    std::string result;
+    result.reserve(str.size());
+    std::size_t pos = 0;
+    while (true) {
+      const std::size_t newline = str.find_first_of("\n\r", pos);
+      if (newline == std::string::npos) break;
+      result.append(str, pos, newline - pos);
+      if (str[newline] == '\r') {
+        if (str[newline + 1] == '\n') {
+          pos = newline + 2;
+        } else {
+          // CR without LF: append as-is and continue.
+          result += '\r';
+          pos = newline + 1;
+          continue;
+        }
+      } else {
+        pos = newline + 1;
+      }
+      result += ' ';
+      const std::size_t non_space = str.find_first_not_of(" \f\n\r\t\v", pos);
+      if (non_space != std::string::npos) {
+        pos = non_space;
       }
     }
-    return out;
+    result.append(str, pos, std::string::npos);
+    return result;
   }
 
   std::string escape_string(const std::string& str)
   {
-    std::string out("");
-    for (auto i : str) {
-      if (i == '\n') {
-        out += "\\n";
-      } else if (i == '\r') {
-        out += "\\r";
-      } else if (i == '\t') {
-        out += "\\t";
-      } else {
-        out += i;
+    std::string out;
+    out.reserve(str.size());
+    for (char c : str) {
+      switch (c) {
+        case '\n':
+          out.append("\\n");
+          break;
+        case '\r':
+          out.append("\\r");
+          break;
+        case '\f':
+          out.append("\\f");
+          break;
+        default:
+          out += c;
       }
     }
     return out;
   }
 
-  std::string comment_to_string(const std::string& text)
+  std::string comment_to_compact_string(const std::string& text)
   {
     std::string str = "";
     size_t has = 0;
@@ -207,7 +229,6 @@ namespace Sass {
     for (auto i : text) {
       if (clean) {
         if (i == '\n') { has = 0; }
-        else if (i == '\r') { has = 0; }
         else if (i == '\t') { ++ has; }
         else if (i == ' ') { ++ has; }
         else if (i == '*') {}
@@ -218,8 +239,6 @@ namespace Sass {
           else str += i;
         }
       } else if (i == '\n') {
-        clean = true;
-      } else if (i == '\r') {
         clean = true;
       } else {
         str += i;
@@ -508,42 +527,15 @@ namespace Sass {
   }
 
   namespace Util {
-    using std::string;
 
-    std::string rtrim(const std::string &str) {
-      std::string trimmed = str;
-      size_t pos_ws = trimmed.find_last_not_of(" \t\n\v\f\r");
-      if (pos_ws != std::string::npos)
-      { trimmed.erase(pos_ws + 1); }
-      else { trimmed.clear(); }
-      return trimmed;
-    }
-
-    std::string normalize_underscores(const std::string& str) {
-      std::string normalized = str;
-      for(size_t i = 0, L = normalized.length(); i < L; ++i) {
-        if(normalized[i] == '_') {
-          normalized[i] = '-';
-        }
-      }
-      return normalized;
-    }
-
-    std::string normalize_decimals(const std::string& str) {
-      std::string prefix = "0";
-      std::string normalized = str;
-
-      return normalized[0] == '.' ? normalized.insert(0, prefix) : normalized;
-    }
-
-    bool isPrintable(Ruleset_Ptr r, Sass_Output_Style style) {
+    bool isPrintable(Ruleset* r, Sass_Output_Style style) {
       if (r == NULL) {
         return false;
       }
 
       Block_Obj b = r->block();
 
-      Selector_List_Ptr sl = Cast<Selector_List>(r->selector());
+      Selector_List* sl = Cast<Selector_List>(r->selector());
       bool hasSelectors = sl ? sl->length() > 0 : false;
 
       if (!hasSelectors) {
@@ -556,14 +548,14 @@ namespace Sass {
         Statement_Obj stm = b->at(i);
         if (Cast<Directive>(stm)) {
           return true;
-        } else if (Declaration_Ptr d = Cast<Declaration>(stm)) {
+        } else if (Declaration* d = Cast<Declaration>(stm)) {
           return isPrintable(d, style);
-        } else if (Has_Block_Ptr p = Cast<Has_Block>(stm)) {
+        } else if (Has_Block* p = Cast<Has_Block>(stm)) {
           Block_Obj pChildBlock = p->block();
           if (isPrintable(pChildBlock, style)) {
             hasPrintableChildBlocks = true;
           }
-        } else if (Comment_Ptr c = Cast<Comment>(stm)) {
+        } else if (Comment* c = Cast<Comment>(stm)) {
           // keep for uncompressed
           if (style != COMPRESSED) {
             hasDeclarations = true;
@@ -584,17 +576,17 @@ namespace Sass {
       return false;
     }
 
-    bool isPrintable(String_Constant_Ptr s, Sass_Output_Style style)
+    bool isPrintable(String_Constant* s, Sass_Output_Style style)
     {
       return ! s->value().empty();
     }
 
-    bool isPrintable(String_Quoted_Ptr s, Sass_Output_Style style)
+    bool isPrintable(String_Quoted* s, Sass_Output_Style style)
     {
       return true;
     }
 
-    bool isPrintable(Declaration_Ptr d, Sass_Output_Style style)
+    bool isPrintable(Declaration* d, Sass_Output_Style style)
     {
       Expression_Obj val = d->value();
       if (String_Quoted_Obj sq = Cast<String_Quoted>(val)) return isPrintable(sq.ptr(), style);
@@ -602,7 +594,7 @@ namespace Sass {
       return true;
     }
 
-    bool isPrintable(Supports_Block_Ptr f, Sass_Output_Style style) {
+    bool isPrintable(Supports_Block* f, Sass_Output_Style style) {
       if (f == NULL) {
         return false;
       }
@@ -616,7 +608,7 @@ namespace Sass {
         if (Cast<Declaration>(stm) || Cast<Directive>(stm)) {
           hasDeclarations = true;
         }
-        else if (Has_Block_Ptr b = Cast<Has_Block>(stm)) {
+        else if (Has_Block* b = Cast<Has_Block>(stm)) {
           Block_Obj pChildBlock = b->block();
           if (!b->is_invisible()) {
             if (isPrintable(pChildBlock, style)) {
@@ -633,7 +625,7 @@ namespace Sass {
       return false;
     }
 
-    bool isPrintable(Media_Block_Ptr m, Sass_Output_Style style)
+    bool isPrintable(Media_Block* m, Sass_Output_Style style)
     {
       if (m == 0) return false;
       Block_Obj b = m->block();
@@ -642,27 +634,27 @@ namespace Sass {
         Statement_Obj stm = b->at(i);
         if (Cast<Directive>(stm)) return true;
         else if (Cast<Declaration>(stm)) return true;
-        else if (Comment_Ptr c = Cast<Comment>(stm)) {
+        else if (Comment* c = Cast<Comment>(stm)) {
           if (isPrintable(c, style)) {
             return true;
           }
         }
-        else if (Ruleset_Ptr r = Cast<Ruleset>(stm)) {
+        else if (Ruleset* r = Cast<Ruleset>(stm)) {
           if (isPrintable(r, style)) {
             return true;
           }
         }
-        else if (Supports_Block_Ptr f = Cast<Supports_Block>(stm)) {
+        else if (Supports_Block* f = Cast<Supports_Block>(stm)) {
           if (isPrintable(f, style)) {
             return true;
           }
         }
-        else if (Media_Block_Ptr mb = Cast<Media_Block>(stm)) {
+        else if (Media_Block* mb = Cast<Media_Block>(stm)) {
           if (isPrintable(mb, style)) {
             return true;
           }
         }
-        else if (Has_Block_Ptr b = Cast<Has_Block>(stm)) {
+        else if (Has_Block* b = Cast<Has_Block>(stm)) {
           if (isPrintable(b->block(), style)) {
             return true;
           }
@@ -671,7 +663,7 @@ namespace Sass {
       return false;
     }
 
-    bool isPrintable(Comment_Ptr c, Sass_Output_Style style)
+    bool isPrintable(Comment* c, Sass_Output_Style style)
     {
       // keep for uncompressed
       if (style != COMPRESSED) {
@@ -695,27 +687,27 @@ namespace Sass {
         if (Cast<Declaration>(stm) || Cast<Directive>(stm)) {
           return true;
         }
-        else if (Comment_Ptr c = Cast<Comment>(stm)) {
+        else if (Comment* c = Cast<Comment>(stm)) {
           if (isPrintable(c, style)) {
             return true;
           }
         }
-        else if (Ruleset_Ptr r = Cast<Ruleset>(stm)) {
+        else if (Ruleset* r = Cast<Ruleset>(stm)) {
           if (isPrintable(r, style)) {
             return true;
           }
         }
-        else if (Supports_Block_Ptr f = Cast<Supports_Block>(stm)) {
+        else if (Supports_Block* f = Cast<Supports_Block>(stm)) {
           if (isPrintable(f, style)) {
             return true;
           }
         }
-        else if (Media_Block_Ptr m = Cast<Media_Block>(stm)) {
+        else if (Media_Block* m = Cast<Media_Block>(stm)) {
           if (isPrintable(m, style)) {
             return true;
           }
         }
-        else if (Has_Block_Ptr b = Cast<Has_Block>(stm)) {
+        else if (Has_Block* b = Cast<Has_Block>(stm)) {
           if (isPrintable(b->block(), style)) {
             return true;
           }

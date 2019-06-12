@@ -263,7 +263,7 @@ namespace Sass {
       >(src);
     }
 
-    // Match a line comment (/.*?(?=\n|\r\n?|\Z)/.
+    // Match a line comment (/.*?(?=\n|\r\n?|\f|\Z)/.
     const char* line_comment(const char* src)
     {
       return sequence<
@@ -1400,7 +1400,7 @@ namespace Sass {
     }*/
 
     const char* H(const char* src) {
-      return std::isxdigit(*src) ? src+1 : 0;
+      return std::isxdigit(static_cast<unsigned char>(*src)) ? src+1 : 0;
     }
 
     const char* W(const char* src) {

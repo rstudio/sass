@@ -38,7 +38,7 @@ namespace Sass {
   std::string read_css_string(const std::string& str, bool css = true);
   std::string evacuate_escapes(const std::string& str);
   std::string string_to_output(const std::string& str);
-  std::string comment_to_string(const std::string& text);
+  std::string comment_to_compact_string(const std::string& text);
   std::string read_hex_escapes(const std::string& str);
   std::string escape_string(const std::string& str);
   void newline_to_space(std::string& str);
@@ -91,19 +91,14 @@ namespace Sass {
 
   namespace Util {
 
-    std::string rtrim(const std::string& str);
-
-    std::string normalize_underscores(const std::string& str);
-    std::string normalize_decimals(const std::string& str);
-
-    bool isPrintable(Ruleset_Ptr r, Sass_Output_Style style = NESTED);
-    bool isPrintable(Supports_Block_Ptr r, Sass_Output_Style style = NESTED);
-    bool isPrintable(Media_Block_Ptr r, Sass_Output_Style style = NESTED);
-    bool isPrintable(Comment_Ptr b, Sass_Output_Style style = NESTED);
+    bool isPrintable(Ruleset* r, Sass_Output_Style style = NESTED);
+    bool isPrintable(Supports_Block* r, Sass_Output_Style style = NESTED);
+    bool isPrintable(Media_Block* r, Sass_Output_Style style = NESTED);
+    bool isPrintable(Comment* b, Sass_Output_Style style = NESTED);
     bool isPrintable(Block_Obj b, Sass_Output_Style style = NESTED);
-    bool isPrintable(String_Constant_Ptr s, Sass_Output_Style style = NESTED);
-    bool isPrintable(String_Quoted_Ptr s, Sass_Output_Style style = NESTED);
-    bool isPrintable(Declaration_Ptr d, Sass_Output_Style style = NESTED);
+    bool isPrintable(String_Constant* s, Sass_Output_Style style = NESTED);
+    bool isPrintable(String_Quoted* s, Sass_Output_Style style = NESTED);
+    bool isPrintable(Declaration* d, Sass_Output_Style style = NESTED);
     bool isAscii(const char chr);
 
   }

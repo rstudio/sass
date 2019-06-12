@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -39,7 +39,7 @@
 <li>
   <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
-     
+
   </a>
 </li>
 <li>
@@ -56,7 +56,7 @@
 <li>
   <a href="https://github.com/rstudio/sass">
     <span class="fa fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul>
@@ -67,22 +67,22 @@
 </div>
 <!--/.navbar -->
 
-      
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Introduction to Sass</h1>
                         <h4 class="author">Timothy Mastny</h4>
-            
+
             <h4 class="date">2018-08-14</h4>
-      
+
       <small class="dont-index">Source: <a href="https://github.com/rstudio/sass/blob/master/vignettes/sass.Rmd"><code>vignettes/sass.Rmd</code></a></small>
       <div class="hidden name"><code>sass.Rmd</code></div>
 
     </div>
 
-    
-    
+
+
 <p>For single <a href="https://rmarkdown.rstudio.com/">Rmarkdown</a> documents or <a href="http://shiny.rstudio.com/">Shiny</a> apps, styling with CSS or using custom themes such as <a href="https://github.com/rstudio/shinythemes">shinythemes</a> works well.</p>
 <p>As an R developer, designing a default style sheet is difficult. The developer wants to provide a theme that works and looks good, while providing customization options for users.</p>
 <p>This article will briefly show how to use the <code>sass</code> R package to generate style sheets based on user input.</p>
@@ -98,7 +98,7 @@
 <a class="sourceLine" id="cb2-3" title="3">body {</a>
 <a class="sourceLine" id="cb2-4" title="4">  <span class="kw">background-color</span>: $color<span class="op">;</span></a>
 <a class="sourceLine" id="cb2-5" title="5">}</a></code></pre></div>
-<p>The following <a href="%22https://gallery.shinyapps.io/sass-color%22">shiny app</a> will demonstrate this example. We’ll use Dean Attali’s <a href="https://github.com/daattali/colourpicker">colourpicker</a> to choose a color and write it to <code>_variables.scss</code>.</p>
+<p>The following <a href="https://gallery.shinyapps.io/sass-color">shiny app</a> will demonstrate this example. We’ll use Dean Attali’s <a href="https://github.com/daattali/colourpicker">colourpicker</a> to choose a color and write it to <code>_variables.scss</code>.</p>
 <p>Then the app compiles <code>new-style.scss</code> and renders the new style.</p>
 </div>
 <div id="functions" class="section level2">
@@ -156,6 +156,8 @@
 <a class="sourceLine" id="cb6-19" title="19"><span class="fu">.shiny-plot-output</span> {</a>
 <a class="sourceLine" id="cb6-20" title="20">  <span class="kw">max-width</span>: percentage<span class="fu">(</span>$width / <span class="dv">100</span><span class="fu">)</span><span class="op">;</span></a>
 <a class="sourceLine" id="cb6-21" title="21">}</a></code></pre></div>
+<iframe src="https://gallery.shinyapps.io/sass-size/?showcase=0" width="700" height="600px">
+</iframe>
 </div>
 <div id="css-formatting" class="section level2">
 <h2 class="hasAnchor">
@@ -210,7 +212,7 @@ body{background-color:#fff}h1{color:#000}.shiny-plot-output{max-width:100%}
 
 
       <footer><div class="copyright">
-  <p>Developed by Richard Iannone, Timothy Mastny, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
+  <p>Developed by Timothy Mastny, Richard Iannone, Barret Schloerke, Joe Cheng, <a href="https://www.rstudio.com"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
 </div>
 
 <div class="pkgdown">
@@ -219,7 +221,7 @@ body{background-color:#fff}h1{color:#000}.shiny-plot-output{max-width:100%}
       </footer>
 </div>
 
-  
+
 
   </body>
 </html>

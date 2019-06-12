@@ -1,8 +1,10 @@
 #' List to Sass converter
 #'
-#' Converts multiple types of inputs to a single Sass input string for \code{\link{sass}}.
+#' Converts multiple types of inputs to a single Sass input string for
+#' \code{\link{sass}}.
 #'
-#'   Note that the LibSass compiler expects .sass files to use the Sass Indented Syntax.
+#' Note that the LibSass compiler expects .sass files to use the Sass Indented
+#' Syntax.
 #'
 #' @param input Either a
 #' \itemize{
@@ -11,33 +13,44 @@
 #'   \item Sass-like file name.
 #'
 #' }
-#' @seealso Visit \url{https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import} for more details.
+#' @seealso Visit
+#'   \url{https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import}
+#'   for more details.
 #' @return a single character value to be supplied to \code{\link{sass}}
 #' @export
 #' @examples
-#' # regular Sass input
+#' # Example of regular Sass input
 #' as_sass("body { color: \"blue\"; }")
 #'
-#' # add variable support
-#' as_sass(list(
-#'   list(color = "blue"),
-#'   "body { color: $color; }"
-#' ))
+#' # There is support for adding variables
+#' as_sass(
+#'   list(
+#'     list(color = "blue"),
+#'    "body { color: $color; }"
+#'    )
+#' )
 #'
-#' \dontrun{# add a file name
+#' \donttest{
+#' # Add a file name
 #' someFile <- tempfile("variables")
-#' ## overwrite color to red
+#'
+#' # Overwrite color to red
 #' write("$color: \"red\";", someFile)
 #'
-#' input <- as_sass(list(
-#'   list(color = "blue"),
-#'   sass_file(someFile),
-#'   "body { color: $color; }"
-#' ))
+#' input <-
+#'   as_sass(
+#'     list(
+#'       list(color = "blue"),
+#'       sass_file(someFile),
+#'       "body { color: $color; }"
+#'       )
+#'    )
+#'
 #' input
 #'
-#' ## final body color is red
-#' sass(input)}
+#' # The final body color is red
+#' sass(input)
+#' }
 as_sass <- function(input) {
   as_html(as_sass_(input), "sass")
 }
@@ -97,24 +110,27 @@ as_sass_.character <- function(input) {
   return(input)
 }
 
-
-
-
 #' Sass Import
 #'
-#' Create an import statement to be used within your Sass file. See \url{https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import} for more details.
+#' Create an import statement to be used within your Sass file. See
+#' \url{https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import} for
+#' more details.
 #'
-#' \code{sass_file} adds extra checks to make sure an appropriate file path exists given the input value.
+#' \code{sass_file} adds extra checks to make sure an appropriate file path
+#' exists given the input value.
 #'
 #' @param input Character string to be placed in an import statement.
-#' @param quote Logical that determines if a double quote is added to the import value.  Defaults to \code{TRUE}.
+#' @param quote Logical that determines if a double quote is added to the import
+#'   value. Defaults to \code{TRUE}.
 #' @return Fully defined Sass import string.
 #' @rdname sass_import
 #' @export
 #' @examples
 #' sass_import("foo")
 #' sass_import("$foo", FALSE)
-#' \dontrun{sass_file("foo.scss")}
+#' \donttest{
+#' sass_file("foo.scss")
+#' }
 sass_import <- function(input, quote = TRUE) {
   quote_val <- (if (isTRUE(quote)) "\"" else "")
   if (isTRUE(quote)) {

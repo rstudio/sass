@@ -64,7 +64,7 @@ cached data should be stored. Used with sass." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -73,7 +73,7 @@ cached data should be stored. Used with sass." />
         <li>
   <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
-     
+
   </a>
 </li>
 <li>
@@ -86,21 +86,21 @@ cached data should be stored. Used with sass." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
+
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/rstudio/sass">
     <span class="fa fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul>
-      
+
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
       </header>
 
 <div class="row">
@@ -112,15 +112,15 @@ cached data should be stored. Used with sass." />
     </div>
 
     <div class="ref-description">
-    
+
     <p>Specifies whether caching is used with sass, and where on the file system the
 cached data should be stored. Used with <code><a href='sass.html'>sass</a></code>.</p>
-    
+
     </div>
 
     <pre class="usage"><span class='fu'>sass_cache_options</span>(<span class='kw'>cache</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"sass.cache"</span>, !<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>()),
   <span class='kw'>cache_dir</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"sass.cache_dir"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>()))</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -140,7 +140,7 @@ that caches will not persist beyond the current R session by default, since
 <code><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir()</a></code> is unique to each session.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>If caching is enabled, <code><a href='sass.html'>sass()</a></code> will attempt to bypass the compilation
@@ -162,7 +162,7 @@ to the cache and you will end up with stale results.</p>
 argument or via the <code>sass.cache_dir</code> R option), note that this package
 does not do any cleanup of that directory. If disk space is a concern, you
 will need to delete older entries from that directory yourself.</p>
-    
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Very slow to compile</span>
@@ -184,20 +184,20 @@ body {
 <span class='no'>cache_opts</span> <span class='kw'>&lt;-</span> <span class='fu'>sass_cache_options</span>(<span class='fl'>TRUE</span>, <span class='kw'>cache_dir</span> <span class='kw'>=</span> <span class='no'>temp_cache_dir</span>)
 
 <span class='co'># The first time this runs it will be very slow</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='fu'><a href='sass.html'>sass</a></span>(<span class='no'>fib_sass</span>, <span class='kw'>cache_options</span> <span class='kw'>=</span> <span class='no'>cache_opts</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   2.458   0.022   2.520 </div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='fu'><a href='sass.html'>sass</a></span>(<span class='no'>fib_sass</span>, <span class='kw'>cache_options</span> <span class='kw'>=</span> <span class='no'>cache_opts</span>))</div><div class='output co'>#&gt;    user  system elapsed
+#&gt;   2.142   0.005   2.152 </div><div class='input'>
 <span class='co'># But on subsequent calls, it should be very fast</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='fu'><a href='sass.html'>sass</a></span>(<span class='no'>fib_sass</span>, <span class='kw'>cache_options</span> <span class='kw'>=</span> <span class='no'>cache_opts</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.001   0.000   0.001 </div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='fu'><a href='sass.html'>sass</a></span>(<span class='no'>fib_sass</span>, <span class='kw'>cache_options</span> <span class='kw'>=</span> <span class='no'>cache_opts</span>))</div><div class='output co'>#&gt;    user  system elapsed
+#&gt;   0.002   0.000   0.002 </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
+
       <li><a href="#details">Details</a></li>
-      
+
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -206,7 +206,7 @@ body {
 
       <footer>
       <div class="copyright">
-  <p>Developed by Richard Iannone, Timothy Mastny, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
+  <p>Developed by Timothy Mastny, Richard Iannone, Barret Schloerke, Joe Cheng, <a href='https://www.rstudio.com'><img src='https://www.tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
 </div>
 
 <div class="pkgdown">
@@ -215,8 +215,7 @@ body {
       </footer>
    </div>
 
-  
+
 
   </body>
 </html>
-

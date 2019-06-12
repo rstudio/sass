@@ -19,6 +19,7 @@ ifndef COVERAGE
   CFLAGS   += -O2
   CXXFLAGS += -O2
   LDFLAGS  += -O2
+  MAKEFLAGS += "-j 0"
 else
   CFLAGS   += -O1 -fno-omit-frame-pointer
   CXXFLAGS += -O1 -fno-omit-frame-pointer
@@ -73,7 +74,7 @@ else
 endif
 
 ifndef SASS_LIBSASS_PATH
-	SASS_LIBSASS_PATH = $(abspath $(CURDIR))
+	SASS_LIBSASS_PATH = .
 endif
 ifdef SASS_LIBSASS_PATH
 	CFLAGS   += -I $(SASS_LIBSASS_PATH)/include
@@ -90,7 +91,9 @@ LDFLAGS  += $(EXTRA_LDFLAGS)
 
 LDLIBS = -lm
 ifneq ($(BUILD),shared)
-	LDLIBS += -lstdc++
+	ifneq ($(STATIC_LIBSTDCPP),1)
+		LDLIBS += -lstdc++
+	endif
 endif
 
 # link statically into lib
@@ -197,13 +200,13 @@ debug-shared: shared
 lib:
 	$(MKDIR) lib
 
-lib/libsass.a: $(COBJECTS) $(OBJECTS) | lib
+lib/libsass.a: $(COBJECTS) $(OBJECTS) lib
 	$(AR) rcvs $@ $(COBJECTS) $(OBJECTS)
 
-lib/libsass.so: $(COBJECTS) $(OBJECTS) | lib
+lib/libsass.so: $(COBJECTS) $(OBJECTS) lib
 	$(CXX) -shared $(LDFLAGS) -o $@ $(COBJECTS) $(OBJECTS) $(LDLIBS)
 
-lib/libsass.dll: $(COBJECTS) $(OBJECTS) $(RCOBJECTS) | lib
+lib/libsass.dll: $(COBJECTS) $(OBJECTS) $(RCOBJECTS) lib
 	$(CXX) -shared $(LDFLAGS) -o $@ $(COBJECTS) $(OBJECTS) $(RCOBJECTS) $(LDLIBS) -s -Wl,--subsystem,windows,--out-implib,lib/libsass.a
 
 %.o: %.c
@@ -226,17 +229,16 @@ shared: $(SHAREDLIB)
 $(DESTDIR)$(PREFIX):
 	$(MKDIR) $(DESTDIR)$(PREFIX)
 
-$(DESTDIR)$(PREFIX)/lib: | $(DESTDIR)$(PREFIX)
+$(DESTDIR)$(PREFIX)/lib:
 	$(MKDIR) $(DESTDIR)$(PREFIX)/lib
 
-$(DESTDIR)$(PREFIX)/include: | $(DESTDIR)$(PREFIX)
+$(DESTDIR)$(PREFIX)/include:
 	$(MKDIR) $(DESTDIR)$(PREFIX)/include
 
-$(DESTDIR)$(PREFIX)/include/sass: | $(DESTDIR)$(PREFIX)/include
+$(DESTDIR)$(PREFIX)/include/sass:
 	$(MKDIR) $(DESTDIR)$(PREFIX)/include/sass
 
-$(DESTDIR)$(PREFIX)/include/%.h: include/%.h \
-                                 | $(DESTDIR)$(PREFIX)/include/sass
+$(DESTDIR)$(PREFIX)/include/%.h: include/%.h
 	$(INSTALL) -v -m0644 "$<" "$@"
 
 install-headers: $(DESTDIR)$(PREFIX)/include/sass.h \
@@ -247,16 +249,13 @@ install-headers: $(DESTDIR)$(PREFIX)/include/sass.h \
                  $(DESTDIR)$(PREFIX)/include/sass/context.h \
                  $(DESTDIR)$(PREFIX)/include/sass/functions.h
 
-$(DESTDIR)$(PREFIX)/lib/%.a: lib/%.a \
-                             | $(DESTDIR)$(PREFIX)/lib
+$(DESTDIR)$(PREFIX)/lib/%.a: lib/%.a
 	@$(INSTALL) -v -m0755 "$<" "$@"
 
-$(DESTDIR)$(PREFIX)/lib/%.so: lib/%.so \
-                             | $(DESTDIR)$(PREFIX)/lib
+$(DESTDIR)$(PREFIX)/lib/%.so: lib/%.so
 	@$(INSTALL) -v -m0755 "$<" "$@"
 
-$(DESTDIR)$(PREFIX)/lib/%.dll: lib/%.dll \
-                               | $(DESTDIR)$(PREFIX)/lib
+$(DESTDIR)$(PREFIX)/lib/%.dll: lib/%.dll
 	@$(INSTALL) -v -m0755 "$<" "$@"
 
 install-static: $(DESTDIR)$(PREFIX)/lib/libsass.a
@@ -276,15 +275,15 @@ version: $(SASSC_BIN)
 test: test_build
 
 test_build: $(SASSC_BIN)
-	$(RUBY_BIN) $(SASS_SPEC_PATH)/sass-spec.rb -V 3.5 -c $(SASSC_BIN) --impl libsass $(LOG_FLAGS) $(SASS_SPEC_PATH)/$(SASS_SPEC_SPEC_DIR)
+	$(RUBY_BIN) $(SASS_SPEC_PATH)/sass-spec.rb -c $(SASSC_BIN) --impl libsass $(LOG_FLAGS) $(SASS_SPEC_PATH)/$(SASS_SPEC_SPEC_DIR)
 
 test_full: $(SASSC_BIN)
-	$(RUBY_BIN) $(SASS_SPEC_PATH)/sass-spec.rb -V 3.5 -c $(SASSC_BIN) --impl libsass --run-todo $(LOG_FLAGS) $(SASS_SPEC_PATH)/$(SASS_SPEC_SPEC_DIR)
+	$(RUBY_BIN) $(SASS_SPEC_PATH)/sass-spec.rb -c $(SASSC_BIN) --impl libsass --run-todo $(LOG_FLAGS) $(SASS_SPEC_PATH)/$(SASS_SPEC_SPEC_DIR)
 
 test_probe: $(SASSC_BIN)
-	$(RUBY_BIN) $(SASS_SPEC_PATH)/sass-spec.rb -V 3.5 -c $(SASSC_BIN) --impl libsass --probe-todo $(LOG_FLAGS) $(SASS_SPEC_PATH)/$(SASS_SPEC_SPEC_DIR)
+	$(RUBY_BIN) $(SASS_SPEC_PATH)/sass-spec.rb -c $(SASSC_BIN) --impl libsass --probe-todo $(LOG_FLAGS) $(SASS_SPEC_PATH)/$(SASS_SPEC_SPEC_DIR)
 
-clean-objects: | lib
+clean-objects:
 	-$(RM) lib/*.a lib/*.so lib/*.dll lib/*.la
 	-$(RMDIR) lib
 clean: clean-objects
@@ -311,5 +310,6 @@ lib-opts-shared:
         debug debug-static debug-shared \
         install install-static install-shared \
         lib-opts lib-opts-shared lib-opts-static \
-        lib-file lib-file-shared lib-file-static
+        lib-file lib-file-shared lib-file-static \
+        test test_build test_full test_probe
 .DELETE_ON_ERROR:

@@ -12,19 +12,25 @@ sass_file(input)
 \arguments{
 \item{input}{Character string to be placed in an import statement.}
 
-\item{quote}{Logical that determines if a double quote is added to the import value.  Defaults to \code{TRUE}.}
+\item{quote}{Logical that determines if a double quote is added to the import
+value. Defaults to \code{TRUE}.}
 }
 \value{
 Fully defined Sass import string.
 }
 \description{
-Create an import statement to be used within your Sass file. See \url{https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import} for more details.
+Create an import statement to be used within your Sass file. See
+\url{https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import} for
+more details.
 }
 \details{
-\code{sass_file} adds extra checks to make sure an appropriate file path exists given the input value.
+\code{sass_file} adds extra checks to make sure an appropriate file path
+exists given the input value.
 }
 \examples{
 sass_import("foo")
 sass_import("$foo", FALSE)
-\dontrun{sass_file("foo.scss")}
+\donttest{
+sass_file("foo.scss")
+}
 }

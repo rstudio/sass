@@ -1,0 +1,25 @@
+The order-only prerequisite operators (|) were removed since they cannot be
+interpreted by Make 3.79.1 (which is used by Rtools 3.4). There were 3 instances
+removed by this patch
+
+diff --git a/src/libsass/Makefile b/src/libsass/Makefile
+index 0c874e2..9255f0d 100644
+--- a/src/libsass/Makefile
++++ b/src/libsass/Makefile
+@@ -200,13 +200,13 @@ debug-shared: shared
+ lib:
+ 	$(MKDIR) lib
+
+-lib/libsass.a: $(COBJECTS) $(OBJECTS) | lib
++lib/libsass.a: $(COBJECTS) $(OBJECTS) lib
+ 	$(AR) rcvs $@ $(COBJECTS) $(OBJECTS)
+
+-lib/libsass.so: $(COBJECTS) $(OBJECTS) | lib
++lib/libsass.so: $(COBJECTS) $(OBJECTS) lib
+ 	$(CXX) -shared $(LDFLAGS) -o $@ $(COBJECTS) $(OBJECTS) $(LDLIBS)
+
+-lib/libsass.dll: $(COBJECTS) $(OBJECTS) $(RCOBJECTS) | lib
++lib/libsass.dll: $(COBJECTS) $(OBJECTS) $(RCOBJECTS) lib
+ 	$(CXX) -shared $(LDFLAGS) -o $@ $(COBJECTS) $(OBJECTS) $(RCOBJECTS) $(LDLIBS) -s -Wl,--subsystem,windows,--out-implib,lib/libsass.a
+
+ %.o: %.c

@@ -19,36 +19,49 @@ as_sass(input)
 a single character value to be supplied to \code{\link{sass}}
 }
 \description{
-Converts multiple types of inputs to a single Sass input string for \code{\link{sass}}.
+Converts multiple types of inputs to a single Sass input string for
+\code{\link{sass}}.
 }
 \details{
-Note that the LibSass compiler expects .sass files to use the Sass Indented Syntax.
+Note that the LibSass compiler expects .sass files to use the Sass Indented
+Syntax.
 }
 \examples{
-# regular Sass input
+# Example of regular Sass input
 as_sass("body { color: \\"blue\\"; }")
 
-# add variable support
-as_sass(list(
-  list(color = "blue"),
-  "body { color: $color; }"
-))
+# There is support for adding variables
+as_sass(
+  list(
+    list(color = "blue"),
+   "body { color: $color; }"
+   )
+)
 
-\dontrun{# add a file name
+\donttest{
+# Add a file name
 someFile <- tempfile("variables")
-## overwrite color to red
+
+# Overwrite color to red
 write("$color: \\"red\\";", someFile)
 
-input <- as_sass(list(
-  list(color = "blue"),
-  sass_file(someFile),
-  "body { color: $color; }"
-))
+input <-
+  as_sass(
+    list(
+      list(color = "blue"),
+      sass_file(someFile),
+      "body { color: $color; }"
+      )
+   )
+
 input
 
-## final body color is red
-sass(input)}
+# The final body color is red
+sass(input)
+}
 }
 \seealso{
-Visit \url{https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import} for more details.
+Visit
+  \url{https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import}
+  for more details.
 }

@@ -1,0 +1,14 @@
+This adds a newline to the end of file. Lack of a terminating newline
+produces a NOTE during R CMD check.
+
+diff --git a/src/libsass/src/sass_functions.hpp b/src/libsass/src/sass_functions.hpp
+index 482ed64..bed9560 100644
+--- a/src/libsass/src/sass_functions.hpp
++++ b/src/libsass/src/sass_functions.hpp
+@@ -47,4 +47,4 @@ struct Sass_Importer {
+   void*            cookie;
+ };
+
+-#endif
+\ No newline at end of file
++#endif
