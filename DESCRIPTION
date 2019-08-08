@@ -1,10 +1,10 @@
 Type: Package
 Package: sass
-Version: 0.1.2
-Title: Syntactically Awesome Style Sheets (Sass) for R
-Description: An 'SCSS' compiler, powered by the 'libSass' library. With this,
+Version: 0.1.2.1
+Title: Syntactically Awesome Style Sheets ('Sass')
+Description: An 'SCSS' compiler, powered by the 'LibSass' library. With this,
     R developers can use variables, inheritance, and functions to generate
-    dynamic style sheets. The package uses the Sass CSS extension language,
+    dynamic style sheets. The package uses the 'Sass CSS' extension language,
     which is stable, powerful, and CSS compatible.
 Authors@R: c(
     person("Joe", "Cheng", , "joe@rstudio.com", c("aut", "cre")),
@@ -16,12 +16,20 @@ Authors@R: c(
     person(family = "RStudio", role = c("cph", "fnd")),
     person(family = "Sass Open Source Foundation", role = c("ctb", "cph"),
            comment = "LibSass library"),
+    person("Greter", "Marcel", role = c("ctb", "cph"),
+           comment = "LibSass library"),
+    person("Mifsud", "Michael", role = c("ctb", "cph"),
+           comment = "LibSass library"),
     person("Hampton", "Catlin", role = c("ctb", "cph"),
            comment = "LibSass library"),
-    person("Nathan", "Weizenbaum", role = c("ctb", "cph"),
+    person("Natalie", "Weizenbaum", role = c("ctb", "cph"),
            comment = "LibSass library"),
     person("Chris", "Eppstein", role = c("ctb", "cph"),
-           comment = "LibSass library")
+           comment = "LibSass library"),
+    person("Adams", "Joseph", role = c("ctb", "cph"),
+           comment = "json.cpp"),
+    person("Trifunovic", "Nemanja", role = c("ctb", "cph"),
+           comment = "utf8.h")
     )
 License: MIT + file LICENSE
 URL: https://github.com/rstudio/sass
