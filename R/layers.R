@@ -3,6 +3,7 @@
 #' When combining multiple SASS projects together, it's often desirable to
 #' place SASS files before and after a set of "core" SASS files.
 #'
+#' @md
 #' @param ... A collection of [sass_layer()]s and/or objects that [as_sass()] understands.
 #' @param pre An object that [as_sass()] understands.
 #' @param post An object that [as_sass()] understands.
