@@ -105,6 +105,11 @@ as_sass_.list <- function(input) {
   paste0("$", input_names, ": ", input_values, ";", collapse = "\n")
 }
 
+as_sass_.sass_layer <- function(input) {
+  sass <- as_sass_(list(input$pre, input$post))
+  attachDependencies(as_html(sass, "sass"), input$deps)
+}
+
 as_sass_.character <- function(input) {
   # treat like sass text input
   return(input)
