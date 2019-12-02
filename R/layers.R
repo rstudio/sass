@@ -29,8 +29,7 @@
 #' sass(sass_layers(core, red_layer, sass_layer(green)))
 #'
 sass_layers <- function(...) {
-  # TODO: import rlang?
-  layers <- dropNulls(list(...))
+  layers <- dropNulls(rlang::list2(...))
   is_layer <- vapply(layers, is_sass_layer, logical(1))
   layers[!is_layer] <- lapply(layers[!is_layer], function(x) {
     sass_layer(post = x)

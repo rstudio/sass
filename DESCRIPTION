@@ -38,7 +38,9 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.0.1.9000
 SystemRequirements: GNU make
-Imports: digest
+Imports: 
+    digest,
+    rlang
 Suggests:
     testthat,
     knitr,
