@@ -106,8 +106,7 @@ as_sass_.list <- function(input) {
 }
 
 as_sass_.sass_layer <- function(input) {
-  sass <- as_sass_(list(input$pre, input$post))
-  attachDependencies(as_html(sass, "sass"), input$deps)
+  as_sass_(list(input$pre, input$post))
 }
 
 as_sass_.character <- function(input) {
