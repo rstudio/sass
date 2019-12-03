@@ -28,7 +28,7 @@ Syntax.
 }
 \examples{
 # Example of regular Sass input
-as_sass("body { color: \\"blue\\"; }")
+as_sass("body { color: \"blue\"; }")
 
 # There is support for adding variables
 as_sass(
@@ -43,7 +43,7 @@ as_sass(
 someFile <- tempfile("variables")
 
 # Overwrite color to red
-write("$color: \\"red\\";", someFile)
+write("$color: \"red\";", someFile)
 
 input <-
   as_sass(

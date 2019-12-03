@@ -12,10 +12,10 @@ test_that("sass_layer is equivalent to sass", {
   )
 })
 
-test_that("sass_layers() layers like an onion", {
+test_that("sass_layer_stack() works as intended", {
   red_layer <- sass_layer(red, ":root{ --color: #{$color}; }")
   expect_equivalent(
     sass(list(red, core, ":root{ --color: #{$color}; }")),
-    sass(sass_layers(core, red_layer))
+    sass(sass_layer_stack(core, red_layer))
   )
 })

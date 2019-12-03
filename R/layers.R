@@ -1,12 +1,13 @@
 #' Place SASS before and after other SASS
 #'
-#' When combining multiple SASS projects together, it's often desirable to
-#' place SASS files before and after a set of "core" SASS files.
+#' [sass_layer()] defines [sass::sass()] input(s) to place before and after
+#' existing SASS object(s). To actually surround existing `sass` with a
+#' [sass_layer()], use `sass_layer_stack(sass, sass_layer())`.
 #'
 #' @md
 #' @param ... A collection of [sass_layer()]s and/or objects that [as_sass()] understands.
-#' @param pre An object that [as_sass()] understands.
-#' @param post An object that [as_sass()] understands.
+#' @param pre A suitable [sass::as_sass()] `input`.
+#' @param post A suitable [sass::as_sass()] `input`.
 #' @param deps An HTML dependency (or a list of them).
 #' @export
 #' @examples
@@ -20,15 +21,15 @@
 #' core
 #' sass(core)
 #'
-#' # However, by composing multiple sass_layers(), we have ability to place
+#' # However, by stacking sass_layer()s, we have ability to place
 #' # SASS both before (pre) and after (post) some other sass (e.g., core)
 #' # Here we place a red default _before_ the blue default and export the
 #' # color SASS variable as a CSS variable _after_ the core
 #' red_layer <- sass_layer(red, post = ":root{ --color: #{$color}; }")
-#' sass(sass_layers(core, red_layer))
-#' sass(sass_layers(core, red_layer, sass_layer(green)))
+#' sass(sass_layer_stack(core, red_layer))
+#' sass(sass_layer_stack(core, red_layer, sass_layer(green)))
 #'
-sass_layers <- function(...) {
+sass_layer_stack <- function(...) {
   layers <- dropNulls(rlang::list2(...))
   is_layer <- vapply(layers, is_sass_layer, logical(1))
   layers[!is_layer] <- lapply(layers[!is_layer], function(x) {
@@ -37,7 +38,7 @@ sass_layers <- function(...) {
   Reduce(sass_layers_join, layers)
 }
 
-#' @rdname sass_layers
+#' @rdname sass_layer_stack
 #' @export
 sass_layer <- function(pre = "", post = "", deps = NULL) {
   if (inherits(deps, "html_dependency")) {
@@ -48,12 +49,12 @@ sass_layer <- function(pre = "", post = "", deps = NULL) {
     if (any(!is_dependency)) stop("deps must be a collection of htmltools::htmlDependency() objects", call. = FALSE)
   }
 
-  theme <- list(
+  layer <- list(
     pre = as_sass(pre),
     post = as_sass(post),
     deps = deps
   )
-  structure(theme, class = "sass_layer")
+  structure(layer, class = "sass_layer")
 }
 
 sass_layers_join <- function(layer1, layer2) {
