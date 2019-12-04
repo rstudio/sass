@@ -96,11 +96,19 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
   }
 
   css <- as_html(css, "css")
+  deps <- html_dependencies(input)
+  deps <- htmltools::resolveDependencies(deps)
 
   if (!is.null(output)) {
     writeLines(css, output)
+    if (length(deps)) {
+      lapply(deps, htmltools::copyDependencyToDir, outputDir = dirname(output))
+    }
     return(invisible())
   } else {
+    if (length(deps)) {
+      css <- htmltools::attachDependencies(css, deps)
+    }
     return(css)
   }
 }

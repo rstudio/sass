@@ -40,10 +40,10 @@ RoxygenNote: 7.0.2
 SystemRequirements: GNU make
 Imports: 
     digest,
-    rlang
+    rlang,
+    htmltools
 Suggests:
     testthat,
     knitr,
-    rmarkdown,
-    htmltools
+    rmarkdown
 VignetteBuilder: knitr
