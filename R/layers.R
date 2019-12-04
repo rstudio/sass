@@ -2,7 +2,7 @@
 #'
 #' [sass_layer()] defines [sass::sass()] input(s) to place before and after
 #' existing SASS object(s). To actually surround existing `sass` with a
-#' [sass_layer()], use `sass_layer_stack(sass, sass_layer())`.
+#' [sass_layer()], use `sass_layer_merge(sass, sass_layer())`.
 #'
 #' @md
 #' @param ... A collection of [sass_layer()]s and/or objects that [as_sass()] understands.
@@ -26,10 +26,10 @@
 #' # Here we place a red default _before_ the blue default and export the
 #' # color SASS variable as a CSS variable _after_ the core
 #' red_layer <- sass_layer(red, post = ":root{ --color: #{$color}; }")
-#' sass(sass_layer_stack(core, red_layer))
-#' sass(sass_layer_stack(core, red_layer, sass_layer(green)))
+#' sass(sass_layer_merge(core, red_layer))
+#' sass(sass_layer_merge(core, red_layer, sass_layer(green)))
 #'
-sass_layer_stack <- function(...) {
+sass_layer_merge <- function(...) {
   layers <- dropNulls(rlang::list2(...))
   is_layer <- vapply(layers, is_sass_layer, logical(1))
   layers[!is_layer] <- lapply(layers[!is_layer], function(x) {
@@ -38,7 +38,7 @@ sass_layer_stack <- function(...) {
   Reduce(sass_layers_join, layers)
 }
 
-#' @rdname sass_layer_stack
+#' @rdname sass_layer_merge
 #' @export
 sass_layer <- function(pre = "", post = "", deps = NULL) {
   if (inherits(deps, "html_dependency")) {
