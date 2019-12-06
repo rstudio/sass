@@ -17,21 +17,11 @@ dep2 <- htmlDependency(
 )
 
 test_that("sass() relays sass_layer()'s html dependencies", {
-
   input <- list(
     sass_layer(pre = "body{color: green}", deps = dep1),
     "body{color: red}"
   )
   expect_equal(htmlDependencies(sass(input)), list(dep1))
-
-  # if output is written to a file, the dependency should be copied
-  # over to that output directory
-  tmp <- tempfile(fileext = ".css")
-  sass(output = tmp, input)
-  opts <- options(htmltools.dir.version = FALSE)
-  on.exit(options(opts), add = TRUE)
-  dep_file <- file.path(dirname(tmp), dep1$name, dep1$stylesheet)
-  expect_true(file.exists(dep_file))
 })
 
 
@@ -43,7 +33,7 @@ test_that("sass() relays html dependencies attached to it's input sensibly", {
   output3 <- sass(list(list(input1), ".foo{color: red}", list(list(input1))))
   expect_equal(htmlDependencies(output1), list(dep1))
   expect_equal(htmlDependencies(output2), list(dep1))
-  expect_equal(htmlDependencies(output3), list(dep1))
+  expect_equal(htmlDependencies(output3), list(dep1, dep1))
   # multiple html dependencies
   input2 <- attachDependencies("body {color: red}", dep2)
   output4 <- sass(list(list(input1), list(), list(list(input2))))

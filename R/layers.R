@@ -75,7 +75,9 @@ dropNulls <- function(x) {
 
 # currently sass_layers are the only thing that
 # have a notion of html dependencies
-html_dependencies <- function(x, deps = NULL) {
+html_dependencies <- function(x) {
+  deps <- NULL
+
   # i.e., htmltools::htmlDependencies()
   html_deps <- attr(x, "html_dependencies", TRUE)
   if (inherits(html_deps, "html_dependency")) {
@@ -89,7 +91,7 @@ html_dependencies <- function(x, deps = NULL) {
 
   # recursive case
   if (is.list(x)) {
-    new_deps <- unlist(lapply(x, html_dependencies, deps), recursive = FALSE)
+    new_deps <- unlist(lapply(x, html_dependencies), recursive = FALSE)
     deps <- c(deps, new_deps)
   }
 
