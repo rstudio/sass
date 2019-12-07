@@ -4,8 +4,10 @@
 \alias{sass_cache_options}
 \title{Caching Options for Sass}
 \usage{
-sass_cache_options(cache = getOption("sass.cache", !interactive()),
-  cache_dir = getOption("sass.cache_dir", tempdir()))
+sass_cache_options(
+  cache = getOption("sass.cache", !interactive()),
+  cache_dir = getOption("sass.cache_dir", tempdir())
+)
 }
 \arguments{
 \item{cache}{Logical value indicating whether caching is performed. If no

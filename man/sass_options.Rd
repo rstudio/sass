@@ -4,12 +4,22 @@
 \alias{sass_options}
 \title{Compiler Options for Sass}
 \usage{
-sass_options(precision = 5, output_style = "expanded",
-  indented_syntax = FALSE, include_path = "",
-  source_comments = FALSE, indent_type = "space", indent_width = 2,
-  linefeed = "lf", output_path = "", source_map_file = "",
-  source_map_root = "", source_map_embed = FALSE,
-  source_map_contents = FALSE, omit_source_map_url = FALSE)
+sass_options(
+  precision = 5,
+  output_style = "expanded",
+  indented_syntax = FALSE,
+  include_path = "",
+  source_comments = FALSE,
+  indent_type = "space",
+  indent_width = 2,
+  linefeed = "lf",
+  output_path = "",
+  source_map_file = "",
+  source_map_root = "",
+  source_map_embed = FALSE,
+  source_map_contents = FALSE,
+  omit_source_map_url = FALSE
+)
 }
 \arguments{
 \item{precision}{Number of decimal places.}

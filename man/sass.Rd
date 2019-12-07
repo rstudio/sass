@@ -4,8 +4,12 @@
 \alias{sass}
 \title{Compile Sass to CSS}
 \usage{
-sass(input = NULL, options = sass_options(), output = NULL,
-  cache_options = sass_cache_options())
+sass(
+  input = NULL,
+  options = sass_options(),
+  output = NULL,
+  cache_options = sass_cache_options()
+)
 }
 \arguments{
 \item{input}{Accepts raw Sass, a named list of variables, or a list of raw Sass and/or named variables.

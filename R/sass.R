@@ -96,10 +96,14 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
   }
 
   css <- as_html(css, "css")
+  deps <- html_dependencies(input)
+  if (length(deps)) {
+    css <- htmltools::attachDependencies(css, deps)
+  }
 
   if (!is.null(output)) {
     writeLines(css, output)
-    return(invisible())
+    return(invisible(css))
   } else {
     return(css)
   }
