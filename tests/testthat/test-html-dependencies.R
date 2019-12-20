@@ -17,10 +17,10 @@ dep2 <- htmlDependency(
 )
 
 test_that("sass() relays sass_layer()'s html dependencies", {
-  layer1 <- sass_layer(pre = "body{color: green}", deps = dep1)
+  layer1 <- sass_layer(before = "body{color: green}", html_deps = dep1)
   input1 <- list(layer1, "body{color: red}")
   expect_equal(htmlDependencies(sass(input1)), list(dep1))
-  layer2 <- sass_layer(pre = "body{color: blue}", deps = dep2)
+  layer2 <- sass_layer(before = "body{color: blue}", html_deps = dep2)
   input2 <- sass_layer_merge(layer1, layer2)
   expect_equal(htmlDependencies(sass(input2)), list(dep1, dep2))
 })
