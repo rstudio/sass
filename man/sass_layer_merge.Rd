@@ -7,16 +7,16 @@
 \usage{
 sass_layer_merge(...)
 
-sass_layer(pre = "", post = "", deps = NULL)
+sass_layer(before = "", after = "", html_deps = NULL)
 }
 \arguments{
 \item{...}{A collection of \code{\link[=sass_layer]{sass_layer()}}s and/or objects that \code{\link[=as_sass]{as_sass()}} understands.}
 
-\item{pre}{A suitable \code{\link[sass:as_sass]{sass::as_sass()}} \code{input}.}
+\item{before}{A suitable \code{\link[sass:as_sass]{sass::as_sass()}} \code{input}.}
 
-\item{post}{A suitable \code{\link[sass:as_sass]{sass::as_sass()}} \code{input}.}
+\item{after}{A suitable \code{\link[sass:as_sass]{sass::as_sass()}} \code{input}.}
 
-\item{deps}{An HTML dependency (or a list of them).}
+\item{html_deps}{An HTML dependency (or a list of them).}
 }
 \description{
 \code{\link[=sass_layer]{sass_layer()}} defines \code{\link[sass:sass]{sass::sass()}} input(s) to place before and after
@@ -29,16 +29,16 @@ red <- list(color = "red !default")
 green <- list(color = "green !default")
 
 # a sass_layer() by itself is not very useful, it just defines some
-# SASS to place before (pre) and after (post)
-core <- sass_layer(pre = blue, post = "body { color: $color; }")
+# SASS to place before (before) and after (after)
+core <- sass_layer(before = blue, after = "body { color: $color; }")
 core
 sass(core)
 
 # However, by stacking sass_layer()s, we have ability to place
-# SASS both before (pre) and after (post) some other sass (e.g., core)
+# SASS both before and after some other sass (e.g., core)
 # Here we place a red default _before_ the blue default and export the
 # color SASS variable as a CSS variable _after_ the core
-red_layer <- sass_layer(red, post = ":root{ --color: #{$color}; }")
+red_layer <- sass_layer(red, after = ":root{ --color: #{$color}; }")
 sass(sass_layer_merge(core, red_layer))
 sass(sass_layer_merge(core, red_layer, sass_layer(green)))
 

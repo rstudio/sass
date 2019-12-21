@@ -106,7 +106,7 @@ as_sass_.list <- function(input) {
 }
 
 as_sass_.sass_layer <- function(input) {
-  as_sass_(list(input$pre, input$post))
+  as_sass_(list(input$before, input$after))
 }
 
 as_sass_.character <- function(input) {
