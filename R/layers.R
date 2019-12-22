@@ -51,6 +51,7 @@
 #' sass(sass_layer_merge(core, red_layer))
 #' sass(sass_layer_merge(core, red_layer, sass_layer(green)))
 #'
+#' @name sass_layer
 sass_layer_merge <- function(...) {
   layers <- dropNulls(rlang::list2(...))
   is_layer <- vapply(layers, is_sass_layer, logical(1))
@@ -60,7 +61,7 @@ sass_layer_merge <- function(...) {
   Reduce(sass_layers_join, layers)
 }
 
-#' @rdname sass_layer_merge
+#' @rdname sass_layer
 #' @export
 sass_layer <- function(defaults = "", declarations = "", rules = "",
   html_deps = NULL, file_attachments = character(0), tags = character(0)) {
