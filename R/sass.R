@@ -11,6 +11,11 @@
 #' @param cache_options Caching options for Sass. Please specify options using
 #'   \code{\link{sass_cache_options}}. Caching is turned off by default for
 #'   interactive R sessions, and turned on for non-interactive ones.
+#' @param write_attachments If the input contains \code{\link{sass_layer}}
+#'   objects that have file attachments, and \code{output} is not \code{NULL},
+#'   then copy the file attachments to the directory of \code{output}. (Defaults
+#'   to \code{FALSE} as the side-effect of writing extra files is subtle and
+#'   potentially destructive, as files may be overwritten.)
 #' @return If \code{output = NULL}, the function returns a string value
 #'   of the compiled CSS. If the output path is specified, the compiled
 #'   CSS is written to that file and \code{invisible()} is returned.
@@ -35,12 +40,19 @@
 #'   sass_file(tmp_file)
 #' ))
 sass <- function(input = NULL, options = sass_options(), output = NULL,
-  cache_options = sass_cache_options()) {
+  cache_options = sass_cache_options(), write_attachments = FALSE) {
+
   if (!inherits(options, "sass_options")) {
     stop("Please construct the compile options using `sass_options()`.")
   }
   if (!inherits(cache_options, "sass_cache_options")) {
     stop("Please construct the cache options using `sass_cache_options()`.")
+  }
+  if (!is.null(output) && !dir.exists(fs::path_dir(output))) {
+    stop("The output directory '", fs::path_dir(output), "' does not exist")
+  }
+  if (is.null(output) && isTRUE(write_attachments)) {
+    stop("sass(write_attachments=TRUE) cannot be used when output=NULL")
   }
 
   css <- NULL
@@ -56,17 +68,8 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
 
   if (use_cache) {
     if (file.exists(cache_file)) {
-      if (!is.null(output)) {
-        tryCatch({
-          file.copy(cache_file, output, overwrite = TRUE)
-        }, warning = function(w) {
-          stop(conditionMessage(w))
-        })
-        return(invisible())
-      } else {
-        # TODO: Set encoding to UTF-8?
-        css <- paste(readLines(cache_file), collapse = "\n")
-      }
+      # TODO: Set encoding to UTF-8?
+      css <- paste(readLines(cache_file), collapse = "\n")
     }
   }
 
@@ -96,13 +99,22 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
   }
 
   css <- as_html(css, "css")
-  deps <- html_dependencies(input)
-  if (length(deps)) {
-    css <- htmltools::attachDependencies(css, deps)
+  layer <- extract_layer(input)
+
+  if (!is.null(layer)) {
+    css <- htmltools::attachDependencies(css, layer$html_deps)
   }
 
   if (!is.null(output)) {
     writeLines(css, output)
+    if (write_attachments) {
+      if (!is.null(layer)) {
+        write_file_attachments(
+          layer$file_attachments,
+          fs::path_dir(output)
+        )
+      }
+    }
     return(invisible(css))
   } else {
     return(css)

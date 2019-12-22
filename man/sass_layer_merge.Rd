@@ -7,16 +7,48 @@
 \usage{
 sass_layer_merge(...)
 
-sass_layer(before = "", after = "", html_deps = NULL)
+sass_layer(
+  defaults = "",
+  declarations = "",
+  rules = "",
+  html_deps = NULL,
+  file_attachments = character(0),
+  tags = character(0)
+)
 }
 \arguments{
 \item{...}{A collection of \code{\link[=sass_layer]{sass_layer()}}s and/or objects that \code{\link[=as_sass]{as_sass()}} understands.}
 
-\item{before}{A suitable \code{\link[sass:as_sass]{sass::as_sass()}} \code{input}.}
+\item{defaults}{A suitable \code{\link[sass:as_sass]{sass::as_sass()}} \code{input}. Intended for declaring
+variables with \code{!default}. When layers are combined, defaults are merged in
+reverse order; that is, \code{sass_layer_merge(layer1, layer2)} will include
+\code{layer2$defaults} before \code{layer1$defaults}.}
 
-\item{after}{A suitable \code{\link[sass:as_sass]{sass::as_sass()}} \code{input}.}
+\item{declarations}{A suitable \code{\link[sass:as_sass]{sass::as_sass()}} \code{input}.  Intended for
+function and mixin declarations, and variable declarations without
+\code{!default}; not intended for actual CSS rules. These will be merged in
+forward order; that is, \code{sass_layer_merge(layer1, layer2)} will include
+\code{layer1$declarations} before \code{layer2$declarations}.}
+
+\item{rules}{A suitable \code{\link[sass:as_sass]{sass::as_sass()}} \code{input}. Intended for actual CSS
+rules. These will be merged in forward order; that is,
+\code{sass_layer_merge(layer1, layer2)} will include \code{layer1$rules} before
+\code{layer2$rules}.}
 
 \item{html_deps}{An HTML dependency (or a list of them).}
+
+\item{file_attachments}{A named character vector, representing file assets
+that are referenced (using relative paths) from the sass in this layer. The
+vector names should be a relative path, and the corresponding vector values
+should be absolute paths to files or directories that exist; at render
+time, each value will be copied to the relative path indicated by its name.
+(For directories, the \emph{contents} of the source directory will be copied
+into the destination directory; the directory itself will not be copied.)
+You can also omit the name, in which case that file or directory will be
+copied directly into the output directory.}
+
+\item{tags}{A character vector with zero or more elements. Can be used to
+preserve simple metadata as layers are merged.}
 }
 \description{
 \code{\link[=sass_layer]{sass_layer()}} defines \code{\link[sass:sass]{sass::sass()}} input(s) to place before and after
@@ -29,8 +61,8 @@ red <- list(color = "red !default")
 green <- list(color = "green !default")
 
 # a sass_layer() by itself is not very useful, it just defines some
-# SASS to place before (before) and after (after)
-core <- sass_layer(before = blue, after = "body { color: $color; }")
+# SASS to place before (defaults) and after (declarations, rules)
+core <- sass_layer(defaults = blue, rules = "body { color: $color; }")
 core
 sass(core)
 
@@ -38,7 +70,7 @@ sass(core)
 # SASS both before and after some other sass (e.g., core)
 # Here we place a red default _before_ the blue default and export the
 # color SASS variable as a CSS variable _after_ the core
-red_layer <- sass_layer(red, after = ":root{ --color: #{$color}; }")
+red_layer <- sass_layer(red, rules = ":root{ --color: #{$color}; }")
 sass(sass_layer_merge(core, red_layer))
 sass(sass_layer_merge(core, red_layer, sass_layer(green)))
 
