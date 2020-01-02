@@ -14,8 +14,9 @@
 #' @param write_attachments If the input contains \code{\link{sass_layer}}
 #'   objects that have file attachments, and \code{output} is not \code{NULL},
 #'   then copy the file attachments to the directory of \code{output}. (Defaults
-#'   to \code{FALSE} as the side-effect of writing extra files is subtle and
-#'   potentially destructive, as files may be overwritten.)
+#'   to \code{NA}, which merely emits a warning if file attachments are present,
+#'   but does not write them to disk; the side-effect of writing extra files is
+#'   subtle and potentially destructive, as files may be overwritten.)
 #' @return If \code{output = NULL}, the function returns a string value
 #'   of the compiled CSS. If the output path is specified, the compiled
 #'   CSS is written to that file and \code{invisible()} is returned.
@@ -31,7 +32,6 @@
 #'   "foo { margin: $width * .3; }"
 #' ))
 #'
-#'
 #' # import a file
 #' tmp_file <- tempfile()
 #' writeLines("foo { margin: $width * .3; }", tmp_file)
@@ -39,8 +39,29 @@
 #'   list(width = "122px"),
 #'   sass_file(tmp_file)
 #' ))
+#'
+#'
+#' # File attachment example: Create a checkboard pattern .png, then
+#' # use it from a sass layer
+#'
+#' tmp_png <- tempfile(fileext = ".png")
+#' grDevices::png(filename = tmp_png, width = 20, height = 20,
+#'   bg = "transparent", antialias = "none")
+#' par(mar = rep_len(0,4), xaxs = "i", yaxs = "i")
+#' plot.new()
+#' rect(c(0,0.5), c(0,0.5), c(0.5,1), c(0.5,1), col = "#00000044", border=NA)
+#' dev.off()
+#'
+#' layer <- sass_layer(
+#'   rules = ".bg-check { background-image: url(images/demo_checkboard_bg.png) }",
+#'   file_attachments = c("images/demo_checkboard_bg.png" = tmp_png)
+#' )
+#'
+#' output_path <- tempfile(fileext = ".css")
+#' sass(layer, output = output_path, write_attachments = TRUE)
+#'
 sass <- function(input = NULL, options = sass_options(), output = NULL,
-  cache_options = sass_cache_options(), write_attachments = FALSE) {
+  cache_options = sass_cache_options(), write_attachments = NA) {
 
   if (!inherits(options, "sass_options")) {
     stop("Please construct the compile options using `sass_options()`.")
@@ -106,8 +127,20 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
   }
 
   if (!is.null(output)) {
+
+    if (isTRUE(is.na(write_attachments)) &&
+        !is.null(layer) &&
+        length(layer$file_attachments) > 0) {
+
+      warning(call. = FALSE,
+        "sass() input contains file attachments that are being ignored. Pass ",
+        "write_attachments=TRUE to write these files to disk, or FALSE to ",
+        "suppress this warning."
+      )
+    }
+
     writeLines(css, output)
-    if (write_attachments) {
+    if (isTRUE(write_attachments)) {
       if (!is.null(layer)) {
         write_file_attachments(
           layer$file_attachments,

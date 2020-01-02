@@ -3,7 +3,7 @@
 \name{sass_layer}
 \alias{sass_layer}
 \alias{sass_layer_merge}
-\title{Place SASS before and after other SASS}
+\title{Sass layer objects}
 \usage{
 sass_layer_merge(...)
 
@@ -17,7 +17,11 @@ sass_layer(
 )
 }
 \arguments{
-\item{...}{A collection of \code{\link[=sass_layer]{sass_layer()}}s and/or objects that \code{\link[=as_sass]{as_sass()}} understands.}
+\item{...}{A collection of \code{\link[=sass_layer]{sass_layer()}}s and/or objects that \code{\link[=as_sass]{as_sass()}}
+understands. Arguments should be provided in reverse priority order:
+defaults, declarations, and rules in later layers will take precedence over
+those of previous layers. Non-layer values will be converted to layers by
+calling \code{sass_layer(rules = ...)}.}
 
 \item{defaults}{A suitable \code{\link[sass:as_sass]{sass::as_sass()}} \code{input}. Intended for declaring
 variables with \code{!default}. When layers are combined, defaults are merged in
@@ -51,9 +55,11 @@ copied directly into the output directory.}
 preserve simple metadata as layers are merged.}
 }
 \description{
-\code{\link[=sass_layer]{sass_layer()}} defines \code{\link[sass:sass]{sass::sass()}} input(s) to place before and after
-existing SASS object(s). To actually surround existing \code{sass} with a
-\code{\link[=sass_layer]{sass_layer()}}, use \code{sass_layer_merge(sass, sass_layer())}.
+Sass layers are a way to group a set of related Sass variable definitions,
+function/mixin declarations, and CSS rules into a single object. Use
+\code{sass_layer()} to create these objects, and \code{sass_layer_merge()} to combine
+two or more layer objects into a single layer; this ability to be merged is
+the main benefit of using Sass layers versus lower-level forms of sass input.
 }
 \examples{
 blue <- list(color = "blue !default")

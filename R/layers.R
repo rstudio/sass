@@ -1,11 +1,17 @@
-#' Place SASS before and after other SASS
+#' Sass layer objects
 #'
-#' [sass_layer()] defines [sass::sass()] input(s) to place before and after
-#' existing SASS object(s). To actually surround existing `sass` with a
-#' [sass_layer()], use `sass_layer_merge(sass, sass_layer())`.
+#' Sass layers are a way to group a set of related Sass variable definitions,
+#' function/mixin declarations, and CSS rules into a single object. Use
+#' `sass_layer()` to create these objects, and `sass_layer_merge()` to combine
+#' two or more layer objects into a single layer; this ability to be merged is
+#' the main benefit of using Sass layers versus lower-level forms of sass input.
 #'
 #' @md
-#' @param ... A collection of [sass_layer()]s and/or objects that [as_sass()] understands.
+#' @param ... A collection of [sass_layer()]s and/or objects that [as_sass()]
+#'   understands. Arguments should be provided in reverse priority order:
+#'   defaults, declarations, and rules in later layers will take precedence over
+#'   those of previous layers. Non-layer values will be converted to layers by
+#'   calling `sass_layer(rules = ...)`.
 #' @param defaults A suitable [sass::as_sass()] `input`. Intended for declaring
 #'   variables with `!default`. When layers are combined, defaults are merged in
 #'   reverse order; that is, `sass_layer_merge(layer1, layer2)` will include
@@ -128,7 +134,7 @@ validate_attachments <- function(attachments) {
   if (is.null(dest)) {
     dest <- rep_len("", length(attachments))
   }
-  src <- attachments
+  src <- unname(attachments)
 
   if (any(dest == "")) {
     # Actually, unnamed attachments are OK; they'll just be

@@ -7,11 +7,11 @@ red <- list(color = "red !default")
 green <- list(color = "green !default")
 core <- sass_layer(
   defaults = blue,
-  declarations = "@function invert($color, $amount: 100%) {
+  declarations = "@function my_invert($color, $amount: 100%) {
     $inverse: change-color($color, $hue: hue($color) + 180);
     @return mix($inverse, $color, $amount);
   }",
-  rules = "body { background-color: $color; color: invert($color); }"
+  rules = "body { background-color: $color; color: my_invert($color); }"
 )
 
 test_that("sass_layer is equivalent to sass", {
@@ -76,6 +76,8 @@ test_that("file attachments are written", {
     "cannot be used when output=NULL"
   )
 
+  expect_warning(sass(input), NA)
+
   tmpdir <- tempfile()
   stopifnot(nzchar(tmpdir)) # Precaution because we'll `rm -rf` this later
   on.exit(unlink(tmpdir, recursive = TRUE), add = TRUE)
@@ -89,6 +91,18 @@ test_that("file attachments are written", {
   expect_true(
     file.exists(file.path(tmpdir, "assets/txt/a.txt"))
   )
+
+  # the default for write_attachments warns if file attachments are present
+  expect_warning(
+    sass(input, output = file.path(tmpdir, "styles1.css")),
+    "file attachments that are being ignored"
+  )
+  # when write_attachments = FALSE, the warning is suppressed
+  expect_warning(
+    sass(input, output = file.path(tmpdir, "styles1.css"), write_attachments = FALSE),
+    NA
+  )
+
 })
 
 test_that("write_file_attachments edge cases", {
