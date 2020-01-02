@@ -57,27 +57,6 @@ sass(list(
   list(width = "122px"),
   sass_file(tmp_file)
 ))
-
-
-# File attachment example: Create a checkboard pattern .png, then
-# use it from a sass layer
-
-tmp_png <- tempfile(fileext = ".png")
-grDevices::png(filename = tmp_png, width = 20, height = 20,
-  bg = "transparent", antialias = "none")
-par(mar = rep_len(0,4), xaxs = "i", yaxs = "i")
-plot.new()
-rect(c(0,0.5), c(0,0.5), c(0.5,1), c(0.5,1), col = "#00000044", border=NA)
-dev.off()
-
-layer <- sass_layer(
-  rules = ".bg-check { background-image: url(images/demo_checkboard_bg.png) }",
-  file_attachments = c("images/demo_checkboard_bg.png" = tmp_png)
-)
-
-output_path <- tempfile(fileext = ".css")
-sass(layer, output = output_path, write_attachments = TRUE)
-
 }
 \seealso{
 \url{http://sass-lang.com/guide}
