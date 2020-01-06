@@ -8,7 +8,8 @@ sass(
   input = NULL,
   options = sass_options(),
   output = NULL,
-  cache_options = sass_cache_options()
+  cache_options = sass_cache_options(),
+  write_attachments = NA
 )
 }
 \arguments{
@@ -23,6 +24,13 @@ See \code{\link{as_sass}} and \code{\link{sass_import}} / \code{\link{sass_file}
 \item{cache_options}{Caching options for Sass. Please specify options using
 \code{\link{sass_cache_options}}. Caching is turned off by default for
 interactive R sessions, and turned on for non-interactive ones.}
+
+\item{write_attachments}{If the input contains \code{\link{sass_layer}}
+objects that have file attachments, and \code{output} is not \code{NULL},
+then copy the file attachments to the directory of \code{output}. (Defaults
+to \code{NA}, which merely emits a warning if file attachments are present,
+but does not write them to disk; the side-effect of writing extra files is
+subtle and potentially destructive, as files may be overwritten.)}
 }
 \value{
 If \code{output = NULL}, the function returns a string value
@@ -41,7 +49,6 @@ sass(list(
   list(width = "122px"),
   "foo { margin: $width * .3; }"
 ))
-
 
 # import a file
 tmp_file <- tempfile()

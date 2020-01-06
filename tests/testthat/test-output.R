@@ -18,12 +18,10 @@ test_that("writing to file works", {
 })
 
 test_that("writing to invalid path fails", {
-  expect_warning(
-    expect_error(
-      sass(
-        sass_file("test-nesting-input.scss"),
-        output = "not/path/output.txt"
-      )
+  expect_error(
+    sass(
+      sass_file("test-nesting-input.scss"),
+      output = "not/path/output.txt"
     )
   )
 })
