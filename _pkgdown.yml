@@ -1,0 +1,30 @@
+destination: docs
+
+toc:
+  depth: 3
+
+navbar:
+  type: default
+  left:
+  - text: Overview
+    href: articles/sass.html
+  - text: Reference
+    href: reference/index.html
+  - text: News
+    href: news/index.html
+
+reference:
+- title: Sass compilation
+  description: |
+    Tools for invoking and controling Sass -> CSS compilation
+  contents:
+    - sass
+    - sass_options
+    - sass_cache_options
+- title: Sass code
+  description: |
+    Tools for generating Sass code from R
+  contents:
+    - sass_file
+    - sass_layer
+    - as_sass
