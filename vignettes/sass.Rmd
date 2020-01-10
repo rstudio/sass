@@ -10,6 +10,7 @@ vignette: >
 ---
 
 ```{r, echo = FALSE}
+setwd(here::here("vignettes"))
 # Why doesn't the includes param work for rmarkdown::html_vignette??
 htmltools::includeHTML("code-style.html")
 ```
@@ -17,7 +18,7 @@ htmltools::includeHTML("code-style.html")
 
 ## Why Sass? {#why}
 
-[Sass](https://sass-lang.com/) is the most widely used, feature rich, and stable CSS extension language available. It has become an essential tool in modern web development because of its ability to _reduce complexity_ and _increase composability_ when styling a website. For a basic example, suppose want to use the same color for multiple styling rules in your website (e.g., hyperlinks and buttons). With CSS, you'd have to repeat that color every time it is used in styling rule, so in a large project, changing at a later point can be tedious and error-prone.
+[Sass](https://sass-lang.com/) is the most widely used, feature rich, and stable CSS extension language available. It has become an essential tool in modern web development because of its ability to _reduce complexity_ and _increase composability_ when styling a website. For a basic example, suppose you want to use the same color for multiple styling rules in your website (e.g., hyperlinks and buttons). With CSS, you'd have to repeat that color every time it is used in styling rule, so in a large project, changing at a later point can be tedious and error-prone.
 
 ```css
 a { 
@@ -55,11 +56,6 @@ knitr::opts_chunk$set(
   class.output = "css",
   comment = ""
 )
-
-# TODO: remove if/once merged https://github.com/rstudio/sass/pull/30
-library(knitr)
-knit_print.css <- function(x, ...) as.character(x)
-registerS3method("knit_print", "css", knit_print.css)
 ```
 
 ### Variables
@@ -69,7 +65,7 @@ registerS3method("knit_print", "css", knit_print.css)
 ```{r}
 library(sass)
 variable <- "$body-bg: red;"
-rule <- "body{ background-color: $body-bg; }"
+rule <- "body { background-color: $body-bg; }"
 sass(input = list(variable, rule))
 ```
 

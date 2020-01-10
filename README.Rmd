@@ -23,11 +23,6 @@ knitr::opts_chunk$set(
   class.output = "css",
   comment = ""
 )
-
-# Maybe we should do something like this in sass
-library(knitr)
-knit_print.css <- function(x, ...) as.character(x)
-registerS3method("knit_print", "css", knit_print.css)
 ```
 
 <br>

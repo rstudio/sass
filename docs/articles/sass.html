@@ -103,7 +103,7 @@ pre.css {
 <div id="why" class="section level2">
 <h2 class="hasAnchor">
 <a href="#why" class="anchor"></a>Why Sass?</h2>
-<p><a href="https://sass-lang.com/">Sass</a> is the most widely used, feature rich, and stable CSS extension language available. It has become an essential tool in modern web development because of its ability to <em>reduce complexity</em> and <em>increase composability</em> when styling a website. For a basic example, suppose want to use the same color for multiple styling rules in your website (e.g., hyperlinks and buttons). With CSS, you’d have to repeat that color every time it is used in styling rule, so in a large project, changing at a later point can be tedious and error-prone.</p>
+<p><a href="https://sass-lang.com/">Sass</a> is the most widely used, feature rich, and stable CSS extension language available. It has become an essential tool in modern web development because of its ability to <em>reduce complexity</em> and <em>increase composability</em> when styling a website. For a basic example, suppose you want to use the same color for multiple styling rules in your website (e.g., hyperlinks and buttons). With CSS, you’d have to repeat that color every time it is used in styling rule, so in a large project, changing at a later point can be tedious and error-prone.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode css"><code class="sourceCode css"><a class="sourceLine" id="cb1-1" data-line-number="1">a { </a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">  <span class="kw">color</span>: salmon; </a>
 <a class="sourceLine" id="cb1-3" data-line-number="3">}</a>
@@ -130,7 +130,7 @@ pre.css {
 <p><a href="https://sass-lang.com/guide#topic-2">Sass variables</a> are a great mechanism for simplifying and exposing CSS logic to users. To create a variable, assign a value (likely a CSS <a href="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics">property value</a>) to a name, then refer to it by name in downstream Sass code. In this minimal example, we create a <code>body-bg</code> variable then use it to generate a single <a href="https://sass-lang.com/documentation/style-rules">style rule</a>, but as we’ll see later, variables can also be used inside of other arbitrary Sass code (e.g., functions, mixins, etc).</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sass)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">variable &lt;-<span class="st"> "$body-bg: red;"</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">rule &lt;-<span class="st"> "body{ background-color: $body-bg; }"</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">rule &lt;-<span class="st"> "body { background-color: $body-bg; }"</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="kw"><a href="../reference/sass.html">sass</a></span>(<span class="dt">input =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(variable, rule))</a></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="sourceCode css"><code class="sourceCode css"><a class="sourceLine" id="cb4-1" data-line-number="1">body {</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">  <span class="kw">background-color</span>: <span class="dv">red</span>;</a>
@@ -428,7 +428,7 @@ sass(sass_file("my-style.scss"))
 <hr>
 <ol>
 <li id="fn1"><p>Oh, by the way, the value of a variable may be an expression.<a href="#fnref1" class="footnote-back">↩</a></p></li>
-<li id="fn2"><p>Including <a href="#shiny-dynamic">dynamic user input</a> as <code><a href="https://rdrr.io/pkg/shiny/man/HTML.html">HTML()</a></code>, especially with free form inputs like <code><a href="https://rdrr.io/pkg/shiny/man/textInput.html">textInput()</a></code>, is a security vulnerability. Avoid it if you can.<a href="#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>Including <a href="#shiny-dynamic">dynamic user input</a> directly as <code><a href="https://rdrr.io/pkg/shiny/man/HTML.html">HTML()</a></code>, especially with free form inputs like <code><a href="https://rdrr.io/pkg/shiny/man/textInput.html">textInput()</a></code>, is a security vulnerability. Avoid it if you can.<a href="#fnref2" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
   </div>
