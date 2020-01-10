@@ -48,6 +48,5 @@ Imports:
 Suggests:
     testthat,
     knitr,
-    rmarkdown,
-    here
+    rmarkdown
 VignetteBuilder: knitr

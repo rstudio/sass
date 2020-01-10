@@ -184,10 +184,10 @@ body {
 
 <span class='co'># The first time this runs it will be very slow</span>
 <span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'><a href='sass.html'>sass</a></span>(<span class='no'>fib_sass</span>, <span class='kw'>cache_options</span> <span class='kw'>=</span> <span class='no'>cache_opts</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   1.894   0.007   1.907 </div><div class='input'>
+#&gt;   1.864   0.005   1.874 </div><div class='input'>
 <span class='co'># But on subsequent calls, it should be very fast</span>
 <span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'><a href='sass.html'>sass</a></span>(<span class='no'>fib_sass</span>, <span class='kw'>cache_options</span> <span class='kw'>=</span> <span class='no'>cache_opts</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.000   0.000   0.001 </div><div class='input'>
+#&gt;   0.001   0.000   0.001 </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
