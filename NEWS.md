@@ -1,7 +1,11 @@
 # sass 0.1.2.9000
 
-* Added the `sass_layer()` and `sass_layer_merge()` functions.
-* Added the ability for `sass()` to retain `htmltools::htmlDependency()`s attached to it's `input`. 
+* Added new `sass_layer()` and `sass_layer_merge()` functions. See [here](https://rstudio.github.io/sass/articles/sass.html#layers) for more details.
+
+* The objects that `sass()` and `as_sass()`) return now have better print methods in **rmarkdown**. See [here](https://rstudio.github.io/sass/articles/sass.html#rmarkdown) for more details.
+
+* Added the ability for `sass()` to retain `htmltools::htmlDependency()`s attached to it's `input`.  
+
 
 # sass 0.1.2
 
