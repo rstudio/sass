@@ -130,7 +130,7 @@ For an example of where creating your function becomes useful, consider this `co
 
 By saving this function to a file named `color-contrast.scss`, it can then be [imported](#imports) and used in the following way. For a live example of this in action, consider [this Shiny app](https://gallery.shinyapps.io/sass-font/) which allows the user to interactively choose a background color and the title's font color automatically updates to an appropriate color contrast. [See here](#shiny-dynamic) for more on allowing **shiny** users to influence styling on the page using **sass**.
 
-```r
+```{r}
 sass(
   list(
     variable,
@@ -138,18 +138,6 @@ sass(
     "body { 
       background-color: $body-bg;
       color: color-contrast($body-bg); 
-    }"
-  )
-)
-```
-
-```{r bs_sass, echo = FALSE}
-bootstraplib::bootstrap_sass(
-  list(
-    variable, 
-    "body { 
-      background-color: $body-bg;
-      color: color-yiq($body-bg); 
     }"
   )
 )
