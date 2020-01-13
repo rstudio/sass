@@ -199,7 +199,7 @@ This allows downstream `sass_layer()`s to be `sass_layer_merge()`d into a single
 * `declarations` for `layer2` are placed _after_ `declarations` for `layer1`.
   * Allowing downstream Sass to use functions and mixins defined in upstream Sass.
 * `rules` for `layer2` are placed _after_ `rules` for `layer1`.
-  * Allowing downstream Sass rules to override upstream rules.
+  * Allows downstream rules to take precedence over upstream rules ([precedence](https://css-tricks.com/precedence-css-order-css-matters/) matters when there are multiple rules with the same level of [specificity](https://css-tricks.com/specifics-on-css-specificity/)).
 
 ```{r}
 layer2 <- sass_layer(
@@ -210,7 +210,7 @@ sass(sass_layer_merge(layer1, layer2))
 
 ### Resolving relative imports {#imports-relative}
 
-Another problem that `sass_layer()` helps solve is that sometimes your Sass code might want to [importing](#imports) a local file using a relative path that _you_ know how to resolve, but not necessarily the person who eventually compiles your Sass. To solve this issue, provide a named character vector to `file_attachments`, pointing the relevant relative path(s) to the appropriate absolute path(s). Here's a contrived example of how that might look ([here's](https://github.com/rstudio/bootstraplib/blob/9c973e9/R/layers.R#L75-L77) a more real example of using it in an R package).
+Another problem that `sass_layer()` helps solve is that sometimes your Sass code might want to [import](#imports) a local file using a relative path that _you_ know how to resolve, but not necessarily the person who eventually compiles your Sass. To solve this issue, provide a named character vector to `file_attachments`, pointing the relevant relative path(s) to the appropriate absolute path(s). Here's a contrived example of how that might look ([here's](https://github.com/rstudio/bootstraplib/blob/9c973e9/R/layers.R#L75-L77) a more real example of using it in an R package).
 
 ```r
 sass_layer(
@@ -348,7 +348,7 @@ shinyApp(ui, server)
 <br>
 
 ```{r, echo = FALSE}
-knitr::include_graphics("/reference/figures/sass-color.gif")
+knitr::include_graphics("https://i.imgur.com/5cUEifg.gif")
 ```
 
 
