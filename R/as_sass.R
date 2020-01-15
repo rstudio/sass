@@ -67,7 +67,7 @@ as_sass_.NULL <- function(input) {
   "null"
 }
 as_sass_.numeric <- function(input) {
-  input
+  as.character(input)
 }
 as_sass_.logical <- function(input) {
   if (input) {
