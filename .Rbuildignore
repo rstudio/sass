@@ -15,3 +15,5 @@
 ^man/figures/shiny-app.gif$
 ^.lintr
 ^scripts/
+^doc$
+^Meta$
