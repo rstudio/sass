@@ -199,19 +199,21 @@ write_file_attachments <- function(file_attachments, output_path) {
   output_path <- normalizePath(output_path, mustWork = TRUE)
 
   mapply(function(dest, src) {
-    # Don't use fs::path_join here, it drops trailing slashes
-    dest <- file.path(output_path, dest)
-
     if (fs::is_dir(src)) {
-      fs::dir_copy(src, dest, overwrite = TRUE)
-    } else {
-      if (grepl("/$", dest)) {
-        # dest is intended to be a directory
-        dest <- file.path(dest, basename(src))
-      }
-      fs::dir_create(dirname(dest))
-      fs::file_copy(src, dest, overwrite = TRUE)
+      fs::dir_copy(src, file.path(output_path, dest), overwrite = TRUE)
+      return(NULL)
     }
+
+    dest <- if (grepl("/$", dest)) {
+      # dest is intended to be a directory
+      file.path(output_path, dest, basename(src))
+    } else {
+      file.path(output_path, dest)
+    }
+
+    fs::dir_create(dirname(dest))
+    fs::file_copy(src, dest, overwrite = TRUE)
+
     NULL
   }, names(file_attachments), unname(file_attachments))
 
