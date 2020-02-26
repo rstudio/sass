@@ -36,6 +36,9 @@ knit_print.css <- function(x, options, ...) {
 }
 
 knit_print.sass <- function(x, options, ...) {
+  if (isTRUE(options$class.output %in% c('scss', 'sass'))) {
+    return(as.character(x))
+  }
   knit_print.css(sass(x), options, ...)
 }
 
