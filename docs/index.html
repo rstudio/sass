@@ -34,7 +34,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
       </span>
     </div>
 
@@ -69,10 +69,11 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-
-<div id="readme" class="section level1">
+<div id="sass-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#readme" class="anchor"></a>README</h1></div>
+<a href="#sass-" class="anchor"></a>sass <a href="https://sass-lang.com"><img src="reference/figures/icon.svg" align="right" height="150" style="background-color: white; padding-left: 20px;"></a>
+</h1></div>
+
 <style>
 pre {
   border: 1px solid #eee;
@@ -87,33 +88,23 @@ pre.r code {
 }
 
 pre.css {
+  margin-top: -1.25rem;
   background-color: #f8f8f8;
   border-radius: 0;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
 }
-
-.sourceCode .css {
-  margin-top: -1em;
-}
 </style>
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-</div>
-<div id="sass" class="section level1">
-<h1 class="hasAnchor">
-<a href="#sass" class="anchor"></a>sass <a href="https://sass-lang.com"><img src="reference/figures/icon.svg" align="right" height="150" style="background-color: white; padding-left: 20px;"></a>
-</h1>
-
 <p><br></p>
 <p>The <code>sass</code> R package provides bindings to <a href="https://github.com/sass/libsass">LibSass</a>, a fast <a href="https://sass-lang.com/">Sass</a> compiler written in C++. Sass is a mature and stable CSS extension language that makes styling modern websites less complex and more composible.</p>
 <div id="installation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h3>
 <p>Install the released version of <code>sass</code> from CRAN:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"sass"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"sass"</span>)</span></code></pre></div>
 <p>Install the latest development build from GitHub:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># install.packages("remotes")</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"rstudio/sass"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># install.packages("remotes")</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>remotes<span class="op">::</span><span class="kw"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"rstudio/sass"</span>)</span></code></pre></div>
 </div>
 <div id="basic-usage" class="section level3">
 <h3 class="hasAnchor">
@@ -121,23 +112,23 @@ pre.css {
 <p>To compile Sass into CSS, provide Sass to the <code>input</code> argument of the <code><a href="reference/sass.html">sass()</a></code> function. <code>input</code> can be any of the following:</p>
 <ul>
 <li>An R string (as in the example below).</li>
-<li>A named <code><a href="https://rdrr.io/r/base/list.html">list()</a></code> defining <a href="articles/sass.html#variables">Sass variables</a>.</li>
+<li>A named <code><a href="https://rdrr.io/r/base/list.html">list()</a></code> defining <a href="https://rstudio.github.io/sass/articles/sass.html#variables">Sass variables</a>.</li>
 <li>A <code><a href="reference/sass_import.html">sass_file()</a></code>, <code><a href="reference/sass_import.html">sass_import()</a></code>, or <code><a href="reference/sass_layer.html">sass_layer()</a></code>.</li>
 <li>A nested <code><a href="https://rdrr.io/r/base/list.html">list()</a></code> comprising of all the above.</li>
 </ul>
-<!-- end list --><div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sass)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="reference/sass.html">sass</a></span>(<span class="dt">input =</span> <span class="st">"</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="st">  $size: 50%;</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="st">  foo { margin: $size * .33; }</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="st">"</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode css"><code class="sourceCode css"><a class="sourceLine" id="cb4-1" data-line-number="1">foo {</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">  <span class="kw">margin</span>: <span class="dv">16.5%</span>;</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">}</a></code></pre></div>
+<!-- end list --><div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sass)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw"><a href="reference/sass.html">sass</a></span>(<span class="dt">input =</span> <span class="st">"</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="st">  $size: 50%;</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="st">  foo { margin: $size * .33; }</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="st">"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb4-1"><a href="#cb4-1"></a>foo {</span>
+<span id="cb4-2"><a href="#cb4-2"></a>  <span class="kw">margin</span>: <span class="dv">16.5</span><span class="dt">%</span><span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a>}</span></code></pre></div>
 </div>
 <div id="learn-more" class="section level3">
 <h3 class="hasAnchor">
 <a href="#learn-more" class="anchor"></a>Learn more</h3>
-<p>Visit <strong>sass</strong>’s <a href="articles/sass.html">overview vignette</a> as well as the official <a href="https://sass-lang.com/documentation">Sass documentation</a>.</p>
+<p>See <strong>sass</strong>’s <a href="https://rstudio.github.io/sass/articles/sass.html">overview vignette</a> as well as the official <a href="https://sass-lang.com/documentation">Sass documentation</a>.</p>
 </div>
 <div id="ask-a-question" class="section level3">
 <h3 class="hasAnchor">
@@ -146,7 +137,6 @@ pre.css {
 <p><a href="https://community.rstudio.com/new-topic?title=&amp;category_id=10&amp;tags=sass&amp;body=%0A%0A%0A%20%20--------%0A%20%20%0A%20%20%3Csup%3EReferred%20here%20by%20%60sass%60%27s%20README%3C/sup%3E%0A&amp;u=rich_i"><img src="https://img.shields.io/badge/Ask%20a%20question-sass-75aadb.svg?style=popout&amp;logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgNjI1LjkgNjI1LjkiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDYyNS45IDYyNS45OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6Izc1QUFEQjt9Cgkuc3Qxe2ZpbGw6IzRENEQ0RDt9Cgkuc3Qye2ZpbGw6I0ZGRkZGRjt9Cgkuc3Qze2ZpbGw6dXJsKCNTVkdJRF8xXyk7fQoJLnN0NHtmaWxsOnVybCgjU1ZHSURfMl8pO30KCS5zdDV7ZmlsbDp1cmwoI1NWR0lEXzNfKTt9Cgkuc3Q2e2ZpbGw6dXJsKCNTVkdJRF80Xyk7fQoJLnN0N3tmaWxsOnVybCgjU1ZHSURfNV8pO30KCS5zdDh7ZmlsbDp1cmwoI1NWR0lEXzZfKTt9Cgkuc3Q5e2ZpbGw6dXJsKCNTVkdJRF83Xyk7fQoJLnN0MTB7ZmlsbDp1cmwoI1NWR0lEXzhfKTt9Cgkuc3QxMXtmaWxsOnVybCgjU1ZHSURfOV8pO30KCS5zdDEye2ZpbGw6dXJsKCNTVkdJRF8xMF8pO30KCS5zdDEze29wYWNpdHk6MC4xODtmaWxsOnVybCgjU1ZHSURfMTFfKTt9Cgkuc3QxNHtvcGFjaXR5OjAuMzt9Cjwvc3R5bGU+CjxnIGlkPSJHcmF5X0xvZ28iPgo8L2c+CjxnIGlkPSJCbGFja19MZXR0ZXJzIj4KPC9nPgo8ZyBpZD0iQmx1ZV9HcmFkaWVudF9MZXR0ZXJzIj4KCTxnPgoKCQkJPGVsbGlwc2UgdHJhbnNmb3JtPSJtYXRyaXgoMC43MDcxIC0wLjcwNzEgMC43MDcxIDAuNzA3MSAtMTI3LjkyNjUgMzE3LjAzMTcpIiBjbGFzcz0ic3QwIiBjeD0iMzE4LjciIGN5PSIzMTIuOSIgcng9IjMwOS44IiByeT0iMzA5LjgiLz4KCQk8Zz4KCQkJPHBhdGggY2xhc3M9InN0MiIgZD0iTTQyNC43LDQxMS44aDMzLjZ2MjYuMWgtNTEuM0wzMjIsMzEwLjVoLTQ1LjN2MTAxLjNoNDQuM3YyNi4xSDIwOS41di0yNi4xaDM4LjNWMTg3LjNsLTM4LjMtNC43di0yNC43ICAgICBjMTQuNSwzLjMsMjcuMSw1LjYsNDIuOSw1LjZjMjMuOCwwLDQ4LjEtNS42LDcxLjktNS42YzQ2LjIsMCw4OS4xLDIxLDg5LjEsNzIuM2MwLDM5LjctMjMuOCw2NC45LTYwLjcsNzUuNkw0MjQuNyw0MTEuOHogICAgICBNMjc2LjcsMjg1LjNsMjQuMywwLjVjNTkuMywwLjksODIuMS0yMS45LDgyLjEtNTIuM2MwLTM1LjUtMjUuNy00OS41LTU4LjMtNDkuNWMtMTUuNCwwLTMxLjMsMS40LTQ4LjEsMy4zVjI4NS4zeiIvPgoJCTwvZz4KCTwvZz4KPC9nPgo8ZyBpZD0iV2hpdGVfTGV0dGVycyI+CjwvZz4KPGcgaWQ9IlJfQmFsbCI+CjwvZz4KPC9zdmc+" alt="RStudio Ask a question: sass"></a></p>
 </div>
 </div>
-
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -171,11 +161,11 @@ pre.css {
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Joe Cheng <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Joe Cheng <br><small class="roles"> Author </small>  </li>
 <li>Timothy Mastny <br><small class="roles"> Author </small>  </li>
 <li>Richard Iannone <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-3925-190X" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
 <li>Barret Schloerke <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-9986-114X" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
-<li>Carson Sievert <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-4958-2844" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
+<li>Carson Sievert <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-4958-2844" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
 <li> RStudio <br><small class="roles"> Copyright holder, funder </small>  </li>
 <li><a href="authors.html">All authors...</a></li>
 </ul>

@@ -31,6 +31,9 @@ exists given the input value.
 sass_import("foo")
 sass_import("$foo", FALSE)
 \donttest{
-sass_file("foo.scss")
+tmp_scss_file <- tempfile(fileext = ".scss")
+writeLines("$color: red; body{ color: $color; }", tmp_scss_file)
+sass_file(tmp_scss_file)
+sass(sass_file(tmp_scss_file))
 }
 }

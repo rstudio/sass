@@ -1,5 +1,13 @@
-README
-================
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# sass <a href="https://sass-lang.com"><img src="man/figures/icon.svg" align="right" height = 150 style="background-color: white; padding-left: 20px;"/></a>
+
+[![Travis build
+status](https://travis-ci.org/rstudio/sass.svg?branch=master)](https://travis-ci.org/rstudio/sass)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/rstudio/sass?branch=master&svg=true)](https://ci.appveyor.com/project/rstudio/sass)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/sass)](https://cran.r-project.org/package=sass)
 
 <style>
 pre {
@@ -15,26 +23,13 @@ pre.r code {
 }
 
 pre.css {
+  margin-top: -1.25rem;
   background-color: #f8f8f8;
   border-radius: 0;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
 }
-
-.sourceCode .css {
-  margin-top: -1em;
-}
 </style>
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
-# sass <a href="https://sass-lang.com"><img src="man/figures/icon.svg" align="right" height = 150 style="background-color: white; padding-left: 20px;"/></a>
-
-[![Travis build
-status](https://travis-ci.org/rstudio/sass.svg?branch=master)](https://travis-ci.org/rstudio/sass)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/rstudio/sass?branch=master&svg=true)](https://ci.appveyor.com/project/rstudio/sass)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/sass)](https://cran.r-project.org/package=sass)
 
 <br>
 
@@ -66,7 +61,7 @@ To compile Sass into CSS, provide Sass to the `input` argument of the
 
   - An R string (as in the example below).
   - A named `list()` defining [Sass
-    variables](articles/sass.html#variables).
+    variables](https://rstudio.github.io/sass/articles/sass.html#variables).
   - A `sass_file()`, `sass_import()`, or `sass_layer()`.
   - A nested `list()` comprising of all the above.
 
@@ -88,8 +83,9 @@ foo {
 
 ### Learn more
 
-Visit **sass**’s [overview vignette](articles/sass.html) as well as the
-official [Sass documentation](https://sass-lang.com/documentation).
+See **sass**’s [overview
+vignette](https://rstudio.github.io/sass/articles/sass.html) as well as
+the official [Sass documentation](https://sass-lang.com/documentation).
 
 ### Ask a question
 
