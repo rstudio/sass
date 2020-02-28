@@ -15,5 +15,9 @@
 ^man/figures/shiny-app.gif$
 ^.lintr
 ^scripts/
+^README\.html$
+^Untitled\.
+^inst/*/rsconnect$
 ^doc$
 ^Meta$
+^revdep$

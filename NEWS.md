@@ -1,4 +1,4 @@
-# sass 0.1.2.9000
+# sass 0.2.0
 
 * Added new `sass_layer()` and `sass_layer_merge()` functions. See [here](https://rstudio.github.io/sass/articles/sass.html#layers) for more details.
 

@@ -22,7 +22,7 @@ platforms <-
 check_output <-
   rhub::check_for_cran(
     build_file,
-    email = "rich@rstudio.com",
+    email = "carson@rstudio.com",
     platforms = platforms,
     show_status = FALSE
   )
