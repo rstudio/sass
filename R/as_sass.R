@@ -110,6 +110,13 @@ as_sass_.sass_layer <- function(input) {
 }
 
 as_sass_.character <- function(input) {
+  if (any(nchar(rlang::names2(input)) > 0)) {
+    warning(
+      "Character vector names are ignored. ",
+      "Instead of a named character vector, use a named list to define Sass variables.",
+      call. = FALSE
+    )
+  }
   paste(input, collapse = "\n")
 }
 

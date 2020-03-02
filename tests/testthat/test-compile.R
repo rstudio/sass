@@ -34,6 +34,10 @@ test_that("character vector input compiles", {
   expect_equal(sass(input), expected)
 })
 
+test_that("named character vector throws warning", {
+  expect_warning(sass(c(var = "foo{color: red}")), "named")
+})
+
 test_that("sass compiles", {
   expected <- "foo {\n  margin: 36.6px;\n}\n\nbar {\n  margin: 63px;\n}\n"
   class(expected) <- c("css", "html", "character")
