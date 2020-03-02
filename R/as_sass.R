@@ -110,8 +110,7 @@ as_sass_.sass_layer <- function(input) {
 }
 
 as_sass_.character <- function(input) {
-  # treat like sass text input
-  return(input)
+  paste(input, collapse = "\n")
 }
 
 #' Sass Import
