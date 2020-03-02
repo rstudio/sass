@@ -32,6 +32,7 @@ test_that("character vector input compiles", {
   attr(expected, "html") <- TRUE
 
   expect_equal(sass(input), expected)
+  expect_equal(sass(as.list(input)), expected)
 })
 
 test_that("named character vector throws warning", {
