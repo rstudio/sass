@@ -6,6 +6,7 @@
 
 * Added the ability for `sass()` to retain `htmltools::htmlDependency()`s attached to it's `input`.  
 
+* Fixed an issue with incorrect handling of length 2 or more character vector input (#37).
 
 # sass 0.1.2
 
