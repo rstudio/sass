@@ -69,7 +69,7 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
   if (use_cache && file.exists(cache_file)) {
     # No need to read cache file if output is specified
     if (!is.null(output)) {
-      file.copy(cache_file, output, overwrite = TRUE)
+      fs::file_copy(cache_file, output, overwrite = TRUE)
       if (isTRUE(write_attachments == FALSE)) {
         return(invisible())
       }
