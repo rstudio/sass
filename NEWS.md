@@ -1,3 +1,13 @@
+# sass 0.2.0.9000
+
+## Improvements
+
+* When `sass()` has a cache hit, and `output` is specified, the cached file is now simply renamed to `output` (instead of reading in the cache file, then writing it to `output`).
+
+## Breaking changes
+
+* `sass()` no longer returns a CSS string when `output` is specified (reverts behavior that was introduced in 0.2.0). 
+
 # sass 0.2.0
 
 * Added new `sass_layer()` and `sass_layer_merge()` functions. See [here](https://rstudio.github.io/sass/articles/sass.html#layers) for more details.
