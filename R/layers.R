@@ -189,7 +189,6 @@ join_attachments <- function(attach1, attach2) {
 }
 
 write_file_attachments <- function(file_attachments, output_path) {
-  if (is.null(file_attachments)) return()
   validate_attachments(file_attachments)
 
   if (!dir.exists(output_path)) {
