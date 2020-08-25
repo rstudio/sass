@@ -55,8 +55,6 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
     stop("sass(write_attachments=TRUE) cannot be used when output=NULL")
   }
 
-  css <- NULL
-
   use_cache <- isTRUE(cache_options[["cache"]])
   cache_file <- if (use_cache) {
     cache_file_path(
@@ -66,11 +64,22 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
     )
   }
 
-  if (use_cache) {
-    if (file.exists(cache_file)) {
-      # TODO: Set encoding to UTF-8?
-      css <- paste(readLines(cache_file), collapse = "\n")
+  css <- NULL
+  layer <- NULL
+  if (use_cache && file.exists(cache_file)) {
+    # No need to read cache file if output is specified
+    if (!is.null(output)) {
+      fs::file_copy(cache_file, output, overwrite = TRUE)
+      if (isTRUE(write_attachments == FALSE)) {
+        return(invisible())
+      }
+      layer <- extract_layer(input)
+      maybe_write_attachments(layer, output, write_attachments)
+      return(invisible())
     }
+    # If no output is specified, we need to return a character vector
+    # TODO: Set encoding to UTF-8?
+    css <- paste(readLines(cache_file), collapse = "\n")
   }
 
   if (is.null(css)) {
@@ -101,43 +110,48 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
   css <- as_html(css, "css")
   layer <- extract_layer(input)
 
-  if (!is.null(layer)) {
+  if (!is.null(output)) {
+    writeLines(css, output)
+    maybe_write_attachments(layer, output, write_attachments)
+    return(invisible())
+  }
+
+  # Attach HTML dependencies so that placing a sass::sass() call within HTML tags
+  # will include the dependencies
+  if (is_sass_layer(layer)) {
     css <- htmltools::attachDependencies(css, layer$html_deps)
   }
 
-  if (!is.null(output)) {
-
-    if (isTRUE(is.na(write_attachments)) &&
-        !is.null(layer) &&
-        length(layer$file_attachments) > 0) {
-
-      warning(call. = FALSE,
-        "sass() input contains file attachments that are being ignored. Pass ",
-        "write_attachments=TRUE to write these files to disk, or FALSE to ",
-        "suppress this warning."
-      )
-    }
-
-    writeLines(css, output)
-    if (isTRUE(write_attachments)) {
-      if (!is.null(layer)) {
-        write_file_attachments(
-          layer$file_attachments,
-          fs::path_dir(output)
-        )
-      }
-    }
-    return(invisible(css))
-  } else {
-    return(css)
-  }
+  css
 }
 
 cache_file_path <- function(cache_dir, input, options) {
   cache_key <- digest::digest(
     sass_cache_key(list(input, options, utils::packageVersion("sass"))),
-    algo = "md5")
+    algo = "xxhash64")
   cache_file <- file.path(cache_dir, paste0(cache_key, ".sasscache.css"))
 
   cache_file
+}
+
+maybe_write_attachments <- function(layer, output, write_attachments) {
+  if (!(is_sass_layer(layer) && length(layer$file_attachments))) {
+    return()
+  }
+
+  if (isTRUE(write_attachments)) {
+    write_file_attachments(
+      layer$file_attachments,
+      fs::path_dir(output)
+    )
+    return()
+  }
+
+  if (isTRUE(is.na(write_attachments))) {
+    warning(
+      "sass() input contains file attachments that are being ignored. Pass ",
+      "write_attachments=TRUE to write these files to disk, or FALSE to ",
+      "suppress this warning.", call. = FALSE
+    )
+  }
 }

@@ -92,6 +92,11 @@ test_that("writes to cache", {
 
     # Did the cache file get written?
     expect_equal(readLines(cache_file), c("body { color: #313131; }", ""))
+
+    # Again, now with an output file
+    out_file <- tempfile(fileext = ".css")
+    sass(input, options, out_file)
+    expect_equal(readLines(out_file), c("body { color: #313131; }", ""))
   })
 })
 
