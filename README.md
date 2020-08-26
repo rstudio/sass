@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# sass <a href="https://sass-lang.com"><img src="man/figures/icon.svg" align="right" height = 150 style="background-color: white; padding-left: 20px;"/></a>
+# sass <a href='https://rstudio.github.io/sass/'><img src='man/figures/logo.svg' align="right" height="139" /></a>
 
 [![Travis build
 status](https://travis-ci.org/rstudio/sass.svg?branch=master)](https://travis-ci.org/rstudio/sass)
