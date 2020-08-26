@@ -6,7 +6,7 @@
 \usage{
 sass_cache_options(
   cache = getOption("sass.cache", !interactive()),
-  cache_dir = getOption("sass.cache_dir", tempdir())
+  cache_dir = getOption("sass.cache_dir", file.path(tempdir(), "sass_cache"))
 )
 }
 \arguments{
@@ -17,9 +17,10 @@ option is not set, then caching is performed only if the R session is not
 
 \item{cache_dir}{The directory which will be used to store cache files. If no
 value is provided, the R option \code{sass.cache_dir} is consulted; if the
-option is not set, then \code{\link{tempdir}} is used. Note that this means
-that caches will not persist beyond the current R session by default, since
-\code{tempdir()} is unique to each session.}
+option is not set, then a \code{sass_cache} subdirectory in
+\code{\link{tempdir}()} is used. Note that this means that caches will not
+persist beyond the current R session by default, since \code{tempdir()} is
+unique to each session.}
 }
 \description{
 Specifies whether caching is used with sass, and where on the file system the

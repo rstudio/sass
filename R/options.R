@@ -157,9 +157,10 @@ sass_options <- function(
 #'   \code{\link{interactive}}.
 #' @param cache_dir The directory which will be used to store cache files. If no
 #'   value is provided, the R option \code{sass.cache_dir} is consulted; if the
-#'   option is not set, then \code{\link{tempdir}} is used. Note that this means
-#'   that caches will not persist beyond the current R session by default, since
-#'   \code{tempdir()} is unique to each session.
+#'   option is not set, then a \code{sass_cache} subdirectory in
+#'   \code{\link{tempdir}()} is used. Note that this means that caches will not
+#'   persist beyond the current R session by default, since \code{tempdir()} is
+#'   unique to each session.
 #'
 #' @examples
 #' # Very slow to compile
@@ -189,10 +190,13 @@ sass_options <- function(
 #' @export
 sass_cache_options <- function(
   cache = getOption("sass.cache", !interactive()),
-  cache_dir = getOption("sass.cache_dir", tempdir())
+  cache_dir = getOption("sass.cache_dir", file.path(tempdir(), "sass_cache"))
 ) {
   force(cache)
   cache_dir <- normalizePath(cache_dir, mustWork = TRUE)
+  if (!dir.exists(cache_dir)) {
+    dir.create(cache_dir, recursive = TRUE)
+  }
 
   ret <- list(
     cache = cache,

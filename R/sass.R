@@ -129,7 +129,7 @@ cache_file_path <- function(cache_dir, input, options) {
   cache_key <- digest::digest(
     sass_cache_key(list(input, options, utils::packageVersion("sass"))),
     algo = "xxhash64")
-  cache_file <- file.path(cache_dir, paste0(cache_key, ".sasscache.css"))
+  cache_file <- file.path(cache_dir, paste0(cache_key, ".css"))
 
   cache_file
 }
