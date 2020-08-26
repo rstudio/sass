@@ -44,7 +44,9 @@ Imports:
     digest,
     fs,
     rlang,
-    htmltools
+    htmltools,
+    R6,
+    brio
 Suggests:
     testthat,
     knitr,
