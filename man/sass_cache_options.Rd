@@ -5,7 +5,7 @@
 \title{Caching Options for Sass}
 \usage{
 sass_cache_options(
-  cache = getOption("sass.cache", !interactive()),
+  cache = getOption("sass.cache", TRUE),
   cache_dir = getOption("sass.cache_dir", file.path(tempdir(), "sass_cache"))
 )
 }

@@ -59,7 +59,7 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
   layer <- NULL
 
   if (isTRUE(cache_options[["cache"]])) {
-    cache_key <- cache_key(input, options)
+    cache_key <- sass_hash(list(input, options))
     cache_hit <- FALSE
     if (is.null(output)) {
       # If no output is specified, we need to return a character vector
@@ -115,9 +115,19 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
   css
 }
 
-cache_key <- function(input, options) {
+#' Returns a hash of the object, including sass_file mtimes
+#'
+#' This function returns a hash of the object `x`, intended for use in caching.
+#' It recuses into lists, and any [sass_file()] objects will have the file's
+#' mtime attached as an attribute. This is useful for detecting if the file has
+#' been modified.
+#'
+#' @param x A list with sass objects.
+#'
+#' @export
+sass_hash <- function(x) {
   digest::digest(
-    sass_cache_key(list(input, options, utils::packageVersion("sass"))),
+    add_sass_file_mtime(list(x, utils::packageVersion("sass"))),
     algo = "xxhash64"
   )
 }
