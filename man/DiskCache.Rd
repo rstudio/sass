@@ -262,7 +262,7 @@ Sets content associated with `key`, from a single-element
 \item{\code{key}}{Key. Must be lowercase numbers and letters.}
 
 \item{\code{content}}{A character or raw vector. If it's a character vector,
-it will be written with elements collapsed with `\n`, with UTF-8
+it will be written with elements collapsed with `\\n`, with UTF-8
 encoding.}
 }
 \if{html}{\out{</div>}}

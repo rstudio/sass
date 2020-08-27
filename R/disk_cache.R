@@ -245,7 +245,7 @@ DiskCache <- R6Class("DiskCache",
     #'   otherwise.
     #' @param key Key. Must be lowercase numbers and letters.
     #' @param content A character or raw vector. If it's a character vector,
-    #'   it will be written with elements collapsed with `\n`, with UTF-8
+    #'   it will be written with elements collapsed with `\\n`, with UTF-8
     #'   encoding.
     set_content = function(key, content) {
       private$log(paste0('set_content: key "', key, '"'))
