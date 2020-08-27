@@ -189,7 +189,7 @@ sass_options <- function(
 #'
 #' @export
 sass_cache_options <- function(
-  cache = getOption("sass.cache", !interactive()),
+  cache = getOption("sass.cache", TRUE),
   cache_dir = getOption("sass.cache_dir", file.path(tempdir(), "sass_cache"))
 ) {
   force(cache)
