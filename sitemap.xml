@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://rstudio.github.io/sass//index.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/sass//reference/as_sass.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/sass//reference/sass.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/sass//reference/sass_cache_options.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/sass//reference/sass_import.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/sass//reference/sass_layer.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/sass//reference/sass_options.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/sass//articles/sass.html</loc>
+  </url>
+</urlset>
