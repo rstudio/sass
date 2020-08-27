@@ -193,10 +193,6 @@ sass_cache_options <- function(
   cache_dir = getOption("sass.cache_dir", file.path(tempdir(), "sass_cache"))
 ) {
   force(cache)
-  cache_dir <- normalizePath(cache_dir, mustWork = TRUE)
-  if (!dir.exists(cache_dir)) {
-    dir.create(cache_dir, recursive = TRUE)
-  }
 
   ret <- list(
     cache = cache,

@@ -55,63 +55,53 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
     stop("sass(write_attachments=TRUE) cannot be used when output=NULL")
   }
 
-  use_cache <- isTRUE(cache_options[["cache"]])
-  cache_file <- if (use_cache) {
-    cache_file_path(
-      normalizePath(cache_options[["cache_dir"]], mustWork = TRUE),
-      input,
-      options
-    )
-  }
-
   css <- NULL
   layer <- NULL
-  if (use_cache && file.exists(cache_file)) {
-    # No need to read cache file if output is specified
-    if (!is.null(output)) {
-      fs::file_copy(cache_file, output, overwrite = TRUE)
-      if (isTRUE(write_attachments == FALSE)) {
+
+  if (isTRUE(cache_options[["cache"]])) {
+    cache_key <- cache_key(input, options)
+    cache_hit <- FALSE
+    if (is.null(output)) {
+      # If no output is specified, we need to return a character vector
+      css <- cache$get_content(cache_key)
+      if (!is.null(css)) {
+        cache_hit <- TRUE
+      }
+    } else {
+      cache_hit <- cache$get(cache_key, outfile = output)
+      if (cache_hit) {
+        if (isTRUE(write_attachments == FALSE)) {
+          return(invisible())
+        }
+        layer <- extract_layer(input)
+        maybe_write_attachments(layer, output, write_attachments)
         return(invisible())
       }
-      layer <- extract_layer(input)
-      maybe_write_attachments(layer, output, write_attachments)
-      return(invisible())
     }
-    # If no output is specified, we need to return a character vector
-    # TODO: Set encoding to UTF-8?
-    css <- paste(readLines(cache_file), collapse = "\n")
-  }
 
-  if (is.null(css)) {
+    if (!cache_hit) {
+      # We had a cache miss, so write to disk now
+      # TODO: Set encoding to UTF-8?
+      css <- compile_data(as_sass(input), options)
+
+      # In case this same code is running in two processes pointed at the same
+      # cache dir, this could return FALSE (if the file didn't exist when we
+      # tried to get it, but does exist when we try to write it here), but
+      # that's OK -- it should have the same content.
+      cache$set_content(cache_key, css)
+    }
+
+  } else {
+    # If we got here, we're not using a cache.
     # TODO: Set encoding to UTF-8?
     css <- compile_data(as_sass(input), options)
-
-    # We had a cache miss, so write to disk now
-    if (use_cache) {
-      # In case this same code is running in two processes pointed at the same
-      # cache dir, write to a temp file then rename to the final directory. This
-      # is as close as we can get to doing it atomically.
-      tmp_cache_file <- paste0(cache_file, ".tmp", Sys.getpid())
-      write(css, tmp_cache_file)
-      tryCatch({
-        file.rename(tmp_cache_file, cache_file)
-      }, error = function(e) {
-        if (file.exists(cache_file)) {
-          # This is fine--we were beaten to the punch by some other process, but
-          # the results should be the same.
-        } else {
-          # Failed for some other reason
-          stop(e)
-        }
-      })
-    }
   }
 
   css <- as_html(css, "css")
   layer <- extract_layer(input)
 
   if (!is.null(output)) {
-    writeLines(css, output)
+    write_lines(css, output)
     maybe_write_attachments(layer, output, write_attachments)
     return(invisible())
   }
@@ -125,13 +115,11 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
   css
 }
 
-cache_file_path <- function(cache_dir, input, options) {
-  cache_key <- digest::digest(
+cache_key <- function(input, options) {
+  digest::digest(
     sass_cache_key(list(input, options, utils::packageVersion("sass"))),
-    algo = "xxhash64")
-  cache_file <- file.path(cache_dir, paste0(cache_key, ".css"))
-
-  cache_file
+    algo = "xxhash64"
+  )
 }
 
 maybe_write_attachments <- function(layer, output, write_attachments) {

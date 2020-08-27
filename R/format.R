@@ -63,6 +63,9 @@ registerMethods <- function(methods) {
   })
 }
 
+# DiskCache object for storing generated .css files.
+cache <- NULL
+
 .onLoad <- function(...) {
   # htmltools provides methods for knitr::knit_print, but knitr isn't a Depends or
   # Imports of htmltools, only an Enhances. Therefore, the NAMESPACE file has to
@@ -76,4 +79,8 @@ registerMethods <- function(methods) {
     c("knitr", "knit_print", "css"),
     c("knitr", "knit_print", "sass")
   ))
+
+  # TODO: Make it possible to set a cache directory via an option, after package
+  # is loaded.
+  cache <<- DiskCache$new(dir = file.path(tempdir(), "sass-cache"))
 }

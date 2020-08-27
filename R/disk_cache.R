@@ -161,7 +161,7 @@ DiskCache <- R6Class("DiskCache",
       cache_file <- private$filename_full_path(key)
 
       if (file.copy(cache_file, outfile, overwrite = overwrite)) {
-        private$log(paste0('get: key "', key, '" found and copied to ', normalizePath(outfile)))
+        private$log(paste0('get: key "', key, '" found and copied to ', outfile))
         return(TRUE)
       }
 
