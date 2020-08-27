@@ -64,7 +64,15 @@ registerMethods <- function(methods) {
 }
 
 # DiskCache object for storing generated .css files.
-cache <- NULL
+sass_cache <- local({
+  cache <- NULL
+  function() {
+    if (is.null(cache)) {
+      cache <<- DiskCache$new(dir = file.path(tempdir(), "sass-cache"))
+    }
+    cache
+  }
+})
 
 .onLoad <- function(...) {
   # htmltools provides methods for knitr::knit_print, but knitr isn't a Depends or
@@ -79,8 +87,4 @@ cache <- NULL
     c("knitr", "knit_print", "css"),
     c("knitr", "knit_print", "sass")
   ))
-
-  # TODO: Make it possible to set a cache directory via an option, after package
-  # is loaded.
-  cache <<- DiskCache$new(dir = file.path(tempdir(), "sass-cache"))
 }

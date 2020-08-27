@@ -63,12 +63,12 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
     cache_hit <- FALSE
     if (is.null(output)) {
       # If no output is specified, we need to return a character vector
-      css <- cache$get_content(cache_key)
+      css <- sass_cache()$get_content(cache_key)
       if (!is.null(css)) {
         cache_hit <- TRUE
       }
     } else {
-      cache_hit <- cache$get(cache_key, outfile = output)
+      cache_hit <- sass_cache()$get(cache_key, outfile = output)
       if (cache_hit) {
         if (isTRUE(write_attachments == FALSE)) {
           return(invisible())
@@ -88,7 +88,7 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
       # cache dir, this could return FALSE (if the file didn't exist when we
       # tried to get it, but does exist when we try to write it here), but
       # that's OK -- it should have the same content.
-      cache$set_content(cache_key, css)
+      sass_cache()$set_content(cache_key, css)
     }
 
   } else {
