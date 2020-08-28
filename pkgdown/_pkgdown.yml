@@ -1,6 +1,10 @@
 url: https://rstudio.github.io/sass/
 
-destination: docs
+template:
+  params:
+    docsearch:
+      api_key: b7f32716c953bf205e00b89772b35d36
+      index_name: rstudio_sass
 
 toc:
   depth: 2
