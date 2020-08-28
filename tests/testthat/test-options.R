@@ -1,7 +1,7 @@
 context("options")
 
 # Disable sass cache
-options(sass.cache = FALSE)
+local_disable_cache()
 
 test_that("indent width works", {
   scss <- "foo { margin: 122px * .3; }"

@@ -1,7 +1,7 @@
 context("output")
 
 # Disable sass cache
-options(sass.cache = FALSE)
+local_disable_cache()
 
 test_that("writing to file works", {
   file_name <- tempfile(fileext = ".css")

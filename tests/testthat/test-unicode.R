@@ -1,10 +1,10 @@
 context("unicode")
 
 # Disable sass cache
-options(sass.cache = FALSE)
+local_disable_cache()
 
 test_that("unicode variables work", {
-  expected <- paste0(readLines("test-unicode-var-expected.css"), collapse = "\n")
+  expected <- read_utf8("test-unicode-var-expected.css")
   class(expected) <- c("css", "html", "character")
   attr(expected, "html") <- TRUE
 
@@ -14,7 +14,7 @@ test_that("unicode variables work", {
 })
 
 test_that("unicode css works", {
-  expected <- paste0(readLines("test-unicode-css-expected.css"), collapse = "\n")
+  expected <- read_utf8("test-unicode-css-expected.css")
   class(expected) <- c("css", "html", "character")
   attr(expected, "html") <- TRUE
 
@@ -24,7 +24,7 @@ test_that("unicode css works", {
 })
 
 test_that("unicode bom", {
-  expected <- paste0(readLines("test-unicode-bom-expected.css"), collapse = "\n")
+  expected <- read_utf8("test-unicode-bom-expected.css")
   class(expected) <- c("css", "html", "character")
   attr(expected, "html") <- TRUE
 

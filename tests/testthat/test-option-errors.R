@@ -1,7 +1,7 @@
 context("option errors")
 
 # Disable sass cache
-options(sass.cache = FALSE)
+local_disable_cache()
 
 test_that("unnamed options fail", {
   sass_options <- sass_options()

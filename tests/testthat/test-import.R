@@ -1,7 +1,7 @@
 context("import")
 
 # Disable sass cache
-options(sass.cache = FALSE)
+local_disable_cache()
 
 test_that("import works", {
   imported_type <- "html"
