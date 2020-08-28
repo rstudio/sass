@@ -44,6 +44,12 @@
 <script src="../pkgdown.js"></script>
 
 
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+
 
 
 <meta property="og:title" content="Sass Import — sass_import" />
@@ -107,6 +113,12 @@ more details." />
 </li>
       </ul>
       
+      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+        </div>
+      </form>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -159,11 +171,11 @@ exists given the input value.</p>
     <pre class="examples"><div class='input'><span class='fu'>sass_import</span>(<span class='st'>"foo"</span>)</div><div class='output co'>#&gt; [1] "@import \"foo\";"</div><div class='input'><span class='fu'>sass_import</span>(<span class='st'>"$foo"</span>, <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] "@import $foo;"</div><div class='input'><span class='co'># \donttest{</span>
 <span class='no'>tmp_scss_file</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(<span class='kw'>fileext</span> <span class='kw'>=</span> <span class='st'>".scss"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/writeLines.html'>writeLines</a></span>(<span class='st'>"$color: red; body{ color: $color; }"</span>, <span class='no'>tmp_scss_file</span>)
-<span class='fu'>sass_file</span>(<span class='no'>tmp_scss_file</span>)</div><div class='output co'>#&gt; [1] "@import \"/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpnQcNSj/fileaedaa503d0.scss\";"
+<span class='fu'>sass_file</span>(<span class='no'>tmp_scss_file</span>)</div><div class='output co'>#&gt; [1] "@import \"/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp2KVeQZ/fileae633d13f9f.scss\";"
 #&gt; attr(,"class")
 #&gt; [1] "sass_file" "character"
 #&gt; attr(,"sass_file_path")
-#&gt; [1] "/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpnQcNSj/fileaedaa503d0.scss"</div><div class='input'><span class='fu'><a href='sass.html'>sass</a></span>(<span class='fu'>sass_file</span>(<span class='no'>tmp_scss_file</span>))</div><div class='output co'>#&gt; /* CSS */
+#&gt; [1] "/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp2KVeQZ/fileae633d13f9f.scss"</div><div class='input'><span class='fu'><a href='sass.html'>sass</a></span>(<span class='fu'>sass_file</span>(<span class='no'>tmp_scss_file</span>))</div><div class='output co'>#&gt; /* CSS */
 #&gt; body {
 #&gt;   color: red;
 #&gt; }
@@ -191,6 +203,23 @@ exists given the input value.</p>
    </div>
 
   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: 'b7f32716c953bf205e00b89772b35d36',
+    indexName: 'rstudio_sass',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
 
   </body>
