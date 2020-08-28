@@ -3,23 +3,22 @@
 #' Compile Sass to CSS using LibSass.
 #'
 #'
-#' @param input Accepts raw Sass, a named list of variables, or a list of raw Sass and/or named variables.
-#'   See \code{\link{as_sass}} and \code{\link{sass_import}} / \code{\link{sass_file}} for more details.
+#' @param input Accepts raw Sass, a named list of variables, or a list of raw
+#'   Sass and/or named variables. See \code{\link{as_sass}} and
+#'   \code{\link{sass_import}} / \code{\link{sass_file}} for more details.
 #' @param options Compiler options for Sass. Please specify options using
 #'   \code{\link{sass_options}}.
 #' @param output Specifies path to output file for compiled CSS.
-#' @param cache_options Caching options for Sass. Please specify options using
-#'   \code{\link{sass_cache_options}}. Caching is turned off by default for
-#'   interactive R sessions, and turned on for non-interactive ones.
+#' @param cache A [DiskCache] object.
 #' @param write_attachments If the input contains \code{\link{sass_layer}}
 #'   objects that have file attachments, and \code{output} is not \code{NULL},
 #'   then copy the file attachments to the directory of \code{output}. (Defaults
 #'   to \code{NA}, which merely emits a warning if file attachments are present,
 #'   but does not write them to disk; the side-effect of writing extra files is
 #'   subtle and potentially destructive, as files may be overwritten.)
-#' @return If \code{output = NULL}, the function returns a string value
-#'   of the compiled CSS. If the output path is specified, the compiled
-#'   CSS is written to that file and \code{invisible()} is returned.
+#' @return If \code{output = NULL}, the function returns a string value of the
+#'   compiled CSS. If the output path is specified, the compiled CSS is written
+#'   to that file and \code{invisible()} is returned.
 #' @seealso \url{http://sass-lang.com/guide}
 #' @export
 #' @examples
@@ -40,13 +39,13 @@
 #'   sass_file(tmp_file)
 #' ))
 sass <- function(input = NULL, options = sass_options(), output = NULL,
-  cache_options = sass_cache_options(), write_attachments = NA) {
+  write_attachments = NA, cache = sass_get_default_cache()) {
 
   if (!inherits(options, "sass_options")) {
     stop("Please construct the compile options using `sass_options()`.")
   }
-  if (!inherits(cache_options, "sass_cache_options")) {
-    stop("Please construct the cache options using `sass_cache_options()`.")
+  if (!is.null(cache) && !inherits(cache, "DiskCache")) {
+    stop("Please use NULL or a DiskCache object for `cache`.")
   }
   if (!is.null(output) && !dir.exists(fs::path_dir(output))) {
     stop("The output directory '", fs::path_dir(output), "' does not exist")
@@ -58,17 +57,17 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
   css <- NULL
   layer <- NULL
 
-  if (isTRUE(cache_options[["cache"]])) {
+  if (!is.null(cache)) {
     cache_key <- sass_hash(list(input, options))
     cache_hit <- FALSE
     if (is.null(output)) {
       # If no output is specified, we need to return a character vector
-      css <- sass_cache()$get_content(cache_key)
+      css <- cache$get_content(cache_key)
       if (!is.null(css)) {
         cache_hit <- TRUE
       }
     } else {
-      cache_hit <- sass_cache()$get(cache_key, outfile = output)
+      cache_hit <- cache$get(cache_key, outfile = output)
       if (cache_hit) {
         if (isTRUE(write_attachments == FALSE)) {
           return(invisible())
@@ -88,7 +87,7 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
       # cache dir, this could return FALSE (if the file didn't exist when we
       # tried to get it, but does exist when we try to write it here), but
       # that's OK -- it should have the same content.
-      sass_cache()$set_content(cache_key, css)
+      cache$set_content(cache_key, css)
     }
 
   } else {

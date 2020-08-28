@@ -1,13 +1,106 @@
-# DiskCache object for storing generated .css files.
-sass_cache <- local({
-  cache <- NULL
-  function() {
-    if (is.null(cache)) {
-      cache <<- DiskCache$new(dir = file.path(tempdir(), "sass-cache"))
-    }
-    cache
+.globals <- new.env(parent = emptyenv())
+
+#' Get and set the default cache used for compiled css files
+#'
+#' The default cache is used by the [sass()] function to cache outputs. In some
+#' cases when developing and modifying .scss files, [sass()] might not detect
+#' changes, and keep using cached .css files instead of rebuilding them. To be
+#' safe, if you are developing a theme with sass, it's best to turn off caching
+#' by setting `cache` to `NULL`.
+#'
+#' If caching is enabled, [sass()] will attempt to bypass the compilation
+#' process by reusing output from previous [sass()] calls that used equivalent
+#' inputs. This mechanism works by calling [sass_hash()] to derive a \emph{cache
+#' key} from each [sass()] call's `input` and `options` arguments. If an object
+#' with that hash already exists within the cache directory, its contents are
+#' used instead of performing the compilation. If it does not exist, then
+#' compilation is performed and usual and the results are stored in the cache.
+#'
+#' If a file that is included using [sass_file()] changes on disk (i.e. its
+#' last-modified time changes), its previous cache entries will effectively be
+#' invalidated (not removed from disk, but they'll no longer be matched).
+#' However, if a file imported using [sass_file()] itself imports other sass
+#' files using \code{@import}, changes to those files are invisible to the cache
+#' and you will end up with stale results. Caching should be disabled in cases
+#' like this.
+#'
+#' If `sass_get_default_cache()` is called before `sass_set_default_cache()`,
+#' then it will create a cache in a subdirectory of the system temp directory
+#' named `R-sass-cache` and set it as the default. Because this cache directory
+#' is not in the R process's temp directory, it will persist longer than the R
+#' process, typically until a system reboot. Additionally, it will be shared
+#' across R processes on the same system.
+#'
+#' By default, the maximum size of the cache is 40 MB. If it grows past that
+#' size, the least-recently-used objects will be evicted from the cache to keep
+#' it under that size. To set the options for the cache, create a [DiskCache]
+#' object and set it as the default cache.
+#'
+#' To clear the cache (but keep using it in the future), call
+#' `sass_get_default_cache()$reset()`.
+#'
+#' @param cache A [DiskCache] object, or `NULL` if you don't want to use a
+#'   cache.
+#'
+#' @examples
+#' # Very slow to compile
+#' fib_sass <- "@function fib($x) {
+#'   @if $x <= 1 {
+#'     @return $x
+#'   }
+#'   @return fib($x - 2) + fib($x - 1);
+#' }
+#'
+#' body {
+#'   width: fib(27);
+#' }"
+#'
+#' # The first time this runs it will be very slow
+#' system.time(sass(fib_sass))
+#'
+#' # But on subsequent calls, it should be very fast
+#' system.time(sass(fib_sass))
+#'
+#' # sass() can be called with cache=NULL; it will be slow
+#' system.time(sass(fib_sass, cache = NULL))
+#'
+#' # Clear the cache
+#' sass_get_default_cache()$reset()
+#'
+#' \dontrun{
+#' # Example of disabling cache by setting the default cache to NULL.
+#'
+#' # Disable the default cache (save the original one first, so we can restore)
+#' old_cache <- sass_get_default_cache()
+#' sass_set_default_cache(NULL)
+#' # Will be slow, because no cache
+#' system.time(sass(fib_sass))
+#'
+#' # Restore the original cache
+#' sass_set_default_cache(old_cache)
+#' }
+#' @export
+sass_get_default_cache <- function() {
+  if (!exists("cache", .globals, inherits = FALSE)) {
+    sass_set_default_cache(
+      DiskCache$new(
+        max_size = 40 * 1024 ^ 2,
+        dir = file.path(dirname(tempdir()), "R-sass-cache")
+      )
+    )
   }
-})
+  .globals$cache
+}
+
+#' @rdname sass_get_default_cache
+#' @export
+sass_set_default_cache <- function(cache) {
+  if (!is.null(cache) && !inherits(cache, "DiskCache")) {
+    stop("`cache` must be a DiskCache object or NULL.")
+  }
+  .globals$cache <- cache
+}
+
 
 #' Returns a hash of the object, including sass_file mtimes
 #'
@@ -41,4 +134,17 @@ add_sass_file_mtime <- function(x) {
   } else {
     x
   }
+}
+
+#' Caching Options for Sass (defunct)
+#'
+#' This function is no longer used. Please see [sass_get_default_cache()].
+#' @param cache No longer used.
+#' @param cache_dir  No longer used.
+#' @export
+sass_cache_options <- function(cache, cache_dir) {
+  message(
+    "The function `sass_cache_options` is no longer used.",
+    "Please see ?sass_get_default_cache and ?DiskCache."
+  )
 }
