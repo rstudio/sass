@@ -161,6 +161,9 @@ DiskCache <- R6Class("DiskCache",
 
       if (file.copy(cache_file, outfile, overwrite = overwrite)) {
         private$log(paste0('get: key "', key, '" found and copied to ', outfile))
+        if (private$evict == "lru"){
+          Sys.setFileTime(cache_file, Sys.time())
+        }
         return(TRUE)
       }
 
@@ -193,6 +196,9 @@ DiskCache <- R6Class("DiskCache",
             result <- read_utf8(cache_file)
           } else if (mode == "raw") {
             result <- read_raw(cache_file)
+          }
+          if (private$evict == "lru"){
+            Sys.setFileTime(cache_file, Sys.time())
           }
         },
         error = function(e) { errored <<- TRUE }
