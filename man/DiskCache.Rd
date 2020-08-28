@@ -261,9 +261,10 @@ Sets content associated with `key`, from a single-element
 \describe{
 \item{\code{key}}{Key. Must be lowercase numbers and letters.}
 
-\item{\code{content}}{A character or raw vector. If it's a character vector,
-it will be written with elements collapsed with `\\n`, with UTF-8
-encoding.}
+\item{\code{content}}{A character or raw vector. If it is a character vector,
+it will be written with UTF-8 encoding, with with elements collapsed
+with `\\n` (consistent across platforms), and it will always have a
+trailing `\\n`.}
 }
 \if{html}{\out{</div>}}
 }

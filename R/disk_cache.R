@@ -244,9 +244,10 @@ DiskCache <- R6Class("DiskCache",
     #' @return `TRUE` if setting the content in the cache succeeds, `FALSE`
     #'   otherwise.
     #' @param key Key. Must be lowercase numbers and letters.
-    #' @param content A character or raw vector. If it's a character vector,
-    #'   it will be written with elements collapsed with `\\n`, with UTF-8
-    #'   encoding.
+    #' @param content A character or raw vector. If it is a character vector,
+    #'   it will be written with UTF-8 encoding, with with elements collapsed
+    #'   with `\\n` (consistent across platforms), and it will always have a
+    #'   trailing `\\n`.
     set_content = function(key, content) {
       private$log(paste0('set_content: key "', key, '"'))
       self$is_destroyed(throw = TRUE)
