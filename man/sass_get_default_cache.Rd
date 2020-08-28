@@ -39,10 +39,10 @@ like this.
 
 If `sass_get_default_cache()` is called before `sass_set_default_cache()`,
 then it will create a cache in a subdirectory of the system temp directory
-named `R-sass-cache` and set it as the default. Because this cache directory
-is not in the R process's temp directory, it will persist longer than the R
-process, typically until a system reboot. Additionally, it will be shared
-across R processes on the same system.
+named `R-sass-cache-username` and set it as the default. Because this cache
+directory is not in the R process's temp directory, it will persist longer
+than the R process, typically until a system reboot. Additionally, it will be
+shared across R processes on the same system.
 
 By default, the maximum size of the cache is 40 MB. If it grows past that
 size, the least-recently-used objects will be evicted from the cache to keep

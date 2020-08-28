@@ -202,7 +202,7 @@ overwritten?}
 Get the content associated with `key`, and return as either
   string or a raw vector.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{DiskCache$get_content(key, mode = c("string", "lines", "raw"))}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{DiskCache$get_content(key, mode = c("text", "raw"))}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -211,9 +211,8 @@ Get the content associated with `key`, and return as either
 \item{\code{key}}{Key. Must be lowercase numbers and letters.}
 
 \item{\code{mode}}{If `"text"`, return the content as a UTF-8-encoded text
-string (a one element char vector). If `"lines"`, return the content as
-a character vector with one element per line. If `"raw"`, return the
-content as a raw vector.}
+string (a one element char vector). If `"raw"`, return the content as a
+raw vector.}
 }
 \if{html}{\out{</div>}}
 }
@@ -263,8 +262,7 @@ Sets content associated with `key`, from a single-element
 
 \item{\code{content}}{A character or raw vector. If it is a character vector,
 it will be written with UTF-8 encoding, with with elements collapsed
-with `\\n` (consistent across platforms), and it will always have a
-trailing `\\n`.}
+with `\\n` (consistent across platforms).}
 }
 \if{html}{\out{</div>}}
 }
