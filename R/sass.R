@@ -100,7 +100,7 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
   layer <- extract_layer(input)
 
   if (!is.null(output)) {
-    write_lines(css, output)
+    write_utf8(css, output)
     maybe_write_attachments(layer, output, write_attachments)
     return(invisible())
   }

@@ -86,7 +86,6 @@
 #'
 #' @keywords internal
 #' @importFrom R6 R6Class
-#' @import brio
 DiskCache <- R6Class("DiskCache",
   public = list(
     #' @description Create a DiskCache object.
@@ -175,10 +174,9 @@ DiskCache <- R6Class("DiskCache",
     #'   `NULL` otherwise.
     #' @param key Key. Must be lowercase numbers and letters.
     #' @param mode If `"text"`, return the content as a UTF-8-encoded text
-    #'   string (a one element char vector). If `"lines"`, return the content as
-    #'   a character vector with one element per line. If `"raw"`, return the
-    #'   content as a raw vector.
-    get_content = function(key, mode = c("string", "lines", "raw")) {
+    #'   string (a one element char vector). If `"raw"`, return the content as a
+    #'   raw vector.
+    get_content = function(key, mode = c("text", "raw")) {
       private$log(paste0('get_content: key "', key, '"'))
       self$is_destroyed(throw = TRUE)
       validate_key(key)
@@ -191,12 +189,10 @@ DiskCache <- R6Class("DiskCache",
       errored <- FALSE
       tryCatch(
         {
-          if (mode == "string") {
-            result <- read_file(cache_file)
-          } else if (mode == "lines") {
-            result <- read_lines(cache_file)
+          if (mode == "text") {
+            result <- read_utf8(cache_file)
           } else if (mode == "raw") {
-            result <- read_file_raw(cache_file)
+            result <- read_raw(cache_file)
           }
         },
         error = function(e) { errored <<- TRUE }
@@ -246,8 +242,7 @@ DiskCache <- R6Class("DiskCache",
     #' @param key Key. Must be lowercase numbers and letters.
     #' @param content A character or raw vector. If it is a character vector,
     #'   it will be written with UTF-8 encoding, with with elements collapsed
-    #'   with `\\n` (consistent across platforms), and it will always have a
-    #'   trailing `\\n`.
+    #'   with `\\n` (consistent across platforms).
     set_content = function(key, content) {
       private$log(paste0('set_content: key "', key, '"'))
       self$is_destroyed(throw = TRUE)
@@ -261,7 +256,7 @@ DiskCache <- R6Class("DiskCache",
       tryCatch(
         {
           if (is.character(content)) {
-            write_lines(content, cache_file)
+            write_utf8(content, cache_file)
           } else if (is.raw(content)) {
             writeBin(content, cache_file)
           }

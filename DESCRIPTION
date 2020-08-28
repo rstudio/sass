@@ -45,8 +45,7 @@ Imports:
     fs,
     rlang,
     htmltools,
-    R6,
-    brio
+    R6
 Suggests:
     testthat,
     knitr,
