@@ -115,23 +115,6 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
   css
 }
 
-#' Returns a hash of the object, including sass_file mtimes
-#'
-#' This function returns a hash of the object `x`, intended for use in caching.
-#' It recuses into lists, and any [sass_file()] objects will have the file's
-#' mtime attached as an attribute. This is useful for detecting if the file has
-#' been modified.
-#'
-#' @param x A list with sass objects.
-#'
-#' @export
-sass_hash <- function(x) {
-  digest::digest(
-    add_sass_file_mtime(list(x, utils::packageVersion("sass"))),
-    algo = "xxhash64"
-  )
-}
-
 maybe_write_attachments <- function(layer, output, write_attachments) {
   if (!(is_sass_layer(layer) && length(layer$file_attachments))) {
     return()
