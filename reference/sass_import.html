@@ -171,11 +171,11 @@ exists given the input value.</p>
     <pre class="examples"><div class='input'><span class='fu'>sass_import</span>(<span class='st'>"foo"</span>)</div><div class='output co'>#&gt; [1] "@import \"foo\";"</div><div class='input'><span class='fu'>sass_import</span>(<span class='st'>"$foo"</span>, <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] "@import $foo;"</div><div class='input'><span class='co'># \donttest{</span>
 <span class='no'>tmp_scss_file</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(<span class='kw'>fileext</span> <span class='kw'>=</span> <span class='st'>".scss"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/writeLines.html'>writeLines</a></span>(<span class='st'>"$color: red; body{ color: $color; }"</span>, <span class='no'>tmp_scss_file</span>)
-<span class='fu'>sass_file</span>(<span class='no'>tmp_scss_file</span>)</div><div class='output co'>#&gt; [1] "@import \"/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp2KVeQZ/fileae633d13f9f.scss\";"
+<span class='fu'>sass_file</span>(<span class='no'>tmp_scss_file</span>)</div><div class='output co'>#&gt; [1] "@import \"/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpIviDZU/fileaa8547cf8da.scss\";"
 #&gt; attr(,"class")
 #&gt; [1] "sass_file" "character"
 #&gt; attr(,"sass_file_path")
-#&gt; [1] "/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp2KVeQZ/fileae633d13f9f.scss"</div><div class='input'><span class='fu'><a href='sass.html'>sass</a></span>(<span class='fu'>sass_file</span>(<span class='no'>tmp_scss_file</span>))</div><div class='output co'>#&gt; /* CSS */
+#&gt; [1] "/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpIviDZU/fileaa8547cf8da.scss"</div><div class='input'><span class='fu'><a href='sass.html'>sass</a></span>(<span class='fu'>sass_file</span>(<span class='no'>tmp_scss_file</span>))</div><div class='output co'>#&gt; /* CSS */
 #&gt; body {
 #&gt;   color: red;
 #&gt; }

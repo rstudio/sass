@@ -169,14 +169,14 @@ calling <code>sass_layer(rules = ...)</code>.</p></td>
     </tr>
     <tr>
       <th>defaults</th>
-      <td><p>A suitable <code><a href='as_sass.html'>sass::as_sass()</a></code> <code>input</code>. Intended for declaring
+      <td><p>A suitable <code><a href='as_sass.html'>as_sass()</a></code> <code>input</code>. Intended for declaring
 variables with <code>!default</code>. When layers are combined, defaults are merged in
 reverse order; that is, <code>sass_layer_merge(layer1, layer2)</code> will include
 <code>layer2$defaults</code> before <code>layer1$defaults</code>.</p></td>
     </tr>
     <tr>
       <th>declarations</th>
-      <td><p>A suitable <code><a href='as_sass.html'>sass::as_sass()</a></code> <code>input</code>.  Intended for
+      <td><p>A suitable <code><a href='as_sass.html'>as_sass()</a></code> <code>input</code>.  Intended for
 function and mixin declarations, and variable declarations without
 <code>!default</code>; not intended for actual CSS rules. These will be merged in
 forward order; that is, <code>sass_layer_merge(layer1, layer2)</code> will include
@@ -184,7 +184,7 @@ forward order; that is, <code>sass_layer_merge(layer1, layer2)</code> will inclu
     </tr>
     <tr>
       <th>rules</th>
-      <td><p>A suitable <code><a href='as_sass.html'>sass::as_sass()</a></code> <code>input</code>. Intended for actual CSS
+      <td><p>A suitable <code><a href='as_sass.html'>as_sass()</a></code> <code>input</code>. Intended for actual CSS
 rules. These will be merged in forward order; that is,
 <code>sass_layer_merge(layer1, layer2)</code> will include <code>layer1$rules</code> before
 <code>layer2$rules</code>.</p></td>
