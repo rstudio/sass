@@ -9,7 +9,7 @@
 #' @param options Compiler options for Sass. Please specify options using
 #'   \code{\link{sass_options}}.
 #' @param output Specifies path to output file for compiled CSS.
-#' @param cache A [FileCache] object.
+#' @param cache A [FileCache] object created by [sass_file_cache()].
 #' @param write_attachments If the input contains \code{\link{sass_layer}}
 #'   objects that have file attachments, and \code{output} is not \code{NULL},
 #'   then copy the file attachments to the directory of \code{output}. (Defaults
