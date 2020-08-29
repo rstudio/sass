@@ -1,107 +1,108 @@
 context("cache")
 
-with_temp_cache <- function(expr) {
+# Creates a temporary cache that is used as the default. When the calling
+# function exits, the temporary cache is destroyed, and the previous default
+# cache is restored.
+local_temp_cache <- function(expr, env = parent.frame()) {
   orig_cache <- sass_get_default_cache()
-  on.exit({
-    sass_set_default_cache(orig_cache)
-    temp_cache$destroy()
-  })
   temp_cache <- sass_file_cache(tempfile())
+  withr::defer(
+    {
+      sass_set_default_cache(orig_cache)
+      temp_cache$destroy()
+    },
+    envir = env
+  )
   sass_set_default_cache(temp_cache)
-
-  force(expr)
 }
 
 
 test_that("throws on invalid output dir", {
-  with_temp_cache({
-    # Prime the cache
-    sass("div { border: 1px solid black; }")
+  local_temp_cache()
 
-    # Cache
-    expect_error(
-      sass(
-        "div { border: 1px solid black; }",
-        output = file.path("not", "a", "path.css")
-      )
+  # Prime the cache
+  sass("div { border: 1px solid black; }")
+
+  # Cache
+  expect_error(
+    sass(
+      "div { border: 1px solid black; }",
+      output = file.path("not", "a", "path.css")
     )
-  })
+  )
 })
 
 test_that("reads from and writes to cache", {
-  with_temp_cache({
-    expected <- read_utf8("test-unicode-var-expected.css")
+  local_temp_cache()
+  expected <- read_utf8("test-unicode-var-expected.css")
 
-    css <- sass(sass_file("test-unicode-var-input.scss"))
-    expect_equal(as.character(css), expected)
+  css <- sass(sass_file("test-unicode-var-input.scss"))
+  expect_equal(as.character(css), expected)
 
-    css <- sass(sass_file("test-unicode-var-input.scss"))
-    expect_equal(as.character(css), expected)
+  css <- sass(sass_file("test-unicode-var-input.scss"))
+  expect_equal(as.character(css), expected)
 
-    expect_equal(sass_get_default_cache()$size(), 1)
-  })
+  expect_equal(sass_get_default_cache()$size(), 1)
 })
 
 test_that("writes to cache", {
-  with_temp_cache({
-    cache <- sass_get_default_cache()
+  local_temp_cache()
+  cache <- sass_get_default_cache()
 
-    input <- list(
-      list(text_color = "#313131"),
-      list("body { color: $text_color; }")
-    )
+  input <- list(
+    list(text_color = "#313131"),
+    list("body { color: $text_color; }")
+  )
 
-    options <- sass_options(output_style = "compact")
+  options <- sass_options(output_style = "compact")
 
-    res <- sass(input, options)
+  res <- sass(input, options)
 
-    # Did we get the right result?
-    expect_equal(as.character(res), "body { color: #313131; }\n")
+  # Did we get the right result?
+  expect_equal(as.character(res), "body { color: #313131; }\n")
 
-    # Did a cache entry get added?
-    expect_equal(cache$size(), 1)
+  # Did a cache entry get added?
+  expect_equal(cache$size(), 1)
 
-    # Again, now with an output file
-    out_file <- tempfile(fileext = ".css")
-    sass(input, options, out_file)
-    expect_equal(read_utf8(out_file), c("body { color: #313131; }\n"))
+  # Again, now with an output file
+  out_file <- tempfile(fileext = ".css")
+  sass(input, options, out_file)
+  expect_equal(read_utf8(out_file), c("body { color: #313131; }\n"))
 
-    # Now manipulate the cache directly to make sure it is actually being read
-    # from. We'll change the value in the cache and see if sass() reads from it.
-    cache$set_content(cache$keys(), "foo")
-    res <- sass(input, options)
-    expect_equal(as.character(res), "foo")
-  })
+  # Now manipulate the cache directly to make sure it is actually being read
+  # from. We'll change the value in the cache and see if sass() reads from it.
+  cache$set_content(cache$keys(), "foo")
+  res <- sass(input, options)
+  expect_equal(as.character(res), "foo")
 })
 
 test_that("unicode characters work OK after caching", {
-  with_temp_cache({
-    expected <- read_utf8("test-unicode-var-expected.css")
-    class(expected) <- c("css", "html", "character")
-    attr(expected, "html") <- TRUE
+  local_temp_cache()
+  expected <- read_utf8("test-unicode-var-expected.css")
+  class(expected) <- c("css", "html", "character")
+  attr(expected, "html") <- TRUE
 
-    css <- sass(sass_file("test-unicode-var-input.scss"))
-    expect_equal(css, expected)
+  css <- sass(sass_file("test-unicode-var-input.scss"))
+  expect_equal(css, expected)
 
-    css <- sass(sass_file("test-unicode-var-input.scss"))
-    expect_equal(css, expected)
+  css <- sass(sass_file("test-unicode-var-input.scss"))
+  expect_equal(css, expected)
 
-    expect_equal(sass_get_default_cache()$size(), 1)
-  })
+  expect_equal(sass_get_default_cache()$size(), 1)
 })
 
 test_that("cache isn't written if a compilation error occurs", {
-  with_temp_cache({
-    input <- list(
-      list(text_color = "#a0a0a0"),
-      list("body { color is: $text_color; }")
-    )
-    options <- sass_options(output_style = "compact")
+  local_temp_cache()
 
-    expect_error(sass(input, options), "must be followed")
+  input <- list(
+    list(text_color = "#a0a0a0"),
+    list("body { color is: $text_color; }")
+  )
+  options <- sass_options(output_style = "compact")
 
-    expect_equal(sass_get_default_cache()$size(), 0)
-  })
+  expect_error(sass(input, options), "must be followed")
+
+  expect_equal(sass_get_default_cache()$size(), 0)
 })
 
 test_that("cache key components", {
