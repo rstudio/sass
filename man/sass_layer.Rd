@@ -23,18 +23,18 @@ defaults, declarations, and rules in later layers will take precedence over
 those of previous layers. Non-layer values will be converted to layers by
 calling \code{sass_layer(rules = ...)}.}
 
-\item{defaults}{A suitable \code{\link[sass:as_sass]{sass::as_sass()}} \code{input}. Intended for declaring
+\item{defaults}{A suitable \code{\link[=as_sass]{as_sass()}} \code{input}. Intended for declaring
 variables with \code{!default}. When layers are combined, defaults are merged in
 reverse order; that is, \code{sass_layer_merge(layer1, layer2)} will include
 \code{layer2$defaults} before \code{layer1$defaults}.}
 
-\item{declarations}{A suitable \code{\link[sass:as_sass]{sass::as_sass()}} \code{input}.  Intended for
+\item{declarations}{A suitable \code{\link[=as_sass]{as_sass()}} \code{input}.  Intended for
 function and mixin declarations, and variable declarations without
 \code{!default}; not intended for actual CSS rules. These will be merged in
 forward order; that is, \code{sass_layer_merge(layer1, layer2)} will include
 \code{layer1$declarations} before \code{layer2$declarations}.}
 
-\item{rules}{A suitable \code{\link[sass:as_sass]{sass::as_sass()}} \code{input}. Intended for actual CSS
+\item{rules}{A suitable \code{\link[=as_sass]{as_sass()}} \code{input}. Intended for actual CSS
 rules. These will be merged in forward order; that is,
 \code{sass_layer_merge(layer1, layer2)} will include \code{layer1$rules} before
 \code{layer2$rules}.}
