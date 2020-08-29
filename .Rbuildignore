@@ -10,6 +10,8 @@
 ^src/libsass/\.travis.yml$
 ^src/libsass/m4/\.gitkeep$
 ^src/libsass/\.github$
+^src/libsass/lib/.*\.a$
+^src/libsass/src/.*\.o$
 ^\.travis\.yml$
 ^appveyor\.yml$
 ^man/figures/shiny-app.gif$
@@ -22,3 +24,5 @@
 ^Meta$
 ^revdep$
 ^\.github$
+^logo$
+^pkgdown$
