@@ -10,8 +10,8 @@ sass_hash(x)
 \item{x}{A list with sass objects.}
 }
 \description{
-This function returns a hash of the object `x`, intended for use in caching.
-It recuses into lists, and any [sass_file()] objects will have the file's
+This function returns a hash of the object \code{x}, intended for use in caching.
+It recuses into lists, and any \code{\link[=sass_file]{sass_file()}} objects will have the file's
 mtime attached as an attribute. This is useful for detecting if the file has
 been modified.
 }

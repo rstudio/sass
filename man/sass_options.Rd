@@ -68,7 +68,7 @@ the output file. Note: must specify \code{output_path} when \code{TRUE}.}
 }
 \value{
 List of Sass compiler options to be used with
-  \code{\link{sass}}.
+\code{\link{sass}}.
 }
 \description{
 Set compiler options for Sass. Used with \code{\link{sass}}.

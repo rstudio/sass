@@ -10,47 +10,47 @@ sass_get_default_cache()
 sass_set_default_cache(cache = sass_file_cache())
 }
 \arguments{
-\item{cache}{A [FileCache] object, or `NULL` if you don't want to use a
+\item{cache}{A \link{FileCache} object, or \code{NULL} if you don't want to use a
 cache.}
 }
 \description{
-The default cache is used by the [sass()] function to cache outputs. In some
-cases when developing and modifying .scss files, [sass()] might not detect
+The default cache is used by the \code{\link[=sass]{sass()}} function to cache outputs. In some
+cases when developing and modifying .scss files, \code{\link[=sass]{sass()}} might not detect
 changes, and keep using cached .css files instead of rebuilding them. To be
 safe, if you are developing a theme with sass, it's best to turn off caching
-by setting `cache` to `NULL`.
+by setting \code{cache} to \code{NULL}.
 }
 \details{
-If caching is enabled, [sass()] will attempt to bypass the compilation
-process by reusing output from previous [sass()] calls that used equivalent
-inputs. This mechanism works by calling [sass_hash()] to derive a \emph{cache
-key} from each [sass()] call's `input` and `options` arguments. If an object
+If caching is enabled, \code{\link[=sass]{sass()}} will attempt to bypass the compilation
+process by reusing output from previous \code{\link[=sass]{sass()}} calls that used equivalent
+inputs. This mechanism works by calling \code{\link[=sass_hash]{sass_hash()}} to derive a \emph{cache
+key} from each \code{\link[=sass]{sass()}} call's \code{input} and \code{options} arguments. If an object
 with that hash already exists within the cache directory, its contents are
 used instead of performing the compilation. If it does not exist, then
 compilation is performed and usual and the results are stored in the cache.
 
-If a file that is included using [sass_file()] changes on disk (i.e. its
+If a file that is included using \code{\link[=sass_file]{sass_file()}} changes on disk (i.e. its
 last-modified time changes), its previous cache entries will effectively be
 invalidated (not removed from disk, but they'll no longer be matched).
-However, if a file imported using [sass_file()] itself imports other sass
+However, if a file imported using \code{\link[=sass_file]{sass_file()}} itself imports other sass
 files using \code{@import}, changes to those files are invisible to the cache
 and you will end up with stale results. Caching should be disabled in cases
 like this.
 
-If `sass_get_default_cache()` is called before `sass_set_default_cache()`,
+If \code{sass_get_default_cache()} is called before \code{sass_set_default_cache()},
 then it will create a cache in a subdirectory of the system temp directory
-named `R-sass-cache-username` and set it as the default. Because this cache
+named \code{R-sass-cache-username} and set it as the default. Because this cache
 directory is not in the R process's temp directory, it will persist longer
 than the R process, typically until a system reboot. Additionally, it will be
 shared across R processes for the same user on the same system.
 
 By default, the maximum size of the cache is 40 MB. If it grows past that
 size, the least-recently-used objects will be evicted from the cache to keep
-it under that size. To set the options for the cache, create a [FileCache]
+it under that size. To set the options for the cache, create a \link{FileCache}
 object and set it as the default cache.
 
 To clear the cache (but keep using it in the future), call
-`sass_get_default_cache()$reset()`.
+\code{sass_get_default_cache()$reset()}.
 }
 \examples{
 # Very slow to compile

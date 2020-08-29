@@ -11,94 +11,94 @@ Create a file cache object
 \details{
 A file cache object is a key-file store that saves the values as files in a
 directory on disk. The objects are files on disk. They are stored and
-retrieved using the `get_file()`, `get_content()`, `set_file()`, and
-`set_content()` methods. Objects are automatically pruned from the cache
-according to the parameters `max_size`, `max_age`, `max_n`, and `evict`.
+retrieved using the \code{get_file()}, \code{get_content()}, \code{set_file()}, and
+\code{set_content()} methods. Objects are automatically pruned from the cache
+according to the parameters \code{max_size}, \code{max_age}, \code{max_n}, and \code{evict}.
 }
 \section{Cache pruning}{
 
 
-  Cache pruning occurs when `set_file()` or `set_content()` is called, or it
-  can be invoked manually by calling `prune()`.
+Cache pruning occurs when \code{set_file()} or \code{set_content()} is called, or it
+can be invoked manually by calling \code{prune()}.
 
-  The disk cache will throttle the pruning so that it does not happen on
-  every call to `set_file()` or `set_content()`, because the filesystem
-  operations for checking the status of files can be slow. Instead, it will
-  prune once in every 20 calls to `set_file()` or `set_content()`, or if at
-  least 5 seconds have elapsed since the last prune occurred, whichever is
-  first. These parameters are currently not customizable, but may be in the
-  future.
+The disk cache will throttle the pruning so that it does not happen on
+every call to \code{set_file()} or \code{set_content()}, because the filesystem
+operations for checking the status of files can be slow. Instead, it will
+prune once in every 20 calls to \code{set_file()} or \code{set_content()}, or if at
+least 5 seconds have elapsed since the last prune occurred, whichever is
+first. These parameters are currently not customizable, but may be in the
+future.
 
-  When a pruning occurs, if there are any objects that are older than
-  `max_age`, they will be removed.
+When a pruning occurs, if there are any objects that are older than
+\code{max_age}, they will be removed.
 
-  The `max_size` and `max_n` parameters are applied to the cache as a whole,
-  in contrast to `max_age`, which is applied to each object individually.
+The \code{max_size} and \code{max_n} parameters are applied to the cache as a whole,
+in contrast to \code{max_age}, which is applied to each object individually.
 
-  If the number of objects in the cache exceeds `max_n`, then objects will be
-  removed from the cache according to the eviction policy, which is set with
-  the `evict` parameter. Objects will be removed so that the number of items
-  is `max_n`.
+If the number of objects in the cache exceeds \code{max_n}, then objects will be
+removed from the cache according to the eviction policy, which is set with
+the \code{evict} parameter. Objects will be removed so that the number of items
+is \code{max_n}.
 
-  If the size of the objects in the cache exceeds `max_size`, then objects
-  will be removed from the cache. Objects will be removed from the cache so
-  that the total size remains under `max_size`. Note that the size is
-  calculated using the size of the files, not the size of disk space used by
-  the files --- these two values can differ because of files are stored in
-  blocks on disk. For example, if the block size is 4096 bytes, then a file
-  that is one byte in size will take 4096 bytes on disk.
+If the size of the objects in the cache exceeds \code{max_size}, then objects
+will be removed from the cache. Objects will be removed from the cache so
+that the total size remains under \code{max_size}. Note that the size is
+calculated using the size of the files, not the size of disk space used by
+the files --- these two values can differ because of files are stored in
+blocks on disk. For example, if the block size is 4096 bytes, then a file
+that is one byte in size will take 4096 bytes on disk.
 
-  Another time that objects can be removed from the cache is when
-  `get_file()` or `get_content()` is called. If the target object is older
-  than `max_age`, it will be removed and the cache will report it as a
-  missing value.
+Another time that objects can be removed from the cache is when
+\code{get_file()} or \code{get_content()} is called. If the target object is older
+than \code{max_age}, it will be removed and the cache will report it as a
+missing value.
 }
 
 \section{Eviction policies}{
 
 
-  If `max_n` or `max_size` are used, then objects will be removed from the
-  cache according to an eviction policy. The available eviction policies are:
+If \code{max_n} or \code{max_size} are used, then objects will be removed from the
+cache according to an eviction policy. The available eviction policies are:
 
-  \describe{ \item{`"lru"`}{ Least Recently Used. The least recently used
-  objects will be removed. This uses the filesystem's mtime property. When
-  "lru" is used, each time `get_file()` or `get_content()` is called, it will
-  update the file's mtime. } \item{`"fifo"`}{ First-in-first-out. The oldest
-  objects will be removed. } }
+\describe{ \item{\code{"lru"}}{ Least Recently Used. The least recently used
+objects will be removed. This uses the filesystem's mtime property. When
+"lru" is used, each time \code{get_file()} or \code{get_content()} is called, it will
+update the file's mtime. } \item{\code{"fifo"}}{ First-in-first-out. The oldest
+objects will be removed. } }
 
-  Both of these policies use files' mtime. Note that some filesystems
-  (notably FAT) have poor mtime resolution. (atime is not used because
-  support for atime is worse than mtime.)
+Both of these policies use files' mtime. Note that some filesystems
+(notably FAT) have poor mtime resolution. (atime is not used because
+support for atime is worse than mtime.)
 }
 
 \section{Sharing among multiple processes}{
 
 
-  The directory for a FileCache can be shared among multiple R processes. To
-  do this, each R process should have a FileCache object that uses the same
-  directory. Each FileCache will do pruning independently of the others, so
-  if they have different pruning parameters, then one FileCache may remove
-  cached objects before another FileCache would do so.
+The directory for a FileCache can be shared among multiple R processes. To
+do this, each R process should have a FileCache object that uses the same
+directory. Each FileCache will do pruning independently of the others, so
+if they have different pruning parameters, then one FileCache may remove
+cached objects before another FileCache would do so.
 
-  Even though it is possible for multiple processes to share a FileCache
-  directory, this should not be done on networked file systems, because of
-  slow performance of networked file systems can cause problems. If you need
-  a high-performance shared cache, you can use one built on a database like
-  Redis, SQLite, mySQL, or similar.
+Even though it is possible for multiple processes to share a FileCache
+directory, this should not be done on networked file systems, because of
+slow performance of networked file systems can cause problems. If you need
+a high-performance shared cache, you can use one built on a database like
+Redis, SQLite, mySQL, or similar.
 
-  When multiple processes share a cache directory, there are some potential
-  race conditions. For example, if your code calls `exists(key)` to check if
-  an object is in the cache, and then call `get_file(key)`, the object may be
-  removed from the cache in between those two calls, and `get_file(key)` will
-  throw an error. Instead of calling the two functions, it is better to
-  simply call `get_file(key)`, and use `tryCatch()` to handle the error that
-  is thrown if the object is not in the cache. This effectively tests for
-  existence and gets the object in one operation.
+When multiple processes share a cache directory, there are some potential
+race conditions. For example, if your code calls \code{exists(key)} to check if
+an object is in the cache, and then call \code{get_file(key)}, the object may be
+removed from the cache in between those two calls, and \code{get_file(key)} will
+throw an error. Instead of calling the two functions, it is better to
+simply call \code{get_file(key)}, and use \code{tryCatch()} to handle the error that
+is thrown if the object is not in the cache. This effectively tests for
+existence and gets the object in one operation.
 
-  It is also possible for one processes to prune objects at the same time
-  that another processes is trying to prune objects. If this happens, you may
-  see a warning from `file.remove()` failing to remove a file that has
-  already been deleted.
+It is also possible for one processes to prune objects at the same time
+that another processes is trying to prune objects. If this happens, you may
+see a warning from \code{file.remove()} failing to remove a file that has
+already been deleted.
 }
 
 \keyword{internal}
@@ -142,30 +142,30 @@ Create a FileCache object.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{dir}}{Directory to store files for the cache. If `NULL` (the default) it
+\item{\code{dir}}{Directory to store files for the cache. If \code{NULL} (the default) it
 will create and use a temporary directory.}
 
 \item{\code{max_size}}{Maximum size of the cache, in bytes. If the cache exceeds
 this size, cached objects will be removed according to the value of the
-`evict`. Use `Inf` for no size limit.}
+\code{evict}. Use \code{Inf} for no size limit.}
 
 \item{\code{max_age}}{Maximum age of files in cache before they are evicted, in
-seconds. Use `Inf` for no age limit.}
+seconds. Use \code{Inf} for no age limit.}
 
 \item{\code{max_n}}{Maximum number of objects in the cache. If the number of objects
 exceeds this value, then cached objects will be removed according to the
-value of `evict`. Use `Inf` for no limit of number of items.}
+value of \code{evict}. Use \code{Inf} for no limit of number of items.}
 
 \item{\code{evict}}{The eviction policy to use to decide which objects are removed
-when a cache pruning occurs. Currently, `"lru"` and `"fifo"` are supported.}
+when a cache pruning occurs. Currently, \code{"lru"} and \code{"fifo"} are supported.}
 
-\item{\code{destroy_on_finalize}}{If `TRUE`, then when the FileCache object is
+\item{\code{destroy_on_finalize}}{If \code{TRUE}, then when the FileCache object is
 garbage collected, the cache directory and all objects inside of it will be
-deleted from disk. If `FALSE` (the default), it will do nothing when
+deleted from disk. If \code{FALSE} (the default), it will do nothing when
 finalized.}
 
 \item{\code{logfile}}{An optional filename or connection object to where logging
-information will be written. To log to the console, use `stdout()`.}
+information will be written. To log to the console, use \code{stdout()}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -174,8 +174,8 @@ information will be written. To log to the console, use `stdout()`.}
 \if{html}{\out{<a id="method-get_file"></a>}}
 \if{latex}{\out{\hypertarget{method-get_file}{}}}
 \subsection{Method \code{get_file()}}{
-Get the content associated with `key`, and save in a file
-  named `outfile`.
+Get the content associated with \code{key}, and save in a file
+named \code{outfile}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{FileCache$get_file(key, outfile, overwrite = TRUE)}\if{html}{\out{</div>}}
 }
@@ -185,7 +185,7 @@ Get the content associated with `key`, and save in a file
 \describe{
 \item{\code{key}}{Key. Must be lowercase numbers and letters.}
 
-\item{\code{outfile}}{Name of output file. If `NULL`, return the content as}
+\item{\code{outfile}}{Name of output file. If \code{NULL}, return the content as}
 
 \item{\code{overwrite}}{If the output file already exists, should it be
 overwritten?}
@@ -193,16 +193,16 @@ overwritten?}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-`TRUE` if the object is found in the cache and copying succeeds,
-  `FALSE` otherwise.
+\code{TRUE} if the object is found in the cache and copying succeeds,
+\code{FALSE} otherwise.
 }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get_content"></a>}}
 \if{latex}{\out{\hypertarget{method-get_content}{}}}
 \subsection{Method \code{get_content()}}{
-Get the content associated with `key`, and return as either
-  string or a raw vector.
+Get the content associated with \code{key}, and return as either
+string or a raw vector.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{FileCache$get_content(key, mode = c("text", "raw"))}\if{html}{\out{</div>}}
 }
@@ -212,23 +212,23 @@ Get the content associated with `key`, and return as either
 \describe{
 \item{\code{key}}{Key. Must be lowercase numbers and letters.}
 
-\item{\code{mode}}{If `"text"`, return the content as a UTF-8-encoded text
-string (a one element char vector). If `"raw"`, return the content as a
+\item{\code{mode}}{If \code{"text"}, return the content as a UTF-8-encoded text
+string (a one element char vector). If \code{"raw"}, return the content as a
 raw vector.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
 A character or raw vector if the object is found in the cache,
-  `NULL` otherwise.
+\code{NULL} otherwise.
 }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-set_file"></a>}}
 \if{latex}{\out{\hypertarget{method-set_file}{}}}
 \subsection{Method \code{set_file()}}{
-Sets content associated with `key`, from a file named
-`infile`.
+Sets content associated with \code{key}, from a file named
+\code{infile}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{FileCache$set_file(key, infile)}\if{html}{\out{</div>}}
 }
@@ -243,16 +243,16 @@ Sets content associated with `key`, from a file named
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-`TRUE` if copying the file into the cache succeeds, `FALSE`
-  otherwise.
+\code{TRUE} if copying the file into the cache succeeds, \code{FALSE}
+otherwise.
 }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-set_content"></a>}}
 \if{latex}{\out{\hypertarget{method-set_content}{}}}
 \subsection{Method \code{set_content()}}{
-Sets content associated with `key`, from a single-element
-  vector.
+Sets content associated with \code{key}, from a single-element
+vector.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{FileCache$set_content(key, content)}\if{html}{\out{</div>}}
 }
@@ -264,20 +264,20 @@ Sets content associated with `key`, from a single-element
 
 \item{\code{content}}{A character or raw vector. If it is a character vector,
 it will be written with UTF-8 encoding, with with elements collapsed
-with `\\n` (consistent across platforms).}
+with \verb{\\\\n} (consistent across platforms).}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-`TRUE` if setting the content in the cache succeeds, `FALSE`
-  otherwise.
+\code{TRUE} if setting the content in the cache succeeds, \code{FALSE}
+otherwise.
 }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-exists"></a>}}
 \if{latex}{\out{\hypertarget{method-exists}{}}}
 \subsection{Method \code{exists()}}{
-Check if content associated with `key` exists in cache
+Check if content associated with \code{key} exists in cache
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{FileCache$exists(key)}\if{html}{\out{</div>}}
 }
@@ -290,7 +290,7 @@ Check if content associated with `key` exists in cache
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-`TRUE` if the object is in the cache, `FALSE` otherwise.
+\code{TRUE} if the object is in the cache, \code{FALSE} otherwise.
 }
 }
 \if{html}{\out{<hr>}}
@@ -323,8 +323,8 @@ Remove an object
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-`TRUE` if the object was found and successfully removed, `FALSE`
-  otherwise.
+\code{TRUE} if the object was found and successfully removed, \code{FALSE}
+otherwise.
 }
 }
 \if{html}{\out{<hr>}}
@@ -342,7 +342,7 @@ Clear all objects from the cache.
 \if{latex}{\out{\hypertarget{method-prune}{}}}
 \subsection{Method \code{prune()}}{
 Prune the cache, using the parameters specified by
-  `max_size`,   `max_age`, `max_n`, and `evict`.
+\code{max_size},   \code{max_age}, \code{max_n}, and \code{evict}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{FileCache$prune()}\if{html}{\out{</div>}}
 }
@@ -363,7 +363,7 @@ Return the number of items currently in the cache.
 \if{latex}{\out{\hypertarget{method-destroy}{}}}
 \subsection{Method \code{destroy()}}{
 Clears all objects in the cache, and removes the cache
-  directory from disk.
+directory from disk.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{FileCache$destroy()}\if{html}{\out{</div>}}
 }

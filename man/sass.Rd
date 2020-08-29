@@ -29,12 +29,12 @@ to \code{NA}, which merely emits a warning if file attachments are present,
 but does not write them to disk; the side-effect of writing extra files is
 subtle and potentially destructive, as files may be overwritten.)}
 
-\item{cache}{A [FileCache] object.}
+\item{cache}{A \link{FileCache} object created by \code{\link[=sass_file_cache]{sass_file_cache()}}.}
 }
 \value{
 If \code{output = NULL}, the function returns a string value of the
-  compiled CSS. If the output path is specified, the compiled CSS is written
-  to that file and \code{invisible()} is returned.
+compiled CSS. If the output path is specified, the compiled CSS is written
+to that file and \code{invisible()} is returned.
 }
 \description{
 Compile Sass to CSS using LibSass.
