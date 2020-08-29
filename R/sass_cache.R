@@ -29,18 +29,20 @@
 #' named `R-sass-cache-username` and set it as the default. Because this cache
 #' directory is not in the R process's temp directory, it will persist longer
 #' than the R process, typically until a system reboot. Additionally, it will be
-#' shared across R processes on the same system.
+#' shared across R processes for the same user on the same system.
 #'
 #' By default, the maximum size of the cache is 40 MB. If it grows past that
 #' size, the least-recently-used objects will be evicted from the cache to keep
-#' it under that size. To set the options for the cache, create a [DiskCache]
+#' it under that size. To set the options for the cache, create a [FileCache]
 #' object and set it as the default cache.
 #'
 #' To clear the cache (but keep using it in the future), call
 #' `sass_get_default_cache()$reset()`.
 #'
-#' @param cache A [DiskCache] object, or `NULL` if you don't want to use a
+#' @param cache A [FileCache] object, or `NULL` if you don't want to use a
 #'   cache.
+#'
+#' @seealso sass_file_cache
 #'
 #' @examples
 #' # Very slow to compile
@@ -83,24 +85,16 @@
 sass_get_default_cache <- function() {
   if (!exists("cache", .globals, inherits = FALSE)) {
     username <- Sys.info()[["user"]]
-    cache <- DiskCache$new(
-      max_size = 40 * 1024 ^ 2,
-      dir = file.path(
-        dirname(tempdir()),
-        paste0("R-sass-cache-", username)
-      )
-    )
-
-    sass_set_default_cache(cache)
+    sass_set_default_cache(sass_file_cache())
   }
   .globals$cache
 }
 
 #' @rdname sass_get_default_cache
 #' @export
-sass_set_default_cache <- function(cache) {
-  if (!is.null(cache) && !inherits(cache, "DiskCache")) {
-    stop("`cache` must be a DiskCache object or NULL.")
+sass_set_default_cache <- function(cache = sass_file_cache()) {
+  if (!is.null(cache) && !inherits(cache, "FileCache")) {
+    stop("`cache` must be a FileCache object or NULL.")
   }
   .globals$cache <- cache
 }
@@ -149,6 +143,6 @@ add_sass_file_mtime <- function(x) {
 sass_cache_options <- function(cache, cache_dir) {
   message(
     "The function `sass_cache_options` is no longer used.",
-    "Please see ?sass_get_default_cache and ?DiskCache."
+    "Please see ?sass_get_default_cache and ?FileCache."
   )
 }

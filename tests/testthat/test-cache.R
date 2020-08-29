@@ -2,11 +2,11 @@ context("cache")
 
 with_temp_cache <- function(expr) {
   orig_cache <- sass_get_default_cache()
-  temp_cache <- DiskCache$new(tempfile())
   on.exit({
     sass_set_default_cache(orig_cache)
     temp_cache$destroy()
   })
+  temp_cache <- sass_file_cache(tempfile())
   sass_set_default_cache(temp_cache)
 
   force(expr)

@@ -29,7 +29,7 @@ to \code{NA}, which merely emits a warning if file attachments are present,
 but does not write them to disk; the side-effect of writing extra files is
 subtle and potentially destructive, as files may be overwritten.)}
 
-\item{cache}{A [DiskCache] object.}
+\item{cache}{A [FileCache] object.}
 }
 \value{
 If \code{output = NULL}, the function returns a string value of the

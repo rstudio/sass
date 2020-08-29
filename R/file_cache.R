@@ -1,6 +1,30 @@
-#' Create a disk cache object
+#' Create a file cache object
 #'
-#' A disk cache object is a key-object store that saves the values as files in a
+#' This creates a file cache which is to be used by sass for caching generated
+#' .css files.
+#'
+#' @param dir The directory in which to store the cached files. If `NULL` (the
+#'   default), then it will be set to a subdirectory of the system temp
+#'   directory named `R-sass-cache-username`. Because this cache directory is
+#'   not in the R process's temp directory, it will persist longer than the R
+#'   process, typically until a system reboot. Additionally, it will be shared
+#'   across R processes for the same user on the same system.
+#' @param max_size The maximum size of the cache. If the cache grows past this
+#'   size, the least-recently-used objects will be removed until it fits within
+#'   this size.
+#'
+#' @seealso sass_get_default_cache
+#' @export
+sass_file_cache <- function(dir = NULL, max_size = 40 * 1024 ^ 2) {
+  if (is.null(dir)) {
+    dir <- file.path(dirname(tempdir()), paste0("R-sass-cache-", Sys.info()[["user"]]))
+  }
+  FileCache$new(dir, max_size)
+}
+
+#' Create a file cache object
+#'
+#' A file cache object is a key-file store that saves the values as files in a
 #' directory on disk. The objects are files on disk. They are stored and
 #' retrieved using the `get()` and `set()` methods. Objects are automatically
 #' pruned from the cache according to the parameters `max_size`, `max_age`,
@@ -58,13 +82,13 @@
 #'
 #' @section Sharing among multiple processes:
 #'
-#'   The directory for a DiskCache can be shared among multiple R processes. To
-#'   do this, each R process should have a DiskCache object that uses the same
-#'   directory. Each DiskCache will do pruning independently of the others, so
-#'   if they have different pruning parameters, then one DiskCache may remove
-#'   cached objects before another DiskCache would do so.
+#'   The directory for a FileCache can be shared among multiple R processes. To
+#'   do this, each R process should have a FileCache object that uses the same
+#'   directory. Each FileCache will do pruning independently of the others, so
+#'   if they have different pruning parameters, then one FileCache may remove
+#'   cached objects before another FileCache would do so.
 #'
-#'   Even though it is possible for multiple processes to share a DiskCache
+#'   Even though it is possible for multiple processes to share a FileCache
 #'   directory, this should not be done on networked file systems, because of
 #'   slow performance of networked file systems can cause problems. If you need
 #'   a high-performance shared cache, you can use one built on a database like
@@ -86,9 +110,9 @@
 #'
 #' @keywords internal
 #' @importFrom R6 R6Class
-DiskCache <- R6Class("DiskCache",
+FileCache <- R6Class("FileCache",
   public = list(
-    #' @description Create a DiskCache object.
+    #' @description Create a FileCache object.
     #' @param dir Directory to store files for the cache. If `NULL` (the default) it
     #'   will create and use a temporary directory.
     #' @param max_age Maximum age of files in cache before they are evicted, in
@@ -101,7 +125,7 @@ DiskCache <- R6Class("DiskCache",
     #'   value of `evict`. Use `Inf` for no limit of number of items.
     #' @param evict The eviction policy to use to decide which objects are removed
     #'   when a cache pruning occurs. Currently, `"lru"` and `"fifo"` are supported.
-    #' @param destroy_on_finalize If `TRUE`, then when the DiskCache object is
+    #' @param destroy_on_finalize If `TRUE`, then when the FileCache object is
     #'   garbage collected, the cache directory and all objects inside of it will be
     #'   deleted from disk. If `FALSE` (the default), it will do nothing when
     #'   finalized.
@@ -117,7 +141,7 @@ DiskCache <- R6Class("DiskCache",
       logfile = NULL
     ) {
       if (is.null(dir)) {
-        dir <- tempfile("DiskCache-")
+        dir <- tempfile("FileCache-")
       }
       if (!is.numeric(max_size)) stop("max_size must be a number. Use `Inf` for no limit.")
       if (!is.numeric(max_age))  stop("max_age must be a number. Use `Inf` for no limit.")
@@ -489,7 +513,7 @@ DiskCache <- R6Class("DiskCache",
     log = function(text) {
       if (is.null(private$logfile)) return()
 
-      text <- paste0(format(Sys.time(), "[%Y-%m-%d %H:%M:%OS3] DiskCache "), text)
+      text <- paste0(format(Sys.time(), "[%Y-%m-%d %H:%M:%OS3] FileCache "), text)
       writeLines(text, private$logfile)
     }
   )

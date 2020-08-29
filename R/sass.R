@@ -9,7 +9,7 @@
 #' @param options Compiler options for Sass. Please specify options using
 #'   \code{\link{sass_options}}.
 #' @param output Specifies path to output file for compiled CSS.
-#' @param cache A [DiskCache] object.
+#' @param cache A [FileCache] object.
 #' @param write_attachments If the input contains \code{\link{sass_layer}}
 #'   objects that have file attachments, and \code{output} is not \code{NULL},
 #'   then copy the file attachments to the directory of \code{output}. (Defaults
@@ -44,8 +44,8 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
   if (!inherits(options, "sass_options")) {
     stop("Please construct the compile options using `sass_options()`.")
   }
-  if (!is.null(cache) && !inherits(cache, "DiskCache")) {
-    stop("Please use NULL or a DiskCache object for `cache`.")
+  if (!is.null(cache) && !inherits(cache, "FileCache")) {
+    stop("Please use NULL or a FileCache object for `cache`.")
   }
   if (!is.null(output) && !dir.exists(fs::path_dir(output))) {
     stop("The output directory '", fs::path_dir(output), "' does not exist")
