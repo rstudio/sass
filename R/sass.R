@@ -80,8 +80,8 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
 
     if (!cache_hit) {
       # We had a cache miss, so write to disk now
-      # TODO: Set encoding to UTF-8?
       css <- compile_data(as_sass(input), options)
+      Encoding(css) <- "UTF-8"
 
       # In case this same code is running in two processes pointed at the same
       # cache dir, this could return FALSE (if the file didn't exist when we
@@ -92,8 +92,8 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
 
   } else {
     # If we got here, we're not using a cache.
-    # TODO: Set encoding to UTF-8?
     css <- compile_data(as_sass(input), options)
+    Encoding(css) <- "UTF-8"
   }
 
   css <- as_html(css, "css")
