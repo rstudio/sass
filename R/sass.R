@@ -67,7 +67,7 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
         cache_hit <- TRUE
       }
     } else {
-      cache_hit <- cache$get(cache_key, outfile = output)
+      cache_hit <- cache$get_file(cache_key, outfile = output)
       if (cache_hit) {
         if (isTRUE(write_attachments == FALSE)) {
           return(invisible())

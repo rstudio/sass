@@ -11,22 +11,23 @@ Create a file cache object
 \details{
 A file cache object is a key-file store that saves the values as files in a
 directory on disk. The objects are files on disk. They are stored and
-retrieved using the `get()` and `set()` methods. Objects are automatically
-pruned from the cache according to the parameters `max_size`, `max_age`,
-`max_n`, and `evict`.
+retrieved using the `get_file()`, `get_content()`, `set_file()`, and
+`set_content()` methods. Objects are automatically pruned from the cache
+according to the parameters `max_size`, `max_age`, `max_n`, and `evict`.
 }
 \section{Cache pruning}{
 
 
-  Cache pruning occurs when `set()` is called, or it can be invoked manually
-  by calling `prune()`.
+  Cache pruning occurs when `set_file()` or `set_content()` is called, or it
+  can be invoked manually by calling `prune()`.
 
   The disk cache will throttle the pruning so that it does not happen on
-  every call to `set()`, because the filesystem operations for checking the
-  status of files can be slow. Instead, it will prune once in every 20 calls
-  to `set()`, or if at least 5 seconds have elapsed since the last prune
-  occurred, whichever is first. These parameters are currently not
-  customizable, but may be in the future.
+  every call to `set_file()` or `set_content()`, because the filesystem
+  operations for checking the status of files can be slow. Instead, it will
+  prune once in every 20 calls to `set_file()` or `set_content()`, or if at
+  least 5 seconds have elapsed since the last prune occurred, whichever is
+  first. These parameters are currently not customizable, but may be in the
+  future.
 
   When a pruning occurs, if there are any objects that are older than
   `max_age`, they will be removed.
@@ -47,9 +48,10 @@ pruned from the cache according to the parameters `max_size`, `max_age`,
   blocks on disk. For example, if the block size is 4096 bytes, then a file
   that is one byte in size will take 4096 bytes on disk.
 
-  Another time that objects can be removed from the cache is when `get()` is
-  called. If the target object is older than `max_age`, it will be removed
-  and the cache will report it as a missing value.
+  Another time that objects can be removed from the cache is when
+  `get_file()` or `get_content()` is called. If the target object is older
+  than `max_age`, it will be removed and the cache will report it as a
+  missing value.
 }
 
 \section{Eviction policies}{
@@ -60,9 +62,9 @@ pruned from the cache according to the parameters `max_size`, `max_age`,
 
   \describe{ \item{`"lru"`}{ Least Recently Used. The least recently used
   objects will be removed. This uses the filesystem's mtime property. When
-  "lru" is used, each `get()` is called, it will update the file's mtime. }
-  \item{`"fifo"`}{ First-in-first-out. The oldest objects will be removed. }
-  }
+  "lru" is used, each time `get_file()` or `get_content()` is called, it will
+  update the file's mtime. } \item{`"fifo"`}{ First-in-first-out. The oldest
+  objects will be removed. } }
 
   Both of these policies use files' mtime. Note that some filesystems
   (notably FAT) have poor mtime resolution. (atime is not used because
@@ -86,11 +88,11 @@ pruned from the cache according to the parameters `max_size`, `max_age`,
 
   When multiple processes share a cache directory, there are some potential
   race conditions. For example, if your code calls `exists(key)` to check if
-  an object is in the cache, and then call `get(key)`, the object may be
-  removed from the cache in between those two calls, and `get(key)` will
+  an object is in the cache, and then call `get_file(key)`, the object may be
+  removed from the cache in between those two calls, and `get_file(key)` will
   throw an error. Instead of calling the two functions, it is better to
-  simply call `get(key)`, and use `tryCatch()` to handle the error that is
-  thrown if the object is not in the cache. This effectively tests for
+  simply call `get_file(key)`, and use `tryCatch()` to handle the error that
+  is thrown if the object is not in the cache. This effectively tests for
   existence and gets the object in one operation.
 
   It is also possible for one processes to prune objects at the same time
@@ -104,9 +106,9 @@ pruned from the cache according to the parameters `max_size`, `max_age`,
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{FileCache$new()}}
-\item \href{#method-get}{\code{FileCache$get()}}
+\item \href{#method-get_file}{\code{FileCache$get_file()}}
 \item \href{#method-get_content}{\code{FileCache$get_content()}}
-\item \href{#method-set}{\code{FileCache$set()}}
+\item \href{#method-set_file}{\code{FileCache$set_file()}}
 \item \href{#method-set_content}{\code{FileCache$set_content()}}
 \item \href{#method-exists}{\code{FileCache$exists()}}
 \item \href{#method-keys}{\code{FileCache$keys()}}
@@ -169,13 +171,13 @@ information will be written. To log to the console, use `stdout()`.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get"></a>}}
-\if{latex}{\out{\hypertarget{method-get}{}}}
-\subsection{Method \code{get()}}{
+\if{html}{\out{<a id="method-get_file"></a>}}
+\if{latex}{\out{\hypertarget{method-get_file}{}}}
+\subsection{Method \code{get_file()}}{
 Get the content associated with `key`, and save in a file
   named `outfile`.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{FileCache$get(key, outfile, overwrite = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{FileCache$get_file(key, outfile, overwrite = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -222,13 +224,13 @@ A character or raw vector if the object is found in the cache,
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set"></a>}}
-\if{latex}{\out{\hypertarget{method-set}{}}}
-\subsection{Method \code{set()}}{
+\if{html}{\out{<a id="method-set_file"></a>}}
+\if{latex}{\out{\hypertarget{method-set_file}{}}}
+\subsection{Method \code{set_file()}}{
 Sets content associated with `key`, from a file named
 `infile`.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{FileCache$set(key, infile)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{FileCache$set_file(key, infile)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

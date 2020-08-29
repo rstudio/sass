@@ -22,6 +22,16 @@ this size.}
 This creates a file cache which is to be used by sass for caching generated
 .css files.
 }
+\examples{
+\dontrun{
+# Create a cache with the default settings
+cache <- sass_file_cache()
+
+# Clear the cache
+cache$reset()
+}
+
+}
 \seealso{
 sass_get_default_cache
 }
