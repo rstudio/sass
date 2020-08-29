@@ -1,6 +1,5 @@
 linters: with_defaults(
-    line_length_linter(100),
-    NULL
+    line_length_linter(100)
   )
 exclusions: c(
     "inst/sass-color/app.R",
