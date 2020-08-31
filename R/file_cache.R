@@ -4,11 +4,8 @@
 #' .css files.
 #'
 #' @param dir The directory in which to store the cached files. If `NULL` (the
-#'   default), then it will be set to a subdirectory of the system temp
-#'   directory named `R-sass-cache-username`. Because this cache directory is
-#'   not in the R process's temp directory, it will persist longer than the R
-#'   process, typically until a system reboot. Additionally, it will be shared
-#'   across R processes for the same user on the same system.
+#'   default), then it will be set to a subdirectory of the user's cache
+#'   directory named `R-sass`.
 #' @param max_size The maximum size of the cache. If the cache grows past this
 #'   size, the least-recently-used objects will be removed until it fits within
 #'   this size.
@@ -27,7 +24,7 @@
 #' @export
 sass_file_cache <- function(dir = NULL, max_size = 40 * 1024 ^ 2) {
   if (is.null(dir)) {
-    dir <- file.path(dirname(tempdir()), paste0("R-sass-cache-", Sys.info()[["user"]]))
+    dir <- file.path(rappdirs::user_cache_dir(), "R-sass")
   }
   FileCache$new(dir, max_size)
 }

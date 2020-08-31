@@ -46,7 +46,8 @@ Imports:
     fs,
     rlang,
     htmltools,
-    R6
+    R6,
+    rappdirs
 Suggests:
     testthat,
     knitr,

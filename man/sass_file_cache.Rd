@@ -8,11 +8,8 @@ sass_file_cache(dir = NULL, max_size = 40 * 1024^2)
 }
 \arguments{
 \item{dir}{The directory in which to store the cached files. If \code{NULL} (the
-default), then it will be set to a subdirectory of the system temp
-directory named \code{R-sass-cache-username}. Because this cache directory is
-not in the R process's temp directory, it will persist longer than the R
-process, typically until a system reboot. Additionally, it will be shared
-across R processes for the same user on the same system.}
+default), then it will be set to a subdirectory of the user's cache
+directory named \code{R-sass}.}
 
 \item{max_size}{The maximum size of the cache. If the cache grows past this
 size, the least-recently-used objects will be removed until it fits within
