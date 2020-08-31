@@ -3,7 +3,7 @@ context("cache")
 # Creates a temporary cache that is used as the default. When the calling
 # function exits, the temporary cache is destroyed, and the previous default
 # cache is restored.
-local_temp_cache <- function(expr, env = parent.frame()) {
+local_temp_cache <- function(env = parent.frame()) {
   orig_cache <- sass_get_default_cache()
   temp_cache <- sass_file_cache(tempfile())
   withr::defer(
