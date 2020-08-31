@@ -45,7 +45,7 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
     stop("Please construct the compile options using `sass_options()`.")
   }
   if (!is.null(cache) && !inherits(cache, "FileCache")) {
-    stop("Please use NULL or a FileCache object for `cache`.")
+    stop("Please use NULL (no cache) or a FileCache object for `cache`.")
   }
   if (!is.null(output) && !dir.exists(fs::path_dir(output))) {
     stop("The output directory '", fs::path_dir(output), "' does not exist")

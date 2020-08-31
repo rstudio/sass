@@ -39,7 +39,7 @@
 #' To clear the cache (but keep using it in the future), call
 #' `sass_get_default_cache()$reset()`.
 #'
-#' @param cache A [FileCache] object, or `NULL` if you don't want to use a
+#' @param cache A [sass_file_cache()] object, or `NULL` if you don't want to use a
 #'   cache.
 #'
 #' @seealso sass_file_cache
@@ -103,7 +103,7 @@ sass_set_default_cache <- function(cache = sass_file_cache()) {
 #' Returns a hash of the object, including sass_file mtimes
 #'
 #' This function returns a hash of the object `x`, intended for use in caching.
-#' It recuses into lists, and any [sass_file()] objects will have the file's
+#' It recurses into lists, and any [sass_file()] objects will have the file's
 #' mtime attached as an attribute. This is useful for detecting if the file has
 #' been modified.
 #'
