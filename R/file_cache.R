@@ -9,6 +9,8 @@
 #' @param max_size The maximum size of the cache. If the cache grows past this
 #'   size, the least-recently-used objects will be removed until it fits within
 #'   this size.
+#' @param max_age The maximum age of objects in the cache, in seconds. The
+#'   default is one week.
 #'
 #' @seealso sass_get_default_cache
 #'
@@ -22,11 +24,15 @@
 #' }
 #'
 #' @export
-sass_file_cache <- function(dir = NULL, max_size = 40 * 1024 ^ 2) {
+sass_file_cache <- function(
+  dir = NULL,
+  max_size = 40 * 1024 ^ 2,
+  max_age = 60 * 60 * 24 * 7
+) {
   if (is.null(dir)) {
     dir <- file.path(rappdirs::user_cache_dir(), "R-sass")
   }
-  FileCache$new(dir, max_size)
+  FileCache$new(dir, max_size = max_size, max_age = max_age)
 }
 
 #' Create a file cache object
