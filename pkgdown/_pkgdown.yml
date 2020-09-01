@@ -38,6 +38,6 @@ reference:
     Functions related to caching sass output
   contents:
     - sass_file_cache
-    - sass_get_default_cache
+    - sass_cache_get
     - sass_hash
     - sass_cache_options

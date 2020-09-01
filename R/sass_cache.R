@@ -24,7 +24,7 @@
 #' and you will end up with stale results. Caching should be disabled in cases
 #' like this.
 #'
-#' If `sass_get_default_cache()` is called before `sass_set_default_cache()`,
+#' If `sass_cache_get()` is called before `sass_cache_set()`,
 #' then it will create a cache in a subdirectory of the system temp directory
 #' named `R-sass-cache-username` and set it as the default. Because this cache
 #' directory is not in the R process's temp directory, it will persist longer
@@ -37,7 +37,7 @@
 #' object and set it as the default cache.
 #'
 #' To clear the cache (but keep using it in the future), call
-#' `sass_get_default_cache()$reset()`.
+#' `sass_cache_get()$reset()`.
 #'
 #' @param cache A [sass_file_cache()] object, or `NULL` if you don't want to use a
 #'   cache.
@@ -67,32 +67,32 @@
 #' system.time(sass(fib_sass, cache = NULL))
 #'
 #' # Clear the cache
-#' sass_get_default_cache()$reset()
+#' sass_cache_get()$reset()
 #'
 #' \dontrun{
 #' # Example of disabling cache by setting the default cache to NULL.
 #'
 #' # Disable the default cache (save the original one first, so we can restore)
-#' old_cache <- sass_get_default_cache()
-#' sass_set_default_cache(NULL)
+#' old_cache <- sass_cache_get()
+#' sass_cache_set(NULL)
 #' # Will be slow, because no cache
 #' system.time(sass(fib_sass))
 #'
 #' # Restore the original cache
-#' sass_set_default_cache(old_cache)
+#' sass_cache_set(old_cache)
 #' }
 #' @export
-sass_get_default_cache <- function() {
+sass_cache_get <- function() {
   if (!exists("cache", .globals, inherits = FALSE)) {
     username <- Sys.info()[["user"]]
-    sass_set_default_cache(sass_file_cache())
+    sass_cache_set(sass_file_cache())
   }
   .globals$cache
 }
 
-#' @rdname sass_get_default_cache
+#' @rdname sass_cache_get
 #' @export
-sass_set_default_cache <- function(cache = sass_file_cache()) {
+sass_cache_set <- function(cache = sass_file_cache()) {
   if (!is.null(cache) && !inherits(cache, "FileCache")) {
     stop("`cache` must be a FileCache object or NULL.")
   }
@@ -136,13 +136,13 @@ add_sass_file_mtime <- function(x) {
 
 #' Caching Options for Sass (defunct)
 #'
-#' This function is no longer used. Please see [sass_get_default_cache()].
+#' This function is no longer used. Please see [sass_cache_get()].
 #' @param cache No longer used.
 #' @param cache_dir  No longer used.
 #' @export
 sass_cache_options <- function(cache, cache_dir) {
   message(
     "The function `sass_cache_options` is no longer used.",
-    "Please see ?sass_get_default_cache and ?FileCache."
+    "Please see ?sass_cache_get and ?FileCache."
   )
 }

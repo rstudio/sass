@@ -39,7 +39,7 @@
 #'   sass_file(tmp_file)
 #' ))
 sass <- function(input = NULL, options = sass_options(), output = NULL,
-  write_attachments = NA, cache = sass_get_default_cache()) {
+  write_attachments = NA, cache = sass_cache_get()) {
 
   if (!inherits(options, "sass_options")) {
     stop("Please construct the compile options using `sass_options()`.")

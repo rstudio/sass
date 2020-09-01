@@ -9,7 +9,7 @@ sass(
   options = sass_options(),
   output = NULL,
   write_attachments = NA,
-  cache = sass_get_default_cache()
+  cache = sass_cache_get()
 )
 }
 \arguments{

@@ -12,5 +12,5 @@ sass_cache_options(cache, cache_dir)
 \item{cache_dir}{No longer used.}
 }
 \description{
-This function is no longer used. Please see \code{\link[=sass_get_default_cache]{sass_get_default_cache()}}.
+This function is no longer used. Please see \code{\link[=sass_cache_get]{sass_cache_get()}}.
 }

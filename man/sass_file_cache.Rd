@@ -33,5 +33,5 @@ cache$reset()
 
 }
 \seealso{
-sass_get_default_cache
+sass_cache_get
 }

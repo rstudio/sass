@@ -4,16 +4,16 @@ context("cache")
 # function exits, the temporary cache is destroyed, and the previous default
 # cache is restored.
 local_temp_cache <- function(env = parent.frame()) {
-  orig_cache <- sass_get_default_cache()
+  orig_cache <- sass_cache_get()
   temp_cache <- sass_file_cache(tempfile())
   withr::defer(
     {
-      sass_set_default_cache(orig_cache)
+      sass_cache_set(orig_cache)
       temp_cache$destroy()
     },
     envir = env
   )
-  sass_set_default_cache(temp_cache)
+  sass_cache_set(temp_cache)
 }
 
 
@@ -42,12 +42,12 @@ test_that("reads from and writes to cache", {
   css <- sass(sass_file("test-unicode-var-input.scss"))
   expect_equal(as.character(css), expected)
 
-  expect_equal(sass_get_default_cache()$size(), 1)
+  expect_equal(sass_cache_get()$size(), 1)
 })
 
 test_that("writes to cache", {
   local_temp_cache()
-  cache <- sass_get_default_cache()
+  cache <- sass_cache_get()
 
   input <- list(
     list(text_color = "#313131"),
@@ -88,7 +88,7 @@ test_that("unicode characters work OK after caching", {
   css <- sass(sass_file("test-unicode-var-input.scss"))
   expect_equal(css, expected)
 
-  expect_equal(sass_get_default_cache()$size(), 1)
+  expect_equal(sass_cache_get()$size(), 1)
 })
 
 test_that("cache isn't written if a compilation error occurs", {
@@ -102,7 +102,7 @@ test_that("cache isn't written if a compilation error occurs", {
 
   expect_error(sass(input, options), "must be followed")
 
-  expect_equal(sass_get_default_cache()$size(), 0)
+  expect_equal(sass_cache_get()$size(), 0)
 })
 
 test_that("cache key components", {
