@@ -6,7 +6,7 @@
 #' @param dir The directory in which to store the cached files. If `NULL` (the
 #'   default), then it will be set to a subdirectory of the user's cache
 #'   directory named `R-sass`.
-#' @param max_size The maximum size of the cache. If the cache grows past this
+#' @param max_size The maximum size of the cache, in bytes. If the cache grows past this
 #'   size, the least-recently-used objects will be removed until it fits within
 #'   this size.
 #' @param max_age The maximum age of objects in the cache, in seconds. The
@@ -30,7 +30,7 @@ sass_file_cache <- function(
   max_age = 60 * 60 * 24 * 7
 ) {
   if (is.null(dir)) {
-    dir <- file.path(rappdirs::user_cache_dir(), "R-sass")
+    dir <- rappdirs::user_cache_dir("R-sass")
   }
   FileCache$new(dir, max_size = max_size, max_age = max_age)
 }
@@ -362,7 +362,7 @@ FileCache <- R6Class("FileCache",
       # is because it is expensive to find the size of the serialized object
       # before adding it.
 
-      private$log(paste0('prune'))
+      private$log('prune')
       self$is_destroyed(throw = TRUE)
 
       current_time <- Sys.time()
