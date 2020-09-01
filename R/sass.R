@@ -58,7 +58,14 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
   layer <- NULL
 
   if (!is.null(cache)) {
-    cache_key <- sass_hash(list(input, options))
+    cache_key <- sass_hash(list(
+      input,
+      # Detect if any attachments have changed - note that if the attachment is
+      # a directory, it will detect if files are added or removed, but it will
+      # not detect if a file in the directory is modified.
+      file.mtime(input$file_attachments),
+      options
+    ))
     cache_hit <- FALSE
     if (is.null(output)) {
       # If no output is specified, we need to return a character vector
