@@ -56,7 +56,7 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
   }
 
   css <- NULL
-  layer <- NULL
+  layer <- extract_layer(input)
 
   if (!is.null(cache)) {
     cache_key <- sass_hash(list(
@@ -64,7 +64,7 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
       # Detect if any attachments have changed - note that if the attachment is
       # a directory, it will detect if files are added or removed, but it will
       # not detect if a file in the directory is modified.
-      if (is.list(input) && !is.null(input$file_attachments)) file.mtime(input$file_attachments),
+      if (is.list(layer) && !is.null(layer$file_attachments)) file.mtime(layer$file_attachments),
       options
     ))
     cache_hit <- FALSE
@@ -80,7 +80,6 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
         if (isTRUE(write_attachments == FALSE)) {
           return(invisible())
         }
-        layer <- extract_layer(input)
         maybe_write_attachments(layer, output, write_attachments)
         return(invisible())
       }
@@ -105,7 +104,6 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
   }
 
   css <- as_html(css, "css")
-  layer <- extract_layer(input)
 
   if (!is.null(output)) {
     write_utf8(css, output)
