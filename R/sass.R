@@ -64,7 +64,7 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
       # Detect if any attachments have changed - note that if the attachment is
       # a directory, it will detect if files are added or removed, but it will
       # not detect if a file in the directory is modified.
-      if (is.list(layer) && !is.null(layer$file_attachments)) file.mtime(layer$file_attachments),
+      if (is.list(layer) && !is.null(layer$file_attachments)) get_file_mtimes(layer$file_attachments),
       options
     ))
     cache_hit <- FALSE

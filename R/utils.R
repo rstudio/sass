@@ -27,3 +27,28 @@ read_utf8 <- function(file) {
   res <- read_raw(file)
   raw_to_utf8(res)
 }
+
+
+# `file` must be a character vector with files and directories. This will return
+# a data frame with the mtimes of all files that are passed in, as well as the
+# mtimes of files in the directories that are passed in. The data frame will not
+# contain the mtimes of the directories themselves. Also, any files that were
+# passed in but don't exist will not be present in the returned data frame.
+get_file_mtimes <- function(files) {
+  info <- file.info(files, extra_cols = FALSE)
+
+  dirs <- files[info$isdir & !is.na(info$isdir)]
+  files_in_dirs <- dir(dirs, full.names = TRUE, all.files = TRUE, recursive = TRUE, no.. = TRUE)
+  files_in_dirs_info <- file.info(files_in_dirs, extra_cols = FALSE)
+
+  all_info <- rbind(
+    # The (non-dir) files that were passed in directly
+    info[!info$isdir & !is.na(info$isdir), , drop = FALSE],
+    files_in_dirs_info
+  )
+
+  data.frame(
+    file = rownames(all_info),
+    mtime = all_info$mtime
+  )
+}
