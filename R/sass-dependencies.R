@@ -46,13 +46,13 @@ sass_html_dependencies <- function(
   }
 
   c(
-    htmltools::htmlDependency(
+    list(htmltools::htmlDependency(
       name = name, version = version,
       src = c(file = outDir),
       stylesheet = stylesheet,
       script = script,
       meta = meta, head = head
-    ),
+    )),
     extract_layer(input)$html_deps
   )
 }
