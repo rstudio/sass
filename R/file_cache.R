@@ -12,7 +12,8 @@
 #' @param max_age The maximum age of objects in the cache, in seconds. The
 #'   default is one week.
 #'
-#' @seealso sass_cache_get
+#' @seealso [sass_cache_get()], [FileCache]
+#' @return A [FileCache] object.
 #'
 #' @examples
 #' \dontrun{

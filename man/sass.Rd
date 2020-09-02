@@ -29,7 +29,8 @@ to \code{NA}, which merely emits a warning if file attachments are present,
 but does not write them to disk; the side-effect of writing extra files is
 subtle and potentially destructive, as files may be overwritten.)}
 
-\item{cache}{A \link{FileCache} object created by \code{\link[=sass_file_cache]{sass_file_cache()}}.}
+\item{cache}{A \link{FileCache} object created by \code{\link[=sass_file_cache]{sass_file_cache()}}, or \code{NULL}
+for no caching.}
 }
 \value{
 If \code{output = NULL}, the function returns a string value of the

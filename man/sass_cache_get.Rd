@@ -10,7 +10,7 @@ sass_cache_get()
 sass_cache_set(cache = sass_file_cache())
 }
 \arguments{
-\item{cache}{A \link{FileCache} object, or \code{NULL} if you don't want to use a
+\item{cache}{A \code{\link[=sass_file_cache]{sass_file_cache()}} object, or \code{NULL} if you don't want to use a
 cache.}
 }
 \description{

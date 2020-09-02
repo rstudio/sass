@@ -11,12 +11,15 @@ sass_file_cache(dir = NULL, max_size = 40 * 1024^2, max_age = 60 * 60 * 24 * 7)
 default), then it will be set to a subdirectory of the user's cache
 directory named \code{R-sass}.}
 
-\item{max_size}{The maximum size of the cache. If the cache grows past this
+\item{max_size}{The maximum size of the cache, in bytes. If the cache grows past this
 size, the least-recently-used objects will be removed until it fits within
 this size.}
 
 \item{max_age}{The maximum age of objects in the cache, in seconds. The
 default is one week.}
+}
+\value{
+A \link{FileCache} object.
 }
 \description{
 This creates a file cache which is to be used by sass for caching generated
@@ -33,5 +36,5 @@ cache$reset()
 
 }
 \seealso{
-sass_cache_get
+\code{\link[=sass_cache_get]{sass_cache_get()}}, \link{FileCache}
 }
