@@ -49,6 +49,7 @@ get_file_mtimes <- function(files) {
 
   data.frame(
     file = rownames(all_info),
-    mtime = all_info$mtime
+    mtime = all_info$mtime,
+    stringsAsFactors = FALSE
   )
 }
