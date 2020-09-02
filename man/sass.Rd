@@ -87,5 +87,5 @@ sass(list(
 ))
 }
 \seealso{
-\url{http://sass-lang.com/guide}
+\url{http://sass-lang.com/guide}, \code{\link[=sass_html_dependencies]{sass_html_dependencies()}}
 }

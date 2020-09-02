@@ -44,7 +44,7 @@
 #' @return If \code{output = NULL}, the function returns a string value of the
 #'   compiled CSS. If the output path is specified, the compiled CSS is written
 #'   to that file and \code{invisible()} is returned.
-#' @seealso \url{http://sass-lang.com/guide}
+#' @seealso \url{http://sass-lang.com/guide}, [sass_html_dependencies()]
 #' @export
 #' @examples
 #' # raw Sass input
