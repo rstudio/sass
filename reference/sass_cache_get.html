@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>List to Sass converter — as_sass • sass</title>
+<title>Get and set the default cache used for compiled css files — sass_cache_get • sass</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,9 +52,12 @@
 
 
 
-<meta property="og:title" content="List to Sass converter — as_sass" />
-<meta property="og:description" content="Converts multiple types of inputs to a single Sass input string for
-sass." />
+<meta property="og:title" content="Get and set the default cache used for compiled css files — sass_cache_get" />
+<meta property="og:description" content="The default cache is used by the sass() function to cache outputs. In some
+cases when developing and modifying .scss files, sass() might not detect
+changes, and keep using cached .css files instead of rebuilding them. To be
+safe, if you are developing a theme with sass, it's best to turn off caching
+by setting cache to NULL." />
 <meta property="og:image" content="https://rstudio.github.io/sass/logo.svg" />
 
 
@@ -129,84 +132,102 @@ sass." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>List to Sass converter</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/sass/blob/master/R/as_sass.R'><code>R/as_sass.R</code></a></small>
-    <div class="hidden name"><code>as_sass.Rd</code></div>
+    <h1>Get and set the default cache used for compiled css files</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/sass/blob/master/R/sass_cache.R'><code>R/sass_cache.R</code></a></small>
+    <div class="hidden name"><code>sass_cache_get.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Converts multiple types of inputs to a single Sass input string for
-<code><a href='sass.html'>sass</a></code>.</p>
+    <p>The default cache is used by the <code><a href='sass.html'>sass()</a></code> function to cache outputs. In some
+cases when developing and modifying .scss files, <code><a href='sass.html'>sass()</a></code> might not detect
+changes, and keep using cached .css files instead of rebuilding them. To be
+safe, if you are developing a theme with sass, it's best to turn off caching
+by setting <code>cache</code> to <code>NULL</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>as_sass</span>(<span class='no'>input</span>)</pre>
+    <pre class="usage"><span class='fu'>sass_cache_get</span>()
+
+<span class='fu'>sass_cache_set</span>(<span class='kw'>cache</span> <span class='kw'>=</span> <span class='fu'><a href='sass_file_cache.html'>sass_file_cache</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>input</th>
-      <td><p>Either a</p><ul>
-<li><p>raw Sass string</p></li>
-<li><p>named list containing variable names and values</p></li>
-<li><p>Sass-like file name.</p></li>
-</ul></td>
+      <th>cache</th>
+      <td><p>A <code><a href='sass_file_cache.html'>sass_file_cache()</a></code> object, or <code>NULL</code> if you don't want to use a
+cache.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>a single character value to be supplied to <code><a href='sass.html'>sass</a></code></p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Note that the LibSass compiler expects .sass files to use the Sass Indented
-Syntax.</p>
+    <p>If caching is enabled, <code><a href='sass.html'>sass()</a></code> will attempt to bypass the compilation
+process by reusing output from previous <code><a href='sass.html'>sass()</a></code> calls that used equivalent
+inputs. This mechanism works by calling <code><a href='sass_hash.html'>sass_hash()</a></code> to derive a <em>cache
+key</em> from each <code><a href='sass.html'>sass()</a></code> call's <code>input</code> and <code>options</code> arguments. If an object
+with that hash already exists within the cache directory, its contents are
+used instead of performing the compilation. If it does not exist, then
+compilation is performed and usual and the results are stored in the cache.</p>
+<p>If a file that is included using <code><a href='sass_import.html'>sass_file()</a></code> changes on disk (i.e. its
+last-modified time changes), its previous cache entries will effectively be
+invalidated (not removed from disk, but they'll no longer be matched).
+However, if a file imported using <code><a href='sass_import.html'>sass_file()</a></code> itself imports other sass
+files using <code>@import</code>, changes to those files are invisible to the cache
+and you will end up with stale results. Caching should be disabled in cases
+like this.</p>
+<p>If <code>sass_cache_get()</code> is called before <code>sass_cache_set()</code>,
+then it will create a cache in a subdirectory of the system temp directory
+named <code>R-sass-cache-username</code> and set it as the default. Because this cache
+directory is not in the R process's temp directory, it will persist longer
+than the R process, typically until a system reboot. Additionally, it will be
+shared across R processes for the same user on the same system.</p>
+<p>By default, the maximum size of the cache is 40 MB. If it grows past that
+size, the least-recently-used objects will be evicted from the cache to keep
+it under that size. To set the options for the cache, create a <a href='FileCache.html'>FileCache</a>
+object and set it as the default cache.</p>
+<p>To clear the cache (but keep using it in the future), call
+<code>sass_cache_get()$reset()</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Visit
-<a href='https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import'>https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import</a>
-for more details.</p></div>
+    <div class='dont-index'><p>sass_file_cache</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Example of regular Sass input</span>
-<span class='fu'>as_sass</span>(<span class='st'>"body { color: \"blue\"; }"</span>)</div><div class='output co'>#&gt; /* Sass */
-#&gt; body { color: "blue"; }</div><div class='input'>
-<span class='co'># There is support for adding variables</span>
-<span class='fu'>as_sass</span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"blue"</span>),
-   <span class='st'>"body { color: $color; }"</span>
-   )
-)</div><div class='output co'>#&gt; /* Sass */
-#&gt; $color: blue;
-#&gt; body { color: $color; }</div><div class='input'>
-<span class='co'># \donttest{</span>
-<span class='co'># Add a file name</span>
-<span class='no'>someFile</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(<span class='st'>"variables"</span>)
+    <pre class="examples"><div class='input'><span class='co'># Very slow to compile</span>
+<span class='no'>fib_sass</span> <span class='kw'>&lt;-</span> <span class='st'>"@function fib($x) {
+  @if $x &lt;= 1 {
+    @return $x
+  }
+  @return fib($x - 2) + fib($x - 1);
+}
 
-<span class='co'># Overwrite color to red</span>
-<span class='fu'><a href='https://rdrr.io/r/base/write.html'>write</a></span>(<span class='st'>"$color: \"red\";"</span>, <span class='no'>someFile</span>)
+body {
+  width: fib(27);
+}"</span>
 
-<span class='no'>input</span> <span class='kw'>&lt;-</span>
-  <span class='fu'>as_sass</span>(
-    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-      <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"blue"</span>),
-      <span class='fu'><a href='sass_import.html'>sass_file</a></span>(<span class='no'>someFile</span>),
-      <span class='st'>"body { color: $color; }"</span>
-      )
-   )
+<span class='co'># The first time this runs it will be very slow</span>
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'><a href='sass.html'>sass</a></span>(<span class='no'>fib_sass</span>))</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   2.750   0.010   2.804 </div><div class='input'>
+<span class='co'># But on subsequent calls, it should be very fast</span>
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'><a href='sass.html'>sass</a></span>(<span class='no'>fib_sass</span>))</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.001   0.000   0.001 </div><div class='input'>
+<span class='co'># sass() can be called with cache=NULL; it will be slow</span>
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'><a href='sass.html'>sass</a></span>(<span class='no'>fib_sass</span>, <span class='kw'>cache</span> <span class='kw'>=</span> <span class='kw'>NULL</span>))</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   2.706   0.021   2.733 </div><div class='input'>
+<span class='co'># Clear the cache</span>
+<span class='fu'>sass_cache_get</span>()$<span class='fu'>reset</span>()
 
-<span class='no'>input</span></div><div class='output co'>#&gt; /* Sass */
-#&gt; $color: blue;
-#&gt; @import "/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpA7QrrI/variablesa6317c4605c";
-#&gt; body { color: $color; }</div><div class='input'>
-<span class='co'># The final body color is red</span>
-<span class='fu'><a href='sass.html'>sass</a></span>(<span class='no'>input</span>)</div><div class='output co'>#&gt; /* CSS */
-#&gt; body {
-#&gt;   color: "red";
-#&gt; }
-#&gt; </div><div class='input'># }
-</div></pre>
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='co'># Example of disabling cache by setting the default cache to NULL.</span>
+
+<span class='co'># Disable the default cache (save the original one first, so we can restore)</span>
+<span class='no'>old_cache</span> <span class='kw'>&lt;-</span> <span class='fu'>sass_cache_get</span>()
+<span class='fu'>sass_cache_set</span>(<span class='kw'>NULL</span>)
+<span class='co'># Will be slow, because no cache</span>
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'><a href='sass.html'>sass</a></span>(<span class='no'>fib_sass</span>))
+
+<span class='co'># Restore the original cache</span>
+<span class='fu'>sass_cache_set</span>(<span class='no'>old_cache</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

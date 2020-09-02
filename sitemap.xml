@@ -4,13 +4,25 @@
     <loc>https://rstudio.github.io/sass//index.html</loc>
   </url>
   <url>
+    <loc>https://rstudio.github.io/sass//reference/FileCache.html</loc>
+  </url>
+  <url>
     <loc>https://rstudio.github.io/sass//reference/as_sass.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/sass//reference/sass.html</loc>
   </url>
   <url>
+    <loc>https://rstudio.github.io/sass//reference/sass_cache_get.html</loc>
+  </url>
+  <url>
     <loc>https://rstudio.github.io/sass//reference/sass_cache_options.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/sass//reference/sass_file_cache.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/sass//reference/sass_hash.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/sass//reference/sass_import.html</loc>

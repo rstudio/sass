@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>List to Sass converter — as_sass • sass</title>
+<title>Create a file cache object — sass_file_cache • sass</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,9 +52,9 @@
 
 
 
-<meta property="og:title" content="List to Sass converter — as_sass" />
-<meta property="og:description" content="Converts multiple types of inputs to a single Sass input string for
-sass." />
+<meta property="og:title" content="Create a file cache object — sass_file_cache" />
+<meta property="og:description" content="This creates a file cache which is to be used by sass for caching generated
+.css files." />
 <meta property="og:image" content="https://rstudio.github.io/sass/logo.svg" />
 
 
@@ -129,84 +129,55 @@ sass." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>List to Sass converter</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/sass/blob/master/R/as_sass.R'><code>R/as_sass.R</code></a></small>
-    <div class="hidden name"><code>as_sass.Rd</code></div>
+    <h1>Create a file cache object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/sass/blob/master/R/file_cache.R'><code>R/file_cache.R</code></a></small>
+    <div class="hidden name"><code>sass_file_cache.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Converts multiple types of inputs to a single Sass input string for
-<code><a href='sass.html'>sass</a></code>.</p>
+    <p>This creates a file cache which is to be used by sass for caching generated
+.css files.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>as_sass</span>(<span class='no'>input</span>)</pre>
+    <pre class="usage"><span class='fu'>sass_file_cache</span>(<span class='kw'>dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_size</span> <span class='kw'>=</span> <span class='fl'>40</span> * <span class='fl'>1024</span>^<span class='fl'>2</span>, <span class='kw'>max_age</span> <span class='kw'>=</span> <span class='fl'>60</span> * <span class='fl'>60</span> * <span class='fl'>24</span> * <span class='fl'>7</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>input</th>
-      <td><p>Either a</p><ul>
-<li><p>raw Sass string</p></li>
-<li><p>named list containing variable names and values</p></li>
-<li><p>Sass-like file name.</p></li>
-</ul></td>
+      <th>dir</th>
+      <td><p>The directory in which to store the cached files. If <code>NULL</code> (the
+default), then it will be set to a subdirectory of the user's cache
+directory named <code>R-sass</code>.</p></td>
+    </tr>
+    <tr>
+      <th>max_size</th>
+      <td><p>The maximum size of the cache, in bytes. If the cache grows past this
+size, the least-recently-used objects will be removed until it fits within
+this size.</p></td>
+    </tr>
+    <tr>
+      <th>max_age</th>
+      <td><p>The maximum age of objects in the cache, in seconds. The
+default is one week.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a single character value to be supplied to <code><a href='sass.html'>sass</a></code></p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Note that the LibSass compiler expects .sass files to use the Sass Indented
-Syntax.</p>
+    <p>A <a href='FileCache.html'>FileCache</a> object.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Visit
-<a href='https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import'>https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import</a>
-for more details.</p></div>
+    <div class='dont-index'><p><code><a href='sass_cache_get.html'>sass_cache_get()</a></code>, <a href='FileCache.html'>FileCache</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Example of regular Sass input</span>
-<span class='fu'>as_sass</span>(<span class='st'>"body { color: \"blue\"; }"</span>)</div><div class='output co'>#&gt; /* Sass */
-#&gt; body { color: "blue"; }</div><div class='input'>
-<span class='co'># There is support for adding variables</span>
-<span class='fu'>as_sass</span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"blue"</span>),
-   <span class='st'>"body { color: $color; }"</span>
-   )
-)</div><div class='output co'>#&gt; /* Sass */
-#&gt; $color: blue;
-#&gt; body { color: $color; }</div><div class='input'>
-<span class='co'># \donttest{</span>
-<span class='co'># Add a file name</span>
-<span class='no'>someFile</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(<span class='st'>"variables"</span>)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='co'># Create a cache with the default settings</span>
+<span class='no'>cache</span> <span class='kw'>&lt;-</span> <span class='fu'>sass_file_cache</span>()
 
-<span class='co'># Overwrite color to red</span>
-<span class='fu'><a href='https://rdrr.io/r/base/write.html'>write</a></span>(<span class='st'>"$color: \"red\";"</span>, <span class='no'>someFile</span>)
-
-<span class='no'>input</span> <span class='kw'>&lt;-</span>
-  <span class='fu'>as_sass</span>(
-    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-      <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"blue"</span>),
-      <span class='fu'><a href='sass_import.html'>sass_file</a></span>(<span class='no'>someFile</span>),
-      <span class='st'>"body { color: $color; }"</span>
-      )
-   )
-
-<span class='no'>input</span></div><div class='output co'>#&gt; /* Sass */
-#&gt; $color: blue;
-#&gt; @import "/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpA7QrrI/variablesa6317c4605c";
-#&gt; body { color: $color; }</div><div class='input'>
-<span class='co'># The final body color is red</span>
-<span class='fu'><a href='sass.html'>sass</a></span>(<span class='no'>input</span>)</div><div class='output co'>#&gt; /* CSS */
-#&gt; body {
-#&gt;   color: "red";
-#&gt; }
-#&gt; </div><div class='input'># }
-</div></pre>
+<span class='co'># Clear the cache</span>
+<span class='no'>cache</span>$<span class='fu'>reset</span>()
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
