@@ -535,7 +535,7 @@ FileCache <- R6Class("FileCache",
       if (is.null(private$logfile)) return()
 
       text <- paste0(format(Sys.time(), "[%Y-%m-%d %H:%M:%OS3] FileCache "), text)
-      writeLines(text, private$logfile)
+      cat(text, sep = "\n", file = private$logfile, append = TRUE)
     }
   )
 )
