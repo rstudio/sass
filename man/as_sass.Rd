@@ -9,9 +9,9 @@ as_sass(input)
 \arguments{
 \item{input}{Either a
 \itemize{
-  \item raw Sass string
-  \item named list containing variable names and values
-  \item Sass-like file name.
+\item raw Sass string
+\item named list containing variable names and values
+\item Sass-like file name.
 
 }}
 }
@@ -62,6 +62,6 @@ sass(input)
 }
 \seealso{
 Visit
-  \url{https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import}
-  for more details.
+\url{https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import}
+for more details.
 }

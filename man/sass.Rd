@@ -8,22 +8,19 @@ sass(
   input = NULL,
   options = sass_options(),
   output = NULL,
-  cache_options = sass_cache_options(),
-  write_attachments = NA
+  write_attachments = NA,
+  cache = sass_cache_get()
 )
 }
 \arguments{
-\item{input}{Accepts raw Sass, a named list of variables, or a list of raw Sass and/or named variables.
-See \code{\link{as_sass}} and \code{\link{sass_import}} / \code{\link{sass_file}} for more details.}
+\item{input}{Accepts raw Sass, a named list of variables, or a list of raw
+Sass and/or named variables. See \code{\link{as_sass}} and
+\code{\link{sass_import}} / \code{\link{sass_file}} for more details.}
 
 \item{options}{Compiler options for Sass. Please specify options using
 \code{\link{sass_options}}.}
 
 \item{output}{Specifies path to output file for compiled CSS.}
-
-\item{cache_options}{Caching options for Sass. Please specify options using
-\code{\link{sass_cache_options}}. Caching is turned off by default for
-interactive R sessions, and turned on for non-interactive ones.}
 
 \item{write_attachments}{If the input contains \code{\link{sass_layer}}
 objects that have file attachments, and \code{output} is not \code{NULL},
@@ -31,11 +28,14 @@ then copy the file attachments to the directory of \code{output}. (Defaults
 to \code{NA}, which merely emits a warning if file attachments are present,
 but does not write them to disk; the side-effect of writing extra files is
 subtle and potentially destructive, as files may be overwritten.)}
+
+\item{cache}{A \link{FileCache} object created by \code{\link[=sass_file_cache]{sass_file_cache()}}, or \code{NULL}
+for no caching.}
 }
 \value{
-If \code{output = NULL}, the function returns a string value
-  of the compiled CSS. If the output path is specified, the compiled
-  CSS is written to that file and \code{invisible()} is returned.
+If \code{output = NULL}, the function returns a string value of the
+compiled CSS. If the output path is specified, the compiled CSS is written
+to that file and \code{invisible()} is returned.
 }
 \description{
 Compile Sass to CSS using LibSass.

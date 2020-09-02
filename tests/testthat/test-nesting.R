@@ -1,10 +1,10 @@
 context("nesting")
 
 # Disable sass cache
-options(sass.cache = FALSE)
+local_disable_cache()
 
 test_that("nesting works", {
-  expected <- paste0(readLines("test-nesting-expected.css"), collapse = "\n")
+  expected <- read_utf8("test-nesting-expected.css")
   class(expected) <- c("css", "html", "character")
   attr(expected, "html") <- TRUE
 

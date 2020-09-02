@@ -26,7 +26,6 @@ reference:
   contents:
     - sass
     - sass_options
-    - sass_cache_options
 - title: Sass code
   description: |
     Tools for generating Sass code from R
@@ -34,3 +33,11 @@ reference:
     - sass_file
     - sass_layer
     - as_sass
+- title: Caching
+  description: |
+    Functions related to caching sass output
+  contents:
+    - sass_file_cache
+    - sass_cache_get
+    - sass_hash
+    - sass_cache_options

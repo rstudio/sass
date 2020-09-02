@@ -1,7 +1,7 @@
 context("variables")
 
 # Disable sass cache
-options(sass.cache = FALSE)
+local_disable_cache()
 
 test_that("variables work", {
   css <- sass(sass_file("test-variables.scss"))

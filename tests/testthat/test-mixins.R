@@ -1,7 +1,7 @@
 context("mixins")
 
 # Disable sass cache
-options(sass.cache = FALSE)
+local_disable_cache()
 
 test_that("mixins work", {
   expected_first_word <- ".box"

@@ -1,7 +1,7 @@
 context("extend")
 
 # Disable sass cache
-options(sass.cache = FALSE)
+local_disable_cache()
 
 test_that("extend works", {
   expected_first_line <- ".message, .success, .error, .warning "

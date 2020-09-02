@@ -172,20 +172,3 @@ sass_file <- function(input) {
 
   ret
 }
-
-# Given an object, return an object that can be \code{digest::digest}-ed into a
-# hash key. This lets us vary the cache key with the timestamp of files imported
-# via `sass_file` directives (but not files that are imported by those files).
-sass_cache_key <- function(x) {
-  if (inherits(x, "sass_file")) {
-    # Add the file's mtime to the cache key. This will cause mtime changes to
-    # bust the cache.
-    input_path <- attr(x, "sass_file_path", exact = TRUE)
-    attr(x, "sass_timestamp") <- file.mtime(input_path)
-    x
-  } else if (inherits(x, "list")) {
-    lapply(x, sass_cache_key)
-  } else {
-    x
-  }
-}

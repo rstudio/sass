@@ -1,0 +1,7 @@
+# These need to have the exact same bytes on all platforms because read_utf8()
+# will return a string with "\r\n" -- it will not change it to "\n"
+# automatically -- and the tests expect "\n" only.
+
+*.sass text eol=lf
+*.scss text eol=lf
+*.css text eol=lf
