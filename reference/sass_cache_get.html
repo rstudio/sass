@@ -206,13 +206,13 @@ body {
 
 <span class='co'># The first time this runs it will be very slow</span>
 <span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'><a href='sass.html'>sass</a></span>(<span class='no'>fib_sass</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   3.878   0.024   3.962 </div><div class='input'>
+#&gt;   2.716   0.009   2.784 </div><div class='input'>
 <span class='co'># But on subsequent calls, it should be very fast</span>
 <span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'><a href='sass.html'>sass</a></span>(<span class='no'>fib_sass</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.001   0.000   0.001 </div><div class='input'>
+#&gt;   0.001   0.000   0.002 </div><div class='input'>
 <span class='co'># sass() can be called with cache=NULL; it will be slow</span>
 <span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'><a href='sass.html'>sass</a></span>(<span class='no'>fib_sass</span>, <span class='kw'>cache</span> <span class='kw'>=</span> <span class='kw'>NULL</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   3.600   0.024   3.732 </div><div class='input'>
+#&gt;   2.738   0.019   2.762 </div><div class='input'>
 <span class='co'># Clear the cache</span>
 <span class='fu'>sass_cache_get</span>()$<span class='fu'>reset</span>()
 
