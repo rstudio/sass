@@ -163,7 +163,7 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
 #' sass("body {color: red}", output = output_file())
 output_file <- function(basename = "output", pattern = "sass", fileext = NULL) {
   function(options = list(), cache_key = NULL) {
-    fileext <- fileext %||% if (isTRUE(options$output_style %in% c("compressed", "compact"))) ".min.css" else ".css"
+    fileext <- fileext %||% if (isTRUE(options$output_style %in% c(2, 3))) ".min.css" else ".css"
     # If caching is enabled, then make sure the out dir is unique to the cache key;
     # otherwise, do the more conservative thing of making sure there is a fresh start everytime
     out_dir <- if (is.null(cache_key)) {

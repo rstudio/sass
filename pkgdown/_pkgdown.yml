@@ -26,6 +26,7 @@ reference:
   contents:
     - sass
     - sass_options
+    - output_file
 - title: Sass code
   description: |
     Tools for generating Sass code from R
