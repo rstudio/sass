@@ -84,7 +84,6 @@
 #' @export
 sass_cache_get <- function() {
   if (!exists("cache", .globals, inherits = FALSE)) {
-    username <- Sys.info()[["user"]]
     sass_cache_set(sass_file_cache())
   }
   .globals$cache
