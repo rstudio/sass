@@ -2,6 +2,30 @@
 #'
 #' Compile Sass to CSS using LibSass.
 #'
+#' @details
+#'
+#' @section Caching:
+#'
+#'   If caching is used (as is the default), then this function checks for
+#'   changes in `input` and `options`, as well as any .sass/.scss files
+#'   specified in `input`, and file attachments (such as fonts) specified in
+#'   `input`. All of that information is hashed to create a key which is used
+#'   for caching.
+#'
+#'   For .sass/.scss files, the mtime of the specified file(s) will be checked
+#'   each time `sass()` is called and those times will be included in a hash; if
+#'   the mtime changes, it will result in a new hash key and the .css will be
+#'   recompiled. However, if the file imports other files (via an `@import`
+#'   directive), those mtimes of those imported files will not be checked.
+#'   Changes to those files will not be detected, and the .css file will not be
+#'   recompiled. For this reason, if you are actively developing a sass theme,
+#'   then it is best to turn off caching.
+#'
+#'   For file attachments, like font files, the mtime of specified files will be
+#'   checked for changes each time `sass()` is called. If a directory is
+#'   specified, then all the files within the directory will have their mtime
+#'   computed and used as part of the hash. Any changes to those files will
+#'   result in a new hash key, and output directory.
 #'
 #' @param input Accepts raw Sass, a named list of variables, or a list of raw
 #'   Sass and/or named variables. See \code{\link{as_sass}} and
@@ -61,10 +85,8 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
   if (!is.null(cache)) {
     cache_key <- sass_hash(list(
       input,
-      # Detect if any attachments have changed - note that if the attachment is
-      # a directory, it will detect if files are added or removed, but it will
-      # not detect if a file in the directory is modified.
-      if (is.list(layer) && !is.null(layer$file_attachments)) file.mtime(layer$file_attachments),
+      # Detect if any attachments have changed
+      if (is.list(layer) && !is.null(layer$file_attachments)) get_file_mtimes(layer$file_attachments),
       options
     ))
     cache_hit <- FALSE
