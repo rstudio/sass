@@ -57,3 +57,22 @@ get_file_mtimes <- function(files) {
 "%||%" <- function(x, y) {
   if (is.null(x)) y else x
 }
+
+
+# Checks whether a package is installed
+is_installed <- function(package) {
+  nzchar(system.file(package = package))
+}
+
+
+# Reports whether we're running a Shiny app on RStudio Connect
+is_connect_app <- function() {
+  if ("shiny" %in% loadedNamespaces() && shiny::isRunning()) {
+    info <- shiny::serverInfo()
+    if (!is.null(info) && is.list(info) && identical(info$edition, "Connect")) {
+      return(TRUE)
+    }
+  }
+
+  FALSE
+}
