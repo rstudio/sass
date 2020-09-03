@@ -53,3 +53,7 @@ get_file_mtimes <- function(files) {
     stringsAsFactors = FALSE
   )
 }
+
+"%||%" <- function(x, y) {
+  if (is.null(x)) y else x
+}
