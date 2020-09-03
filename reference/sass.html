@@ -184,6 +184,34 @@ for no caching.</p></td>
     <p>If <code>output = NULL</code>, the function returns a string value of the
 compiled CSS. If the output path is specified, the compiled CSS is written
 to that file and <code><a href='https://rdrr.io/r/base/invisible.html'>invisible()</a></code> is returned.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    
+
+
+    <h2 class="hasAnchor" id="caching"><a class="anchor" href="#caching"></a>Caching</h2>
+
+    
+
+
+<p>If caching is used (as is the default), then this function checks for
+changes in <code>input</code> and <code>options</code>, as well as any .sass/.scss files
+specified in <code>input</code>, and file attachments (such as fonts) specified in
+<code>input</code>. All of that information is hashed to create a key which is used
+for caching.</p>
+<p>For .sass/.scss files, the mtime of the specified file(s) will be checked
+each time <code>sass()</code> is called and those times will be included in a hash; if
+the mtime changes, it will result in a new hash key and the .css will be
+recompiled. However, if the file imports other files (via an <code>@import</code>
+directive), those mtimes of those imported files will not be checked.
+Changes to those files will not be detected, and the .css file will not be
+recompiled. For this reason, if you are actively developing a sass theme,
+then it is best to turn off caching.</p>
+<p>For file attachments, like font files, the mtime of specified files will be
+checked for changes each time <code>sass()</code> is called. If a directory is
+specified, then all the files within the directory will have their mtime
+computed and used as part of the hash. Any changes to those files will
+result in a new hash key, and output directory.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='http://sass-lang.com/guide'>http://sass-lang.com/guide</a></p></div>
