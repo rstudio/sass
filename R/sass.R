@@ -155,15 +155,15 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
 #' Provide the return value of this function to [sass()]'s `output` argument for
 #' a temporary `output` file that is `cache` and `options` aware (see details).
 #'
-#' When `cache` is enabled, the file path is `file.path(tempdir(), pattern,
-#' cache_key, paste0(basename, fileext))`. This ensures that repeated calls to
-#' [sass()] that generate the same CSS output (i.e., have the same `cache_key`)
-#' won't needlessly generate redundant file(s).
+#' When `cache` is enabled, the file path is `file.path(tempdir(),
+#' paste0(pattern, cache_key), paste0(basename, fileext))`. This ensures that
+#' when [sass()] has a cache hit, it won't needlessly generate redundant
+#' file(s).
 #'
 #' @param basename a non-empty character vector giving the outfile name (without
 #'   the extension).
 #' @param pattern a non-empty character vector giving the initial part of the
-#'   directory's basename.
+#'   directory name.
 #' @param fileext the output file extension. The default is `".min.css"` for
 #'   compressed and compact output styles; otherwise, its `".css"`.
 #' @export
@@ -175,9 +175,9 @@ output_file <- function(basename = "sass", pattern = basename, fileext = NULL) {
     # If caching is enabled, then make sure the out dir is unique to the cache key;
     # otherwise, do the more conservative thing of making sure there is a fresh start everytime
     out_dir <- if (is.null(cache_key)) {
-      tempfile(pattern = pattern, fileext = fileext)
+      tempfile(pattern = pattern)
     } else {
-      file.path(tempdir(), pattern, cache_key)
+      file.path(tempdir(), paste0(pattern, cache_key))
     }
     if (!dir.exists(out_dir)) {
       dir.create(out_dir, recursive = TRUE)

@@ -10,7 +10,7 @@ output_file(basename = "sass", pattern = basename, fileext = NULL)
 \item{basename}{a non-empty character vector giving the outfile name (without
 the extension).}
 
-\item{pattern}{a non-empty character vector giving the initial part of the
+\item{pattern}{a non-empty character vector giving a directory name
 directory's basename.}
 
 \item{fileext}{the output file extension. The default is \code{".min.css"} for
@@ -21,9 +21,8 @@ Provide the return value of this function to \code{\link[=sass]{sass()}}'s \code
 a temporary \code{output} file that is \code{cache} and \code{options} aware (see details).
 }
 \details{
-When \code{cache} is enabled, the file path is \code{file.path(tempdir(), pattern, cache_key, paste0(basename, fileext))}. This ensures that repeated calls to
-\code{\link[=sass]{sass()}} which generate the same CSS output (i.e., have the same \code{cache_key})
-won't needlessly generate redundant file(s).
+When \code{cache} is enabled, the file path is \code{file.path(tempdir(), paste0(pattern, cache_key), paste0(basename, fileext))}. This ensures that
+when \code{\link[=sass]{sass()}} has a cache hit, it won't needlessly generate redundant file(s).
 }
 \examples{
 sass("body {color: red}", output = output_file())
