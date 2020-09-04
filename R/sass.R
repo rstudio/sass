@@ -152,32 +152,37 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
 
 #' An intelligent (temporary) output file
 #'
-#' Provide the return value of this function to [sass()]'s `output` argument for
-#' a temporary `output` file that is `cache` and `options` aware (see details).
-#'
-#' When `cache` is enabled, the file path is `file.path(tempdir(),
-#' paste0(pattern, cache_key), paste0(basename, fileext))`. This ensures that
-#' when [sass()] has a cache hit, it won't needlessly generate redundant
-#' file(s).
+#' Intended for use with [sass()]'s `output` argument for temporary file
+#' generation that is `cache` and `options` aware. In particular, this ensures
+#' that new redundant file(s) aren't generated on a [sass()] cache hit, and that
+#' the file's extension is suitable for the [sass_options()]'s `output_style`.
 #'
 #' @param basename a non-empty character vector giving the outfile name (without
 #'   the extension).
-#' @param pattern a non-empty character vector giving the initial part of the
+#' @param dirname a non-empty character vector giving the initial part of the
 #'   directory name.
 #' @param fileext the output file extension. The default is `".min.css"` for
 #'   compressed and compact output styles; otherwise, its `".css"`.
+#'
+#' @return A function with two arguments: `options` and `suffix`. When called inside
+#' [sass()] with caching enabled, the caching key is supplied to `suffix`.
+#'
 #' @export
 #' @examples
 #' sass("body {color: red}", output = output_file())
-output_file <- function(basename = "sass", pattern = basename, fileext = NULL) {
-  function(options = list(), cache_key = NULL) {
+#'
+#' func <- output_file(basename = "foo", dirname = "bar-")
+#' func(suffix = "baz")
+#'
+output_file <- function(basename = "sass", dirname = basename, fileext = NULL) {
+  function(options = list(), suffix = NULL) {
     fileext <- fileext %||% if (isTRUE(options$output_style %in% c(2, 3))) ".min.css" else ".css"
     # If caching is enabled, then make sure the out dir is unique to the cache key;
     # otherwise, do the more conservative thing of making sure there is a fresh start everytime
-    out_dir <- if (is.null(cache_key)) {
-      tempfile(pattern = pattern)
+    out_dir <- if (is.null(suffix)) {
+      tempfile(pattern = dirname)
     } else {
-      file.path(tempdir(), paste0(pattern, cache_key))
+      file.path(tempdir(), paste0(dirname, suffix))
     }
     if (!dir.exists(out_dir)) {
       dir.create(out_dir, recursive = TRUE)

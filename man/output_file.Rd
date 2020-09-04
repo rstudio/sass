@@ -4,26 +4,32 @@
 \alias{output_file}
 \title{An intelligent (temporary) output file}
 \usage{
-output_file(basename = "sass", pattern = basename, fileext = NULL)
+output_file(basename = "sass", dirname = basename, fileext = NULL)
 }
 \arguments{
 \item{basename}{a non-empty character vector giving the outfile name (without
 the extension).}
 
-\item{pattern}{a non-empty character vector giving a directory name
-directory's basename.}
+\item{dirname}{a non-empty character vector giving the initial part of the
+directory name.}
 
 \item{fileext}{the output file extension. The default is \code{".min.css"} for
 compressed and compact output styles; otherwise, its \code{".css"}.}
 }
-\description{
-Provide the return value of this function to \code{\link[=sass]{sass()}}'s \code{output} argument for
-a temporary \code{output} file that is \code{cache} and \code{options} aware (see details).
+\value{
+A function with two arguments: \code{options} and \code{suffix}. When called inside
+\code{\link[=sass]{sass()}} with caching enabled, the caching key is supplied to \code{suffix}.
 }
-\details{
-When \code{cache} is enabled, the file path is \code{file.path(tempdir(), paste0(pattern, cache_key), paste0(basename, fileext))}. This ensures that
-when \code{\link[=sass]{sass()}} has a cache hit, it won't needlessly generate redundant file(s).
+\description{
+Intended for use with \code{\link[=sass]{sass()}}'s \code{output} argument for temporary file
+generation that is \code{cache} and \code{options} aware. In particular, this ensures
+that new redundant file(s) aren't generated on a \code{\link[=sass]{sass()}} cache hit, and that
+the file's extension is suitable for the \code{\link[=sass_options]{sass_options()}}'s \code{output_style}.
 }
 \examples{
 sass("body {color: red}", output = output_file())
+
+func <- output_file(basename = "foo", dirname = "bar-")
+func(suffix = "baz")
+
 }
