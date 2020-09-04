@@ -139,6 +139,8 @@ test_that("cache key components", {
 
 
 test_that("output_file() is cache and options aware", {
+  local_temp_cache()
+
   input <- list(
     list(color = "red"),
     "body{color:red}"

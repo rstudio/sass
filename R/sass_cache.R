@@ -108,8 +108,7 @@ sass_cache_set <- function(cache = sass_file_cache()) {
 #' been modified.
 #'
 #' @param x A list with sass objects.
-#'
-#' @export
+#' @noRd
 sass_hash <- function(x) {
   digest::digest(
     add_sass_file_mtime(list(x, utils::packageVersion("sass"))),
