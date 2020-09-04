@@ -150,7 +150,15 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
   css
 }
 
-#' Create cache aware output file(s)
+#' An intelligent (temporary) output file
+#'
+#' Provide the return value of this function to [sass()]'s `output` argument for
+#' a temporary `output` file that is `cache` and `options` aware (see details).
+#'
+#' When `cache` is enabled, the file path is `file.path(tempdir(), pattern,
+#' cache_key, paste0(basename, fileext))`. This ensures that repeated calls to
+#' [sass()] that generate the same CSS output (i.e., have the same `cache_key`)
+#' won't needlessly generate redundant file(s).
 #'
 #' @param basename a non-empty character vector giving the outfile name (without
 #'   the extension).
@@ -161,7 +169,7 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
 #' @export
 #' @examples
 #' sass("body {color: red}", output = output_file())
-output_file <- function(basename = "output", pattern = "sass", fileext = NULL) {
+output_file <- function(basename = "sass", pattern = basename, fileext = NULL) {
   function(options = list(), cache_key = NULL) {
     fileext <- fileext %||% if (isTRUE(options$output_style %in% c(2, 3))) ".min.css" else ".css"
     # If caching is enabled, then make sure the out dir is unique to the cache key;

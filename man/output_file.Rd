@@ -2,9 +2,9 @@
 % Please edit documentation in R/sass.R
 \name{output_file}
 \alias{output_file}
-\title{Create cache aware output file(s)}
+\title{An intelligent (temporary) output file}
 \usage{
-output_file(basename = "output", pattern = "sass", fileext = NULL)
+output_file(basename = "sass", pattern = basename, fileext = NULL)
 }
 \arguments{
 \item{basename}{a non-empty character vector giving the outfile name (without
@@ -17,7 +17,13 @@ directory's basename.}
 compressed and compact output styles; otherwise, its \code{".css"}.}
 }
 \description{
-Create cache aware output file(s)
+Provide the return value of this function to \code{\link[=sass]{sass()}}'s \code{output} argument for
+a temporary \code{output} file that is \code{cache} and \code{options} aware (see details).
+}
+\details{
+When \code{cache} is enabled, the file path is \code{file.path(tempdir(), pattern, cache_key, paste0(basename, fileext))}. This ensures that repeated calls to
+\code{\link[=sass]{sass()}} which generate the same CSS output (i.e., have the same \code{cache_key})
+won't needlessly generate redundant file(s).
 }
 \examples{
 sass("body {color: red}", output = output_file())
