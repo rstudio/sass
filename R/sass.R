@@ -2,49 +2,48 @@
 #'
 #' Compile Sass to CSS using LibSass.
 #'
-#' @details
-#'
 #' @section Caching:
 #'
-#'   If caching is used (as is the default), then this function checks for
-#'   changes in `input` and `options`, as well as any .sass/.scss files
-#'   specified in `input`, and file attachments (such as fonts) specified in
-#'   `input`. All of that information is hashed to create a key which is used
-#'   for caching.
-#'
-#'   For .sass/.scss files, the mtime of the specified file(s) will be checked
-#'   each time `sass()` is called and those times will be included in a hash; if
-#'   the mtime changes, it will result in a new hash key and the .css will be
-#'   recompiled. However, if the file imports other files (via an `@import`
-#'   directive), those mtimes of those imported files will not be checked.
-#'   Changes to those files will not be detected, and the .css file will not be
-#'   recompiled. For this reason, if you are actively developing a sass theme,
-#'   then it is best to turn off caching.
-#'
-#'   For file attachments, like font files, the mtime of specified files will be
-#'   checked for changes each time `sass()` is called. If a directory is
-#'   specified, then all the files within the directory will have their mtime
-#'   computed and used as part of the hash. Any changes to those files will
-#'   result in a new hash key, and output directory.
+#'   By default, caching is enabled, meaning that `sass()` avoids the possibly
+#'   expensive re-compilation of CSS whenever the same `options` and `input` are
+#'   requested. Unfortunately, in some cases, `options` and `input` alone aren't
+#'   enough to determine whether new CSS output must be generated. For example,
+#'   changes in local file
+#'   [imports](https://sass-lang.com/documentation/at-rules/import) that aren't
+#'   captured through [sass_file()]/[sass_import()], may lead to a
+#'   false-positive cache hit. For this reason, developers are encouraged to
+#'   capture such information in `cache_key_extra` (possibly with
+#'   `packageVersion('myPackage')` if shipping Sass with a package), and users
+#'   may want to disable caching altogether during local development (via
+#'   `sass_cache_set(NULL)`).
 #'
 #' @param input Accepts raw Sass, a named list of variables, or a list of raw
-#'   Sass and/or named variables. See \code{\link{as_sass}} and
-#'   \code{\link{sass_import}} / \code{\link{sass_file}} for more details.
+#'   Sass and/or named variables. See [as_sass()] and [sass_import()] /
+#'   [sass_file()] for more details.
 #' @param options Compiler options for Sass. Please specify options using
-#'   \code{\link{sass_options}}.
-#' @param output Specifies path to output file for compiled CSS.
+#'   [sass_options()].
+#' @param output Specifies path to output file for compiled CSS. May be a
+#'   character string or [output_template()]
+#' @param write_attachments If the input contains [sass_layer()] objects that
+#'   have file attachments, and `output` is not `NULL`, then copy the file
+#'   attachments to the directory of `output`. (Defaults to `NA`, which merely
+#'   emits a warning if file attachments are present, but does not write them to
+#'   disk; the side-effect of writing extra files is subtle and potentially
+#'   destructive, as files may be overwritten.)
 #' @param cache A [FileCache] object created by [sass_file_cache()], or `NULL`
 #'   for no caching.
-#' @param write_attachments If the input contains \code{\link{sass_layer}}
-#'   objects that have file attachments, and \code{output} is not \code{NULL},
-#'   then copy the file attachments to the directory of \code{output}. (Defaults
-#'   to \code{NA}, which merely emits a warning if file attachments are present,
-#'   but does not write them to disk; the side-effect of writing extra files is
-#'   subtle and potentially destructive, as files may be overwritten.)
-#' @return If \code{output = NULL}, the function returns a string value of the
-#'   compiled CSS. If the output path is specified, the compiled CSS is written
-#'   to that file and \code{invisible()} is returned.
-#' @seealso \url{http://sass-lang.com/guide}
+#' @param cache_key_extra additional information to considering when computing
+#'   the cache key. This should include any information that could possibly
+#'   influence the resulting CSS that isn't already captured by `input`. For
+#'   example, if `input` contains something like `"@import sass_file.scss"` you
+#'   may want to include the [file.mtime()] of `sass_file.scss` (or, perhaps, a
+#'   [packageVersion()] if `sass_file.scss` is bundled with an R package).
+#'
+#' @return If `output = NULL`, the function returns a string value of the
+#'   compiled CSS. If `output` is specified, the compiled CSS is written to a
+#'   file and the filename is returned.
+#'
+#' @seealso <http://sass-lang.com/guide>
 #' @export
 #' @examples
 #' # raw Sass input
@@ -64,16 +63,13 @@
 #'   sass_file(tmp_file)
 #' ))
 sass <- function(input = NULL, options = sass_options(), output = NULL,
-  write_attachments = NA, cache = sass_cache_get()) {
+  write_attachments = NA, cache = sass_cache_get(), cache_key_extra = NULL) {
 
   if (!inherits(options, "sass_options")) {
     stop("Please construct the compile options using `sass_options()`.")
   }
   if (!is.null(cache) && !inherits(cache, "FileCache")) {
     stop("Please use NULL (no cache) or a FileCache object for `cache`.")
-  }
-  if (!is.null(output) && !dir.exists(fs::path_dir(output))) {
-    stop("The output directory '", fs::path_dir(output), "' does not exist")
   }
   if (is.null(output) && isTRUE(write_attachments)) {
     stop("sass(write_attachments=TRUE) cannot be used when output=NULL")
@@ -82,13 +78,24 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
   css <- NULL
   layer <- extract_layer(input)
 
-  if (!is.null(cache)) {
-    cache_key <- sass_hash(list(
-      input,
+  # If caching is active, compute the hash key
+  cache_key <- if (!is.null(cache)) {
+    sass_hash(list(
+      input, options, cache_key_extra,
       # Detect if any attachments have changed
-      if (is.list(layer) && !is.null(layer$file_attachments)) get_file_mtimes(layer$file_attachments),
-      options
+      if (is.list(layer) && !is.null(layer$file_attachments)) get_file_mtimes(layer$file_attachments)
     ))
+  }
+
+  # Resolve output_template(), if need be
+  if (is.function(output)) {
+    output <- output(options, cache_key)
+  }
+  if (!is.null(output) && !dir.exists(fs::path_dir(output))) {
+    stop("The output directory '", fs::path_dir(output), "' does not exist")
+  }
+
+  if (!is.null(cache)) {
     cache_hit <- FALSE
     if (is.null(output)) {
       # If no output is specified, we need to return a character vector
@@ -100,10 +107,10 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
       cache_hit <- cache$get_file(cache_key, outfile = output)
       if (cache_hit) {
         if (isTRUE(write_attachments == FALSE)) {
-          return(invisible())
+          return(output)
         }
         maybe_write_attachments(layer, output, write_attachments)
-        return(invisible())
+        return(output)
       }
     }
 
@@ -130,7 +137,7 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
   if (!is.null(output)) {
     write_utf8(css, output)
     maybe_write_attachments(layer, output, write_attachments)
-    return(invisible())
+    return(output)
   }
 
   # Attach HTML dependencies so that placing a sass::sass() call within HTML tags
@@ -140,6 +147,47 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
   }
 
   css
+}
+
+#' An intelligent (temporary) output file
+#'
+#' Intended for use with [sass()]'s `output` argument for temporary file
+#' generation that is `cache` and `options` aware. In particular, this ensures
+#' that new redundant file(s) aren't generated on a [sass()] cache hit, and that
+#' the file's extension is suitable for the [sass_options()]'s `output_style`.
+#'
+#' @param basename a non-empty character vector giving the outfile name (without
+#'   the extension).
+#' @param dirname a non-empty character vector giving the initial part of the
+#'   directory name.
+#' @param fileext the output file extension. The default is `".min.css"` for
+#'   compressed and compact output styles; otherwise, its `".css"`.
+#'
+#' @return A function with two arguments: `options` and `suffix`. When called inside
+#' [sass()] with caching enabled, the caching key is supplied to `suffix`.
+#'
+#' @export
+#' @examples
+#' sass("body {color: red}", output = output_template())
+#'
+#' func <- output_template(basename = "foo", dirname = "bar-")
+#' func(suffix = "baz")
+#'
+output_template <- function(basename = "sass", dirname = basename, fileext = NULL) {
+  function(options = list(), suffix = NULL) {
+    fileext <- fileext %||% if (isTRUE(options$output_style %in% c(2, 3))) ".min.css" else ".css"
+    # If caching is enabled, then make sure the out dir is unique to the cache key;
+    # otherwise, do the more conservative thing of making sure there is a fresh start everytime
+    out_dir <- if (is.null(suffix)) {
+      tempfile(pattern = dirname)
+    } else {
+      file.path(tempdir(), paste0(dirname, suffix))
+    }
+    if (!dir.exists(out_dir)) {
+      dir.create(out_dir, recursive = TRUE)
+    }
+    file.path(out_dir, paste0(basename, fileext))
+  }
 }
 
 maybe_write_attachments <- function(layer, output, write_attachments) {

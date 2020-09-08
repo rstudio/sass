@@ -14,3 +14,4 @@ sass_cache_options(cache, cache_dir)
 \description{
 This function is no longer used. Please see \code{\link[=sass_cache_get]{sass_cache_get()}}.
 }
+\keyword{internal}

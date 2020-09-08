@@ -9,63 +9,61 @@ sass(
   options = sass_options(),
   output = NULL,
   write_attachments = NA,
-  cache = sass_cache_get()
+  cache = sass_cache_get(),
+  cache_key_extra = NULL
 )
 }
 \arguments{
 \item{input}{Accepts raw Sass, a named list of variables, or a list of raw
-Sass and/or named variables. See \code{\link{as_sass}} and
-\code{\link{sass_import}} / \code{\link{sass_file}} for more details.}
+Sass and/or named variables. See \code{\link[=as_sass]{as_sass()}} and \code{\link[=sass_import]{sass_import()}} /
+\code{\link[=sass_file]{sass_file()}} for more details.}
 
 \item{options}{Compiler options for Sass. Please specify options using
-\code{\link{sass_options}}.}
+\code{\link[=sass_options]{sass_options()}}.}
 
-\item{output}{Specifies path to output file for compiled CSS.}
+\item{output}{Specifies path to output file for compiled CSS. May be a
+character string or \code{\link[=output_template]{output_template()}}}
 
-\item{write_attachments}{If the input contains \code{\link{sass_layer}}
-objects that have file attachments, and \code{output} is not \code{NULL},
-then copy the file attachments to the directory of \code{output}. (Defaults
-to \code{NA}, which merely emits a warning if file attachments are present,
-but does not write them to disk; the side-effect of writing extra files is
-subtle and potentially destructive, as files may be overwritten.)}
+\item{write_attachments}{If the input contains \code{\link[=sass_layer]{sass_layer()}} objects that
+have file attachments, and \code{output} is not \code{NULL}, then copy the file
+attachments to the directory of \code{output}. (Defaults to \code{NA}, which merely
+emits a warning if file attachments are present, but does not write them to
+disk; the side-effect of writing extra files is subtle and potentially
+destructive, as files may be overwritten.)}
 
 \item{cache}{A \link{FileCache} object created by \code{\link[=sass_file_cache]{sass_file_cache()}}, or \code{NULL}
 for no caching.}
+
+\item{cache_key_extra}{additional information to considering when computing
+the cache key. This should include any information that could possibly
+influence the resulting CSS that isn't already captured by \code{input}. For
+example, if \code{input} contains something like \code{"@import sass_file.scss"} you
+may want to include the \code{\link[=file.mtime]{file.mtime()}} of \code{sass_file.scss} (or, perhaps, a
+\code{\link[=packageVersion]{packageVersion()}} if \code{sass_file.scss} is bundled with an R package).}
 }
 \value{
 If \code{output = NULL}, the function returns a string value of the
-compiled CSS. If the output path is specified, the compiled CSS is written
-to that file and \code{invisible()} is returned.
+compiled CSS. If \code{output} is specified, the compiled CSS is written to a
+file and the filename is returned.
 }
 \description{
 Compile Sass to CSS using LibSass.
 }
-\details{
-
-}
 \section{Caching}{
 
 
-If caching is used (as is the default), then this function checks for
-changes in \code{input} and \code{options}, as well as any .sass/.scss files
-specified in \code{input}, and file attachments (such as fonts) specified in
-\code{input}. All of that information is hashed to create a key which is used
-for caching.
-
-For .sass/.scss files, the mtime of the specified file(s) will be checked
-each time \code{sass()} is called and those times will be included in a hash; if
-the mtime changes, it will result in a new hash key and the .css will be
-recompiled. However, if the file imports other files (via an \verb{@import}
-directive), those mtimes of those imported files will not be checked.
-Changes to those files will not be detected, and the .css file will not be
-recompiled. For this reason, if you are actively developing a sass theme,
-then it is best to turn off caching.
-
-For file attachments, like font files, the mtime of specified files will be
-checked for changes each time \code{sass()} is called. If a directory is
-specified, then all the files within the directory will have their mtime
-computed and used as part of the hash. Any changes to those files will
-result in a new hash key, and output directory.
+By default, caching is enabled, meaning that \code{sass()} avoids the possibly
+expensive re-compilation of CSS whenever the same \code{options} and \code{input} are
+requested. Unfortunately, in some cases, \code{options} and \code{input} alone aren't
+enough to determine whether new CSS output must be generated. For example,
+changes in local file
+\href{https://sass-lang.com/documentation/at-rules/import}{imports} that aren't
+captured through \code{\link[=sass_file]{sass_file()}}/\code{\link[=sass_import]{sass_import()}}, may lead to a
+false-positive cache hit. For this reason, developers are encouraged to
+capture such information in \code{cache_key_extra} (possibly with
+\code{packageVersion('myPackage')} if shipping Sass with a package), and users
+may want to disable caching altogether during local development (via
+\code{sass_cache_set(NULL)}).
 }
 
 \examples{

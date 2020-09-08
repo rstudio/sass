@@ -10,10 +10,10 @@
 #'
 #' If caching is enabled, [sass()] will attempt to bypass the compilation
 #' process by reusing output from previous [sass()] calls that used equivalent
-#' inputs. This mechanism works by calling [sass_hash()] to derive a \emph{cache
-#' key} from each [sass()] call's `input` and `options` arguments. If an object
-#' with that hash already exists within the cache directory, its contents are
-#' used instead of performing the compilation. If it does not exist, then
+#' inputs. This mechanism works by computing a \emph{cache key} from each
+#' [sass()] call's `input`, `option`, and `cache_key_extra` arguments. If an
+#' object with that hash already exists within the cache directory, its contents
+#' are used instead of performing the compilation. If it does not exist, then
 #' compilation is performed and usual and the results are stored in the cache.
 #'
 #' If a file that is included using [sass_file()] changes on disk (i.e. its
@@ -24,9 +24,9 @@
 #' and you will end up with stale results. Caching should be disabled in cases
 #' like this.
 #'
-#' If `sass_cache_get()` is called before `sass_cache_set()`,
-#' then it will create a cache in a subdirectory of the system temp directory
-#' named `R-sass-cache-username` and set it as the default. Because this cache
+#' If `sass_cache_get()` is called before `sass_cache_set()`, then it will
+#' create a cache in a subdirectory of the system temp directory named
+#' `R-sass-cache-username` and set it as the default. Because this cache
 #' directory is not in the R process's temp directory, it will persist longer
 #' than the R process, typically until a system reboot. Additionally, it will be
 #' shared across R processes for the same user on the same system.
@@ -107,8 +107,7 @@ sass_cache_set <- function(cache = sass_file_cache()) {
 #' been modified.
 #'
 #' @param x A list with sass objects.
-#'
-#' @export
+#' @noRd
 sass_hash <- function(x) {
   digest::digest(
     add_sass_file_mtime(list(x, utils::packageVersion("sass"))),
@@ -139,9 +138,10 @@ add_sass_file_mtime <- function(x) {
 #' @param cache No longer used.
 #' @param cache_dir  No longer used.
 #' @export
+#' @keywords internal
 sass_cache_options <- function(cache, cache_dir) {
   message(
-    "The function `sass_cache_options` is no longer used.",
-    "Please see ?sass_cache_get and ?FileCache."
+    "The function `sass_cache_options` is no longer used. ",
+    "Please see ?sass_cache_set and ?sass_file_cache"
   )
 }
