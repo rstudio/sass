@@ -87,7 +87,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9002</span>
       </span>
     </div>
 
@@ -139,7 +139,7 @@
 .css files.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sass_file_cache</span>(<span class='kw'>dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_size</span> <span class='kw'>=</span> <span class='fl'>40</span> * <span class='fl'>1024</span>^<span class='fl'>2</span>, <span class='kw'>max_age</span> <span class='kw'>=</span> <span class='fl'>60</span> * <span class='fl'>60</span> * <span class='fl'>24</span> * <span class='fl'>7</span>)</pre>
+    <pre class="usage"><span class='fu'>sass_file_cache</span>(dir = <span class='kw'>NULL</span>, max_size = <span class='fl'>40</span> <span class='op'>*</span> <span class='fl'>1024</span><span class='op'>^</span><span class='fl'>2</span>, max_age = <span class='fl'>60</span> <span class='op'>*</span> <span class='fl'>60</span> <span class='op'>*</span> <span class='fl'>24</span> <span class='op'>*</span> <span class='fl'>7</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,13 +171,15 @@ default is one week.</p></td>
     <div class='dont-index'><p><code><a href='sass_cache_get.html'>sass_cache_get()</a></code>, <a href='FileCache.html'>FileCache</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># Create a cache with the default settings</span>
-<span class='no'>cache</span> <span class='kw'>&lt;-</span> <span class='fu'>sass_file_cache</span>()
+<span class='kw'>cache</span> <span class='op'>&lt;-</span> <span class='fu'>sass_file_cache</span>()
 
 <span class='co'># Clear the cache</span>
-<span class='no'>cache</span>$<span class='fu'>reset</span>()
-}</div></pre>
+<span class='kw'>cache</span><span class='op'>$</span><span class='fu'>reset</span>()
+}
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -193,7 +195,7 @@ default is one week.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

@@ -1,9 +1,8 @@
 pandoc: 2.7.3
-pkgdown: 1.5.1
+pkgdown: 1.6.0
 pkgdown_sha: ~
-articles:
-  sass: sass.html
-last_built: 2020-09-03T22:00Z
+articles: []
+last_built: 2020-09-08T17:41Z
 urls:
   reference: https://rstudio.github.io/sass//reference
   article: https://rstudio.github.io/sass//articles

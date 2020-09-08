@@ -86,7 +86,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9002</span>
       </span>
     </div>
 
@@ -138,20 +138,20 @@
     </div>
 
     <pre class="usage"><span class='fu'>sass_options</span>(
-  <span class='kw'>precision</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-  <span class='kw'>output_style</span> <span class='kw'>=</span> <span class='st'>"expanded"</span>,
-  <span class='kw'>indented_syntax</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>include_path</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>source_comments</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>indent_type</span> <span class='kw'>=</span> <span class='st'>"space"</span>,
-  <span class='kw'>indent_width</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>linefeed</span> <span class='kw'>=</span> <span class='st'>"lf"</span>,
-  <span class='kw'>output_path</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>source_map_file</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>source_map_root</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>source_map_embed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>source_map_contents</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>omit_source_map_url</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  precision = <span class='fl'>5</span>,
+  output_style = <span class='st'>"expanded"</span>,
+  indented_syntax = <span class='fl'>FALSE</span>,
+  include_path = <span class='st'>""</span>,
+  source_comments = <span class='fl'>FALSE</span>,
+  indent_type = <span class='st'>"space"</span>,
+  indent_width = <span class='fl'>2</span>,
+  linefeed = <span class='st'>"lf"</span>,
+  output_path = <span class='st'>""</span>,
+  source_map_file = <span class='st'>""</span>,
+  source_map_root = <span class='st'>""</span>,
+  source_map_embed = <span class='fl'>FALSE</span>,
+  source_map_contents = <span class='fl'>FALSE</span>,
+  omit_source_map_url = <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -239,8 +239,9 @@ the output file. Note: must specify <code>output_path</code> when <code>TRUE</co
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='sass.html'>sass</a></span>(
   <span class='st'>"foo { margin: 122px * .3; }"</span>,
-  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'>sass_options</span>(<span class='kw'>output_style</span> <span class='kw'>=</span> <span class='st'>"compact"</span>)
-)</div><div class='output co'>#&gt; /* CSS */
+  options = <span class='fu'>sass_options</span>(output_style = <span class='st'>"compact"</span>)
+)
+</div><div class='output co'>#&gt; /* CSS */
 #&gt; foo { margin: 36.6px; }
 #&gt; </div><div class='input'>
 </div></pre>
@@ -259,7 +260,7 @@ the output file. Note: must specify <code>output_path</code> when <code>TRUE</co
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

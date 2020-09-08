@@ -90,7 +90,7 @@ by setting cache to NULL." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9002</span>
       </span>
     </div>
 
@@ -147,7 +147,7 @@ by setting <code>cache</code> to <code>NULL</code>.</p>
 
     <pre class="usage"><span class='fu'>sass_cache_get</span>()
 
-<span class='fu'>sass_cache_set</span>(<span class='kw'>cache</span> <span class='kw'>=</span> <span class='fu'><a href='sass_file_cache.html'>sass_file_cache</a></span>())</pre>
+<span class='fu'>sass_cache_set</span>(cache = <span class='fu'><a href='sass_file_cache.html'>sass_file_cache</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -163,10 +163,10 @@ cache.</p></td>
 
     <p>If caching is enabled, <code><a href='sass.html'>sass()</a></code> will attempt to bypass the compilation
 process by reusing output from previous <code><a href='sass.html'>sass()</a></code> calls that used equivalent
-inputs. This mechanism works by calling <code><a href='sass_hash.html'>sass_hash()</a></code> to derive a <em>cache
-key</em> from each <code><a href='sass.html'>sass()</a></code> call's <code>input</code> and <code>options</code> arguments. If an object
-with that hash already exists within the cache directory, its contents are
-used instead of performing the compilation. If it does not exist, then
+inputs. This mechanism works by computing a <em>cache key</em> from each
+<code><a href='sass.html'>sass()</a></code> call's <code>input</code>, <code>option</code>, and <code>cache_key_extra</code> arguments. If an
+object with that hash already exists within the cache directory, its contents
+are used instead of performing the compilation. If it does not exist, then
 compilation is performed and usual and the results are stored in the cache.</p>
 <p>If a file that is included using <code><a href='sass_import.html'>sass_file()</a></code> changes on disk (i.e. its
 last-modified time changes), its previous cache entries will effectively be
@@ -175,9 +175,9 @@ However, if a file imported using <code><a href='sass_import.html'>sass_file()</
 files using <code>@import</code>, changes to those files are invisible to the cache
 and you will end up with stale results. Caching should be disabled in cases
 like this.</p>
-<p>If <code>sass_cache_get()</code> is called before <code>sass_cache_set()</code>,
-then it will create a cache in a subdirectory of the system temp directory
-named <code>R-sass-cache-username</code> and set it as the default. Because this cache
+<p>If <code>sass_cache_get()</code> is called before <code>sass_cache_set()</code>, then it will
+create a cache in a subdirectory of the system temp directory named
+<code>R-sass-cache-username</code> and set it as the default. Because this cache
 directory is not in the R process's temp directory, it will persist longer
 than the R process, typically until a system reboot. Additionally, it will be
 shared across R processes for the same user on the same system.</p>
@@ -193,7 +193,7 @@ object and set it as the default cache.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Very slow to compile</span>
-<span class='no'>fib_sass</span> <span class='kw'>&lt;-</span> <span class='st'>"@function fib($x) {
+<span class='kw'>fib_sass</span> <span class='op'>&lt;-</span> <span class='st'>"@function fib($x) {
   @if $x &lt;= 1 {
     @return $x
   }
@@ -205,29 +205,33 @@ body {
 }"</span>
 
 <span class='co'># The first time this runs it will be very slow</span>
-<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'><a href='sass.html'>sass</a></span>(<span class='no'>fib_sass</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   2.716   0.009   2.784 </div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'><a href='sass.html'>sass</a></span>(<span class='kw'>fib_sass</span>))
+</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   3.113   0.017   3.185 </div><div class='input'>
 <span class='co'># But on subsequent calls, it should be very fast</span>
-<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'><a href='sass.html'>sass</a></span>(<span class='no'>fib_sass</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.001   0.000   0.002 </div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'><a href='sass.html'>sass</a></span>(<span class='kw'>fib_sass</span>))
+</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.001   0.000   0.001 </div><div class='input'>
 <span class='co'># sass() can be called with cache=NULL; it will be slow</span>
-<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'><a href='sass.html'>sass</a></span>(<span class='no'>fib_sass</span>, <span class='kw'>cache</span> <span class='kw'>=</span> <span class='kw'>NULL</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   2.738   0.019   2.762 </div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'><a href='sass.html'>sass</a></span>(<span class='kw'>fib_sass</span>, cache = <span class='kw'>NULL</span>))
+</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   2.767   0.025   2.891 </div><div class='input'>
 <span class='co'># Clear the cache</span>
-<span class='fu'>sass_cache_get</span>()$<span class='fu'>reset</span>()
+<span class='fu'>sass_cache_get</span>()<span class='op'>$</span><span class='fu'>reset</span>()
 
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># Example of disabling cache by setting the default cache to NULL.</span>
 
 <span class='co'># Disable the default cache (save the original one first, so we can restore)</span>
-<span class='no'>old_cache</span> <span class='kw'>&lt;-</span> <span class='fu'>sass_cache_get</span>()
+<span class='kw'>old_cache</span> <span class='op'>&lt;-</span> <span class='fu'>sass_cache_get</span>()
 <span class='fu'>sass_cache_set</span>(<span class='kw'>NULL</span>)
 <span class='co'># Will be slow, because no cache</span>
-<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'><a href='sass.html'>sass</a></span>(<span class='no'>fib_sass</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'><a href='sass.html'>sass</a></span>(<span class='kw'>fib_sass</span>))
 
 <span class='co'># Restore the original cache</span>
-<span class='fu'>sass_cache_set</span>(<span class='no'>old_cache</span>)
-}</div></pre>
+<span class='fu'>sass_cache_set</span>(<span class='kw'>old_cache</span>)
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -243,7 +247,7 @@ body {
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

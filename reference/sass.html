@@ -86,7 +86,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9002</span>
       </span>
     </div>
 
@@ -138,11 +138,12 @@
     </div>
 
     <pre class="usage"><span class='fu'>sass</span>(
-  <span class='kw'>input</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>options</span> <span class='kw'>=</span> <span class='fu'><a href='sass_options.html'>sass_options</a></span>(),
-  <span class='kw'>output</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>write_attachments</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>cache</span> <span class='kw'>=</span> <span class='fu'><a href='sass_cache_get.html'>sass_cache_get</a></span>()
+  input = <span class='kw'>NULL</span>,
+  options = <span class='fu'><a href='sass_options.html'>sass_options</a></span>(),
+  output = <span class='kw'>NULL</span>,
+  write_attachments = <span class='fl'>NA</span>,
+  cache = <span class='fu'><a href='sass_cache_get.html'>sass_cache_get</a></span>(),
+  cache_key_extra = <span class='kw'>NULL</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -151,94 +152,96 @@
     <tr>
       <th>input</th>
       <td><p>Accepts raw Sass, a named list of variables, or a list of raw
-Sass and/or named variables. See <code><a href='as_sass.html'>as_sass</a></code> and
-<code><a href='sass_import.html'>sass_import</a></code> / <code><a href='sass_import.html'>sass_file</a></code> for more details.</p></td>
+Sass and/or named variables. See <code><a href='as_sass.html'>as_sass()</a></code> and <code><a href='sass_import.html'>sass_import()</a></code> /
+<code><a href='sass_import.html'>sass_file()</a></code> for more details.</p></td>
     </tr>
     <tr>
       <th>options</th>
       <td><p>Compiler options for Sass. Please specify options using
-<code><a href='sass_options.html'>sass_options</a></code>.</p></td>
+<code><a href='sass_options.html'>sass_options()</a></code>.</p></td>
     </tr>
     <tr>
       <th>output</th>
-      <td><p>Specifies path to output file for compiled CSS.</p></td>
+      <td><p>Specifies path to output file for compiled CSS. May be a
+character string or <code><a href='output_template.html'>output_template()</a></code></p></td>
     </tr>
     <tr>
       <th>write_attachments</th>
-      <td><p>If the input contains <code><a href='sass_layer.html'>sass_layer</a></code>
-objects that have file attachments, and <code>output</code> is not <code>NULL</code>,
-then copy the file attachments to the directory of <code>output</code>. (Defaults
-to <code>NA</code>, which merely emits a warning if file attachments are present,
-but does not write them to disk; the side-effect of writing extra files is
-subtle and potentially destructive, as files may be overwritten.)</p></td>
+      <td><p>If the input contains <code><a href='sass_layer.html'>sass_layer()</a></code> objects that
+have file attachments, and <code>output</code> is not <code>NULL</code>, then copy the file
+attachments to the directory of <code>output</code>. (Defaults to <code>NA</code>, which merely
+emits a warning if file attachments are present, but does not write them to
+disk; the side-effect of writing extra files is subtle and potentially
+destructive, as files may be overwritten.)</p></td>
     </tr>
     <tr>
       <th>cache</th>
       <td><p>A <a href='FileCache.html'>FileCache</a> object created by <code><a href='sass_file_cache.html'>sass_file_cache()</a></code>, or <code>NULL</code>
 for no caching.</p></td>
     </tr>
+    <tr>
+      <th>cache_key_extra</th>
+      <td><p>additional information to considering when computing
+the cache key. This should include any information that could possibly
+influence the resulting CSS that isn't already captured by <code>input</code>. For
+example, if <code>input</code> contains something like <code>"@import sass_file.scss"</code> you
+may want to include the <code><a href='https://rdrr.io/r/base/file.info.html'>file.mtime()</a></code> of <code>sass_file.scss</code> (or, perhaps, a
+<code><a href='https://rdrr.io/r/utils/packageDescription.html'>packageVersion()</a></code> if <code>sass_file.scss</code> is bundled with an R package).</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>If <code>output = NULL</code>, the function returns a string value of the
-compiled CSS. If the output path is specified, the compiled CSS is written
-to that file and <code><a href='https://rdrr.io/r/base/invisible.html'>invisible()</a></code> is returned.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    
-
-
+compiled CSS. If <code>output</code> is specified, the compiled CSS is written to a
+file and the filename is returned.</p>
     <h2 class="hasAnchor" id="caching"><a class="anchor" href="#caching"></a>Caching</h2>
 
     
 
 
-<p>If caching is used (as is the default), then this function checks for
-changes in <code>input</code> and <code>options</code>, as well as any .sass/.scss files
-specified in <code>input</code>, and file attachments (such as fonts) specified in
-<code>input</code>. All of that information is hashed to create a key which is used
-for caching.</p>
-<p>For .sass/.scss files, the mtime of the specified file(s) will be checked
-each time <code>sass()</code> is called and those times will be included in a hash; if
-the mtime changes, it will result in a new hash key and the .css will be
-recompiled. However, if the file imports other files (via an <code>@import</code>
-directive), those mtimes of those imported files will not be checked.
-Changes to those files will not be detected, and the .css file will not be
-recompiled. For this reason, if you are actively developing a sass theme,
-then it is best to turn off caching.</p>
-<p>For file attachments, like font files, the mtime of specified files will be
-checked for changes each time <code>sass()</code> is called. If a directory is
-specified, then all the files within the directory will have their mtime
-computed and used as part of the hash. Any changes to those files will
-result in a new hash key, and output directory.</p>
+<p>By default, caching is enabled, meaning that <code>sass()</code> avoids the possibly
+expensive re-compilation of CSS whenever the same <code>options</code> and <code>input</code> are
+requested. Unfortunately, in some cases, <code>options</code> and <code>input</code> alone aren't
+enough to determine whether new CSS output must be generated. For example,
+changes in local file
+<a href='https://sass-lang.com/documentation/at-rules/import'>imports</a> that aren't
+captured through <code><a href='sass_import.html'>sass_file()</a></code>/<code><a href='sass_import.html'>sass_import()</a></code>, may lead to a
+false-positive cache hit. For this reason, developers are encouraged to
+capture such information in <code>cache_key_extra</code> (possibly with
+<code><a href='https://rdrr.io/r/utils/packageDescription.html'>packageVersion('myPackage')</a></code> if shipping Sass with a package), and users
+may want to disable caching altogether during local development (via
+<code><a href='sass_cache_get.html'>sass_cache_set(NULL)</a></code>).</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='http://sass-lang.com/guide'>http://sass-lang.com/guide</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># raw Sass input</span>
-<span class='fu'>sass</span>(<span class='st'>"foo { margin: 122px * .3; }"</span>)</div><div class='output co'>#&gt; /* CSS */
+<span class='fu'>sass</span>(<span class='st'>"foo { margin: 122px * .3; }"</span>)
+</div><div class='output co'>#&gt; /* CSS */
 #&gt; foo {
 #&gt;   margin: 36.6px;
 #&gt; }
 #&gt; </div><div class='input'>
 <span class='co'># list of inputs, including named variables</span>
 <span class='fu'>sass</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>"122px"</span>),
+  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(width = <span class='st'>"122px"</span>),
   <span class='st'>"foo { margin: $width * .3; }"</span>
-))</div><div class='output co'>#&gt; /* CSS */
+))
+</div><div class='output co'>#&gt; /* CSS */
 #&gt; foo {
 #&gt;   margin: 36.6px;
 #&gt; }
 #&gt; </div><div class='input'>
 <span class='co'># import a file</span>
-<span class='no'>tmp_file</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>()
-<span class='fu'><a href='https://rdrr.io/r/base/writeLines.html'>writeLines</a></span>(<span class='st'>"foo { margin: $width * .3; }"</span>, <span class='no'>tmp_file</span>)
+<span class='kw'>tmp_file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>()
+<span class='fu'><a href='https://rdrr.io/r/base/writeLines.html'>writeLines</a></span>(<span class='st'>"foo { margin: $width * .3; }"</span>, <span class='kw'>tmp_file</span>)
 <span class='fu'>sass</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>"122px"</span>),
-  <span class='fu'><a href='sass_import.html'>sass_file</a></span>(<span class='no'>tmp_file</span>)
-))</div><div class='output co'>#&gt; /* CSS */
+  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(width = <span class='st'>"122px"</span>),
+  <span class='fu'><a href='sass_import.html'>sass_file</a></span>(<span class='kw'>tmp_file</span>)
+))
+</div><div class='output co'>#&gt; /* CSS */
 #&gt; foo {
 #&gt;   margin: 36.6px;
 #&gt; }
@@ -258,7 +261,7 @@ result in a new hash key, and output directory.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

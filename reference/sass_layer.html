@@ -90,7 +90,7 @@ the main benefit of using Sass layers versus lower-level forms of sass input." /
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9002</span>
       </span>
     </div>
 
@@ -145,15 +145,15 @@ two or more layer objects into a single layer; this ability to be merged is
 the main benefit of using Sass layers versus lower-level forms of sass input.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sass_layer_merge</span>(<span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>sass_layer_merge</span>(<span class='kw'>...</span>)
 
 <span class='fu'>sass_layer</span>(
-  <span class='kw'>defaults</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>declarations</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>rules</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>html_deps</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>file_attachments</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(<span class='fl'>0</span>),
-  <span class='kw'>tags</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(<span class='fl'>0</span>)
+  defaults = <span class='st'>""</span>,
+  declarations = <span class='st'>""</span>,
+  rules = <span class='st'>""</span>,
+  html_deps = <span class='kw'>NULL</span>,
+  file_attachments = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(<span class='fl'>0</span>),
+  tags = <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(<span class='fl'>0</span>)
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -214,14 +214,15 @@ preserve simple metadata as layers are merged.</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>blue</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"blue !default"</span>)
-<span class='no'>red</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"red !default"</span>)
-<span class='no'>green</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>color</span> <span class='kw'>=</span> <span class='st'>"green !default"</span>)
+    <pre class="examples"><div class='input'><span class='kw'>blue</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(color = <span class='st'>"blue !default"</span>)
+<span class='kw'>red</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(color = <span class='st'>"red !default"</span>)
+<span class='kw'>green</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(color = <span class='st'>"green !default"</span>)
 
 <span class='co'># a sass_layer() by itself is not very useful, it just defines some</span>
 <span class='co'># SASS to place before (defaults) and after (declarations, rules)</span>
-<span class='no'>core</span> <span class='kw'>&lt;-</span> <span class='fu'>sass_layer</span>(<span class='kw'>defaults</span> <span class='kw'>=</span> <span class='no'>blue</span>, <span class='kw'>rules</span> <span class='kw'>=</span> <span class='st'>"body { color: $color; }"</span>)
-<span class='no'>core</span></div><div class='output co'>#&gt; $defaults
+<span class='kw'>core</span> <span class='op'>&lt;-</span> <span class='fu'>sass_layer</span>(defaults = <span class='kw'>blue</span>, rules = <span class='st'>"body { color: $color; }"</span>)
+<span class='kw'>core</span>
+</div><div class='output co'>#&gt; $defaults
 #&gt; /* Sass */
 #&gt; $color: blue !default;
 #&gt; 
@@ -243,7 +244,8 @@ preserve simple metadata as layers are merged.</p></td>
 #&gt; character(0)
 #&gt; 
 #&gt; attr(,"class")
-#&gt; [1] "sass_layer"</div><div class='input'><span class='fu'><a href='sass.html'>sass</a></span>(<span class='no'>core</span>)</div><div class='output co'>#&gt; /* CSS */
+#&gt; [1] "sass_layer"</div><div class='input'><span class='fu'><a href='sass.html'>sass</a></span>(<span class='kw'>core</span>)
+</div><div class='output co'>#&gt; /* CSS */
 #&gt; body {
 #&gt;   color: blue;
 #&gt; }
@@ -252,8 +254,9 @@ preserve simple metadata as layers are merged.</p></td>
 <span class='co'># SASS both before and after some other sass (e.g., core)</span>
 <span class='co'># Here we place a red default _before_ the blue default and export the</span>
 <span class='co'># color SASS variable as a CSS variable _after_ the core</span>
-<span class='no'>red_layer</span> <span class='kw'>&lt;-</span> <span class='fu'>sass_layer</span>(<span class='no'>red</span>, <span class='kw'>rules</span> <span class='kw'>=</span> <span class='st'>":root{ --color: #{$color}; }"</span>)
-<span class='fu'><a href='sass.html'>sass</a></span>(<span class='fu'>sass_layer_merge</span>(<span class='no'>core</span>, <span class='no'>red_layer</span>))</div><div class='output co'>#&gt; /* CSS */
+<span class='kw'>red_layer</span> <span class='op'>&lt;-</span> <span class='fu'>sass_layer</span>(<span class='kw'>red</span>, rules = <span class='st'>":root{ --color: #{$color}; }"</span>)
+<span class='fu'><a href='sass.html'>sass</a></span>(<span class='fu'>sass_layer_merge</span>(<span class='kw'>core</span>, <span class='kw'>red_layer</span>))
+</div><div class='output co'>#&gt; /* CSS */
 #&gt; body {
 #&gt;   color: red;
 #&gt; }
@@ -261,7 +264,8 @@ preserve simple metadata as layers are merged.</p></td>
 #&gt; :root {
 #&gt;   --color: red;
 #&gt; }
-#&gt; </div><div class='input'><span class='fu'><a href='sass.html'>sass</a></span>(<span class='fu'>sass_layer_merge</span>(<span class='no'>core</span>, <span class='no'>red_layer</span>, <span class='fu'>sass_layer</span>(<span class='no'>green</span>)))</div><div class='output co'>#&gt; /* CSS */
+#&gt; </div><div class='input'><span class='fu'><a href='sass.html'>sass</a></span>(<span class='fu'>sass_layer_merge</span>(<span class='kw'>core</span>, <span class='kw'>red_layer</span>, <span class='fu'>sass_layer</span>(<span class='kw'>green</span>)))
+</div><div class='output co'>#&gt; /* CSS */
 #&gt; body {
 #&gt;   color: green;
 #&gt; }
@@ -274,21 +278,23 @@ preserve simple metadata as layers are merged.</p></td>
 <span class='co'># File attachment example: Create a checkboard pattern .png, then</span>
 <span class='co'># use it from a sass layer</span>
 
-<span class='no'>tmp_png</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(<span class='kw'>fileext</span> <span class='kw'>=</span> <span class='st'>".png"</span>)
-<span class='kw pkg'>grDevices</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/grDevices/png.html'>png</a></span>(<span class='kw'>filename</span> <span class='kw'>=</span> <span class='no'>tmp_png</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-  <span class='kw'>bg</span> <span class='kw'>=</span> <span class='st'>"transparent"</span>, <span class='kw'>antialias</span> <span class='kw'>=</span> <span class='st'>"none"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='kw'>mar</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep_len</a></span>(<span class='fl'>0</span>,<span class='fl'>4</span>), <span class='kw'>xaxs</span> <span class='kw'>=</span> <span class='st'>"i"</span>, <span class='kw'>yaxs</span> <span class='kw'>=</span> <span class='st'>"i"</span>)
+<span class='kw'>tmp_png</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(fileext = <span class='st'>".png"</span>)
+<span class='kw'>grDevices</span>::<span class='fu'><a href='https://rdrr.io/r/grDevices/png.html'>png</a></span>(filename = <span class='kw'>tmp_png</span>, width = <span class='fl'>20</span>, height = <span class='fl'>20</span>,
+  bg = <span class='st'>"transparent"</span>, antialias = <span class='st'>"none"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(mar = <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep_len</a></span>(<span class='fl'>0</span>,<span class='fl'>4</span>), xaxs = <span class='st'>"i"</span>, yaxs = <span class='st'>"i"</span>)
 <span class='fu'><a href='https://rdrr.io/r/graphics/frame.html'>plot.new</a></span>()
-<span class='fu'><a href='https://rdrr.io/r/graphics/rect.html'>rect</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0.5</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0.5</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.5</span>,<span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.5</span>,<span class='fl'>1</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"#00000044"</span>, <span class='kw'>border</span><span class='kw'>=</span><span class='fl'>NA</span>)
-<span class='fu'><a href='https://rdrr.io/r/grDevices/dev.html'>dev.off</a></span>()</div><div class='output co'>#&gt; pdf 
-#&gt;   2 </div><div class='input'>
-<span class='no'>layer</span> <span class='kw'>&lt;-</span> <span class='fu'>sass_layer</span>(
-  <span class='kw'>rules</span> <span class='kw'>=</span> <span class='st'>".bg-check { background-image: url(images/demo_checkboard_bg.png) }"</span>,
-  <span class='kw'>file_attachments</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"images/demo_checkboard_bg.png"</span> <span class='kw'>=</span> <span class='no'>tmp_png</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/rect.html'>rect</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0.5</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0.5</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.5</span>,<span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.5</span>,<span class='fl'>1</span>), col = <span class='st'>"#00000044"</span>, border=<span class='fl'>NA</span>)
+<span class='fu'><a href='https://rdrr.io/r/grDevices/dev.html'>dev.off</a></span>()
+</div><div class='output co'>#&gt; agg_png 
+#&gt;       2 </div><div class='input'>
+<span class='kw'>layer</span> <span class='op'>&lt;-</span> <span class='fu'>sass_layer</span>(
+  rules = <span class='st'>".bg-check { background-image: url(images/demo_checkboard_bg.png) }"</span>,
+  file_attachments = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"images/demo_checkboard_bg.png"</span> = <span class='kw'>tmp_png</span>)
 )
 
-<span class='no'>output_path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(<span class='kw'>fileext</span> <span class='kw'>=</span> <span class='st'>".css"</span>)
-<span class='fu'><a href='sass.html'>sass</a></span>(<span class='no'>layer</span>, <span class='kw'>output</span> <span class='kw'>=</span> <span class='no'>output_path</span>, <span class='kw'>write_attachments</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div></pre>
+<span class='kw'>output_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(fileext = <span class='st'>".css"</span>)
+<span class='fu'><a href='sass.html'>sass</a></span>(<span class='kw'>layer</span>, output = <span class='kw'>output_path</span>, write_attachments = <span class='fl'>TRUE</span>)
+</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpeJ8kMM/filee6a414c3dd4.css"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -304,7 +310,7 @@ preserve simple metadata as layers are merged.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

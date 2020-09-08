@@ -6,15 +6,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>NA • sass</title>
+<title>An intelligent (temporary) output file — output_template • sass</title>
 
 <!-- favicons -->
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png" />
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png" />
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png" />
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -25,8 +25,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
-<link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script>
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
@@ -40,19 +40,23 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
 
 
 <!-- docsearch -->
-<script src="docsearch.js"></script>
+<script src="../docsearch.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
-<link href="docsearch.css" rel="stylesheet">
+<link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
 
-<meta property="og:title" content="NA" />
+<meta property="og:title" content="An intelligent (temporary) output file — output_template" />
+<meta property="og:description" content="Intended for use with sass()'s output argument for temporary file
+generation that is cache and options aware. In particular, this ensures
+that new redundant file(s) aren't generated on a sass() cache hit, and that
+the file's extension is suitable for the sass_options()'s output_style." />
 <meta property="og:image" content="https://rstudio.github.io/sass/logo.svg" />
 
 
@@ -72,7 +76,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-title-body">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -84,7 +88,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">sass</a>
+        <a class="navbar-link" href="../index.html">sass</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9002</span>
       </span>
     </div>
@@ -92,13 +96,13 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="articles/sass.html">Overview</a>
+  <a href="../articles/sass.html">Overview</a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="news/index.html">News</a>
+  <a href="../news/index.html">News</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -125,50 +129,61 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>NA</h1>
+    <h1>An intelligent (temporary) output file</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/sass/blob/master/R/sass.R'><code>R/sass.R</code></a></small>
+    <div class="hidden name"><code>output_template.Rd</code></div>
     </div>
 
+    <div class="ref-description">
+    <p>Intended for use with <code><a href='sass.html'>sass()</a></code>'s <code>output</code> argument for temporary file
+generation that is <code>cache</code> and <code>options</code> aware. In particular, this ensures
+that new redundant file(s) aren't generated on a <code><a href='sass.html'>sass()</a></code> cache hit, and that
+the file's extension is suitable for the <code><a href='sass_options.html'>sass_options()</a></code>'s <code>output_style</code>.</p>
+    </div>
 
-<hr>
-<p>name : Bug report about : Report a bug in sass. —</p>
-<!--
-Before you file an issue, please upgrade to the latest version of sass and confirm that the problem persists.
+    <pre class="usage"><span class='fu'>output_template</span>(basename = <span class='st'>"sass"</span>, dirname = <span class='kw'>basename</span>, fileext = <span class='kw'>NULL</span>)</pre>
 
-remotes::install_github("rstudio/sass")
--->
-<div id="describe-the-problem" class="section level2">
-<h2 class="hasAnchor">
-<a href="#describe-the-problem" class="anchor"></a>Describe the problem</h2>
-<!--
-Include a short decription of the current problem and how it should be different
--->
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="co"># Include a minimal and reproducible example here</span>
-<span class="co"># If you don't know what that means, please see https://www.tidyverse.org/help</span>
-</pre></div>
-<div id="session-info" class="section level3">
-<h3 class="hasAnchor">
-<a href="#session-info" class="anchor"></a>Session Info</h3>
-<details><pre><code>
-Place your devtools::session_info() here
-</code></pre>
-</details>
-</div>
-</div>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>basename</th>
+      <td><p>a non-empty character vector giving the outfile name (without
+the extension).</p></td>
+    </tr>
+    <tr>
+      <th>dirname</th>
+      <td><p>a non-empty character vector giving the initial part of the
+directory name.</p></td>
+    </tr>
+    <tr>
+      <th>fileext</th>
+      <td><p>the output file extension. The default is <code>".min.css"</code> for
+compressed and compact output styles; otherwise, its <code>".css"</code>.</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>A function with two arguments: <code>options</code> and <code>suffix</code>. When called inside
+<code><a href='sass.html'>sass()</a></code> with caching enabled, the caching key is supplied to <code>suffix</code>.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='sass.html'>sass</a></span>(<span class='st'>"body {color: red}"</span>, output = <span class='fu'>output_template</span>())
+</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpeJ8kMM/sasseb4d350ec28a9f9c/sass.css"</div><div class='input'>
+<span class='kw'>func</span> <span class='op'>&lt;-</span> <span class='fu'>output_template</span>(basename = <span class='st'>"foo"</span>, dirname = <span class='st'>"bar-"</span>)
+<span class='fu'>func</span>(suffix = <span class='st'>"baz"</span>)
+</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpeJ8kMM/bar-baz/foo.css"</div><div class='input'>
+</div></pre>
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
-
 
 
       <footer>
