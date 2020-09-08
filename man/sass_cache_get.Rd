@@ -10,28 +10,8 @@ sass_cache_get()
 sass_cache_set(cache = sass_file_cache())
 }
 \arguments{
-\item{cache}{A \code{\link[=sass_file_cache]{sass_file_cache()}} object, or \code{NULL} if you don't want to use
-a cache.}
-}
-\value{
-$x }
-
-fib($x - 2) + fib($x - 1); }
-
-body { width: fib(27); }"The first time this runs it will be very slow system.time(sass(fib_sass))But on subsequent calls, it should be very fast
-
-system.time(sass(fib_sass))sass() can be called with cache=NULL; it will be slow
-
-system.time(sass(fib_sass, cache = NULL))Clear the cache sass_cache_get()$reset()
-
-\dontrun{ # Example of disabling cache by setting the default cache to
-  NULL.
-
-  # Disable the default cache (save the original one first, so we can
-  restore) old_cache <- sass_cache_get() sass_cache_set(NULL) # Will be slow,
-  because no cache system.time(sass(fib_sass))
-
-  # Restore the original cache sass_cache_set(old_cache) }
+\item{cache}{A \code{\link[=sass_file_cache]{sass_file_cache()}} object, or \code{NULL} if you don't want to use a
+cache.}
 }
 \description{
 The default cache is used by the \code{\link[=sass]{sass()}} function to cache outputs. In some
@@ -71,6 +51,44 @@ object and set it as the default cache.
 
 To clear the cache (but keep using it in the future), call
 \code{sass_cache_get()$reset()}.
+}
+\examples{
+# Very slow to compile
+fib_sass <- "@function fib($x) {
+  @if $x <= 1 {
+    @return $x
+  }
+  @return fib($x - 2) + fib($x - 1);
+}
+
+body {
+  width: fib(27);
+}"
+
+# The first time this runs it will be very slow
+system.time(sass(fib_sass))
+
+# But on subsequent calls, it should be very fast
+system.time(sass(fib_sass))
+
+# sass() can be called with cache=NULL; it will be slow
+system.time(sass(fib_sass, cache = NULL))
+
+# Clear the cache
+sass_cache_get()$reset()
+
+\dontrun{
+# Example of disabling cache by setting the default cache to NULL.
+
+# Disable the default cache (save the original one first, so we can restore)
+old_cache <- sass_cache_get()
+sass_cache_set(NULL)
+# Will be slow, because no cache
+system.time(sass(fib_sass))
+
+# Restore the original cache
+sass_cache_set(old_cache)
+}
 }
 \seealso{
 sass_file_cache
