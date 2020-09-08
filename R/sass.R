@@ -22,8 +22,8 @@
 #'   [sass_file()] for more details.
 #' @param options Compiler options for Sass. Please specify options using
 #'   [sass_options()].
-#' @param output Specifies path to output file for compiled CSS. May be a character
-#'   string or [output_file()]
+#' @param output Specifies path to output file for compiled CSS. May be a
+#'   character string or [output_file()]
 #' @param write_attachments If the input contains [sass_layer()] objects that
 #'   have file attachments, and `output` is not `NULL`, then copy the file
 #'   attachments to the directory of `output`. (Defaults to `NA`, which merely
@@ -32,17 +32,16 @@
 #'   destructive, as files may be overwritten.)
 #' @param cache A [FileCache] object created by [sass_file_cache()], or `NULL`
 #'   for no caching.
-#' @param cache_key_extra additional information to include in the [sass_hash()]
-#'   call to determine a cache hit. This should include any information that
-#'   could possibly influence the resulting CSS that isn't already captured by
-#'   `input`. For example, if `input` contains something like `"@import
-#'   sass_file.scss"` you may want to include the [file.mtime()] of
-#'   `sass_file.scss` (or, perhaps, a [packageVersion()] if `sass_file.scss` is
-#'   bundled with an R package).
+#' @param cache_key_extra additional information to considering when computing
+#'   the cache key. This should include any information that could possibly
+#'   influence the resulting CSS that isn't already captured by `input`. For
+#'   example, if `input` contains something like `"@import sass_file.scss"` you
+#'   may want to include the [file.mtime()] of `sass_file.scss` (or, perhaps, a
+#'   [packageVersion()] if `sass_file.scss` is bundled with an R package).
 #'
 #' @return If `output = NULL`, the function returns a string value of the
-#'   compiled CSS. If `output` is specified, the compiled CSS is written
-#'   to a file and the filename is returned.
+#'   compiled CSS. If `output` is specified, the compiled CSS is written to a
+#'   file and the filename is returned.
 #'
 #' @seealso <http://sass-lang.com/guide>
 #' @export

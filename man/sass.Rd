@@ -21,8 +21,8 @@ Sass and/or named variables. See \code{\link[=as_sass]{as_sass()}} and \code{\li
 \item{options}{Compiler options for Sass. Please specify options using
 \code{\link[=sass_options]{sass_options()}}.}
 
-\item{output}{Specifies path to output file for compiled CSS. May be a character
-string or \code{\link[=output_file]{output_file()}}}
+\item{output}{Specifies path to output file for compiled CSS. May be a
+character string or \code{\link[=output_file]{output_file()}}}
 
 \item{write_attachments}{If the input contains \code{\link[=sass_layer]{sass_layer()}} objects that
 have file attachments, and \code{output} is not \code{NULL}, then copy the file
@@ -34,17 +34,17 @@ destructive, as files may be overwritten.)}
 \item{cache}{A \link{FileCache} object created by \code{\link[=sass_file_cache]{sass_file_cache()}}, or \code{NULL}
 for no caching.}
 
-\item{cache_key_extra}{additional information to include in the \code{\link[=sass_hash]{sass_hash()}}
-call to determine a cache hit. This should include any information that
-could possibly influence the resulting CSS that isn't already captured by
-\code{input}. For example, if \code{input} contains something like \code{"@import sass_file.scss"} you may want to include the \code{\link[=file.mtime]{file.mtime()}} of
-\code{sass_file.scss} (or, perhaps, a \code{\link[=packageVersion]{packageVersion()}} if \code{sass_file.scss} is
-bundled with an R package).}
+\item{cache_key_extra}{additional information to considering when computing
+the cache key. This should include any information that could possibly
+influence the resulting CSS that isn't already captured by \code{input}. For
+example, if \code{input} contains something like \code{"@import sass_file.scss"} you
+may want to include the \code{\link[=file.mtime]{file.mtime()}} of \code{sass_file.scss} (or, perhaps, a
+\code{\link[=packageVersion]{packageVersion()}} if \code{sass_file.scss} is bundled with an R package).}
 }
 \value{
 If \code{output = NULL}, the function returns a string value of the
-compiled CSS. If \code{output} is specified, the compiled CSS is written
-to a file and the filename is returned.
+compiled CSS. If \code{output} is specified, the compiled CSS is written to a
+file and the filename is returned.
 }
 \description{
 Compile Sass to CSS using LibSass.

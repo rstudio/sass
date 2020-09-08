@@ -10,8 +10,28 @@ sass_cache_get()
 sass_cache_set(cache = sass_file_cache())
 }
 \arguments{
-\item{cache}{A \code{\link[=sass_file_cache]{sass_file_cache()}} object, or \code{NULL} if you don't want to use a
-cache.}
+\item{cache}{A \code{\link[=sass_file_cache]{sass_file_cache()}} object, or \code{NULL} if you don't want to use
+a cache.}
+}
+\value{
+$x }
+
+fib($x - 2) + fib($x - 1); }
+
+body { width: fib(27); }"The first time this runs it will be very slow system.time(sass(fib_sass))But on subsequent calls, it should be very fast
+
+system.time(sass(fib_sass))sass() can be called with cache=NULL; it will be slow
+
+system.time(sass(fib_sass, cache = NULL))Clear the cache sass_cache_get()$reset()
+
+\dontrun{ # Example of disabling cache by setting the default cache to
+  NULL.
+
+  # Disable the default cache (save the original one first, so we can
+  restore) old_cache <- sass_cache_get() sass_cache_set(NULL) # Will be slow,
+  because no cache system.time(sass(fib_sass))
+
+  # Restore the original cache sass_cache_set(old_cache) }
 }
 \description{
 The default cache is used by the \code{\link[=sass]{sass()}} function to cache outputs. In some
@@ -23,10 +43,10 @@ by setting \code{cache} to \code{NULL}.
 \details{
 If caching is enabled, \code{\link[=sass]{sass()}} will attempt to bypass the compilation
 process by reusing output from previous \code{\link[=sass]{sass()}} calls that used equivalent
-inputs. This mechanism works by calling \code{\link[=sass_hash]{sass_hash()}} to derive a \emph{cache
-key} from each \code{\link[=sass]{sass()}} call's \code{input} and \code{options} arguments. If an object
-with that hash already exists within the cache directory, its contents are
-used instead of performing the compilation. If it does not exist, then
+inputs. This mechanism works by computing a \emph{cache key} from each
+\code{\link[=sass]{sass()}} call's \code{input}, \code{option}, and \code{cache_key_extra} arguments. If an
+object with that hash already exists within the cache directory, its contents
+are used instead of performing the compilation. If it does not exist, then
 compilation is performed and usual and the results are stored in the cache.
 
 If a file that is included using \code{\link[=sass_file]{sass_file()}} changes on disk (i.e. its
@@ -37,9 +57,9 @@ files using \code{@import}, changes to those files are invisible to the cache
 and you will end up with stale results. Caching should be disabled in cases
 like this.
 
-If \code{sass_cache_get()} is called before \code{sass_cache_set()},
-then it will create a cache in a subdirectory of the system temp directory
-named \code{R-sass-cache-username} and set it as the default. Because this cache
+If \code{sass_cache_get()} is called before \code{sass_cache_set()}, then it will
+create a cache in a subdirectory of the system temp directory named
+\code{R-sass-cache-username} and set it as the default. Because this cache
 directory is not in the R process's temp directory, it will persist longer
 than the R process, typically until a system reboot. Additionally, it will be
 shared across R processes for the same user on the same system.
@@ -51,44 +71,6 @@ object and set it as the default cache.
 
 To clear the cache (but keep using it in the future), call
 \code{sass_cache_get()$reset()}.
-}
-\examples{
-# Very slow to compile
-fib_sass <- "@function fib($x) {
-  @if $x <= 1 {
-    @return $x
-  }
-  @return fib($x - 2) + fib($x - 1);
-}
-
-body {
-  width: fib(27);
-}"
-
-# The first time this runs it will be very slow
-system.time(sass(fib_sass))
-
-# But on subsequent calls, it should be very fast
-system.time(sass(fib_sass))
-
-# sass() can be called with cache=NULL; it will be slow
-system.time(sass(fib_sass, cache = NULL))
-
-# Clear the cache
-sass_cache_get()$reset()
-
-\dontrun{
-# Example of disabling cache by setting the default cache to NULL.
-
-# Disable the default cache (save the original one first, so we can restore)
-old_cache <- sass_cache_get()
-sass_cache_set(NULL)
-# Will be slow, because no cache
-system.time(sass(fib_sass))
-
-# Restore the original cache
-sass_cache_set(old_cache)
-}
 }
 \seealso{
 sass_file_cache
