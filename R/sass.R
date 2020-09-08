@@ -23,7 +23,7 @@
 #' @param options Compiler options for Sass. Please specify options using
 #'   [sass_options()].
 #' @param output Specifies path to output file for compiled CSS. May be a
-#'   character string or [output_file()]
+#'   character string or [output_template()]
 #' @param write_attachments If the input contains [sass_layer()] objects that
 #'   have file attachments, and `output` is not `NULL`, then copy the file
 #'   attachments to the directory of `output`. (Defaults to `NA`, which merely
@@ -87,7 +87,7 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
     ))
   }
 
-  # Resolve output_file(), if need be
+  # Resolve output_template(), if need be
   if (is.function(output)) {
     output <- output(options, cache_key)
   }
@@ -168,12 +168,12 @@ sass <- function(input = NULL, options = sass_options(), output = NULL,
 #'
 #' @export
 #' @examples
-#' sass("body {color: red}", output = output_file())
+#' sass("body {color: red}", output = output_template())
 #'
-#' func <- output_file(basename = "foo", dirname = "bar-")
+#' func <- output_template(basename = "foo", dirname = "bar-")
 #' func(suffix = "baz")
 #'
-output_file <- function(basename = "sass", dirname = basename, fileext = NULL) {
+output_template <- function(basename = "sass", dirname = basename, fileext = NULL) {
   function(options = list(), suffix = NULL) {
     fileext <- fileext %||% if (isTRUE(options$output_style %in% c(2, 3))) ".min.css" else ".css"
     # If caching is enabled, then make sure the out dir is unique to the cache key;

@@ -6,7 +6,7 @@ Although caching is now enabled by default, it still may not be desirable for lo
 
 Other improvements include: 
 
-* A new `output_file()` function for more convenient `output` filename creation that is `cache` and `options` aware. 
+* A new `output_template()` function for more convenient `output` path creation that is `cache` and `options` aware. 
 
 * When `sass()` has a cache hit, and `output` is specified, the cached file is now simply copied to `output` at the OS level (previously, `sass()` was reading the cache file into R, then writing it to `output`). (#42)
 

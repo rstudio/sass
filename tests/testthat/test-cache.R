@@ -138,7 +138,7 @@ test_that("cache key components", {
 
 
 
-test_that("output_file() is cache and options aware", {
+test_that("output_template() is cache and options aware", {
   local_temp_cache()
 
   input <- list(
@@ -154,26 +154,26 @@ test_that("output_file() is cache and options aware", {
   }
 
   # File is exactly the same with the same input+options
-  output1 <- sass(input, output = output_file(), options = opts)
-  output2 <- sass(input, output = output_file(), options = opts)
+  output1 <- sass(input, output = output_template(), options = opts)
+  output2 <- sass(input, output = output_template(), options = opts)
   expect_true(output1 == output2)
   expect_match(output1, ".min.css$")
   expect_red(output1)
   expect_red(output2)
 
   # If cache is different, should get a different output file
-  output3 <- sass(input, output = output_file(), options = opts, cache_key_extra = "foo")
+  output3 <- sass(input, output = output_template(), options = opts, cache_key_extra = "foo")
   expect_true(output1 != output3)
   expect_red(output3)
 
   # Not minimized by default (because output_style = "expanded")
-  output4 <- sass(input, output = output_file())
+  output4 <- sass(input, output = output_template())
   expect_false(grepl(".min.css$", output4))
   expect_red(output4)
 
   # If no caching, should get a different output files
-  output5 <- sass(input, output = output_file(), cache = NULL)
-  output6 <- sass(input, output = output_file(), cache = NULL)
+  output5 <- sass(input, output = output_template(), cache = NULL)
+  output6 <- sass(input, output = output_template(), cache = NULL)
   expect_true(dirname(output5) != dirname(output6))
   expect_red(output5)
   expect_red(output6)

@@ -22,7 +22,7 @@ Sass and/or named variables. See \code{\link[=as_sass]{as_sass()}} and \code{\li
 \code{\link[=sass_options]{sass_options()}}.}
 
 \item{output}{Specifies path to output file for compiled CSS. May be a
-character string or \code{\link[=output_file]{output_file()}}}
+character string or \code{\link[=output_template]{output_template()}}}
 
 \item{write_attachments}{If the input contains \code{\link[=sass_layer]{sass_layer()}} objects that
 have file attachments, and \code{output} is not \code{NULL}, then copy the file
