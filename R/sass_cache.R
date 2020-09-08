@@ -139,6 +139,7 @@ add_sass_file_mtime <- function(x) {
 #' @param cache No longer used.
 #' @param cache_dir  No longer used.
 #' @export
+#' @keywords internal
 sass_cache_options <- function(cache, cache_dir) {
   message(
     "The function `sass_cache_options` is no longer used. ",
