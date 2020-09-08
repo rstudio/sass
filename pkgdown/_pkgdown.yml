@@ -40,5 +40,4 @@ reference:
   contents:
     - sass_file_cache
     - sass_cache_get
-    - sass_hash
     - sass_cache_options
