@@ -4,7 +4,11 @@
 \alias{sass_file_cache}
 \title{Create a file cache object}
 \usage{
-sass_file_cache(dir = NULL, max_size = 40 * 1024^2, max_age = 60 * 60 * 24 * 7)
+sass_file_cache(
+  dir = sass_default_cache_dir(),
+  max_size = 40 * 1024^2,
+  max_age = 60 * 60 * 24 * 7
+)
 }
 \arguments{
 \item{dir}{The directory in which to store the cached files. If \code{NULL} (the

@@ -26,20 +26,10 @@
 #'
 #' @export
 sass_file_cache <- function(
-  dir = NULL,
+  dir = sass_default_cache_dir(),
   max_size = 40 * 1024 ^ 2,
   max_age = 60 * 60 * 24 * 7
 ) {
-  if (is.null(dir)) {
-    if (is_connect_app()) {
-      dir <- file.path(getwd(), ".sass-cache")
-      if (!dir.exists(dir)) {
-        dir.create(dir)
-      }
-    } else {
-      dir <- rappdirs::user_cache_dir("R-sass")
-    }
-  }
   FileCache$new(dir, max_size = max_size, max_age = max_age)
 }
 

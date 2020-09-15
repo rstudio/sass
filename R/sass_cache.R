@@ -99,6 +99,75 @@ sass_cache_set <- function(cache = sass_file_cache()) {
 }
 
 
+#' Get the default sass cache directory
+#'
+#' @description
+#'
+#' This function returns the default sass cache directory.
+#'
+#'
+#' In most cases, this function uses the user's cache directory, by calling
+#' `rappdirs::user_cache_dir("R-sass")`.
+#'
+#' If this function is called from a Shiny application, it will also look for a
+#' subdirectory named `cache/`. If it exists, it will use a directory named
+#' `cache/sass/` to store the cache.
+#'
+#' When running a Shiny application in a user R session, it will not create the
+#' `cache/` subdirectory, but it will use it if present. This scopes the cache
+#' to the application.
+#'
+#' With Shiny applications hosted on Shiny Server and Connect, it _will_ create
+#' a `cache/sass/` subdirectory, so that the cache is scoped to the application
+#' and will not interfere with another application's cache.
+#'
+#' @export
+sass_default_cache_dir <- function() {
+  tryCatch(
+    {
+      # The usual place we'll look. This may be superseded below.
+      cache_dir <- rappdirs::user_cache_dir("R-sass")
+
+      if (is_shiny_app()) {
+        # We might use ./cache/sass, if it's a hosted app, or if the directory
+        # already exists. (We won't automatically create the directory on
+        # locally-running apps.)
+        app_dir <- shiny::getShinyOption("appDir")
+        app_cache_dir <- file.path(app_dir, "cache", "sass")
+        if (is_hosted_app()) {
+          # On hosted platforms, always create a ./cache/sass subdir for caching
+          # sass stuff.
+          cache_dir <- app_cache_dir
+
+        } else {
+          # When running an app in a normal R session...
+          if (dir.exists(app_cache_dir) || dir.exists(dirname(app_cache_dir))) {
+            # If ./cache/sass or ./cache already exists, use it.
+            cache_dir <- app_cache_dir
+          }
+        }
+      }
+
+      if (!dir.exists(cache_dir)) {
+        res <- dir.create(cache_dir, recursive = TRUE)
+        if (!res) {
+          stop("Error creating cache directory")
+        }
+      }
+    },
+    error = function(e) {
+      # If all of the attempts to find/create a dir failed, just use a temp dir.
+      warning("Error using cache directory at '", cache_dir,
+              "'. Using temp dir instead.")
+
+      cache_dir <<- tempfile("sass-")
+      dir.create(cache_dir)
+    }
+  )
+  normalizePath(cache_dir)
+}
+
+
 #' Returns a hash of the object, including sass_file mtimes
 #'
 #' This function returns a hash of the object `x`, intended for use in caching.
