@@ -106,6 +106,7 @@ already been deleted.
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{FileCache$new()}}
+\item \href{#method-directory}{\code{FileCache$directory()}}
 \item \href{#method-get_file}{\code{FileCache$get_file()}}
 \item \href{#method-get_content}{\code{FileCache$get_content()}}
 \item \href{#method-set_file}{\code{FileCache$set_file()}}
@@ -169,6 +170,16 @@ information will be written. To log to the console, use \code{stdout()}.}
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-directory"></a>}}
+\if{latex}{\out{\hypertarget{method-directory}{}}}
+\subsection{Method \code{directory()}}{
+Get the cache's directory
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{FileCache$directory()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get_file"></a>}}

@@ -4,15 +4,16 @@ context("cache")
 # function exits, the temporary cache is destroyed, and the previous default
 # cache is restored.
 local_temp_cache <- function(env = parent.frame()) {
-  temp_cache <- sass_file_cache(dir = tempfile())
-  old_opts <- options(sass.cache = temp_cache)
+  orig_cache <- sass_cache_get()
+  temp_cache <- sass_file_cache(tempfile())
   withr::defer(
     {
-      options(old_opts)
+      sass_cache_set(orig_cache)
       temp_cache$destroy()
     },
     envir = env
   )
+  sass_cache_set(temp_cache)
 }
 
 
@@ -20,6 +21,7 @@ test_that("throws on invalid output dir", {
   local_temp_cache()
 
   # Prime the cache
+
   sass("div { border: 1px solid black; }")
 
   # Cache
@@ -41,12 +43,12 @@ test_that("reads from and writes to cache", {
   css <- sass(sass_file("test-unicode-var-input.scss"))
   expect_equal(as.character(css), expected)
 
-  expect_equal(sass_default_cache()$size(), 1)
+  expect_equal(sass_cache_get()$size(), 1)
 })
 
 test_that("writes to cache", {
   local_temp_cache()
-  cache <- sass_default_cache()
+  cache <- sass_cache_get()
 
   input <- list(
     list(text_color = "#313131"),
@@ -87,7 +89,7 @@ test_that("unicode characters work OK after caching", {
   css <- sass(sass_file("test-unicode-var-input.scss"))
   expect_equal(css, expected)
 
-  expect_equal(sass_default_cache()$size(), 1)
+  expect_equal(sass_cache_get()$size(), 1)
 })
 
 test_that("cache isn't written if a compilation error occurs", {
@@ -101,7 +103,7 @@ test_that("cache isn't written if a compilation error occurs", {
 
   expect_error(sass(input, options), "must be followed")
 
-  expect_equal(sass_default_cache()$size(), 0)
+  expect_equal(sass_cache_get()$size(), 0)
 })
 
 test_that("cache key components", {
@@ -171,10 +173,9 @@ test_that("output_template() is cache and options aware", {
   expect_red(output4)
 
   # If no caching, should get a different output files
-  output5 <- sass(input, output = output_template(), cache = FALSE)
-  output6 <- sass(input, output = output_template(), cache = FALSE)
+  output5 <- sass(input, output = output_template(), cache = NULL)
+  output6 <- sass(input, output = output_template(), cache = NULL)
   expect_true(dirname(output5) != dirname(output6))
   expect_red(output5)
   expect_red(output6)
 })
-

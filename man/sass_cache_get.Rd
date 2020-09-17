@@ -3,32 +3,37 @@
 \name{sass_cache_get}
 \alias{sass_cache_get}
 \alias{sass_cache_set}
-\title{Get and set the cache object used for a specific directory}
+\title{Get/set sass cache, globally}
 \usage{
-sass_cache_get(dir)
+sass_cache_get(default = sass_file_cache())
 
-sass_cache_set(dir, cache)
+sass_cache_set(cache = sass_file_cache())
 }
 \arguments{
-\item{dir}{A directory. If \code{NULL}, this function will return \code{NULL}.}
+\item{default}{a definition for the default cache to use if no global cache
+has been set. Like \code{cache}, this can be either a \link{FileCache} object or a character
+string specifying a caching directory.}
 
-\item{cache}{A \code{\link[=sass_file_cache]{sass_file_cache()}} object, or \code{NULL} if you don't want to use
-a cache.}
+\item{cache}{either a \link{FileCache} object or a character string specifying a caching directory.
+If \code{NULL}, then caching is disabled (globally).}
 }
 \description{
-Get and set the cache object used for a specific directory
+Use these functions to globally configure \code{\link[=sass]{sass()}} caching. To disable
+caching, do \code{sass_cache_set(NULL)}. To set a caching directory, provide
+the directory to \code{sass_cache_set()}. For finer control for the caching size
+and eviction policy, provide a \code{sass_file_cache()} (or \verb{[FileCache]}) to
+\code{sass_cache_set()}. Note that, by default, caching is enabled and the directory
+is determined by \code{sass_cache_context_dir()} (see the details section below).
 }
 \details{
-If \code{sass_cache_get()} is called for a given directory, before
-\code{sass_cache_set()} has been called for that directory, then a new
-\code{\link[=sass_file_cache]{sass_file_cache()}} object will be created and set for that directory.
-
-After \code{sass_cache_set()} is called for a directory, any future calls to
-\code{sass_cache_get()} with that directory will return that specific cache
-object. This can be useful if you customize parameters for the cache object,
-like maximum size or age.
+If \code{sass_cache_context_dir()} is called outside of a Shiny app, it returns
+\code{rappdirs::user_cache_dir("R-sass")}. Otherwise, it looks for a special
+app subdirectory named \verb{cache/}, and if it exists, it uses a directory named
+\verb{cache/sass/} to store the cache. This directory is not created (only used)
+when running a Shiny app locally, but when running Connect or Shiny Server,
+it \emph{will} create a \verb{cache/sass/} subdirectory, so that the cache is scoped
+to the application and will not interfere with another application's cache.
 }
 \seealso{
-\code{\link[=sass_file_cache]{sass_file_cache()}}, \code{\link[=sass]{sass()}}
+\code{\link[=sass]{sass()}}
 }
-\keyword{internal}

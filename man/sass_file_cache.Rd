@@ -5,7 +5,7 @@
 \title{Create a file cache object}
 \usage{
 sass_file_cache(
-  dir = sass_context_cache_dir(),
+  dir = sass_cache_context_dir(),
   max_size = 40 * 1024^2,
   max_age = 60 * 60 * 24 * 7
 )

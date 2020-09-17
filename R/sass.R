@@ -136,7 +136,7 @@ sass <- function(
   options = sass_options(),
   output = NULL,
   write_attachments = NA,
-  cache = sass_default_cache(),
+  cache = sass_cache_get(),
   cache_key_extra = NULL)
 {
 
@@ -148,15 +148,10 @@ sass <- function(
   }
 
 
-  if (identical(cache, FALSE)) {
+  if (is.null(cache) || identical(cache, FALSE)) {
     cache <- NULL
-  } else if (is.character(cache)) {
-    # In case it's a directory name
-    cache <- sass_cache_get(cache)
-  }
-
-  if (!is.null(cache) && !inherits(cache, "FileCache")) {
-    stop("Please use FALSE or NULL (no cache), a string with a directory name, or a FileCache object for `cache`.")
+  } else {
+    cache <- as_sass_cache(cache)
   }
 
   css <- NULL

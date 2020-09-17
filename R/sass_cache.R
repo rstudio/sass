@@ -1,101 +1,87 @@
 # A registry of caches for different directories
 .caches <- new.env(parent = emptyenv())
 
+# Global variable keeping track of the current cache's directory
+.globals <- new.env(parent = emptyenv())
+.globals$cache_dir <- NA_character_
 
-#' Get and set the cache object used for a specific directory
-#'
-#' @details
-#'
-#' If `sass_cache_get()` is called for a given directory, before
-#' `sass_cache_set()` has been called for that directory, then a new
-#' [sass_file_cache()] object will be created and set for that directory.
-#'
-#' After `sass_cache_set()` is called for a directory, any future calls to
-#' `sass_cache_get()` with that directory will return that specific cache
-#' object. This can be useful if you customize parameters for the cache object,
-#' like maximum size or age.
-#'
-#' @param dir A directory. If `NULL`, this function will return `NULL`.
-#' @param cache A [sass_file_cache()] object, or `NULL` if you don't want to use
-#'   a cache.
-#'
-#' @seealso [sass_file_cache()], [sass()]
-#'
-#' @keywords internal
-#' @export
-sass_cache_get <- function(dir) {
-  if (is.null(dir)) {
-    return(NULL)
-  }
-
-  dir <- fs::path_abs(dir)
-  if (!exists(dir, .caches, inherits = FALSE)) {
-    sass_cache_set(dir, sass_file_cache(dir))
-  }
-  .caches[[dir]]
-}
-
-#' @rdname sass_cache_get
-#' @export
-sass_cache_set <- function(dir, cache) {
-  if (!is.null(cache) && !inherits(cache, "FileCache")) {
-    stop("`cache` must be a FileCache object or NULL.")
-  }
-  .caches[[dir]] <- cache
-}
-
-#' Get default sass cache object
+#' Get/set sass cache, globally
 #'
 #' @description
 #'
-#' Get the default sass cache object or directory, for the given context. The
-#' context depends on factors described below.
+#' Use these functions to globally configure [sass()] caching. To disable
+#' caching, do `sass_cache_set(NULL)`. To set a caching directory, provide
+#' the directory to `sass_cache_set()`. For finer control for the caching size
+#' and eviction policy, provide a `sass_file_cache()` (or `[FileCache]`) to
+#' `sass_cache_set()`. Note that, by default, caching is enabled and the directory
+#' is determined by `sass_cache_context_dir()` (see the details section below).
 #'
-#' `sass_default_cache()` first checks the `sass.cache` option. If it is set to
-#' `FALSE`, then this function returns `NULL`. If it has been set to a string,
-#' it is treated as a directory name, and this function returns a
-#' `sass_file_cache()` object using that directory. If the option has been set
-#' to a `sass_file_cache()` object, then it will return that object.
+#' @details
 #'
-#' In most cases, this function uses the user's cache directory, by calling
-#' `rappdirs::user_cache_dir("R-sass")`.
+#' If `sass_cache_context_dir()` is called outside of a Shiny app, it returns
+#' `rappdirs::user_cache_dir("R-sass")`. Otherwise, it looks for a special
+#' app subdirectory named `cache/`, and if it exists, it uses a directory named
+#' `cache/sass/` to store the cache. This directory is not created (only used)
+#' when running a Shiny app locally, but when running Connect or Shiny Server,
+#' it _will_ create a `cache/sass/` subdirectory, so that the cache is scoped
+#' to the application and will not interfere with another application's cache.
 #'
-#' If this function is called from a Shiny application, it will also look for a
-#' subdirectory named `cache/`. If it exists, it will use a directory named
-#' `cache/sass/` to store the cache.
+#' @param default a definition for the default cache to use if no global cache
+#' has been set. Like `cache`, this can be either a [FileCache] object or a character
+#' string specifying a caching directory.
 #'
-#' When running a Shiny application in a user R session, it will not create the
-#' `cache/` subdirectory, but it will use it if present. This scopes the cache
-#' to the application.
-#'
-#' With Shiny applications hosted on Shiny Server and Connect, it _will_ create
-#' a `cache/sass/` subdirectory, so that the cache is scoped to the application
-#' and will not interfere with another application's cache.
-#'
-#' @seealso [sass_cache_get()], [sass()]
+#' @seealso [sass()]
 #'
 #' @export
-sass_default_cache <- function() {
-  cache_option <- getOption("sass.cache", default = TRUE)
-  if (is.null(cache_option) || identical(cache_option, FALSE)) {
+sass_cache_get <- function(default = sass_file_cache()) {
+  # By default, we want global caching enabled in such a way that the
+  # directory doesn't get resolved until we ask for the cache
+  if (is.na(.globals$cache_dir)) {
+    return(as_sass_cache(default))
+  }
+  # Support disabling of the global cache via sass_cache_set(NULL)
+  if (is.null(.globals$cache_dir)) {
     return(NULL)
-
-  } else if (inherits(cache_option, "FileCache")) {
-    return(cache_option)
-
-  } else if (is.character(cache_option)) {
-    sass_cache_get(cache_option)
   }
 
-  # Default case:
-  sass_cache_get(sass_context_cache_dir())
+  .caches[[.globals$cache_dir]]
+}
+
+#' @rdname sass_cache_get
+#' @param cache either a [FileCache] object or a character string specifying a caching directory.
+#' If `NULL`, then caching is disabled (globally).
+#' @export
+sass_cache_set <- function(cache = sass_file_cache()) {
+  cache <- as_sass_cache(cache)
+  # Disable the global cache
+  if (is.null(cache) || identical(cache, FALSE)) {
+    .globals$cache_dir <- NULL
+    return(NULL)
+  }
+  # Otherwise, update the global registry
+  .globals$cache_dir <- cache$directory()
+  .caches[[.globals$cache_dir]] <- cache
+  invisible(cache)
+}
+
+as_sass_cache <- function(cache) {
+  if (is.null(cache)) {
+    return(cache)
+  }
+  if (inherits(cache, "FileCache")) {
+    return(cache)
+  }
+  if (is.character(cache)) {
+    return(sass_file_cache(cache))
+  }
+  stop("Can't coerce object of type '", typeof(cache), "' to a cache object.")
 }
 
 #' Return the cache directory for the current context.
 #'
 #' @keywords internal
 #' @export
-sass_context_cache_dir <- function() {
+sass_cache_context_dir <- function() {
   tryCatch(
     {
       # The usual place we'll look. This may be superseded below.

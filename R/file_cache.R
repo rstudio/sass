@@ -26,7 +26,7 @@
 #'
 #' @export
 sass_file_cache <- function(
-  dir = sass_context_cache_dir(),
+  dir = sass_cache_context_dir(),
   max_size = 40 * 1024 ^ 2,
   max_age = 60 * 60 * 24 * 7
 ) {
@@ -174,6 +174,11 @@ FileCache <- R6Class("FileCache",
       private$logfile             <- logfile
 
       private$prune_last_time     <- as.numeric(Sys.time())
+    },
+
+    #' @description Get the cache's directory
+    directory = function() {
+      private$dir
     },
 
     #' @description Get the content associated with `key`, and save in a file
