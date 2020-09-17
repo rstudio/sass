@@ -35,8 +35,9 @@
 #'   invalidated (not removed from disk, but they'll no longer be matched).
 #'   However, if a file imported using [sass_file()] itself imports other sass
 #'   files using \code{@import}, changes to those files are invisible to the
-#'   cache and you will end up with stale results. Caching should be disabled in
-#'   cases like this.
+#'   cache and you can end up with stale results. To avoid this problem when
+#'   developing sass code, it's best to disable caching with
+#'   `options(sass.cache=FALSE)`.
 #'
 #'   By default, the maximum size of the cache is 40 MB. If it grows past that
 #'   size, the least-recently-used objects will be evicted from the cache to
