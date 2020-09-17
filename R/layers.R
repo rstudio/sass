@@ -188,6 +188,13 @@ join_attachments <- function(attach1, attach2) {
   c(attach1, attach2)
 }
 
+#' Write file attachments from a sass theme object
+#'
+#' @param file_attachments A character vector of files or directories.
+#' @param output_path A directory to copy the attachments to.
+#'
+#' @keywords internal
+#' @export
 write_file_attachments <- function(file_attachments, output_path) {
   validate_attachments(file_attachments)
 
