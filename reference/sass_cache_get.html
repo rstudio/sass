@@ -90,7 +90,7 @@ by setting cache to NULL." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9003</span>
       </span>
     </div>
 
@@ -207,15 +207,15 @@ body {
 <span class='co'># The first time this runs it will be very slow</span>
 <span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'><a href='sass.html'>sass</a></span>(<span class='kw'>fib_sass</span>))
 </div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   3.113   0.017   3.185 </div><div class='input'>
+#&gt;   2.664   0.013   2.693 </div><div class='input'>
 <span class='co'># But on subsequent calls, it should be very fast</span>
 <span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'><a href='sass.html'>sass</a></span>(<span class='kw'>fib_sass</span>))
 </div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.001   0.000   0.001 </div><div class='input'>
+#&gt;   0.002   0.000   0.001 </div><div class='input'>
 <span class='co'># sass() can be called with cache=NULL; it will be slow</span>
 <span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'><a href='sass.html'>sass</a></span>(<span class='kw'>fib_sass</span>, cache = <span class='kw'>NULL</span>))
 </div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   2.767   0.025   2.891 </div><div class='input'>
+#&gt;   2.740   0.013   2.766 </div><div class='input'>
 <span class='co'># Clear the cache</span>
 <span class='fu'>sass_cache_get</span>()<span class='op'>$</span><span class='fu'>reset</span>()
 
@@ -247,7 +247,7 @@ body {
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
