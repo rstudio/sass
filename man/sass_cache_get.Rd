@@ -3,93 +3,32 @@
 \name{sass_cache_get}
 \alias{sass_cache_get}
 \alias{sass_cache_set}
-\title{Get and set the default cache used for compiled css files}
+\title{Get and set the cache object used for a specific directory}
 \usage{
-sass_cache_get()
+sass_cache_get(dir)
 
-sass_cache_set(cache = sass_file_cache())
+sass_cache_set(dir, cache)
 }
 \arguments{
-\item{cache}{A \code{\link[=sass_file_cache]{sass_file_cache()}} object, or \code{NULL} if you don't want to use a
-cache.}
+\item{dir}{A directory. If \code{NULL}, this function will return \code{NULL}.}
+
+\item{cache}{A \code{\link[=sass_file_cache]{sass_file_cache()}} object, or \code{NULL} if you don't want to use
+a cache.}
 }
 \description{
-The default cache is used by the \code{\link[=sass]{sass()}} function to cache outputs. In some
-cases when developing and modifying .scss files, \code{\link[=sass]{sass()}} might not detect
-changes, and keep using cached .css files instead of rebuilding them. To be
-safe, if you are developing a theme with sass, it's best to turn off caching
-by setting \code{cache} to \code{NULL}.
+Get and set the cache object used for a specific directory
 }
 \details{
-If caching is enabled, \code{\link[=sass]{sass()}} will attempt to bypass the compilation
-process by reusing output from previous \code{\link[=sass]{sass()}} calls that used equivalent
-inputs. This mechanism works by computing a \emph{cache key} from each
-\code{\link[=sass]{sass()}} call's \code{input}, \code{option}, and \code{cache_key_extra} arguments. If an
-object with that hash already exists within the cache directory, its contents
-are used instead of performing the compilation. If it does not exist, then
-compilation is performed and usual and the results are stored in the cache.
+If \code{sass_cache_get()} is called for a given directory, before
+\code{sass_cache_set()} has been called for that directory, then a new
+\code{\link[=sass_file_cache]{sass_file_cache()}} object will be created and set for that directory.
 
-If a file that is included using \code{\link[=sass_file]{sass_file()}} changes on disk (i.e. its
-last-modified time changes), its previous cache entries will effectively be
-invalidated (not removed from disk, but they'll no longer be matched).
-However, if a file imported using \code{\link[=sass_file]{sass_file()}} itself imports other sass
-files using \code{@import}, changes to those files are invisible to the cache
-and you will end up with stale results. Caching should be disabled in cases
-like this.
-
-If \code{sass_cache_get()} is called before \code{sass_cache_set()}, then it will
-create a cache in a subdirectory of the system temp directory named
-\code{R-sass-cache-username} and set it as the default. Because this cache
-directory is not in the R process's temp directory, it will persist longer
-than the R process, typically until a system reboot. Additionally, it will be
-shared across R processes for the same user on the same system.
-
-By default, the maximum size of the cache is 40 MB. If it grows past that
-size, the least-recently-used objects will be evicted from the cache to keep
-it under that size. To set the options for the cache, create a \link{FileCache}
-object and set it as the default cache.
-
-To clear the cache (but keep using it in the future), call
-\code{sass_cache_get()$reset()}.
-}
-\examples{
-# Very slow to compile
-fib_sass <- "@function fib($x) {
-  @if $x <= 1 {
-    @return $x
-  }
-  @return fib($x - 2) + fib($x - 1);
-}
-
-body {
-  width: fib(27);
-}"
-
-# The first time this runs it will be very slow
-system.time(sass(fib_sass))
-
-# But on subsequent calls, it should be very fast
-system.time(sass(fib_sass))
-
-# sass() can be called with cache=NULL; it will be slow
-system.time(sass(fib_sass, cache = NULL))
-
-# Clear the cache
-sass_cache_get()$reset()
-
-\dontrun{
-# Example of disabling cache by setting the default cache to NULL.
-
-# Disable the default cache (save the original one first, so we can restore)
-old_cache <- sass_cache_get()
-sass_cache_set(NULL)
-# Will be slow, because no cache
-system.time(sass(fib_sass))
-
-# Restore the original cache
-sass_cache_set(old_cache)
-}
+After \code{sass_cache_set()} is called for a directory, any future calls to
+\code{sass_cache_get()} with that directory will return that specific cache
+object. This can be useful if you customize parameters for the cache object,
+like maximum size or age.
 }
 \seealso{
-sass_file_cache
+\code{\link[=sass_file_cache]{sass_file_cache()}}, \code{\link[=sass]{sass()}}
 }
+\keyword{internal}

@@ -26,7 +26,7 @@
 #'
 #' @export
 sass_file_cache <- function(
-  dir = sass_default_cache_dir(),
+  dir = sass_context_cache_dir(),
   max_size = 40 * 1024 ^ 2,
   max_age = 60 * 60 * 24 * 7
 ) {
