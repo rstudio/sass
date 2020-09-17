@@ -26,13 +26,7 @@ and eviction policy, provide a \code{sass_file_cache()} (or \verb{[FileCache]}) 
 is determined by \code{sass_cache_context_dir()} (see the details section below).
 }
 \details{
-If \code{sass_cache_context_dir()} is called outside of a Shiny app, it returns
-\code{rappdirs::user_cache_dir("R-sass")}. Otherwise, it looks for a special
-app subdirectory named \verb{cache/}, and if it exists, it uses a directory named
-\verb{cache/sass/} to store the cache. This directory is not created (only used)
-when running a Shiny app locally, but when running Connect or Shiny Server,
-it \emph{will} create a \verb{cache/sass/} subdirectory, so that the cache is scoped
-to the application and will not interfere with another application's cache.
+
 }
 \seealso{
 \code{\link[=sass]{sass()}}

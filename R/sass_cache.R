@@ -18,13 +18,7 @@
 #'
 #' @details
 #'
-#' If `sass_cache_context_dir()` is called outside of a Shiny app, it returns
-#' `rappdirs::user_cache_dir("R-sass")`. Otherwise, it looks for a special
-#' app subdirectory named `cache/`, and if it exists, it uses a directory named
-#' `cache/sass/` to store the cache. This directory is not created (only used)
-#' when running a Shiny app locally, but when running Connect or Shiny Server,
-#' it _will_ create a `cache/sass/` subdirectory, so that the cache is scoped
-#' to the application and will not interfere with another application's cache.
+
 #'
 #' @param default a definition for the default cache to use if no global cache
 #' has been set. Like `cache`, this can be either a [FileCache] object or a character

@@ -11,18 +11,34 @@
 #'   changes in local file
 #'   [imports](https://sass-lang.com/documentation/at-rules/import) that aren't
 #'   captured through [sass_file()]/[sass_import()], may lead to a
-#'   false-positive cache hit. For this reason, developers are encouraged to
+#'   false-positive caching. For this reason, developers are encouraged to
 #'   capture such information in `cache_key_extra` (possibly with
 #'   `packageVersion('myPackage')` if shipping Sass with a package), and users
-#'   may want to disable caching altogether during local development by calling
-#'   `options(sass.cache=FALSE)`.
+#'   should consider disabling the cache altogether during local development
+#'   with `sass_cache_set(NULL)`.
 #'
-#'   In some cases when developing and modifying .scss files, [sass()] might not
-#'   detect changes, and keep using cached .css files instead of rebuilding
-#'   them. To be safe, if you are developing a theme with sass, it's best to
-#'   turn off caching by calling `options(sass.cache=FALSE)`.
+#' @section Cache directory:
 #'
-#'   If caching is enabled, [sass()] will attempt to bypass the compilation
+#'   The default cache's (i.e., `sass_file_cache()`) uses
+#'   `sass_cache_context_dir()` to determine an appropriate caching directory
+#'   based on the current context. If outside of a Shiny app, it uses the user's
+#'   caching directory (i.e., `rappdirs::user_cache_dir("R-sass")`). Otherwise,
+#'   it looks for a special app sub-directory named `cache/`, and if it exists,
+#'   it uses a directory named `cache/sass/` to store the cache. This directory
+#'   is not created (only used) when running a Shiny app locally, but when
+#'   running Connect or Shiny Server, it _will_ create a `cache/sass/`
+#'   subdirectory, so that the cache is scoped to the application and will not
+#'   interfere with another application's cache.
+#'
+#' @section Cache size:
+#'
+#'   The default cache's (i.e., `sass_file_cache()`) has a max size of 40 MB and
+#'   a max age of one week. See [sass_file_cache()] and [FileCache] for control
+#'   over these size limitations and for implementation details.
+#'
+#' @section Cache keys
+#'
+#'   When caching is enabled, [sass()] attempts to bypass the CSS compilation
 #'   process by reusing output from previous [sass()] calls that used equivalent
 #'   inputs. This mechanism works by computing a _cache key_ from each [sass()]
 #'   call's `input`, `option`, and `cache_key_extra` arguments. If an object
@@ -34,17 +50,8 @@
 #'   last-modified time changes), its previous cache entries will effectively be
 #'   invalidated (not removed from disk, but they'll no longer be matched).
 #'   However, if a file imported using [sass_file()] itself imports other sass
-#'   files using \code{@import}, changes to those files are invisible to the
-#'   cache and you will end up with stale results. Caching should be disabled in
-#'   cases like this.
-#'
-#'   By default, the maximum size of the cache is 40 MB. If it grows past that
-#'   size, the least-recently-used objects will be evicted from the cache to
-#'   keep it under that size. Also by default, the maximum age of objects in the
-#'   cache is one week. Older objects will be evicted from the cache.
-#'
-#'   To clear the default cache, call `sass_default_cache()$reset()`.
-#'
+#'   files using `@import`, changes to those files are invisible to the cache
+#'   and you will end up with stale results.
 #'
 #' @param input Accepts raw Sass, a named list of variables, or a list of raw
 #'   Sass and/or named variables. See [as_sass()] and [sass_import()] /
@@ -97,48 +104,33 @@
 #' # ======================
 #' # Very slow to compile
 #' fib_sass <- "@function fib($x) {
-#'   @if $x <= 1 {
-#'     @return $x
-#'   }
-#'   @return fib($x - 2) + fib($x - 1);
-#' }
+#' @if $x <= 1 {
+#' @return $x }
+#' @return fib($x - 2) + fib($x - 1); }
 #'
-#' body {
-#'   width: fib(27);
-#' }"
+#'   body { width: fib(27); }"
 #'
-#' # The first time this runs it will be very slow
-#' system.time(sass(fib_sass))
+#'   # The first time this runs it will be very slow system.time(sass(fib_sass))
 #'
-#' # But on subsequent calls, it should be very fast
-#' system.time(sass(fib_sass))
+#'   # But on subsequent calls, it should be very fast
+#'   system.time(sass(fib_sass))
 #'
-#' # sass() can be called with cache=NULL; it will be slow
-#' system.time(sass(fib_sass, cache = NULL))
+#'   # sass() can be called with cache=NULL; it will be slow
+#'   system.time(sass(fib_sass, cache = NULL))
 #'
-#' # Clear the cache
-#' sass_cache_get()$reset()
+#'   # Clear the cache sass_cache_get()$reset()
 #'
-#' \dontrun{
-#' # Example of disabling cache by setting the default cache to NULL.
+#'   \dontrun{ # Example of disabling cache by setting the default cache to
+#'   NULL.
 #'
-#' # Disable the default cache (save the original one first, so we can restore)
-#' old_cache <- sass_cache_get()
-#' sass_cache_set(NULL)
-#' # Will be slow, because no cache
-#' system.time(sass(fib_sass))
+#'   # Disable the default cache (save the original one first, so we can
+#'   restore) old_cache <- sass_cache_get() sass_cache_set(NULL) # Will be slow,
+#'   because no cache system.time(sass(fib_sass))
 #'
-#' # Restore the original cache
-#' sass_cache_set(old_cache)
-#' }
-sass <- function(
-  input = NULL,
-  options = sass_options(),
-  output = NULL,
-  write_attachments = NA,
-  cache = sass_cache_get(),
-  cache_key_extra = NULL)
-{
+#'   # Restore the original cache sass_cache_set(old_cache) }
+sass <- function(input = NULL, options = sass_options(), output = NULL,
+                 write_attachments = NA, cache = sass_cache_get(),
+                 cache_key_extra = NULL) {
 
   if (!inherits(options, "sass_options")) {
     stop("Please construct the compile options using `sass_options()`.")
