@@ -67,3 +67,10 @@ file.copy2 <- function(from, to, ...) {
     stop("Error copying files: ", paste0(from[!res], collapse = ", "))
   }
 }
+
+dir.create2 <- function(path, ...) {
+  res <- dir.create(path, ...)
+  if (!res) {
+    stop("Error creating directory: ", path)
+  }
+}
