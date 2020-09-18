@@ -57,3 +57,20 @@ get_file_mtimes <- function(files) {
 "%||%" <- function(x, y) {
   if (is.null(x)) y else x
 }
+
+# Wrapper for file.copy that throws if any files fail to copy. Use name
+# file.copy2 to make clear that it's a wrapper for a base function, and not for
+# fs::file_copy.
+file.copy2 <- function(from, to, ...) {
+  res <- file.copy(from, to, ...)
+  if (!all(res)) {
+    stop("Error copying files: ", paste0(from[!res], collapse = ", "))
+  }
+}
+
+dir.create2 <- function(path, ...) {
+  res <- dir.create(path, ...)
+  if (!res) {
+    stop("Error creating directory: ", path)
+  }
+}
