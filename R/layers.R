@@ -211,6 +211,8 @@ write_file_attachments <- function(file_attachments, output_path) {
       if (!dir.exists(dest)) {
         dir.create(dest)
       }
+      # We previously used fs::dir_copy(), but changed to file.copy2 for
+      # performance reasons. https://github.com/rstudio/sass/pull/53
       file.copy2(
         dir(src, all.files = TRUE, full.names = TRUE, no.. = TRUE),
         dest,
