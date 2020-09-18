@@ -206,8 +206,17 @@ write_file_attachments <- function(file_attachments, output_path) {
   output_path <- normalizePath(output_path, mustWork = TRUE)
 
   mapply(function(dest, src) {
-    if (fs::is_dir(src)) {
-      fs::dir_copy(src, file.path(output_path, dest), overwrite = TRUE)
+    if (dir.exists(src)) {
+      dest <- file.path(output_path, dest)
+      if (!dir.exists(dest)) {
+        dir.create(dest)
+      }
+      file.copy(
+        dir(src, all.files = TRUE, full.names = TRUE, no.. = TRUE),
+        dest,
+        overwrite = TRUE,
+        recursive = TRUE
+      )
       return(NULL)
     }
 
