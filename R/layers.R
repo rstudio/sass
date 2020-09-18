@@ -211,7 +211,7 @@ write_file_attachments <- function(file_attachments, output_path) {
       if (!dir.exists(dest)) {
         dir.create(dest)
       }
-      file.copy(
+      file.copy2(
         dir(src, all.files = TRUE, full.names = TRUE, no.. = TRUE),
         dest,
         overwrite = TRUE,
