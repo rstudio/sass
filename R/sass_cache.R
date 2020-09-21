@@ -77,14 +77,15 @@ sass_cache_set <- function(dir, cache) {
 #' @export
 sass_default_cache <- function() {
   cache_option <- getOption("sass.cache", default = TRUE)
+
   if (is.null(cache_option) || identical(cache_option, FALSE)) {
     return(NULL)
-
-  } else if (inherits(cache_option, "FileCache")) {
+  }
+  if (inherits(cache_option, "FileCache")) {
     return(cache_option)
-
-  } else if (is.character(cache_option)) {
-    sass_cache_get(cache_option)
+  }
+  if (is.character(cache_option)) {
+    return(sass_cache_get(cache_option))
   }
 
   # Default case:
