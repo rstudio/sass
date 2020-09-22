@@ -3,22 +3,20 @@
 #' This creates a file cache which is to be used by sass for caching generated
 #' .css files.
 #'
-#' @param dir The directory in which to store the cached files. If `NULL` (the
-#'   default), then it will be set to a subdirectory of the user's cache
-#'   directory named `R-sass`.
-#' @param max_size The maximum size of the cache, in bytes. If the cache grows past this
-#'   size, the least-recently-used objects will be removed until it fits within
-#'   this size.
+#' @param dir The directory in which to store the cached files.
+#' @param max_size The maximum size of the cache, in bytes. If the cache grows
+#'   past this size, the least-recently-used objects will be removed until it
+#'   fits within this size.
 #' @param max_age The maximum age of objects in the cache, in seconds. The
 #'   default is one week.
 #'
-#' @seealso [sass_cache_get()], [FileCache]
+#' @seealso [sass_cache_get()], [sass_cache_context_dir()], [FileCache]
 #' @return A [FileCache] object.
 #'
 #' @examples
 #' \dontrun{
 #' # Create a cache with the default settings
-#' cache <- sass_file_cache()
+#' cache <- sass_file_cache(sass_cache_context_dir())
 #'
 #' # Clear the cache
 #' cache$reset()
@@ -26,9 +24,9 @@
 #'
 #' @export
 sass_file_cache <- function(
-  dir = sass_context_cache_dir(),
+  dir,
   max_size = 40 * 1024 ^ 2,
-  max_age = 60 * 60 * 24 * 7
+  max_age = Inf
 ) {
   FileCache$new(dir, max_size = max_size, max_age = max_age)
 }

@@ -5,7 +5,7 @@
 \title{Create a file cache object}
 \usage{
 sass_file_cache(
-  dir = sass_context_cache_dir(),
+  dir = sass_cache_context_dir(),
   max_size = 40 * 1024^2,
   max_age = 60 * 60 * 24 * 7
 )
@@ -13,7 +13,8 @@ sass_file_cache(
 \arguments{
 \item{dir}{The directory in which to store the cached files. If \code{NULL} (the
 default), then it will be set to a subdirectory of the user's cache
-directory named \code{R-sass}.}
+directory named \code{R-sass}. By default, it will call \code{\link[=sass_cache_dir]{sass_cache_dir()}} to
+find the default directory for the current context.}
 
 \item{max_size}{The maximum size of the cache, in bytes. If the cache grows past this
 size, the least-recently-used objects will be removed until it fits within
@@ -40,5 +41,5 @@ cache$reset()
 
 }
 \seealso{
-\code{\link[=sass_cache_get]{sass_cache_get()}}, \link{FileCache}
+\code{\link[=sass_cache_context_dir]{sass_cache_context_dir()}}, \link{FileCache}
 }

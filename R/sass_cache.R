@@ -2,56 +2,74 @@
 .caches <- new.env(parent = emptyenv())
 
 
-#' Get and set the cache object used for a specific directory
+#' Get and set the cache object registered for a specific directory
 #'
 #' @details
 #'
-#' If `sass_cache_get()` is called for a given directory, before
-#' `sass_cache_set()` has been called for that directory, then a new
-#' [sass_file_cache()] object will be created and set for that directory.
+#' If `sass_cache_get_dir()` is called for a given directory, before
+#' `sass_cache_set_dir()` has been called for that directory, then it will
+#' return `NULL`.
 #'
-#' After `sass_cache_set()` is called for a directory, any future calls to
-#' `sass_cache_get()` with that directory will return that specific cache
+#' After `sass_cache_set_dir()` is called for a directory, any future calls to
+#' `sass_cache_get_dir()` with that directory will return that specific cache
 #' object. This can be useful if you customize parameters for the cache object,
 #' like maximum size or age.
 #'
-#' @param dir A directory. If `NULL`, this function will return `NULL`.
-#' @param cache A [sass_file_cache()] object, or `NULL` if you don't want to use
-#'   a cache.
 #'
-#' @seealso [sass_file_cache()], [sass()]
+#' @param dir A directory. An error will be thrown if the directory does not
+#'   exist.
+#' @param cache A [sass_file_cache()] object, or `NULL` if you don't want to
+#'   unset the cache for a directory.
+#'
+#' @seealso [sass_cache_get()], [sass_file_cache()], [sass()]
 #'
 #' @keywords internal
 #' @export
-sass_cache_get <- function(dir) {
-  if (is.null(dir)) {
-    return(NULL)
+sass_cache_get_dir <- function(dir) {
+  if (!dir.exists(dir)) {
+    stop("`dir` does not exist.")
   }
 
-  dir <- fs::path_abs(dir)
-  if (!exists(dir, .caches, inherits = FALSE)) {
-    sass_cache_set(dir, sass_file_cache(dir))
-  }
+  dir <- normalizePath(dir, mustWork = TRUE)
   .caches[[dir]]
 }
 
 #' @rdname sass_cache_get
 #' @export
-sass_cache_set <- function(dir, cache) {
+sass_cache_set_dir <- function(dir, cache) {
   if (!is.null(cache) && !inherits(cache, "FileCache")) {
     stop("`cache` must be a FileCache object or NULL.")
   }
+  if (!dir.exists(dir)) {
+    stop("`dir` does not exist.")
+  }
+
+  dir <- normalizePath(dir, mustWork = TRUE)
+
+  if (is.null(cache)) {
+    # Unset the cache registered for a directory
+    if (exists(dir, envir = .caches, inherits = FALSE)) {
+      rm(list = dir, envir = .caches)
+    }
+    return(invisible(NULL))
+  }
+
+  if (!identical(dir, normalizePath(cache$dir()))) {
+    stop("`dir` and the cache object's directory do not match.")
+  }
+
   .caches[[dir]] <- cache
+  invisible(cache)
 }
 
-#' Get default sass cache object
+#' Get default sass cache object for the current context
 #'
 #' @description
 #'
-#' Get the default sass cache object or directory, for the given context. The
-#' context depends on factors described below.
+#' Get the default sass cache object, for the current context. The context
+#' depends on factors described below.
 #'
-#' `sass_default_cache()` first checks the `sass.cache` option. If it is set to
+#' `sass_cache_get()` first checks the `sass.cache` option. If it is set to
 #' `FALSE`, then this function returns `NULL`. If it has been set to a string,
 #' it is treated as a directory name, and this function returns a
 #' `sass_file_cache()` object using that directory. If the option has been set
@@ -64,18 +82,18 @@ sass_cache_set <- function(dir, cache) {
 #' subdirectory named `cache/`. If it exists, it will use a directory named
 #' `cache/sass/` to store the cache.
 #'
-#' When running a Shiny application in a user R session, it will not create the
-#' `cache/` subdirectory, but it will use it if present. This scopes the cache
-#' to the application.
+#' When running a Shiny application in a typical R session, it will not create
+#' the `cache/` subdirectory, but it will use it if present. This scopes the
+#' cache to the application.
 #'
 #' With Shiny applications hosted on Shiny Server and Connect, it _will_ create
 #' a `cache/sass/` subdirectory, so that the cache is scoped to the application
 #' and will not interfere with another application's cache.
 #'
-#' @seealso [sass_cache_get()], [sass()]
+#' @seealso [sass_cache_get_dir()], [sass()]
 #'
 #' @export
-sass_default_cache <- function() {
+sass_cache_get <- function() {
   cache_option <- getOption("sass.cache", default = TRUE)
 
   if (is.null(cache_option) || identical(cache_option, FALSE)) {
@@ -84,19 +102,32 @@ sass_default_cache <- function() {
   if (inherits(cache_option, "FileCache")) {
     return(cache_option)
   }
+
+  cache_dir <- NULL
   if (is.character(cache_option)) {
-    return(sass_cache_get(cache_option))
+    cache_dir <- cache_option
   }
 
-  # Default case:
-  sass_cache_get(sass_context_cache_dir())
+  # Default case
+  if (is.null(cache_dir)) {
+    cache_dir <- sass_cache_context_dir()
+  }
+
+  cache <- sass_cache_get_dir(cache_dir)
+  # Create cache if first time
+  if (is.null(cache)) {
+    cache <- sass_file_cache(cache_dir)
+    sass_cache_set_dir(cache_dir, cache)
+  }
+
+  cache
 }
 
 #' Return the cache directory for the current context.
 #'
 #' @keywords internal
 #' @export
-sass_context_cache_dir <- function() {
+sass_cache_context_dir <- function() {
   tryCatch(
     {
       # The usual place we'll look. This may be superseded below.

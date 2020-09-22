@@ -41,12 +41,12 @@ test_that("reads from and writes to cache", {
   css <- sass(sass_file("test-unicode-var-input.scss"))
   expect_equal(as.character(css), expected)
 
-  expect_equal(sass_default_cache()$size(), 1)
+  expect_equal(sass_cache_get()$size(), 1)
 })
 
 test_that("writes to cache", {
   local_temp_cache()
-  cache <- sass_default_cache()
+  cache <- sass_cache_get()
 
   input <- list(
     list(text_color = "#313131"),
@@ -87,7 +87,7 @@ test_that("unicode characters work OK after caching", {
   css <- sass(sass_file("test-unicode-var-input.scss"))
   expect_equal(css, expected)
 
-  expect_equal(sass_default_cache()$size(), 1)
+  expect_equal(sass_cache_get()$size(), 1)
 })
 
 test_that("cache isn't written if a compilation error occurs", {
@@ -101,7 +101,7 @@ test_that("cache isn't written if a compilation error occurs", {
 
   expect_error(sass(input, options), "must be followed")
 
-  expect_equal(sass_default_cache()$size(), 0)
+  expect_equal(sass_cache_get()$size(), 0)
 })
 
 test_that("cache key components", {
@@ -178,3 +178,42 @@ test_that("output_template() is cache and options aware", {
   expect_red(output6)
 })
 
+
+test_that("Cache directory getting/setting", {
+  cache_dir <- tempfile("sass-cache-test-")
+  cache <- sass_file_cache(dir = cache_dir)
+
+  # Can normalize path _after_ dir is created.
+  cache_dir <- normalizePath(cache_dir)
+  expect_identical(normalizePath(cache$dir()), cache_dir)
+
+  # Setting the cache for a directory works
+  sass_cache_set_dir(cache_dir, cache)
+  expect_identical(sass_cache_get_dir(cache_dir), cache)
+
+  # It checks that the specified dir and the cache's dir match
+  expect_error(sass_cache_set_dir(file.path(cache_dir, "foo"), cache))
+
+  # Check that the path is normalized. Create another cache object and set
+  # it as the cache for this path. Then fetching the cache for the path should
+  # return the new one.
+  cache2 <- sass_file_cache(dir = cache_dir)
+  expect_false(identical(cache, cache2))
+  sass_cache_set_dir(
+    file.path(cache_dir, "..", basename(cache_dir)),
+    cache2
+  )
+  expect_identical(sass_cache_get_dir(cache_dir), cache2)
+
+  # Can unset cache for a given directory
+  sass_cache_set_dir(cache_dir, NULL)
+  expect_false(exists(cache_dir, envir = .caches))
+
+  # Calling sass_cache_get_dir() when it doesn't exist
+  cache_dir <- tempfile("sass-cache-test-")
+  expect_error(sass_cache_get_dir(cache_dir))
+
+  # Calling sass_cache_get_dir() when it's unset returns NULL
+  dir.create(cache_dir)
+  expect_null(sass_cache_get_dir(cache_dir))
+})

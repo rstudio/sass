@@ -44,7 +44,7 @@
 #'   keep it under that size. Also by default, the maximum age of objects in the
 #'   cache is one week. Older objects will be evicted from the cache.
 #'
-#'   To clear the default cache, call `sass_default_cache()$reset()`.
+#'   To clear the default cache, call `sass_cache_get()$reset()`.
 #'
 #'
 #' @param input Accepts raw Sass, a named list of variables, or a list of raw
@@ -137,7 +137,7 @@ sass <- function(
   options = sass_options(),
   output = NULL,
   write_attachments = NA,
-  cache = sass_default_cache(),
+  cache = sass_cache_get(),
   cache_key_extra = NULL)
 {
 
