@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Sass Import — sass_import • sass</title>
+<title>Return the cache directory for the current context. — sass_cache_context_dir • sass</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,10 +52,8 @@
 
 
 
-<meta property="og:title" content="Sass Import — sass_import" />
-<meta property="og:description" content="Create an import statement to be used within your Sass file. See
-https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import for
-more details." />
+<meta property="og:title" content="Return the cache directory for the current context. — sass_cache_context_dir" />
+<meta property="og:description" content="Return the cache directory for the current context." />
 <meta property="og:image" content="https://rstudio.github.io/sass/logo.svg" />
 
 
@@ -130,61 +128,19 @@ more details." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Sass Import</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/sass/blob/master/R/as_sass.R'><code>R/as_sass.R</code></a></small>
-    <div class="hidden name"><code>sass_import.Rd</code></div>
+    <h1>Return the cache directory for the current context.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/sass/blob/master/R/sass_cache.R'><code>R/sass_cache.R</code></a></small>
+    <div class="hidden name"><code>sass_cache_context_dir.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create an import statement to be used within your Sass file. See
-<a href='https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import'>https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import</a> for
-more details.</p>
+    <p>Return the cache directory for the current context.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sass_import</span>(<span class='kw'>input</span>, quote = <span class='fl'>TRUE</span>)
+    <pre class="usage"><span class='fu'>sass_cache_context_dir</span>()</pre>
 
-<span class='fu'>sass_file</span>(<span class='kw'>input</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>input</th>
-      <td><p>Character string to be placed in an import statement.</p></td>
-    </tr>
-    <tr>
-      <th>quote</th>
-      <td><p>Logical that determines if a double quote is added to the import
-value. Defaults to <code>TRUE</code>.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Fully defined Sass import string.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p><code>sass_file</code> adds extra checks to make sure an appropriate file path
-exists given the input value.</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>sass_import</span>(<span class='st'>"foo"</span>)
-</div><div class='output co'>#&gt; [1] "@import \"foo\";"</div><div class='input'><span class='fu'>sass_import</span>(<span class='st'>"$foo"</span>, <span class='fl'>FALSE</span>)
-</div><div class='output co'>#&gt; [1] "@import $foo;"</div><div class='input'><span class='co'># \donttest{</span>
-<span class='kw'>tmp_scss_file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(fileext = <span class='st'>".scss"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/writeLines.html'>writeLines</a></span>(<span class='st'>"$color: red; body{ color: $color; }"</span>, <span class='kw'>tmp_scss_file</span>)
-<span class='fu'>sass_file</span>(<span class='kw'>tmp_scss_file</span>)
-</div><div class='output co'>#&gt; [1] "@import \"/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp26xJMX/filec9d72197269.scss\";"
-#&gt; attr(,"class")
-#&gt; [1] "sass_file" "character"
-#&gt; attr(,"sass_file_path")
-#&gt; [1] "/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp26xJMX/filec9d72197269.scss"</div><div class='input'><span class='fu'><a href='sass.html'>sass</a></span>(<span class='fu'>sass_file</span>(<span class='kw'>tmp_scss_file</span>))
-</div><div class='output co'>#&gt; /* CSS */
-#&gt; body {
-#&gt;   color: red;
-#&gt; }
-#&gt; </div><div class='input'><span class='co'># }</span>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

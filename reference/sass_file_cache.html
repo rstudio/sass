@@ -139,22 +139,20 @@
 .css files.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sass_file_cache</span>(dir = <span class='kw'>NULL</span>, max_size = <span class='fl'>40</span> <span class='op'>*</span> <span class='fl'>1024</span><span class='op'>^</span><span class='fl'>2</span>, max_age = <span class='fl'>60</span> <span class='op'>*</span> <span class='fl'>60</span> <span class='op'>*</span> <span class='fl'>24</span> <span class='op'>*</span> <span class='fl'>7</span>)</pre>
+    <pre class="usage"><span class='fu'>sass_file_cache</span>(<span class='kw'>dir</span>, max_size = <span class='fl'>40</span> <span class='op'>*</span> <span class='fl'>1024</span><span class='op'>^</span><span class='fl'>2</span>, max_age = <span class='fl'>Inf</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>dir</th>
-      <td><p>The directory in which to store the cached files. If <code>NULL</code> (the
-default), then it will be set to a subdirectory of the user's cache
-directory named <code>R-sass</code>.</p></td>
+      <td><p>The directory in which to store the cached files.</p></td>
     </tr>
     <tr>
       <th>max_size</th>
-      <td><p>The maximum size of the cache, in bytes. If the cache grows past this
-size, the least-recently-used objects will be removed until it fits within
-this size.</p></td>
+      <td><p>The maximum size of the cache, in bytes. If the cache grows
+past this size, the least-recently-used objects will be removed until it
+fits within this size.</p></td>
     </tr>
     <tr>
       <th>max_age</th>
@@ -168,12 +166,12 @@ default is one week.</p></td>
     <p>A <a href='FileCache.html'>FileCache</a> object.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='sass_cache_get.html'>sass_cache_get()</a></code>, <a href='FileCache.html'>FileCache</a></p></div>
+    <div class='dont-index'><p><code><a href='sass_cache_get.html'>sass_cache_get()</a></code>, <code><a href='sass_cache_context_dir.html'>sass_cache_context_dir()</a></code>, <a href='FileCache.html'>FileCache</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># Create a cache with the default settings</span>
-<span class='kw'>cache</span> <span class='op'>&lt;-</span> <span class='fu'>sass_file_cache</span>()
+<span class='kw'>cache</span> <span class='op'>&lt;-</span> <span class='fu'>sass_file_cache</span>(<span class='fu'><a href='sass_cache_context_dir.html'>sass_cache_context_dir</a></span>())
 
 <span class='co'># Clear the cache</span>
 <span class='kw'>cache</span><span class='op'>$</span><span class='fu'>reset</span>()

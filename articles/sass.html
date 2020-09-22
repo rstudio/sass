@@ -85,7 +85,7 @@
       <h1 data-toc-skip>Overview of the sass R package</h1>
                         <h4 class="author">Carson Sievert</h4>
             
-            <h4 class="date">2020-09-18</h4>
+            <h4 class="date">2020-09-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/rstudio/sass/blob/master/vignettes/sass.Rmd"><code>vignettes/sass.Rmd</code></a></small>
       <div class="hidden name"><code>sass.Rmd</code></div>
@@ -360,7 +360,7 @@ pre.css {
 <div id="shiny-string" class="section level3">
 <h3 class="hasAnchor">
 <a href="#shiny-string" class="anchor"></a>As a string</h3>
-<p>The character string that <code><a href="../reference/sass.html">sass()</a></code> returns is already marked as <code>HTML()</code><a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>, so to include it in your <strong>shiny</strong> app, wrap it in a <code>&lt;style&gt;</code> tag. It’s not necessary to place this tag in the <code>&lt;head&gt;</code> of the document, but it’s good practice:</p>
+<p>The character string that <code><a href="../reference/sass.html">sass()</a></code> returns is already marked as <code><a href="https://rdrr.io/pkg/htmltools/man/HTML.html">HTML()</a></code><a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>, so to include it in your <strong>shiny</strong> app, wrap it in a <code>&lt;style&gt;</code> tag. It’s not necessary to place this tag in the <code>&lt;head&gt;</code> of the document, but it’s good practice:</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">library</span>(shiny)</span>
 <span id="cb25-2"><a href="#cb25-2"></a>css &lt;-<span class="st"> </span><span class="kw">sass</span>(<span class="kw">sass_file</span>(<span class="st">"my-style.scss"</span>))</span>
 <span id="cb25-3"><a href="#cb25-3"></a><span class="kw">fluidPage</span>(</span>
@@ -373,12 +373,12 @@ pre.css {
 <a href="#shiny-file" class="anchor"></a>As a file</h3>
 <p>To write CSS to a file, give a suitable file path to <code><a href="../reference/sass.html">sass()</a></code>’s <code>output</code> argument. Here we write to a specially named <code>www/</code> subdirectory so that <strong>shiny</strong> will automatically make those file(s) available to the web app.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">shiny</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://shiny.rstudio.com">shiny</a></span>)
 <span class="fu"><a href="../reference/sass.html">sass</a></span>(
   <span class="fu"><a href="../reference/sass_import.html">sass_file</a></span>(<span class="st">"my-style.scss"</span>), 
   output = <span class="st">"www/my-style.css"</span>
 )
-<span class="fu">fluidPage</span>(
+<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html">fluidPage</a></span>(
   <span class="kw">tags</span><span class="op">$</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(
     <span class="kw">tags</span><span class="op">$</span><span class="fu">link</span>(href = <span class="st">"my-style.css"</span>, rel = <span class="st">"stylesheet"</span>, type = <span class="st">"text/css"</span>)
   ),
@@ -389,22 +389,22 @@ pre.css {
 <div id="shiny-dynamic" class="section level3">
 <h3 class="hasAnchor">
 <a href="#shiny-dynamic" class="anchor"></a>As a dynamic input</h3>
-<p>Sometimes it’s useful to allow users of your <strong>shiny</strong> app to be able to influence your app’s styling via <strong>shiny</strong> input(s). One way this can be done is via <a href="https://shiny.rstudio.com/articles/dynamic-ui.html">dynamic UI</a>, where you use <code>renderUI()</code>/<code>uiOutput()</code> to dynamically insert <a href="#shiny-string">CSS as an HTML string</a> whenever a relevant input changes. Be aware, however, that whenever you allow dynamic user input to generate <code>HTML()</code>, you’re leaving yourself open to security vulnerabilites; so try to avoid it, and <em>never</em> allow clients to enter free form <code>textInput()</code> without any sort of sanitation of the user input.</p>
+<p>Sometimes it’s useful to allow users of your <strong>shiny</strong> app to be able to influence your app’s styling via <strong>shiny</strong> input(s). One way this can be done is via <a href="https://shiny.rstudio.com/articles/dynamic-ui.html">dynamic UI</a>, where you use <code><a href="https://shiny.rstudio.com/reference/shiny/latest/renderUI.html">renderUI()</a></code>/<code><a href="https://shiny.rstudio.com/reference/shiny/latest/htmlOutput.html">uiOutput()</a></code> to dynamically insert <a href="#shiny-string">CSS as an HTML string</a> whenever a relevant input changes. Be aware, however, that whenever you allow dynamic user input to generate <code><a href="https://rdrr.io/pkg/htmltools/man/HTML.html">HTML()</a></code>, you’re leaving yourself open to security vulnerabilites; so try to avoid it, and <em>never</em> allow clients to enter free form <code><a href="https://shiny.rstudio.com/reference/shiny/latest/textInput.html">textInput()</a></code> without any sort of sanitation of the user input.</p>
 <p>Consider this basic example of using a <code>colourInput()</code> widget (from the <strong>colourpicker</strong> package) to choose the body’s background color, which triggers a call to <code><a href="../reference/sass.html">sass()</a></code>:</p>
 <div class="sourceCode" id="cb27"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">shiny</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://shiny.rstudio.com">shiny</a></span>)
 
-<span class="kw">ui</span> <span class="op">&lt;-</span> <span class="fu">fluidPage</span>(
-  <span class="fu">headerPanel</span>(<span class="st">"Sass Color Example"</span>),
+<span class="kw">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html">fluidPage</a></span>(
+  <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/headerPanel.html">headerPanel</a></span>(<span class="st">"Sass Color Example"</span>),
   <span class="kw">colourpicker</span>::<span class="fu">colourInput</span>(<span class="st">"color"</span>, <span class="st">"Background Color"</span>, value = <span class="st">"#6498d2"</span>, showColour = <span class="st">"text"</span>),
-  <span class="fu">uiOutput</span>(<span class="st">"sass"</span>)
+  <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/htmlOutput.html">uiOutput</a></span>(<span class="st">"sass"</span>)
 )
 
 <span class="kw">server</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">input</span>, <span class="kw">output</span>) {
-  <span class="kw">output</span><span class="op">$</span><span class="kw">sass</span> <span class="op">&lt;-</span> <span class="fu">renderUI</span>({
+  <span class="kw">output</span><span class="op">$</span><span class="kw">sass</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/renderUI.html">renderUI</a></span>({
     <span class="kw">tags</span><span class="op">$</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">tags</span><span class="op">$</span><span class="fu">style</span>(<span class="fu">css</span>()))
   })
-  <span class="kw">css</span> <span class="op">&lt;-</span> <span class="fu">reactive</span>({
+  <span class="kw">css</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/reactive.html">reactive</a></span>({
     <span class="kw">sass</span>::<span class="fu"><a href="../reference/sass.html">sass</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
       <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(color = <span class="kw">input</span><span class="op">$</span><span class="kw">color</span>),
       <span class="st">"body { background-color: $color; }"</span>
@@ -412,7 +412,7 @@ pre.css {
   })
 }
 
-<span class="fu">shinyApp</span>(<span class="kw">ui</span>, <span class="kw">server</span>)
+<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html">shinyApp</a></span>(<span class="kw">ui</span>, <span class="kw">server</span>)
 </pre></div>
 <p><br></p>
 <p><img src="https://i.imgur.com/5cUEifg.gif" width="80%" style="display: block; margin: auto;"></p>
@@ -421,19 +421,19 @@ pre.css {
 <li>Font Color
 <ul>
 <li><a href="https://gallery.shinyapps.io/sass-font" class="uri">https://gallery.shinyapps.io/sass-font</a></li>
-<li><code>shiny::runApp(system.file("sass-font", package = "sass"))</code></li>
+<li><code><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html">shiny::runApp(system.file("sass-font", package = "sass"))</a></code></li>
 </ul>
 </li>
 <li>Sizing
 <ul>
 <li><a href="https://gallery.shinyapps.io/sass-size" class="uri">https://gallery.shinyapps.io/sass-size</a></li>
-<li><code>shiny::runApp(system.file("sass-size", package = "sass"))</code></li>
+<li><code><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html">shiny::runApp(system.file("sass-size", package = "sass"))</a></code></li>
 </ul>
 </li>
 <li>Themes
 <ul>
 <li><a href="https://gallery.shinyapps.io/sass-theme" class="uri">https://gallery.shinyapps.io/sass-theme</a></li>
-<li><code>shiny::runApp(system.file("sass-theme", package = "sass"))</code></li>
+<li><code><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html">shiny::runApp(system.file("sass-theme", package = "sass"))</a></code></li>
 </ul>
 </li>
 </ul>
@@ -462,7 +462,7 @@ sass(sass_file("my-style.scss"))
 <hr>
 <ol>
 <li id="fn1"><p>Oh, by the way, the value of a variable may be an expression.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-<li id="fn2"><p>Including <a href="#shiny-dynamic">dynamic user input</a> directly as <code>HTML()</code>, especially with free form inputs like <code>textInput()</code>, is a security vulnerability. Avoid it if you can.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>Including <a href="#shiny-dynamic">dynamic user input</a> directly as <code><a href="https://rdrr.io/pkg/htmltools/man/HTML.html">HTML()</a></code>, especially with free form inputs like <code><a href="https://shiny.rstudio.com/reference/shiny/latest/textInput.html">textInput()</a></code>, is a security vulnerability. Avoid it if you can.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
   </div>

@@ -176,8 +176,8 @@ destructive, as files may be overwritten.)</p></td>
     </tr>
     <tr>
       <th>cache</th>
-      <td><p>A <a href='FileCache.html'>FileCache</a> object created by <code><a href='sass_file_cache.html'>sass_file_cache()</a></code>, or <code>NULL</code>
-for no caching.</p></td>
+      <td><p>This can be a directory to use for the cache, a <a href='FileCache.html'>FileCache</a>
+object created by <code><a href='sass_file_cache.html'>sass_file_cache()</a></code>, or <code>FALSE</code> or <code>NULL</code> for no caching.</p></td>
     </tr>
     <tr>
       <th>cache_key_extra</th>
@@ -210,8 +210,32 @@ captured through <code><a href='sass_import.html'>sass_file()</a></code>/<code><
 false-positive cache hit. For this reason, developers are encouraged to
 capture such information in <code>cache_key_extra</code> (possibly with
 <code><a href='https://rdrr.io/r/utils/packageDescription.html'>packageVersion('myPackage')</a></code> if shipping Sass with a package), and users
-may want to disable caching altogether during local development (via
-<code><a href='sass_cache_get.html'>sass_cache_set(NULL)</a></code>).</p>
+may want to disable caching altogether during local development by calling
+<code><a href='https://rdrr.io/r/base/options.html'>options(sass.cache=FALSE)</a></code>.</p>
+<p>In some cases when developing and modifying .scss files, <code>sass()</code> might not
+detect changes, and keep using cached .css files instead of rebuilding
+them. To be safe, if you are developing a theme with sass, it's best to
+turn off caching by calling <code><a href='https://rdrr.io/r/base/options.html'>options(sass.cache=FALSE)</a></code>.</p>
+<p>If caching is enabled, <code>sass()</code> will attempt to bypass the compilation
+process by reusing output from previous <code>sass()</code> calls that used equivalent
+inputs. This mechanism works by computing a <em>cache key</em> from each <code>sass()</code>
+call's <code>input</code>, <code>option</code>, and <code>cache_key_extra</code> arguments. If an object
+with that hash already exists within the cache directory, its contents are
+used instead of performing the compilation. If it does not exist, then
+compilation is performed and usual and the results are stored in the cache.</p>
+<p>If a file that is included using <code><a href='sass_import.html'>sass_file()</a></code> changes on disk (i.e. its
+last-modified time changes), its previous cache entries will effectively be
+invalidated (not removed from disk, but they'll no longer be matched).
+However, if a file imported using <code><a href='sass_import.html'>sass_file()</a></code> itself imports other sass
+files using <code>@import</code>, changes to those files are invisible to the
+cache and you can end up with stale results. To avoid this problem when
+developing sass code, it's best to disable caching with
+<code><a href='https://rdrr.io/r/base/options.html'>options(sass.cache=FALSE)</a></code>.</p>
+<p>By default, the maximum size of the cache is 40 MB. If it grows past that
+size, the least-recently-used objects will be evicted from the cache to
+keep it under that size. Also by default, the maximum age of objects in the
+cache is one week. Older objects will be evicted from the cache.</p>
+<p>To clear the default cache, call <code>sass_cache_get()$reset()</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='http://sass-lang.com/guide'>http://sass-lang.com/guide</a></p></div>
@@ -245,7 +269,50 @@ may want to disable caching altogether during local development (via
 #&gt; foo {
 #&gt;   margin: 36.6px;
 #&gt; }
-#&gt; </div></pre>
+#&gt; </div><div class='input'>
+<span class='co'># ======================</span>
+<span class='co'># Caching examples</span>
+<span class='co'># ======================</span>
+<span class='co'># Very slow to compile</span>
+<span class='kw'>fib_sass</span> <span class='op'>&lt;-</span> <span class='st'>"@function fib($x) {
+  @if $x &lt;= 1 {
+    @return $x
+  }
+  @return fib($x - 2) + fib($x - 1);
+}
+
+body {
+  width: fib(27);
+}"</span>
+
+<span class='co'># The first time this runs it will be very slow</span>
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'>sass</span>(<span class='kw'>fib_sass</span>))
+</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   3.204   0.028   3.251 </div><div class='input'>
+<span class='co'># But on subsequent calls, it should be very fast</span>
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'>sass</span>(<span class='kw'>fib_sass</span>))
+</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.001   0.001   0.002 </div><div class='input'>
+<span class='co'># sass() can be called with cache=NULL; it will be slow</span>
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'>sass</span>(<span class='kw'>fib_sass</span>, cache = <span class='kw'>NULL</span>))
+</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   3.315   0.018   3.355 </div><div class='input'>
+<span class='co'># Clear the cache</span>
+<span class='fu'><a href='sass_cache_get.html'>sass_cache_get</a></span>()<span class='op'>$</span><span class='fu'>reset</span>()
+
+<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='co'># Example of disabling cache by setting the default cache to NULL.</span>
+
+<span class='co'># Disable the default cache (save the original one first, so we can restore)</span>
+<span class='kw'>old_cache</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sass_cache_get.html'>sass_cache_get</a></span>()
+<span class='fu'>sass_cache_set</span>(<span class='kw'>NULL</span>)
+<span class='co'># Will be slow, because no cache</span>
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'>sass</span>(<span class='kw'>fib_sass</span>))
+
+<span class='co'># Restore the original cache</span>
+<span class='fu'>sass_cache_set</span>(<span class='kw'>old_cache</span>)
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

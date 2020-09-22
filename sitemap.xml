@@ -16,7 +16,13 @@
     <loc>https://rstudio.github.io/sass//reference/sass.html</loc>
   </url>
   <url>
+    <loc>https://rstudio.github.io/sass//reference/sass_cache_context_dir.html</loc>
+  </url>
+  <url>
     <loc>https://rstudio.github.io/sass//reference/sass_cache_get.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/sass//reference/sass_cache_get_dir.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/sass//reference/sass_cache_options.html</loc>
