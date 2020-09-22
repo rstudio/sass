@@ -7,7 +7,8 @@
 sass_cache_get_dir(dir)
 }
 \arguments{
-\item{dir}{A directory.}
+\item{dir}{A directory. An error will be thrown if the directory does not
+exist.}
 
 \item{cache}{A \code{\link[=sass_file_cache]{sass_file_cache()}} object, or \code{NULL} if you don't want to
 unset the cache for a directory.}
@@ -17,8 +18,8 @@ Get and set the cache object registered for a specific directory
 }
 \details{
 If \code{sass_cache_get_dir()} is called for a given directory, before
-\code{sass_cache_set_dir()} has been called for that directory, then a new
-\code{\link[=sass_file_cache]{sass_file_cache()}} object will be created and set for that directory.
+\code{sass_cache_set_dir()} has been called for that directory, then it will
+return \code{NULL}.
 
 After \code{sass_cache_set_dir()} is called for a directory, any future calls to
 \code{sass_cache_get_dir()} with that directory will return that specific cache

@@ -10,8 +10,8 @@ sass_cache_set_dir(dir, cache)
 sass_cache_get()
 }
 \description{
-Get the default sass cache object or directory, for the current context. The
-context depends on factors described below.
+Get the default sass cache object, for the current context. The context
+depends on factors described below.
 
 \code{sass_cache_get()} first checks the \code{sass.cache} option. If it is set to
 \code{FALSE}, then this function returns \code{NULL}. If it has been set to a string,
@@ -26,9 +26,9 @@ If this function is called from a Shiny application, it will also look for a
 subdirectory named \verb{cache/}. If it exists, it will use a directory named
 \verb{cache/sass/} to store the cache.
 
-When running a Shiny application in a user R session, it will not create the
-\verb{cache/} subdirectory, but it will use it if present. This scopes the cache
-to the application.
+When running a Shiny application in a typical R session, it will not create
+the \verb{cache/} subdirectory, but it will use it if present. This scopes the
+cache to the application.
 
 With Shiny applications hosted on Shiny Server and Connect, it \emph{will} create
 a \verb{cache/sass/} subdirectory, so that the cache is scoped to the application
