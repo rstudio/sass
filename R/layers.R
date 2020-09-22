@@ -188,6 +188,13 @@ join_attachments <- function(attach1, attach2) {
   c(attach1, attach2)
 }
 
+#' Write file attachments from a sass theme object
+#'
+#' @param file_attachments A character vector of files or directories.
+#' @param output_path A directory to copy the attachments to.
+#'
+#' @keywords internal
+#' @export
 write_file_attachments <- function(file_attachments, output_path) {
   validate_attachments(file_attachments)
 
@@ -199,8 +206,19 @@ write_file_attachments <- function(file_attachments, output_path) {
   output_path <- normalizePath(output_path, mustWork = TRUE)
 
   mapply(function(dest, src) {
-    if (fs::is_dir(src)) {
-      fs::dir_copy(src, file.path(output_path, dest), overwrite = TRUE)
+    if (dir.exists(src)) {
+      dest <- file.path(output_path, dest)
+      if (!dir.exists(dest)) {
+        dir.create2(dest)
+      }
+      # We previously used fs::dir_copy(), but changed to file.copy2 for
+      # performance reasons. https://github.com/rstudio/sass/pull/53
+      file.copy2(
+        dir(src, all.files = TRUE, full.names = TRUE, no.. = TRUE),
+        dest,
+        overwrite = TRUE,
+        recursive = TRUE
+      )
       return(NULL)
     }
 
