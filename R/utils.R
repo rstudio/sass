@@ -58,6 +58,41 @@ get_file_mtimes <- function(files) {
   if (is.null(x)) y else x
 }
 
+# Checks whether a package is installed
+is_installed <- function(package) {
+  nzchar(system.file(package = package))
+}
+
+
+# Returns TRUE if this is called while a Shiny app is running; FALSE otherwise.
+is_shiny_app <- function() {
+  "shiny" %in% loadedNamespaces() && shiny::isRunning()
+}
+
+# Is this app hosted? Returns TRUE for both Shiny Server and RStudio Connect.
+is_hosted_app <- function() {
+  nzchar(Sys.getenv("SHINY_SERVER_VERSION")) && is_shiny_app()
+}
+
+# Is this app running on Shiny Server (and not RStudio Connect)?
+is_shiny_server_app <- function() {
+  is_hosted_app() && !is_connect_app()
+}
+
+# Is this app running on RStudio Connect (and not Shiny Server)?
+is_connect_app <- function() {
+  if (!is_hosted_app()) {
+    return(FALSE)
+  }
+
+  info <- shiny::serverInfo()
+  if (!is.null(info) && is.list(info) && identical(info$edition, "Connect")) {
+    return(TRUE)
+  }
+
+  FALSE
+}
+
 # Wrapper for file.copy that throws if any files fail to copy. Use name
 # file.copy2 to make clear that it's a wrapper for a base function, and not for
 # fs::file_copy.

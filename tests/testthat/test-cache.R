@@ -4,16 +4,15 @@ context("cache")
 # function exits, the temporary cache is destroyed, and the previous default
 # cache is restored.
 local_temp_cache <- function(env = parent.frame()) {
-  orig_cache <- sass_cache_get()
-  temp_cache <- sass_file_cache(tempfile())
+  temp_cache <- sass_file_cache(dir = tempfile())
+  old_opts <- options(sass.cache = temp_cache)
   withr::defer(
     {
-      sass_cache_set(orig_cache)
+      options(old_opts)
       temp_cache$destroy()
     },
     envir = env
   )
-  sass_cache_set(temp_cache)
 }
 
 
@@ -172,10 +171,77 @@ test_that("output_template() is cache and options aware", {
   expect_red(output4)
 
   # If no caching, should get a different output files
-  output5 <- sass(input, output = output_template(), cache = NULL)
-  output6 <- sass(input, output = output_template(), cache = NULL)
+  output5 <- sass(input, output = output_template(), cache = FALSE)
+  output6 <- sass(input, output = output_template(), cache = FALSE)
   expect_true(dirname(output5) != dirname(output6))
   expect_red(output5)
   expect_red(output6)
 })
 
+
+test_that("Cache directory getting/setting", {
+  cache_dir <- tempfile("sass-cache-test-")
+  cache <- sass_file_cache(dir = cache_dir)
+
+  # Can normalize path _after_ dir is created.
+  cache_dir <- normalizePath(cache_dir)
+  expect_identical(normalizePath(cache$dir()), cache_dir)
+
+  # Setting the cache for a directory works
+  sass_cache_set_dir(cache_dir, cache)
+  expect_identical(sass_cache_get_dir(cache_dir), cache)
+
+  # It checks that the specified dir and the cache's dir match
+  expect_error(sass_cache_set_dir(file.path(cache_dir, "foo"), cache))
+
+  # Check that the path is normalized. Create another cache object and set
+  # it as the cache for this path. Then fetching the cache for the path should
+  # return the new one.
+  cache2 <- sass_file_cache(dir = cache_dir)
+  expect_false(identical(cache, cache2))
+  sass_cache_set_dir(
+    file.path(cache_dir, "..", basename(cache_dir)),
+    cache2
+  )
+  expect_identical(sass_cache_get_dir(cache_dir), cache2)
+
+  # Can unset cache for a given directory
+  sass_cache_set_dir(cache_dir, NULL)
+  expect_false(exists(cache_dir, envir = .caches))
+
+  # Calling sass_cache_get_dir() when it doesn't exist should error
+  cache_dir <- tempfile("sass-cache-test-")
+  expect_error(sass_cache_get_dir(cache_dir))
+
+  # Calling sass_cache_get_dir() when the dir exists but no cache object has
+  # been registered returns NULL
+  dir.create(cache_dir)
+  expect_null(sass_cache_get_dir(cache_dir))
+
+
+  # Calling sass_cache_get_dir() when the dir doesn't exist (and cache object
+  # isn't registered) with create=TRUE should create the dir and the cache
+  # object.
+  cache_dir <- tempfile("sass-cache-test-")
+  cache_obj <- sass_cache_get_dir(cache_dir, create = TRUE)
+  expect_true(dir.exists(cache_dir))
+  expect_true(inherits(cache_obj, "FileCache"))
+
+  # Calling sass_cache_get_dir() when the dir exists but cache object does not
+  # with create=TRUE should create the cache object.
+  cache_dir <- tempfile("sass-cache-test-")
+  dir.create(cache_dir)
+  cache_obj <- sass_cache_get_dir(cache_dir, create = TRUE)
+  expect_true(dir.exists(cache_dir))
+  expect_true(inherits(cache_obj, "FileCache"))
+})
+
+
+test_that("Can pass a cache directory to sass()", {
+  cache_dir <- tempfile()
+  sass("body {color: red; }", cache = cache_dir)
+
+  # Cache directory should have been created
+  cache_obj <- sass_cache_get_dir(cache_dir, create = FALSE)
+  expect_true(inherits(cache_obj, "FileCache"))
+})

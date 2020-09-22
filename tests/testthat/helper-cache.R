@@ -1,10 +1,9 @@
 # Turn off the default cache until the calling function exits; when that
 # happens, the previous default cache will be restored.
 local_disable_cache <- function(env = parent.frame()) {
-  orig_cache <- sass_cache_get()
+  old_opts <- options(sass.cache = FALSE)
   withr::defer(
-    sass_cache_set(orig_cache),
+    options(old_opts),
     envir = env
   )
-  sass_cache_set(NULL)
 }

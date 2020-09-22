@@ -114,6 +114,7 @@ already been deleted.
 \item \href{#method-keys}{\code{FileCache$keys()}}
 \item \href{#method-remove}{\code{FileCache$remove()}}
 \item \href{#method-reset}{\code{FileCache$reset()}}
+\item \href{#method-dir}{\code{FileCache$dir()}}
 \item \href{#method-prune}{\code{FileCache$prune()}}
 \item \href{#method-size}{\code{FileCache$size()}}
 \item \href{#method-destroy}{\code{FileCache$destroy()}}
@@ -334,6 +335,16 @@ otherwise.
 Clear all objects from the cache.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{FileCache$reset()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-dir"></a>}}
+\if{latex}{\out{\hypertarget{method-dir}{}}}
+\subsection{Method \code{dir()}}{
+Returns the directory used for the cache.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{FileCache$dir()}\if{html}{\out{</div>}}
 }
 
 }

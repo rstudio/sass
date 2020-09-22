@@ -3,22 +3,20 @@
 #' This creates a file cache which is to be used by sass for caching generated
 #' .css files.
 #'
-#' @param dir The directory in which to store the cached files. If `NULL` (the
-#'   default), then it will be set to a subdirectory of the user's cache
-#'   directory named `R-sass`.
-#' @param max_size The maximum size of the cache, in bytes. If the cache grows past this
-#'   size, the least-recently-used objects will be removed until it fits within
-#'   this size.
+#' @param dir The directory in which to store the cached files.
+#' @param max_size The maximum size of the cache, in bytes. If the cache grows
+#'   past this size, the least-recently-used objects will be removed until it
+#'   fits within this size.
 #' @param max_age The maximum age of objects in the cache, in seconds. The
 #'   default is one week.
 #'
-#' @seealso [sass_cache_get()], [FileCache]
+#' @seealso [sass_cache_get()], [sass_cache_context_dir()], [FileCache]
 #' @return A [FileCache] object.
 #'
 #' @examples
 #' \dontrun{
 #' # Create a cache with the default settings
-#' cache <- sass_file_cache()
+#' cache <- sass_file_cache(sass_cache_context_dir())
 #'
 #' # Clear the cache
 #' cache$reset()
@@ -26,13 +24,10 @@
 #'
 #' @export
 sass_file_cache <- function(
-  dir = NULL,
+  dir,
   max_size = 40 * 1024 ^ 2,
-  max_age = 60 * 60 * 24 * 7
+  max_age = Inf
 ) {
-  if (is.null(dir)) {
-    dir <- rappdirs::user_cache_dir("R-sass")
-  }
   FileCache$new(dir, max_size = max_size, max_age = max_age)
 }
 
@@ -168,7 +163,7 @@ FileCache <- R6Class("FileCache",
         dir.create(dir, recursive = TRUE)
       }
 
-      private$dir                 <- normalizePath(dir)
+      private$dir_                <- normalizePath(dir, mustWork = TRUE)
       private$max_size            <- max_size
       private$max_age             <- max_age
       private$max_n               <- max_n
@@ -331,7 +326,7 @@ FileCache <- R6Class("FileCache",
     #' @return A character vector of all keys currently in the cache.
     keys = function() {
       self$is_destroyed(throw = TRUE)
-      dir(private$dir)
+      dir(private$dir_)
     },
 
     #' @description Remove an object
@@ -349,8 +344,13 @@ FileCache <- R6Class("FileCache",
     reset = function() {
       private$log(paste0('reset'))
       self$is_destroyed(throw = TRUE)
-      file.remove(dir(private$dir, full.names = TRUE))
+      file.remove(dir(private$dir_, full.names = TRUE))
       invisible(self)
+    },
+
+    #' @description Returns the directory used for the cache.
+    dir = function() {
+      private$dir_
     },
 
     #' @description Prune the cache, using the parameters specified by
@@ -368,7 +368,7 @@ FileCache <- R6Class("FileCache",
 
       current_time <- Sys.time()
 
-      filenames <- dir(private$dir, full.names = TRUE)
+      filenames <- dir(private$dir_, full.names = TRUE)
       info <- file.info(filenames)
       info <- info[info$isdir == FALSE, ]
       info$name <- rownames(info)
@@ -431,7 +431,7 @@ FileCache <- R6Class("FileCache",
     #' @description Return the number of items currently in the cache.
     size = function() {
       self$is_destroyed(throw = TRUE)
-      length(dir(private$dir))
+      length(dir(private$dir_))
     },
 
     #' @description Clears all objects in the cache, and removes the cache
@@ -441,17 +441,17 @@ FileCache <- R6Class("FileCache",
         return(invisible(self))
       }
 
-      private$log(paste0("destroy: Removing ", private$dir))
+      private$log(paste0("destroy: Removing ", private$dir_))
       # First create a sentinel file so that other processes sharing this
       # cache know that the cache is to be destroyed. This is needed because
       # the recursive unlink is not atomic: another process can add a file to
       # the directory after unlink starts removing files but before it removes
       # the directory, and when that happens, the directory removal will fail.
-      file.create(file.path(private$dir, "._destroyed__"))
+      file.create(file.path(private$dir_, "._destroyed__"))
       # Remove all the cache files. This will not remove the sentinel file.
-      file.remove(dir(private$dir, full.names = TRUE))
+      file.remove(dir(private$dir_, full.names = TRUE))
       # Next remove dir recursively, including sentinel file.
-      unlink(private$dir, recursive = TRUE)
+      unlink(private$dir_, recursive = TRUE)
       private$destroyed <- TRUE
       invisible(self)
     },
@@ -460,8 +460,8 @@ FileCache <- R6Class("FileCache",
     #' @param throw Should this function throw an error if the cache has been
     #'   destroyed?
     is_destroyed = function(throw = FALSE) {
-      if (!dir.exists(private$dir) ||
-          file.exists(file.path(private$dir, "._destroyed__")))
+      if (!dir.exists(private$dir_) ||
+          file.exists(file.path(private$dir_, "._destroyed__")))
       {
         # It's possible for another process to destroy a shared cache directory
         private$destroyed <- TRUE
@@ -469,7 +469,7 @@ FileCache <- R6Class("FileCache",
 
       if (throw) {
         if (private$destroyed) {
-          stop("Attempted to use cache which has been destroyed:\n  ", private$dir)
+          stop("Attempted to use cache which has been destroyed:\n  ", private$dir_)
         }
 
       } else {
@@ -486,7 +486,7 @@ FileCache <- R6Class("FileCache",
   ),
 
   private = list(
-    dir = NULL,
+    dir_ = NULL,
     max_age = NULL,
     max_size = NULL,
     max_n = NULL,
@@ -499,7 +499,7 @@ FileCache <- R6Class("FileCache",
     prune_last_time = NULL,
 
     filename_full_path = function(filename) {
-      file.path(private$dir, filename)
+      file.path(private$dir_, filename)
     },
 
     # A wrapper for prune() that throttles it, because prune() can be

@@ -2,94 +2,35 @@
 % Please edit documentation in R/sass_cache.R
 \name{sass_cache_get}
 \alias{sass_cache_get}
-\alias{sass_cache_set}
-\title{Get and set the default cache used for compiled css files}
+\title{Get default sass cache object for the current context}
 \usage{
 sass_cache_get()
-
-sass_cache_set(cache = sass_file_cache())
-}
-\arguments{
-\item{cache}{A \code{\link[=sass_file_cache]{sass_file_cache()}} object, or \code{NULL} if you don't want to use a
-cache.}
 }
 \description{
-The default cache is used by the \code{\link[=sass]{sass()}} function to cache outputs. In some
-cases when developing and modifying .scss files, \code{\link[=sass]{sass()}} might not detect
-changes, and keep using cached .css files instead of rebuilding them. To be
-safe, if you are developing a theme with sass, it's best to turn off caching
-by setting \code{cache} to \code{NULL}.
-}
-\details{
-If caching is enabled, \code{\link[=sass]{sass()}} will attempt to bypass the compilation
-process by reusing output from previous \code{\link[=sass]{sass()}} calls that used equivalent
-inputs. This mechanism works by computing a \emph{cache key} from each
-\code{\link[=sass]{sass()}} call's \code{input}, \code{option}, and \code{cache_key_extra} arguments. If an
-object with that hash already exists within the cache directory, its contents
-are used instead of performing the compilation. If it does not exist, then
-compilation is performed and usual and the results are stored in the cache.
+Get the default sass cache object, for the current context. The context
+depends on factors described below.
 
-If a file that is included using \code{\link[=sass_file]{sass_file()}} changes on disk (i.e. its
-last-modified time changes), its previous cache entries will effectively be
-invalidated (not removed from disk, but they'll no longer be matched).
-However, if a file imported using \code{\link[=sass_file]{sass_file()}} itself imports other sass
-files using \code{@import}, changes to those files are invisible to the cache
-and you will end up with stale results. Caching should be disabled in cases
-like this.
+\code{sass_cache_get()} first checks the \code{sass.cache} option. If it is set to
+\code{FALSE}, then this function returns \code{NULL}. If it has been set to a string,
+it is treated as a directory name, and this function returns a
+\code{sass_file_cache()} object using that directory. If the option has been set
+to a \code{sass_file_cache()} object, then it will return that object.
 
-If \code{sass_cache_get()} is called before \code{sass_cache_set()}, then it will
-create a cache in a subdirectory of the system temp directory named
-\code{R-sass-cache-username} and set it as the default. Because this cache
-directory is not in the R process's temp directory, it will persist longer
-than the R process, typically until a system reboot. Additionally, it will be
-shared across R processes for the same user on the same system.
+In most cases, this function uses the user's cache directory, by calling
+\code{rappdirs::user_cache_dir("R-sass")}.
 
-By default, the maximum size of the cache is 40 MB. If it grows past that
-size, the least-recently-used objects will be evicted from the cache to keep
-it under that size. To set the options for the cache, create a \link{FileCache}
-object and set it as the default cache.
+If this function is called from a Shiny application, it will also look for a
+subdirectory named \verb{app_cache/}. If it exists, it will use a directory named
+\verb{app_cache/sass/} to store the cache.
 
-To clear the cache (but keep using it in the future), call
-\code{sass_cache_get()$reset()}.
-}
-\examples{
-# Very slow to compile
-fib_sass <- "@function fib($x) {
-  @if $x <= 1 {
-    @return $x
-  }
-  @return fib($x - 2) + fib($x - 1);
-}
+When running a Shiny application in a typical R session, it will not create
+the \verb{app_cache/} subdirectory, but it will use it if present. This scopes the
+cache to the application.
 
-body {
-  width: fib(27);
-}"
-
-# The first time this runs it will be very slow
-system.time(sass(fib_sass))
-
-# But on subsequent calls, it should be very fast
-system.time(sass(fib_sass))
-
-# sass() can be called with cache=NULL; it will be slow
-system.time(sass(fib_sass, cache = NULL))
-
-# Clear the cache
-sass_cache_get()$reset()
-
-\dontrun{
-# Example of disabling cache by setting the default cache to NULL.
-
-# Disable the default cache (save the original one first, so we can restore)
-old_cache <- sass_cache_get()
-sass_cache_set(NULL)
-# Will be slow, because no cache
-system.time(sass(fib_sass))
-
-# Restore the original cache
-sass_cache_set(old_cache)
-}
+With Shiny applications hosted on Shiny Server and Connect, it \emph{will} create
+a \verb{app_cache/sass/} subdirectory, so that the cache is scoped to the
+application and will not interfere with another application's cache.
 }
 \seealso{
-sass_file_cache
+\code{\link[=sass_cache_get_dir]{sass_cache_get_dir()}}, \code{\link[=sass]{sass()}}
 }
