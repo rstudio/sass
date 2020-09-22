@@ -20,16 +20,16 @@ In most cases, this function uses the user's cache directory, by calling
 \code{rappdirs::user_cache_dir("R-sass")}.
 
 If this function is called from a Shiny application, it will also look for a
-subdirectory named \verb{cache/}. If it exists, it will use a directory named
-\verb{cache/sass/} to store the cache.
+subdirectory named \verb{app_cache/}. If it exists, it will use a directory named
+\verb{app_cache/sass/} to store the cache.
 
 When running a Shiny application in a typical R session, it will not create
-the \verb{cache/} subdirectory, but it will use it if present. This scopes the
+the \verb{app_cache/} subdirectory, but it will use it if present. This scopes the
 cache to the application.
 
 With Shiny applications hosted on Shiny Server and Connect, it \emph{will} create
-a \verb{cache/sass/} subdirectory, so that the cache is scoped to the application
-and will not interfere with another application's cache.
+a \verb{app_cache/sass/} subdirectory, so that the cache is scoped to the
+application and will not interfere with another application's cache.
 }
 \seealso{
 \code{\link[=sass_cache_get_dir]{sass_cache_get_dir()}}, \code{\link[=sass]{sass()}}

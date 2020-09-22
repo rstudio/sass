@@ -96,16 +96,16 @@ sass_cache_set_dir <- function(dir, cache) {
 #' `rappdirs::user_cache_dir("R-sass")`.
 #'
 #' If this function is called from a Shiny application, it will also look for a
-#' subdirectory named `cache/`. If it exists, it will use a directory named
-#' `cache/sass/` to store the cache.
+#' subdirectory named `app_cache/`. If it exists, it will use a directory named
+#' `app_cache/sass/` to store the cache.
 #'
 #' When running a Shiny application in a typical R session, it will not create
-#' the `cache/` subdirectory, but it will use it if present. This scopes the
+#' the `app_cache/` subdirectory, but it will use it if present. This scopes the
 #' cache to the application.
 #'
 #' With Shiny applications hosted on Shiny Server and Connect, it _will_ create
-#' a `cache/sass/` subdirectory, so that the cache is scoped to the application
-#' and will not interfere with another application's cache.
+#' a `app_cache/sass/` subdirectory, so that the cache is scoped to the
+#' application and will not interfere with another application's cache.
 #'
 #' @seealso [sass_cache_get_dir()], [sass()]
 #'
@@ -148,7 +148,7 @@ sass_cache_context_dir <- function() {
         # already exists. (We won't automatically create the directory on
         # locally-running apps.)
         app_dir <- shiny::getShinyOption("appDir")
-        app_cache_dir <- file.path(app_dir, "cache", "sass")
+        app_cache_dir <- file.path(app_dir, "app_cache", "sass")
         if (is_hosted_app()) {
           # On hosted platforms, always create a ./cache/sass subdir for caching
           # sass stuff.
