@@ -20,14 +20,31 @@
 #'   exist.
 #' @param cache A [sass_file_cache()] object, or `NULL` if you don't want to
 #'   unset the cache for a directory.
+#' @param create If `TRUE`, then if the cache directory doesn't exist, or if
+#'   there is not a registered cache object for the directory, create them as
+#'   needed.
 #'
 #' @seealso [sass_cache_get()], [sass_file_cache()], [sass()]
 #'
 #' @keywords internal
 #' @export
-sass_cache_get_dir <- function(dir) {
-  if (!dir.exists(dir)) {
-    stop("`dir` does not exist.")
+sass_cache_get_dir <- function(dir, create = FALSE) {
+  if (create) {
+    # Create dir if needed
+    if (!dir.exists(dir)) {
+      dir.create2(dir)
+    }
+    dir <- normalizePath(dir, mustWork = TRUE)
+
+    # Create cache object if needed
+    if (is.null(.caches[[dir]])) {
+      sass_cache_set_dir(dir, sass_file_cache(dir))
+    }
+
+  } else {
+    if (!dir.exists(dir)) {
+      stop("`dir` does not exist.")
+    }
   }
 
   dir <- normalizePath(dir, mustWork = TRUE)
@@ -113,14 +130,7 @@ sass_cache_get <- function() {
     cache_dir <- sass_cache_context_dir()
   }
 
-  cache <- sass_cache_get_dir(cache_dir)
-  # Create cache if first time
-  if (is.null(cache)) {
-    cache <- sass_file_cache(cache_dir)
-    sass_cache_set_dir(cache_dir, cache)
-  }
-
-  cache
+  sass_cache_get_dir(cache_dir, create = TRUE)
 }
 
 #' Return the cache directory for the current context.

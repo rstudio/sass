@@ -153,7 +153,7 @@ sass <- function(
     cache <- NULL
   } else if (is.character(cache)) {
     # In case it's a directory name
-    cache <- sass_cache_get(cache)
+    cache <- sass_cache_get_dir(cache, create = TRUE)
   }
 
   if (!is.null(cache) && !inherits(cache, "FileCache")) {

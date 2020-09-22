@@ -5,13 +5,17 @@
 \alias{sass_cache_set_dir}
 \title{Get and set the cache object registered for a specific directory}
 \usage{
-sass_cache_get_dir(dir)
+sass_cache_get_dir(dir, create = FALSE)
 
 sass_cache_set_dir(dir, cache)
 }
 \arguments{
 \item{dir}{A directory. An error will be thrown if the directory does not
 exist.}
+
+\item{create}{If \code{TRUE}, then if the cache directory doesn't exist, or if
+there is not a registered cache object for the directory, create them as
+needed.}
 
 \item{cache}{A \code{\link[=sass_file_cache]{sass_file_cache()}} object, or \code{NULL} if you don't want to
 unset the cache for a directory.}

@@ -209,11 +209,39 @@ test_that("Cache directory getting/setting", {
   sass_cache_set_dir(cache_dir, NULL)
   expect_false(exists(cache_dir, envir = .caches))
 
-  # Calling sass_cache_get_dir() when it doesn't exist
+  # Calling sass_cache_get_dir() when it doesn't exist should error
   cache_dir <- tempfile("sass-cache-test-")
   expect_error(sass_cache_get_dir(cache_dir))
 
-  # Calling sass_cache_get_dir() when it's unset returns NULL
+  # Calling sass_cache_get_dir() when the dir exists but no cache object has
+  # been registered returns NULL
   dir.create(cache_dir)
   expect_null(sass_cache_get_dir(cache_dir))
+
+
+  # Calling sass_cache_get_dir() when the dir doesn't exist (and cache object
+  # isn't registered) with create=TRUE should create the dir and the cache
+  # object.
+  cache_dir <- tempfile("sass-cache-test-")
+  cache_obj <- sass_cache_get_dir(cache_dir, create = TRUE)
+  expect_true(dir.exists(cache_dir))
+  expect_true(inherits(cache_obj, "FileCache"))
+
+  # Calling sass_cache_get_dir() when the dir exists but cache object does not
+  # with create=TRUE should create the cache object.
+  cache_dir <- tempfile("sass-cache-test-")
+  dir.create(cache_dir)
+  cache_obj <- sass_cache_get_dir(cache_dir, create = TRUE)
+  expect_true(dir.exists(cache_dir))
+  expect_true(inherits(cache_obj, "FileCache"))
+})
+
+
+test_that("Can pass a cache directory to sass()", {
+  cache_dir <- tempfile()
+  sass("body {color: red; }", cache = cache_dir)
+
+  # Cache directory should have been created
+  cache_obj <- sass_cache_get_dir(cache_dir, create = FALSE)
+  expect_true(inherits(cache_obj, "FileCache"))
 })
