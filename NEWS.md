@@ -1,12 +1,12 @@
 # sass 0.2.0.9000
 
-This release improves the caching of CSS compilation in `sass()`. Previously, caching was (by default) enabled in non-`interactive()` sessions and was allowed to grow indefinitely within `tempdir()` (i.e., within an R session). Now, caching is (by default) always enabled in the user's cache directory (i.e., it persists across R session) and is automatically pruned when the cache size exceeds 40MB. The cache's directory and size limitations are configurable via the new `sass_file_cache()` (in addition, other pruning details such as the eviction policy are configurable via the lower-level `FileCache` R6 class). These cache objects can be either passed directly to a `sass()` call and/or set globally via the new `sass_cache_set()` function.
+This release improves the caching of CSS compilation in `sass()`. Previously, caching was (by default) enabled in non-`interactive()` sessions and was allowed to grow indefinitely within `tempdir()` (i.e., within an R session). Now, caching is enabled by default in both interactive and non-interactive R sessions. In most cases, the cache will be stored in a user-level cache directory and persist across R sessions. In some cases (such as deployment on Shiny Server or Connect), the cache will be stored in a subdirectory of the application named `cache/`, to eliminate the risk of cache poisoning across applications. For more information about where the cache is stored, see `?sass_cache_get`.
 
-Although caching is now enabled by default, it still may not be desirable for local `interactive()` use (because of a false-positive caching), so consider disabling it with `sass_cache_set(NULL)` during local development. Also, to help fight against false-positive caching, `sass()` now includes a `cache_key_extra` argument which may be used to capture information that the Sass `input` may not capture, such as file imports (for more, see the details section of `?sass`).
+Although caching is now enabled by default, it still may not be desirable while developing Sass code, because of the possibility of a false positive. (For more, see the Caching section of `?sass`) Caching can be disabled with `options(sass.cache = FALSE)`. Also, to help reduce the chance of a false positive in caching, `sass()` now includes a `cache_key_extra` parameter which may be used to pass information that the Sass `input` may not capture, such as file imports.
 
-Other improvements include: 
+Other improvements include:
 
-* A new `output_template()` function for more convenient `output` path creation that is `cache` and `options` aware. 
+* A new `output_template()` function for more convenient `output` path creation that is `cache` and `options` aware.
 
 * When `sass()` has a cache hit, and `output` is specified, the cached file is now simply copied to `output` at the OS level (previously, `sass()` was reading the cache file into R, then writing it to `output`). (#42)
 
@@ -25,7 +25,7 @@ Other improvements include:
 
 * The objects that `sass()` and `as_sass()`) return now have better print methods in **rmarkdown**. See [here](https://rstudio.github.io/sass/articles/sass.html#rmarkdown) for more details.
 
-* Added the ability for `sass()` to retain `htmltools::htmlDependency()`s attached to it's `input`.  
+* Added the ability for `sass()` to retain `htmltools::htmlDependency()`s attached to it's `input`.
 
 * Fixed an issue with incorrect handling of length 2 or more character vector input (#37).
 
