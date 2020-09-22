@@ -34,7 +34,7 @@ sass_cache_get_dir <- function(dir) {
   .caches[[dir]]
 }
 
-#' @rdname sass_cache_get
+#' @rdname sass_cache_get_dir
 #' @export
 sass_cache_set_dir <- function(dir, cache) {
   if (!is.null(cache) && !inherits(cache, "FileCache")) {

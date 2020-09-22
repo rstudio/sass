@@ -2,9 +2,12 @@
 % Please edit documentation in R/sass_cache.R
 \name{sass_cache_get_dir}
 \alias{sass_cache_get_dir}
+\alias{sass_cache_set_dir}
 \title{Get and set the cache object registered for a specific directory}
 \usage{
 sass_cache_get_dir(dir)
+
+sass_cache_set_dir(dir, cache)
 }
 \arguments{
 \item{dir}{A directory. An error will be thrown if the directory does not
