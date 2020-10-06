@@ -77,6 +77,12 @@ as_sass_.logical <- function(input) {
   }
 }
 
+as_sass_.sass_removable <- function(input) {
+  # remove the class and process again
+  class(input) <- setdiff(class(input), "sass_removable")
+  as_sass_(input)
+}
+
 as_sass_.list <- function(input) {
   input_names <- names(input)
 
