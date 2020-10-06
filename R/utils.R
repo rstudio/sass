@@ -109,3 +109,15 @@ dir.create2 <- function(path, ...) {
     stop("Error creating directory: ", path)
   }
 }
+
+# adds a class to the object (if possible) (if not already done)
+add_class <- function(x, class_val) {
+  if (is.null(x)) return(x)
+  if (inherits(x, class_val)) return(x)
+
+  class(x) <- c(class_val, class(x))
+  x
+}
+collapse0 <- function(..., collapse = "\n") {
+  paste0(..., collapse = collapse)
+}
