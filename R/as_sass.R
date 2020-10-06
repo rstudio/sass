@@ -134,7 +134,14 @@ as_sass_.list <- function(input) {
 
 as_sass_.sass_layer <- function(input) {
   # concatinate all sass layer content in order
-  as_sass_(list(input$defaults, input$declarations, input$rules))
+  collapse0(
+    c(
+      # only collect non-null values
+      if (!is.null(input$defaults)) as_sass_(input$defaults),
+      if (!is.null(input$declarations)) as_sass_(input$declarations),
+      if (!is.null(input$rules)) as_sass_(input$rules)
+    ) %||% ""
+  )
 }
 
 as_sass_.character <- function(input) {
