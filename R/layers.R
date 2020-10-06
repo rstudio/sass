@@ -88,8 +88,14 @@ sass_layer_merge <- function(...) {
 
 #' @rdname sass_layer
 #' @export
-sass_layer <- function(defaults = "", declarations = "", rules = "",
-  html_deps = NULL, file_attachments = character(0), tags = character(0)) {
+sass_layer <- function(
+  defaults = NULL,
+  declarations = NULL,
+  rules = NULL,
+  html_deps = NULL,
+  file_attachments = character(0),
+  tags = character(0)
+) {
 
   validate_attachments(file_attachments)
 
@@ -102,21 +108,32 @@ sass_layer <- function(defaults = "", declarations = "", rules = "",
   }
 
   layer <- list(
-    defaults = as_sass(defaults),
-    declarations = as_sass(declarations),
-    rules = as_sass(rules),
+    defaults = as_sass_layer_list(defaults),
+    declarations = as_sass_layer_list(declarations),
+    rules = as_sass_layer_list(rules),
     html_deps = html_deps,
     file_attachments = file_attachments,
     tags = tags
   )
-  structure(layer, class = "sass_layer")
+  add_class(layer, "sass_layer")
+}
+
+is_sass_removable <- function(x) {
+  inherits(x, "sass_removable")
+}
+sass_removable <- function(x) {
+  add_class(x, "sass_removable")
+}
+as_sass_layer_list <- function(x) {
+  add_class(x, "sass_layer_list")
+}
 }
 
 sass_layers_join <- function(layer1, layer2) {
   sass_layer(
-    defaults = as_sass(list(layer2$defaults, layer1$defaults)),
-    declarations = as_sass(list(layer1$declarations, layer2$declarations)),
-    rules = as_sass(list(layer1$rules, layer2$rules)),
+    defaults = c(layer2$defaults, layer1$defaults),
+    declarations = c(layer1$declarations, layer2$declarations),
+    rules = c(layer1$rules, layer2$rules),
     html_deps = c(layer1$html_deps, layer2$html_deps),
     file_attachments = join_attachments(layer1$file_attachments, layer2$file_attachments),
     tags = c(layer1$tags, layer2$tags)
