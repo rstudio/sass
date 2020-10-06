@@ -114,7 +114,7 @@ as_sass_.list <- function(input) {
     input_vals <- lapply(input, function(x) {
       as_sass_(x)
     })
-    compiled <- paste0(input_vals, collapse = "\n")
+    compiled <- collapse0(input_vals)
     return(compiled)
   }
 
@@ -129,10 +129,11 @@ as_sass_.list <- function(input) {
   input_values <- lapply(input, function(x) {
     as_sass_(x)
   })
-  paste0("$", input_names, ": ", input_values, ";", collapse = "\n")
+  collapse0("$", input_names, ": ", input_values, ";")
 }
 
 as_sass_.sass_layer <- function(input) {
+  # concatinate all sass layer content in order
   as_sass_(list(input$defaults, input$declarations, input$rules))
 }
 
