@@ -83,6 +83,27 @@ as_sass_.sass_removable <- function(input) {
   as_sass_(input)
 }
 
+as_sass_.sass_layer_list <- function(input) {
+  collapse0(Map(
+    names(input),
+    input,
+    f = function(name, val) {
+      if (is_sass_removable(val)) {
+        # process only the value
+        as_sass_(val)
+      } else {
+        if (identical(name, "")) {
+          # no name... process only the value
+          as_sass_(val)
+        } else {
+          # process as if it was a key/val list pair
+          as_sass_(list(name = val))
+        }
+      }
+    }
+  ))
+}
+
 as_sass_.list <- function(input) {
   input_names <- names(input)
 
