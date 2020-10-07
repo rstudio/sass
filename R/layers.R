@@ -119,6 +119,9 @@ sass_layer <- function(
 }
 
 as_sass_layer_list <- function(x) {
+  if (!is.null(x) && !is.list(x)) {
+    x <- as.list(x)
+  }
   add_class(x, "sass_layer_list")
 }
 
