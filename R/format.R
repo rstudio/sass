@@ -13,6 +13,11 @@ format.css <- function(x, ...) {
 format.sass <- function(x, ...) {
   as.character(x)
 }
+#' @export
+#' @noRd
+format.sass_layer <- function(x, ...) {
+  as.character(as_sass(x))
+}
 
 #' @export
 #' @noRd
@@ -23,6 +28,13 @@ print.css <- function(x, ...) {
 #' @noRd
 print.sass <- function(x, ...) {
   cat0("/* Sass */\n", format(x), "\n") # nolint
+}
+#' @export
+#' @noRd
+print.sass_layer <- function(x, ...) {
+  cat0("/* Sass Layer */\n", format(x), "\n/* *** */\n\n")
+  cat0("Other Sass Layer information:\n")
+  str(x[setdiff(names(x), c("defaults", "declarations", "rules"))])
 }
 
 
