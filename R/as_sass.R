@@ -85,7 +85,7 @@ as_sass_.sass_removable <- function(input) {
 
 as_sass_.sass_layer_list <- function(input) {
   collapse0(Map(
-    names(input),
+    rlang::names2(input),
     input,
     f = function(name, val) {
       if (is_sass_removable(val)) {
