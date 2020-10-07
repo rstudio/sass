@@ -32,9 +32,13 @@ print.sass <- function(x, ...) {
 #' @export
 #' @noRd
 print.sass_layer <- function(x, ...) {
-  cat0("/* Sass Layer */\n", format(x), "\n/* *** */\n\n")
-  cat0("Other Sass Layer information:\n")
-  str(x[setdiff(names(x), c("defaults", "declarations", "rules"))])
+  cat0("/* Sass Layer */\n", format(x), "\n/* *** */\n")
+
+  x_other <- x[setdiff(names(x), c("defaults", "declarations", "rules"))]
+  if (length(unlist(x_other)) > 0) {
+    cat0("\nOther Sass Layer information:\n")
+    str(x_other)
+  }
 }
 
 
