@@ -97,7 +97,9 @@ as_sass_.sass_layer_list <- function(input) {
           as_sass_(val)
         } else {
           # process as if it was a key/val list pair
-          as_sass_(list(name = val))
+          keyval <- list()
+          keyval[[name]] <- val
+          as_sass_(keyval)
         }
       }
     }
