@@ -119,6 +119,9 @@ sass_layer <- function(
 }
 
 as_sass_layer_list <- function(x) {
+  if (inherits(x, "sass_removable")) {
+    stop("A single removable layer item must be nested in a named list to be removable")
+  }
   if (!is.null(x) && !is.list(x)) {
     x <- as.list(x)
   }
