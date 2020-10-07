@@ -8,9 +8,9 @@
 sass_layer_merge(...)
 
 sass_layer(
-  defaults = "",
-  declarations = "",
-  rules = "",
+  defaults = NULL,
+  declarations = NULL,
+  rules = NULL,
   html_deps = NULL,
   file_attachments = character(0),
   tags = character(0)
