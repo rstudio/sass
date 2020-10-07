@@ -118,15 +118,70 @@ sass_layer <- function(
   add_class(layer, "sass_layer")
 }
 
-is_sass_removable <- function(x) {
-  inherits(x, "sass_removable")
-}
-sass_removable <- function(x) {
-  add_class(x, "sass_removable")
-}
 as_sass_layer_list <- function(x) {
   add_class(x, "sass_layer_list")
 }
+
+#' Remove Sass layer rule
+#'
+#' @param layer Output from [sass_layer()]
+#' @param rule Layer rule name to remove
+#' @param x Value to add or check for a `"sass_removable"` class
+#' @rdname sass_removable
+#' @export
+is_sass_removable <- function(x) {
+  inherits(x, "sass_removable")
+}
+#' @rdname sass_removable
+#' @export
+sass_removable <- function(x) {
+  add_class(x, "sass_removable")
+}
+#' @rdname sass_removable
+#' @export
+#' @examples
+#' # set up a base blue color
+#' blue <- list(color = "blue !default")
+#'
+#' # make a layer that has a custom red rule
+#' core <- sass_layer(
+#'   defaults = blue,
+#'   rules = list(
+#'     custom = sass_removable(
+#'       # any R sass definitions can be nested under the `custom` key
+#'       "body > custom { color: $color; }"
+#'     ),
+#'     "body { color: $color; }"
+#'   )
+#' )
+#' # contains custom css
+#' sass(core)
+#'
+#' core_slim <- sass_layer_remove_rule(core, "custom")
+#' # does NOT contain custom css
+#' sass(core_slim)
+sass_layer_remove_rule <- function(layer, rule) {
+  type <- "rules"
+  key <- rule
+  type_vals <- layer[[type]]
+  if (! (key %in% names(type_vals))) {
+    # key not found
+    return(layer)
+  }
+  key_val <- type_vals[[key]]
+  if (is.null(key_val)) {
+    # remove the key/NULL pair
+    type_vals[[key]] <- NULL
+  } else {
+    if (is_sass_removable(key_val)) {
+      # remove the removable key/val pair
+      type_vals[[key]] <- NULL
+    } else {
+      stop("Not allowed to remove ", type, " key: '", key, "'")
+    }
+  }
+  layer[[type]] <- type_vals
+  layer
 }
 
 sass_layers_join <- function(layer1, layer2) {
