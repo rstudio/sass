@@ -21,6 +21,48 @@ test_that("sass_layer is equivalent to sass", {
   )
 })
 
+test_that("sass layer format", {
+  expect_equal(
+    format(core),
+    collapse0(c(
+      "$color: blue !default;",
+      "@function my_invert($color, $amount: 100%) {",
+      "    $inverse: change-color($color, $hue: hue($color) + 180);",
+      "    @return mix($inverse, $color, $amount);",
+      "  }",
+      "body { background-color: $color; color: my_invert($color); }"
+    ))
+  )
+  expect_equal(
+    capture.output(print(core)),
+    c(
+      "/* Sass Layer */",
+      "$color: blue !default;",
+      "@function my_invert($color, $amount: 100%) {",
+      "    $inverse: change-color($color, $hue: hue($color) + 180);",
+      "    @return mix($inverse, $color, $amount);",
+      "  }",
+      "body { background-color: $color; color: my_invert($color); }",
+      "/* *** */"
+    )
+  )
+
+  layer1 <- sass_layer(
+    file_attachments = c(
+      file.path(assets, "a.txt")
+    ),
+    tags = c("tag1", "tag2")
+  )
+
+  core_extra <- sass_layer_merge(core, layer1)
+  expect_output(
+    print(core_extra),
+    "Other Sass Layer information:"
+  )
+
+
+})
+
 test_that("sass_layer_merge() works as intended", {
   red_layer <- sass_layer(red, rules = ":root{ --color: #{$color}; }")
   expect_equivalent(

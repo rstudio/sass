@@ -37,7 +37,7 @@ print.sass_layer <- function(x, ...) {
   x_other <- x[setdiff(names(x), c("defaults", "declarations", "rules"))]
   if (length(unlist(x_other)) > 0) {
     cat0("\nOther Sass Layer information:\n")
-    str(x_other)
+    utils::str(x_other)
   }
 }
 
