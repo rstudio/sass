@@ -78,20 +78,25 @@ as_sass_.logical <- function(input) {
 }
 
 as_sass_.sass_removable <- function(input) {
-  # remove the class and process again
-  class(input) <- setdiff(class(input), "sass_removable")
-  as_sass_(input)
+  stop("`sass_removeable()` objects are only allowed in `sass_layer(rules)`")
 }
 
 as_sass_.sass_layer_list <- function(input) {
+  allow_removable <- inherits(input, "sass_layer_list_removable")
   collapse0(Map(
     rlang::names2(input),
     input,
     f = function(name, val) {
       if (is_sass_removable(val)) {
-        # process only the value
+        # if the class is not removed, as_sass.sass_removable(val) will throw an error
+        if (allow_removable) {
+          # process only the value
+          class(val) <- setdiff(class(val), "sass_removable")
+        }
         as_sass_(val)
+
       } else {
+
         if (identical(name, "")) {
           # no name... process only the value
           as_sass_(val)
