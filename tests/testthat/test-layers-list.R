@@ -66,8 +66,23 @@ test_that("as_sass_layer_list() produces a list", {
       green
     )
   )
-  expect_equivalent(
+  expect_error(
     as_sass_layer_list(items),
-    sll_(items)
+    "Found removable item names: body"
+  )
+  expect_error(
+    as_sass_layer_list(items, allow_removable = TRUE),
+    "Unexpected names: color, color"
+  )
+
+  items <- list(
+    blue,
+    red,
+    body = sass_removable(body_rule),
+    green
+  )
+  expect_equivalent(
+    as_sass_layer_list(items, allow_removable = TRUE),
+    add_class(add_class(items, "sass_layer_list"), "sass_layer_list_removable")
   )
 })

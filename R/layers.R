@@ -144,7 +144,7 @@ as_sass_layer_list <- function(x, allow_removable = FALSE, name = NULL) {
     } else {
       # variable names are allowed, no removable items allowed
       if (any(item_is_removable)) {
-        stop("sass_layer(", name, ") does not allow for `sass_removable()` items. Found removable item names: ", paset0(x_names[item_is_removable], collapse = ", "))
+        stop("sass_layer(", name, ") does not allow for `sass_removable()` items. Found removable item names: ", paste0(x_names[item_is_removable], collapse = ", "))
       }
     }
   }
