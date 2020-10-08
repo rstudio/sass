@@ -31,9 +31,10 @@ reference:
   description: |
     Tools for generating Sass code from R
   contents:
+    - as_sass
     - sass_file
     - sass_layer
-    - as_sass
+    - is_sass_removable
 - title: Caching
   description: |
     Functions related to caching sass output
