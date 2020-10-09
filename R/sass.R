@@ -238,6 +238,52 @@ sass <- function(
   css
 }
 
+
+#' Set the rules for a `sass_layer` object
+#'
+#' Replaces the rules for a [sass_layer()] object with new rules, and compile it.
+#' This is useful when (for example) you want to compile a set of rules using
+#' variables derived from a theme, but you do not want the resulting CSS for the
+#' entire theme -- just the CSS for the specific rules passed in.
+#'
+#' @param rules A set of sass rules, which will be used instead of the rules
+#'   from `layer`.
+#' @param layer A [sass_layer()] object.
+#' @inheritParams sass
+#'
+#' @examples
+#' theme <- sass_layer(
+#'   defaults = sass_file(system.file("examples/variables.scss", package = "sass")),
+#'   rules = sass_file(system.file("examples/rules.scss", package = "sass"))
+#' )
+#'
+#' # Compile the theme
+#' sass(theme)
+#'
+#' # Sometimes we want to use the variables from the theme to compile other sass
+#' my_rules <- ".someclass { background-color: $bg; color: $fg; }"
+#' sass_partial(my_rules, theme)
+#'
+#' @export
+sass_partial <- function(
+  rules,
+  layer,
+  options = sass_options(),
+  output = NULL,
+  write_attachments = NA,
+  cache = sass_cache_get(),
+  cache_key_extra = NULL)
+{
+  if (!(is_sass_layer(layer))) {
+    stop("`layer` must be a sass_layer object.", call. = FALSE)
+  }
+
+  rules <- as_sass(rules)
+  layer$rules <- rules
+  sass(layer, options, output, write_attachments, cache, cache_key_extra)
+}
+
+
 #' An intelligent (temporary) output file
 #'
 #' Intended for use with [sass()]'s `output` argument for temporary file
