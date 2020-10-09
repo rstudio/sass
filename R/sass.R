@@ -47,9 +47,9 @@
 #'   To clear the default cache, call `sass_cache_get()$reset()`.
 #'
 #'
-#' @param input Accepts raw Sass, a named list of variables, or a list of raw
-#'   Sass and/or named variables. See [as_sass()] and [sass_import()] /
-#'   [sass_file()] for more details.
+#' @param input Accepts raw Sass, a named list of variables, a list of raw Sass
+#'   and/or named variables, or a [sass_layer()] object. See [as_sass()] and
+#'   [sass_import()] / [sass_file()] for more details.
 #' @param options Compiler options for Sass. Please specify options using
 #'   [sass_options()].
 #' @param output Specifies path to output file for compiled CSS. May be a
@@ -76,16 +76,20 @@
 #' @seealso <http://sass-lang.com/guide>
 #' @export
 #' @examples
-#' # raw Sass input
+#' # Raw Sass input
 #' sass("foo { margin: 122px * .3; }")
 #'
-#' # list of inputs, including named variables
+#' # List of inputs, including named variables
 #' sass(list(
 #'   list(width = "122px"),
 #'   "foo { margin: $width * .3; }"
 #' ))
 #'
-#' # import a file
+#' # Compile a .scss file
+#' example_file <- system.file("examples/example-full.scss", package = "sass")
+#' sass(sass_file(example_file))
+#'
+#' # Import a file
 #' tmp_file <- tempfile()
 #' writeLines("foo { margin: $width * .3; }", tmp_file)
 #' sass(list(

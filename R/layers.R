@@ -245,3 +245,38 @@ is_sass_layer <- function(x) {
 dropNulls <- function(x) {
   x[!vapply(x, is.null, FUN.VALUE=logical(1))]
 }
+
+
+#' Set the rules for a `sass_layer` object
+#'
+#' Replaces the rules for a [sass_layer()] object with new rules. This is useful
+#' when (for example) you want to compile a set of rules using variables derived
+#' from a theme, but you do not want the resulting CSS for the entire theme --
+#' just the CSS for the specific rules passed in.
+#'
+#' @param layer A [sass_layer()] object.
+#' @params rules A set of sass rules.
+#'
+#' @examples
+#' theme <- sass_layer(
+#'   defaults = sass_file(system.file("examples/variables.scss", package = "sass")),
+#'   rules = sass_file(system.file("examples/rules.scss", package = "sass"))
+#' )
+#'
+#' # Compile the theme
+#' sass(theme)
+#'
+#' # Sometimes we want to use the variables from the theme to compile other sass
+#' my_rules <- ".someclass { background-color: $bg; color: $fg; }"
+#' sass(sass_set_rules(theme, my_rules))
+#'
+#' @export
+sass_set_rules <- function(layer, rules) {
+  if (!(is_sass_layer(layer))) {
+    stop("`layer` must be a sass_layer object.", call. = FALSE)
+  }
+
+  rules <- as_sass(rules)
+  layer$rules <- rules
+  layer
+}
