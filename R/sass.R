@@ -274,7 +274,7 @@ sass_partial <- function(
   cache = sass_cache_get(),
   cache_key_extra = NULL)
 {
-  if (!(is_sass_layer(layer))) {
+  if (!is_sass_layer(layer)) {
     stop("`layer` must be a sass_layer object.", call. = FALSE)
   }
 
