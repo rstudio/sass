@@ -14,9 +14,9 @@ sass(
 )
 }
 \arguments{
-\item{input}{Accepts raw Sass, a named list of variables, or a list of raw
-Sass and/or named variables. See \code{\link[=as_sass]{as_sass()}} and \code{\link[=sass_import]{sass_import()}} /
-\code{\link[=sass_file]{sass_file()}} for more details.}
+\item{input}{Accepts raw Sass, a named list of variables, a list of raw Sass
+and/or named variables, or a \code{\link[=sass_layer]{sass_layer()}} object. See \code{\link[=as_sass]{as_sass()}} and
+\code{\link[=sass_import]{sass_import()}} / \code{\link[=sass_file]{sass_file()}} for more details.}
 
 \item{options}{Compiler options for Sass. Please specify options using
 \code{\link[=sass_options]{sass_options()}}.}
@@ -96,16 +96,20 @@ To clear the default cache, call \code{sass_cache_get()$reset()}.
 }
 
 \examples{
-# raw Sass input
+# Raw Sass input
 sass("foo { margin: 122px * .3; }")
 
-# list of inputs, including named variables
+# List of inputs, including named variables
 sass(list(
   list(width = "122px"),
   "foo { margin: $width * .3; }"
 ))
 
-# import a file
+# Compile a .scss file
+example_file <- system.file("examples/example-full.scss", package = "sass")
+sass(sass_file(example_file))
+
+# Import a file
 tmp_file <- tempfile()
 writeLines("foo { margin: $width * .3; }", tmp_file)
 sass(list(
