@@ -122,9 +122,17 @@ sass_layer <- function(
 #' @param name Sass layer name to use inside the Sass layers object
 #' @export
 as_sass_layers <- function(x, name = "") {
-  if (is_sass_layers(x)) return(x)
-
   stopifnot(is.character(name) && length(name) == 1)
+
+  if (is_sass_layers(x)) {
+    # if there is nothing special about the name, return
+    if (identical(name, "")) {
+      return(x)
+    }
+
+    # convert to a single sass layer so the overall name can be used
+    x <- as_sass_layer(x)
+  }
 
   if (is.list(x) && all(vapply(x, is_sass_layer, logical(1)))) {
     # list of sass_layer vals
