@@ -12,6 +12,8 @@ Other improvements include:
 
 * When `sass()` has a cache hit, and `output` is specified, the cached file is now simply copied to `output` at the OS level (previously, `sass()` was reading the cache file into R, then writing it to `output`). (#42)
 
+* Add `sass_layers()` function which will combine Sass layer and Sass layers objects. Combining with `sass_layers_remove()`, Sass layers can be removed by name. (#54)
+
 ## Breaking changes
 
 * When `output` is specified, `sass()` now returns the output file path instead of the CSS content as a character vector.
@@ -20,6 +22,7 @@ Other improvements include:
 
 * `sass_cache_options()` has been deprecated (it no longer does anything) in favor of the new caching functions (`sass_file_cache()`).
 
+* Rename `sass_layer_merge()` to `sass_layers()` to reflect the data structures being returned. (#54)
 
 # sass 0.2.0
 
