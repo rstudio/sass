@@ -1,5 +1,8 @@
 context("layers")
 
+# Disable sass cache
+local_disable_cache()
+
 body_rule <- "body { background-color: $color; color: my_invert($color); }"
 
 blue <- list(color = "blue !default")

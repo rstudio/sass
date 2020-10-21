@@ -1,5 +1,8 @@
 context("layers")
 
+# Disable sass cache
+local_disable_cache()
+
 assets <- normalizePath(testthat::test_path("test-assets"), mustWork = TRUE)
 
 blue <- list(color = "blue !default")
@@ -54,21 +57,45 @@ test_that("sass layer format", {
     tags = c("tag1", "tag2")
   )
 
-  core_extra <- sass_layer_merge(core, layer1)
+  core_extra <- sass_layers(core, layer1)
   expect_output(
     print(core_extra),
-    "Other Sass Layer information:"
+    "Other Sass Layers information:"
   )
-
-
 })
 
-test_that("sass_layer_merge() works as intended", {
+test_that("sass_layers() works as intended", {
   red_layer <- sass_layer(red, rules = ":root{ --color: #{$color}; }")
   expect_equivalent(
     sass(list(red, core, ":root{ --color: #{$color}; }")),
-    sass(sass_layer_merge(core, red_layer))
+    sass(sass_layers(core, red_layer))
   )
+})
+
+test_that("sass_layers_remove() will remove all layers", {
+
+  obj <-
+    sass_layers(
+      sass_layers(core, red = ":root{ --color: #{$color}; }"),
+      green = sass_layer(green)
+    )
+
+  obj_slim <- sass_layers_remove(obj, "red")
+  expected <- sass_layers(core, green = sass_layer(green))
+
+  expect_identical(obj_slim, expected)
+
+  expect_equal(
+    names(obj$layers),
+    c("", "red", "green")
+  )
+  expect_equal(
+    names(expected$layers),
+    c("", "green")
+  )
+
+  expect_true(is_sass_layers(obj_slim))
+  expect_true(is_sass_layers(expected))
 })
 
 test_that("additional merging features", {
@@ -86,7 +113,7 @@ test_that("additional merging features", {
     tags = c("tag3")
   )
 
-  layer_merged <- sass_layer_merge(layer1, layer2)
+  layer_merged <- as_sass_layer(sass_layers(layer1, layer2))
   expect_identical(
     layer_merged$file_attachments,
     c(
