@@ -49,3 +49,15 @@ test_that("sass compiles", {
     expected
   )
 })
+
+
+test_that("sass_partial() and sass() arguments match", {
+  s <- formals(sass)
+  s$input <- NULL
+
+  sp <- formals(sass_partial)
+  sp$rules <- NULL
+  sp$layer <- NULL
+
+  expect_identical(s, sp)
+})

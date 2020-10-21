@@ -47,9 +47,9 @@
 #'   To clear the default cache, call `sass_cache_get()$reset()`.
 #'
 #'
-#' @param input Accepts raw Sass, a named list of variables, or a list of raw
-#'   Sass and/or named variables. See [as_sass()] and [sass_import()] /
-#'   [sass_file()] for more details.
+#' @param input Accepts raw Sass, a named list of variables, a list of raw Sass
+#'   and/or named variables, or a [sass_layer()] object. See [as_sass()] and
+#'   [sass_import()] / [sass_file()] for more details.
 #' @param options Compiler options for Sass. Please specify options using
 #'   [sass_options()].
 #' @param output Specifies path to output file for compiled CSS. May be a
@@ -76,16 +76,20 @@
 #' @seealso <http://sass-lang.com/guide>
 #' @export
 #' @examples
-#' # raw Sass input
+#' # Raw Sass input
 #' sass("foo { margin: 122px * .3; }")
 #'
-#' # list of inputs, including named variables
+#' # List of inputs, including named variables
 #' sass(list(
 #'   list(width = "122px"),
 #'   "foo { margin: $width * .3; }"
 #' ))
 #'
-#' # import a file
+#' # Compile a .scss file
+#' example_file <- system.file("examples/example-full.scss", package = "sass")
+#' sass(sass_file(example_file))
+#'
+#' # Import a file
 #' tmp_file <- tempfile()
 #' writeLines("foo { margin: $width * .3; }", tmp_file)
 #' sass(list(
@@ -237,6 +241,52 @@ sass <- function(
 
   css
 }
+
+
+#' Set the rules for a `sass_layer` object
+#'
+#' Replaces the rules for a [sass_layer()] object with new rules, and compile it.
+#' This is useful when (for example) you want to compile a set of rules using
+#' variables derived from a theme, but you do not want the resulting CSS for the
+#' entire theme -- just the CSS for the specific rules passed in.
+#'
+#' @param rules A set of sass rules, which will be used instead of the rules
+#'   from `layer`.
+#' @param layer A [sass_layer()] object.
+#' @inheritParams sass
+#'
+#' @examples
+#' theme <- sass_layer(
+#'   defaults = sass_file(system.file("examples/variables.scss", package = "sass")),
+#'   rules = sass_file(system.file("examples/rules.scss", package = "sass"))
+#' )
+#'
+#' # Compile the theme
+#' sass(theme)
+#'
+#' # Sometimes we want to use the variables from the theme to compile other sass
+#' my_rules <- ".someclass { background-color: $bg; color: $fg; }"
+#' sass_partial(my_rules, theme)
+#'
+#' @export
+sass_partial <- function(
+  rules,
+  layer,
+  options = sass_options(),
+  output = NULL,
+  write_attachments = NA,
+  cache = sass_cache_get(),
+  cache_key_extra = NULL)
+{
+  if (!is_sass_layer(layer)) {
+    stop("`layer` must be a sass_layer object.", call. = FALSE)
+  }
+
+  rules <- as_sass(rules)
+  layer$rules <- rules
+  sass(layer, options, output, write_attachments, cache, cache_key_extra)
+}
+
 
 #' An intelligent (temporary) output file
 #'
