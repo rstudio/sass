@@ -87,7 +87,7 @@ Create a file cache object" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9004</span>
       </span>
     </div>
 
@@ -252,15 +252,15 @@ already been deleted.</p>
 <p><hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
 <p>Create a FileCache object.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>FileCache</span><span class='op'>$</span><span class='fu'>new</span>(
-  dir = <span class='kw'>NULL</span>,
-  max_size = <span class='fl'>40</span> <span class='op'>*</span> <span class='fl'>1024</span><span class='op'>^</span><span class='fl'>2</span>,
-  max_age = <span class='fl'>Inf</span>,
-  max_n = <span class='fl'>Inf</span>,
-  evict = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lru"</span>, <span class='st'>"fifo"</span>),
-  destroy_on_finalize = <span class='fl'>FALSE</span>,
-  logfile = <span class='kw'>NULL</span>
-)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>FileCache</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>
+  dir <span class='op'>=</span> <span class='cn'>NULL</span>,
+  max_size <span class='op'>=</span> <span class='fl'>40</span> <span class='op'>*</span> <span class='fl'>1024</span><span class='op'>^</span><span class='fl'>2</span>,
+  max_age <span class='op'>=</span> <span class='cn'>Inf</span>,
+  max_n <span class='op'>=</span> <span class='cn'>Inf</span>,
+  evict <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"lru"</span>, <span class='st'>"fifo"</span><span class='op'>)</span>,
+  destroy_on_finalize <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  logfile <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -294,7 +294,7 @@ information will be written. To log to the console, use <code><a href='https://r
 <a id="method-get_file"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>get_file()</code></h3>
 <p>Get the content associated with <code>key</code>, and save in a file
 named <code>outfile</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>FileCache</span><span class='op'>$</span><span class='fu'>get_file</span>(<span class='kw'>key</span>, <span class='kw'>outfile</span>, overwrite = <span class='fl'>TRUE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>FileCache</span><span class='op'>$</span><span class='fu'>get_file</span><span class='op'>(</span><span class='va'>key</span>, <span class='va'>outfile</span>, overwrite <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -313,7 +313,7 @@ overwritten?</p></dd>
 <a id="method-get_content"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>get_content()</code></h3>
 <p>Get the content associated with <code>key</code>, and return as either
 string or a raw vector.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>FileCache</span><span class='op'>$</span><span class='fu'>get_content</span>(<span class='kw'>key</span>, mode = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"text"</span>, <span class='st'>"raw"</span>))</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>FileCache</span><span class='op'>$</span><span class='fu'>get_content</span><span class='op'>(</span><span class='va'>key</span>, mode <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"text"</span>, <span class='st'>"raw"</span><span class='op'>)</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -331,7 +331,7 @@ raw vector.</p></dd>
 <a id="method-set_file"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>set_file()</code></h3>
 <p>Sets content associated with <code>key</code>, from a file named
 <code>infile</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>FileCache</span><span class='op'>$</span><span class='fu'>set_file</span>(<span class='kw'>key</span>, <span class='kw'>infile</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>FileCache</span><span class='op'>$</span><span class='fu'>set_file</span><span class='op'>(</span><span class='va'>key</span>, <span class='va'>infile</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -347,7 +347,7 @@ otherwise.</p>
 <a id="method-set_content"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>set_content()</code></h3>
 <p>Sets content associated with <code>key</code>, from a single-element
 vector.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>FileCache</span><span class='op'>$</span><span class='fu'>set_content</span>(<span class='kw'>key</span>, <span class='kw'>content</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>FileCache</span><span class='op'>$</span><span class='fu'>set_content</span><span class='op'>(</span><span class='va'>key</span>, <span class='va'>content</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -364,7 +364,7 @@ otherwise.</p>
 <p><hr>
 <a id="method-exists"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/exists.html'>exists()</a></code></h3>
 <p>Check if content associated with <code>key</code> exists in cache</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>FileCache</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/exists.html'>exists</a></span>(<span class='kw'>key</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>FileCache</span><span class='op'>$</span><span class='fu'>exists</span><span class='op'>(</span><span class='va'>key</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -376,14 +376,14 @@ otherwise.</p>
 <p><hr>
 <a id="method-keys"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>keys()</code></h3>
 <p>Get all keys</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>FileCache</span><span class='op'>$</span><span class='fu'>keys</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>FileCache</span><span class='op'>$</span><span class='fu'>keys</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>A character vector of all keys currently in the cache.</p>
 <p><hr>
 <a id="method-remove"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/rm.html'>remove()</a></code></h3>
 <p>Remove an object</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>FileCache</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/rm.html'>remove</a></span>(<span class='kw'>key</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>FileCache</span><span class='op'>$</span><span class='fu'>remove</span><span class='op'>(</span><span class='va'>key</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -396,34 +396,34 @@ otherwise.</p>
 <p><hr>
 <a id="method-reset"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>reset()</code></h3>
 <p>Clear all objects from the cache.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>FileCache</span><span class='op'>$</span><span class='fu'>reset</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>FileCache</span><span class='op'>$</span><span class='fu'>reset</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-dir"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/list.files.html'>dir()</a></code></h3>
 <p>Returns the directory used for the cache.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>FileCache</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>FileCache</span><span class='op'>$</span><span class='fu'>dir</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-prune"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>prune()</code></h3>
 <p>Prune the cache, using the parameters specified by
 <code>max_size</code>,   <code>max_age</code>, <code>max_n</code>, and <code>evict</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>FileCache</span><span class='op'>$</span><span class='fu'>prune</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>FileCache</span><span class='op'>$</span><span class='fu'>prune</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-size"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>size()</code></h3>
 <p>Return the number of items currently in the cache.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>FileCache</span><span class='op'>$</span><span class='fu'>size</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>FileCache</span><span class='op'>$</span><span class='fu'>size</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-destroy"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>destroy()</code></h3>
 <p>Clears all objects in the cache, and removes the cache
 directory from disk.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>FileCache</span><span class='op'>$</span><span class='fu'>destroy</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>FileCache</span><span class='op'>$</span><span class='fu'>destroy</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-is_destroyed"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>is_destroyed()</code></h3>
 <p>Reports whether the cache has been destroyed.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>FileCache</span><span class='op'>$</span><span class='fu'>is_destroyed</span>(throw = <span class='fl'>FALSE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>FileCache</span><span class='op'>$</span><span class='fu'>is_destroyed</span><span class='op'>(</span>throw <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
@@ -434,12 +434,12 @@ destroyed?</p></dd>
 <p><hr>
 <a id="method-finalize"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>finalize()</code></h3>
 <p>A finalizer for the cache.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>FileCache</span><span class='op'>$</span><span class='fu'>finalize</span>()</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>FileCache</span><span class='op'>$</span><span class='fu'>finalize</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='kw'>FileCache</span><span class='op'>$</span><span class='fu'>clone</span>(deep = <span class='fl'>FALSE</span>)</pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>FileCache</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>

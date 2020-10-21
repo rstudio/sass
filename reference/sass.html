@@ -86,7 +86,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9004</span>
       </span>
     </div>
 
@@ -137,23 +137,23 @@
     <p>Compile Sass to CSS using LibSass.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sass</span>(
-  input = <span class='kw'>NULL</span>,
-  options = <span class='fu'><a href='sass_options.html'>sass_options</a></span>(),
-  output = <span class='kw'>NULL</span>,
-  write_attachments = <span class='fl'>NA</span>,
-  cache = <span class='fu'><a href='sass_cache_get.html'>sass_cache_get</a></span>(),
-  cache_key_extra = <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>sass</span><span class='op'>(</span>
+  input <span class='op'>=</span> <span class='cn'>NULL</span>,
+  options <span class='op'>=</span> <span class='fu'><a href='sass_options.html'>sass_options</a></span><span class='op'>(</span><span class='op'>)</span>,
+  output <span class='op'>=</span> <span class='cn'>NULL</span>,
+  write_attachments <span class='op'>=</span> <span class='cn'>NA</span>,
+  cache <span class='op'>=</span> <span class='fu'><a href='sass_cache_get.html'>sass_cache_get</a></span><span class='op'>(</span><span class='op'>)</span>,
+  cache_key_extra <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>input</th>
-      <td><p>Accepts raw Sass, a named list of variables, or a list of raw
-Sass and/or named variables. See <code><a href='as_sass.html'>as_sass()</a></code> and <code><a href='sass_import.html'>sass_import()</a></code> /
-<code><a href='sass_import.html'>sass_file()</a></code> for more details.</p></td>
+      <td><p>Accepts raw Sass, a named list of variables, a list of raw Sass
+and/or named variables, or a <code><a href='sass_layer.html'>sass_layer()</a></code> object. See <code><a href='as_sass.html'>as_sass()</a></code> and
+<code><a href='sass_import.html'>sass_import()</a></code> / <code><a href='sass_import.html'>sass_file()</a></code> for more details.</p></td>
     </tr>
     <tr>
       <th>options</th>
@@ -241,30 +241,40 @@ cache is one week. Older objects will be evicted from the cache.</p>
     <div class='dont-index'><p><a href='http://sass-lang.com/guide'>http://sass-lang.com/guide</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># raw Sass input</span>
-<span class='fu'>sass</span>(<span class='st'>"foo { margin: 122px * .3; }"</span>)
+    <pre class="examples"><div class='input'><span class='co'># Raw Sass input</span>
+<span class='fu'>sass</span><span class='op'>(</span><span class='st'>"foo { margin: 122px * .3; }"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; /* CSS */
 #&gt; foo {
 #&gt;   margin: 36.6px;
 #&gt; }
 #&gt; </div><div class='input'>
-<span class='co'># list of inputs, including named variables</span>
-<span class='fu'>sass</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(width = <span class='st'>"122px"</span>),
+<span class='co'># List of inputs, including named variables</span>
+<span class='fu'>sass</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>width <span class='op'>=</span> <span class='st'>"122px"</span><span class='op'>)</span>,
   <span class='st'>"foo { margin: $width * .3; }"</span>
-))
+<span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; /* CSS */
 #&gt; foo {
 #&gt;   margin: 36.6px;
 #&gt; }
 #&gt; </div><div class='input'>
-<span class='co'># import a file</span>
-<span class='kw'>tmp_file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>()
-<span class='fu'><a href='https://rdrr.io/r/base/writeLines.html'>writeLines</a></span>(<span class='st'>"foo { margin: $width * .3; }"</span>, <span class='kw'>tmp_file</span>)
-<span class='fu'>sass</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(width = <span class='st'>"122px"</span>),
-  <span class='fu'><a href='sass_import.html'>sass_file</a></span>(<span class='kw'>tmp_file</span>)
-))
+<span class='co'># Compile a .scss file</span>
+<span class='va'>example_file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"examples/example-full.scss"</span>, package <span class='op'>=</span> <span class='st'>"sass"</span><span class='op'>)</span>
+<span class='fu'>sass</span><span class='op'>(</span><span class='fu'><a href='sass_import.html'>sass_file</a></span><span class='op'>(</span><span class='va'>example_file</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; /* CSS */
+#&gt; body {
+#&gt;   background-color: #333;
+#&gt;   color: white;
+#&gt;   font-size: 16px;
+#&gt; }
+#&gt; </div><div class='input'>
+<span class='co'># Import a file</span>
+<span class='va'>tmp_file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/writeLines.html'>writeLines</a></span><span class='op'>(</span><span class='st'>"foo { margin: $width * .3; }"</span>, <span class='va'>tmp_file</span><span class='op'>)</span>
+<span class='fu'>sass</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>width <span class='op'>=</span> <span class='st'>"122px"</span><span class='op'>)</span>,
+  <span class='fu'><a href='sass_import.html'>sass_file</a></span><span class='op'>(</span><span class='va'>tmp_file</span><span class='op'>)</span>
+<span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; /* CSS */
 #&gt; foo {
 #&gt;   margin: 36.6px;
@@ -274,7 +284,7 @@ cache is one week. Older objects will be evicted from the cache.</p>
 <span class='co'># Caching examples</span>
 <span class='co'># ======================</span>
 <span class='co'># Very slow to compile</span>
-<span class='kw'>fib_sass</span> <span class='op'>&lt;-</span> <span class='st'>"@function fib($x) {
+<span class='va'>fib_sass</span> <span class='op'>&lt;-</span> <span class='st'>"@function fib($x) {
   @if $x &lt;= 1 {
     @return $x
   }
@@ -286,32 +296,32 @@ body {
 }"</span>
 
 <span class='co'># The first time this runs it will be very slow</span>
-<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'>sass</span>(<span class='kw'>fib_sass</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='fu'>sass</span><span class='op'>(</span><span class='va'>fib_sass</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   3.204   0.028   3.251 </div><div class='input'>
+#&gt;   2.597   0.007   2.655 </div><div class='input'>
 <span class='co'># But on subsequent calls, it should be very fast</span>
-<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'>sass</span>(<span class='kw'>fib_sass</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='fu'>sass</span><span class='op'>(</span><span class='va'>fib_sass</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.001   0.001   0.002 </div><div class='input'>
+#&gt;   0.001   0.000   0.002 </div><div class='input'>
 <span class='co'># sass() can be called with cache=NULL; it will be slow</span>
-<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'>sass</span>(<span class='kw'>fib_sass</span>, cache = <span class='kw'>NULL</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='fu'>sass</span><span class='op'>(</span><span class='va'>fib_sass</span>, cache <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   3.315   0.018   3.355 </div><div class='input'>
+#&gt;   2.562   0.006   2.603 </div><div class='input'>
 <span class='co'># Clear the cache</span>
-<span class='fu'><a href='sass_cache_get.html'>sass_cache_get</a></span>()<span class='op'>$</span><span class='fu'>reset</span>()
+<span class='fu'><a href='sass_cache_get.html'>sass_cache_get</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>reset</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># Example of disabling cache by setting the default cache to NULL.</span>
 
 <span class='co'># Disable the default cache (save the original one first, so we can restore)</span>
-<span class='kw'>old_cache</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sass_cache_get.html'>sass_cache_get</a></span>()
-<span class='fu'>sass_cache_set</span>(<span class='kw'>NULL</span>)
+<span class='va'>old_cache</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sass_cache_get.html'>sass_cache_get</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'>sass_cache_set</span><span class='op'>(</span><span class='cn'>NULL</span><span class='op'>)</span>
 <span class='co'># Will be slow, because no cache</span>
-<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'>sass</span>(<span class='kw'>fib_sass</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='fu'>sass</span><span class='op'>(</span><span class='va'>fib_sass</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># Restore the original cache</span>
-<span class='fu'>sass_cache_set</span>(<span class='kw'>old_cache</span>)
-}
+<span class='fu'>sass_cache_set</span><span class='op'>(</span><span class='va'>old_cache</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

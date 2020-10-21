@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>List to Sass converter — as_sass • sass</title>
+<title>Set the rules for a sass_layer object — sass_partial • sass</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,9 +52,11 @@
 
 
 
-<meta property="og:title" content="List to Sass converter — as_sass" />
-<meta property="og:description" content="Converts multiple types of inputs to a single Sass input string for
-sass." />
+<meta property="og:title" content="Set the rules for a sass_layer object — sass_partial" />
+<meta property="og:description" content="Replaces the rules for a sass_layer() object with new rules, and compile it.
+This is useful when (for example) you want to compile a set of rules using
+variables derived from a theme, but you do not want the resulting CSS for the
+entire theme -- just the CSS for the specific rules passed in." />
 <meta property="og:image" content="https://rstudio.github.io/sass/logo.svg" />
 
 
@@ -129,87 +131,100 @@ sass." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>List to Sass converter</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rstudio/sass/blob/master/R/as_sass.R'><code>R/as_sass.R</code></a></small>
-    <div class="hidden name"><code>as_sass.Rd</code></div>
+    <h1>Set the rules for a <code>sass_layer</code> object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/sass/blob/master/R/sass.R'><code>R/sass.R</code></a></small>
+    <div class="hidden name"><code>sass_partial.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Converts multiple types of inputs to a single Sass input string for
-<code><a href='sass.html'>sass</a></code>.</p>
+    <p>Replaces the rules for a <code><a href='sass_layer.html'>sass_layer()</a></code> object with new rules, and compile it.
+This is useful when (for example) you want to compile a set of rules using
+variables derived from a theme, but you do not want the resulting CSS for the
+entire theme -- just the CSS for the specific rules passed in.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>as_sass</span><span class='op'>(</span><span class='va'>input</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>sass_partial</span><span class='op'>(</span>
+  <span class='va'>rules</span>,
+  <span class='va'>layer</span>,
+  options <span class='op'>=</span> <span class='fu'><a href='sass_options.html'>sass_options</a></span><span class='op'>(</span><span class='op'>)</span>,
+  output <span class='op'>=</span> <span class='cn'>NULL</span>,
+  write_attachments <span class='op'>=</span> <span class='cn'>NA</span>,
+  cache <span class='op'>=</span> <span class='fu'><a href='sass_cache_get.html'>sass_cache_get</a></span><span class='op'>(</span><span class='op'>)</span>,
+  cache_key_extra <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>input</th>
-      <td><p>Either a</p><ul>
-<li><p>raw Sass string</p></li>
-<li><p>named list containing variable names and values</p></li>
-<li><p>Sass-like file name.</p></li>
-</ul></td>
+      <th>rules</th>
+      <td><p>A set of sass rules, which will be used instead of the rules
+from <code>layer</code>.</p></td>
+    </tr>
+    <tr>
+      <th>layer</th>
+      <td><p>A <code><a href='sass_layer.html'>sass_layer()</a></code> object.</p></td>
+    </tr>
+    <tr>
+      <th>options</th>
+      <td><p>Compiler options for Sass. Please specify options using
+<code><a href='sass_options.html'>sass_options()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>output</th>
+      <td><p>Specifies path to output file for compiled CSS. May be a
+character string or <code><a href='output_template.html'>output_template()</a></code></p></td>
+    </tr>
+    <tr>
+      <th>write_attachments</th>
+      <td><p>If the input contains <code><a href='sass_layer.html'>sass_layer()</a></code> objects that
+have file attachments, and <code>output</code> is not <code>NULL</code>, then copy the file
+attachments to the directory of <code>output</code>. (Defaults to <code>NA</code>, which merely
+emits a warning if file attachments are present, but does not write them to
+disk; the side-effect of writing extra files is subtle and potentially
+destructive, as files may be overwritten.)</p></td>
+    </tr>
+    <tr>
+      <th>cache</th>
+      <td><p>This can be a directory to use for the cache, a <a href='FileCache.html'>FileCache</a>
+object created by <code><a href='sass_file_cache.html'>sass_file_cache()</a></code>, or <code>FALSE</code> or <code>NULL</code> for no caching.</p></td>
+    </tr>
+    <tr>
+      <th>cache_key_extra</th>
+      <td><p>additional information to considering when computing
+the cache key. This should include any information that could possibly
+influence the resulting CSS that isn't already captured by <code>input</code>. For
+example, if <code>input</code> contains something like <code>"@import sass_file.scss"</code> you
+may want to include the <code><a href='https://rdrr.io/r/base/file.info.html'>file.mtime()</a></code> of <code>sass_file.scss</code> (or, perhaps, a
+<code><a href='https://rdrr.io/r/utils/packageDescription.html'>packageVersion()</a></code> if <code>sass_file.scss</code> is bundled with an R package).</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>a single character value to be supplied to <code><a href='sass.html'>sass</a></code></p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Note that the LibSass compiler expects .sass files to use the Sass Indented
-Syntax.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Visit
-<a href='https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import'>https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import</a>
-for more details.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Example of regular Sass input</span>
-<span class='fu'>as_sass</span><span class='op'>(</span><span class='st'>"body { color: \"blue\"; }"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; /* Sass */
-#&gt; body { color: "blue"; }</div><div class='input'>
-<span class='co'># There is support for adding variables</span>
-<span class='fu'>as_sass</span><span class='op'>(</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span>,
-   <span class='st'>"body { color: $color; }"</span>
-   <span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='va'>theme</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sass_layer.html'>sass_layer</a></span><span class='op'>(</span>
+  defaults <span class='op'>=</span> <span class='fu'><a href='sass_import.html'>sass_file</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"examples/variables.scss"</span>, package <span class='op'>=</span> <span class='st'>"sass"</span><span class='op'>)</span><span class='op'>)</span>,
+  rules <span class='op'>=</span> <span class='fu'><a href='sass_import.html'>sass_file</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"examples/rules.scss"</span>, package <span class='op'>=</span> <span class='st'>"sass"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; /* Sass */
-#&gt; $color: blue;
-#&gt; body { color: $color; }</div><div class='input'>
-<span class='co'># \donttest{</span>
-<span class='co'># Add a file name</span>
-<span class='va'>someFile</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='st'>"variables"</span><span class='op'>)</span>
 
-<span class='co'># Overwrite color to red</span>
-<span class='fu'><a href='https://rdrr.io/r/base/write.html'>write</a></span><span class='op'>(</span><span class='st'>"$color: \"red\";"</span>, <span class='va'>someFile</span><span class='op'>)</span>
-
-<span class='va'>input</span> <span class='op'>&lt;-</span>
-  <span class='fu'>as_sass</span><span class='op'>(</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
-      <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span>,
-      <span class='fu'><a href='sass_import.html'>sass_file</a></span><span class='op'>(</span><span class='va'>someFile</span><span class='op'>)</span>,
-      <span class='st'>"body { color: $color; }"</span>
-      <span class='op'>)</span>
-   <span class='op'>)</span>
-
-<span class='va'>input</span>
-</div><div class='output co'>#&gt; /* Sass */
-#&gt; $color: blue;
-#&gt; @import "/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmptajUSD/variablesbe1af68d1d";
-#&gt; body { color: $color; }</div><div class='input'>
-<span class='co'># The final body color is red</span>
-<span class='fu'><a href='sass.html'>sass</a></span><span class='op'>(</span><span class='va'>input</span><span class='op'>)</span>
+<span class='co'># Compile the theme</span>
+<span class='fu'><a href='sass.html'>sass</a></span><span class='op'>(</span><span class='va'>theme</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; /* CSS */
 #&gt; body {
-#&gt;   color: "red";
+#&gt;   background-color: #333;
+#&gt;   color: white;
+#&gt;   font-size: 16px;
 #&gt; }
-#&gt; </div><div class='input'><span class='co'># }</span>
+#&gt; </div><div class='input'>
+<span class='co'># Sometimes we want to use the variables from the theme to compile other sass</span>
+<span class='va'>my_rules</span> <span class='op'>&lt;-</span> <span class='st'>".someclass { background-color: $bg; color: $fg; }"</span>
+<span class='fu'>sass_partial</span><span class='op'>(</span><span class='va'>my_rules</span>, <span class='va'>theme</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; /* CSS */
+#&gt; .someclass {
+#&gt;   background-color: #333;
+#&gt;   color: white;
+#&gt; }
+#&gt; </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
