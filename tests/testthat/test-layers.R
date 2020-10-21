@@ -82,8 +82,9 @@ test_that("sass_layers_remove() will remove all layers", {
 
   obj_slim <- sass_layers_remove(obj, "red")
   expected <- sass_layers(core, green = sass_layer(green))
-
   expect_identical(obj_slim, expected)
+
+  expect_identical(sass_layers_remove(obj, c("green", "red")), sass_layers(core))
 
   expect_equal(
     names(obj$layers),

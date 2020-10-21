@@ -117,7 +117,9 @@ sass_layer <- function(
   add_class(layer, "sass_layer")
 }
 
-#' @describeIn sass_layer Turn an object into a Sass layers object. Non [sass_layer()] or Sass layers objects will be turned into [sass_layer(rules)]
+#' @describeIn sass_layer Turn an object into a Sass layers object. Non [sass_layer()] or Sass layers objects will be turned into `sass_layer(rules)`
+#' @param x object to inspect or turn into Sass layers
+#' @param name Sass layer name to use inside the Sass layers object
 #' @export
 as_sass_layers <- function(x, name = "") {
   if (is_sass_layers(x)) return(x)
@@ -182,7 +184,8 @@ sass_layers_remove <- function(x, name) {
   stopifnot(is_sass_layers(x))
 
   layer_names <- names(x$layers)
-  layer_name_matches <- layer_names == name
+  # vector support
+  layer_name_matches <- layer_names %in% name
   if (any(layer_name_matches)) {
     name_pos <- which(layer_name_matches)
     x$layers <- x$layers[-1 * name_pos]
