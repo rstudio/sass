@@ -38,8 +38,8 @@ pre.css {
 [Sass](https://sass-lang.com/) is the most widely used, feature rich, and stable CSS extension language available. It has become an essential tool in modern web development because of its ability to _reduce complexity_ and _increase composability_ when styling a website. For a basic example, suppose you want to use the same color for multiple styling rules in your website (e.g., hyperlinks and buttons). With CSS, you'd have to repeat that color every time it is used in styling rule, so in a large project, changing at a later point can be tedious and error-prone.
 
 ```css
-a { 
-  color: salmon; 
+a {
+  color: salmon;
 }
 button {
   background-color: salmon;
@@ -50,15 +50,15 @@ With Sass, you could store this color in a Sass variable and use it in the styli
 
 ```css
 $main-color: salmon;
-a { 
-  color: $main-color; 
+a {
+  color: $main-color;
 }
 button {
   background-color: $main-color;
 }
 ```
 
-Sass variables are not the only Sass tool useful for reducing complexity. For Sass and **sass** newcomers, this vignette first covers how to use basic Sass tools like [variables](#variables), [mixins](#mixins), and [functions](#functions) in the **sass** R package. After the basics, you'll also learn how to write [composable **sass**](#layering) that allows users to easily override your styling defaults and developers to [include](#includes) your Sass in their styling projects. You'll also learn how to control the CSS output (e.g., [compress](#compression) and [cache](#caching) it), and how to use it in [**shiny**](#shiny) & [**rmarkdown**](#rmarkdown). 
+Sass variables are not the only Sass tool useful for reducing complexity. For Sass and **sass** newcomers, this vignette first covers how to use basic Sass tools like [variables](#variables), [mixins](#mixins), and [functions](#functions) in the **sass** R package. After the basics, you'll also learn how to write [composable **sass**](#layering) that allows users to easily override your styling defaults and developers to [include](#includes) your Sass in their styling projects. You'll also learn how to control the CSS output (e.g., [compress](#compression) and [cache](#caching) it), and how to use it in [**shiny**](#shiny) & [**rmarkdown**](#rmarkdown).
 
 By mastering these concepts, you'll not only be able to leverage the advantages of using Sass over CSS, but you'll also have the basis needed to develop R interfaces to Sass projects that allow users to easily customize your styling templates _without any knowledge of Sass/CSS_. For an example, see the [**bootstraplib** R package](https://github.com/rstudio/bootstraplib), which provides a interface to [Bootstrap Sass](https://getbootstrap.com/docs/4.0/getting-started/theming/) through easy-to-use functions like `bs_theme_add_variables()`.
 
@@ -135,9 +135,9 @@ sass(
   list(
     variable,
     sass_file("color-contrast.scss"),
-    "body { 
+    "body {
       background-color: $body-bg;
-      color: color-contrast($body-bg); 
+      color: color-contrast($body-bg);
     }"
   )
 )
@@ -171,7 +171,7 @@ This works because `sass_file()` uses `sass_import()` to generate an `@import` a
 ### Mixins {#mixins}
 
 Similar to how functions are useful for encapsulating _computation_ in a reusable unit, [mixins](https://sass-lang.com/documentation/at-rules/mixin) are useful for doing the same with _styling rules_ (i.e., packaging them into a reusable unit).
-Technically speaking, mixins are similar to functions in that they require a `name`, may have arguments, as well as any number of statements. However, they differ in that they require the return value to be a [style rule](https://sass-lang.com/documentation/style-rules), and when called, need to be `@include`d in a larger style rule in order to generate any CSS. 
+Technically speaking, mixins are similar to functions in that they require a `name`, may have arguments, as well as any number of statements. However, they differ in that they require the return value to be a [style rule](https://sass-lang.com/documentation/style-rules), and when called, need to be `@include`d in a larger style rule in order to generate any CSS.
 
 For some examples, please see the [Sass mixin documentation](https://sass-lang.com/documentation/at-rules/mixin).
 
@@ -192,7 +192,7 @@ layer1 <- sass_layer(
 sass(layer1)
 ```
 
-This allows downstream `sass_layer()`s to be `sass_layer_merge()`d into a single layer, where those downstream layers are granted higher priority. More specifically, this means: 
+This allows downstream `sass_layer()`s to be `sass_layers()`d into a single layer, where those downstream layers are granted higher priority. More specifically, this means:
 
 * `defaults` for `layer2` are placed _before_ `defaults` for `layer1`.
   * Allowing downstream Sass to override variable defaults in upstream Sass.
@@ -205,7 +205,7 @@ This allows downstream `sass_layer()`s to be `sass_layer_merge()`d into a single
 layer2 <- sass_layer(
   defaults = list("body-bg" = "white !default")
 )
-sass(sass_layer_merge(layer1, layer2))
+sass(sass_layers(layer1, layer2))
 ```
 
 ### Resolving relative imports {#imports-relative}
@@ -223,7 +223,7 @@ sass_layer(
 
 ### Attaching HTML dependencies {#html-dependencies}
 
-Another problem that `sass_layer()` helps solve is that sometimes you want to attach other HTML dependencies to your Sass/CSS (e.g., JavaScript, other CSS, etc). For this reason, `sass_layer()` has a `html_deps` argument to which you can provide `htmltools::htmlDependency()` objects. `sass()` preserves these, as well as any other HTML dependencies attached to it's input, by including them in the return value. This ensures that, when you include `sass()` in [**rmarkdown**](#rmarkdown) or [**shiny**](#shiny-string) those dependencies come along for the ride. 
+Another problem that `sass_layer()` helps solve is that sometimes you want to attach other HTML dependencies to your Sass/CSS (e.g., JavaScript, other CSS, etc). For this reason, `sass_layer()` has a `html_deps` argument to which you can provide `htmltools::htmlDependency()` objects. `sass()` preserves these, as well as any other HTML dependencies attached to it's input, by including them in the return value. This ensures that, when you include `sass()` in [**rmarkdown**](#rmarkdown) or [**shiny**](#shiny-string) those dependencies come along for the ride.
 
 **DISCLAIMER**: If you want to use this feature _and_ include [CSS as a file in shiny](#shiny-file), you'll need to call `htmltools::htmlDependencies()` on the return value of `sass()` to get the dependencies, then include them in your user interface definition.
 
@@ -237,14 +237,14 @@ If the CSS generated from `sass()` can be useful in more than one place, conside
 
 ```r
 sass(
-  sass_file("my-style.scss"), 
+  sass_file("my-style.scss"),
   output = "my-style.css"
 )
 ```
 
 ### Compression {#compression}
 
-By default, `sass()` outputs `'expanded'` CSS meaning there are lots of white-space and line-breaks included to make it more readable by humans. Computers don't need all those unnecessary characters, so to speed up your page load time when you go to include the CSS in [**shiny**](#shiny) or [**rmarkdown**](#rmarkdown), consider removing them altogether with `output_style = "compressed"`: 
+By default, `sass()` outputs `'expanded'` CSS meaning there are lots of white-space and line-breaks included to make it more readable by humans. Computers don't need all those unnecessary characters, so to speed up your page load time when you go to include the CSS in [**shiny**](#shiny) or [**rmarkdown**](#rmarkdown), consider removing them altogether with `output_style = "compressed"`:
 
 ```{r}
 sass(
@@ -281,7 +281,7 @@ sass(
 
 ## In shiny {#shiny}
 
-There are two basic approaches to including the CSS that `sass()` returns as HTML 
+There are two basic approaches to including the CSS that `sass()` returns as HTML
 in your **shiny** app. If you're curious, the official [shiny article on CSS](https://shiny.rstudio.com/articles/css.html) has more details with a couple different approaches. Regardless of the approach, consider leveraging [compressing](#compression) and [caching](#caching) the CSS output to make your app faster to load.
 
 ### As a string {#shiny-string}
@@ -299,12 +299,12 @@ fluidPage(
 
 ### As a file {#shiny-file}
 
-To write CSS to a file, give a suitable file path to `sass()`'s `output` argument. Here we write to a specially named `www/` subdirectory so that **shiny** will automatically make those file(s) available to the web app. 
+To write CSS to a file, give a suitable file path to `sass()`'s `output` argument. Here we write to a specially named `www/` subdirectory so that **shiny** will automatically make those file(s) available to the web app.
 
 ```r
 library(shiny)
 sass(
-  sass_file("my-style.scss"), 
+  sass_file("my-style.scss"),
   output = "www/my-style.css"
 )
 fluidPage(
@@ -376,7 +376,7 @@ Below are a few more sophisticated examples of dynamic input:
     }
     ```
 
-If you like to write R **sass** code instead, you can do that as well, and by default it works similarly to the `sass` engine (except that the sass-specific code chunk options will be ignored, but you can specify those [options](#options) via `sass::sass()` instead). 
+If you like to write R **sass** code instead, you can do that as well, and by default it works similarly to the `sass` engine (except that the sass-specific code chunk options will be ignored, but you can specify those [options](#options) via `sass::sass()` instead).
 
     ```{r, echo = FALSE}`r ''`
     sass(sass_file("my-style.scss"))
@@ -387,4 +387,3 @@ If syntax highlighting is enabled in your output document , it's also possible t
     ```{r, class.output='css', comment=''}`r ''`
     sass(sass_file("my-style.scss"))
     ```
-
