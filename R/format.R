@@ -18,27 +18,68 @@ format.sass <- function(x, ...) {
 format.sass_layer <- function(x, ...) {
   as.character(as_sass(x))
 }
+#' @export
+#' @noRd
+format.sass_layers <- function(x, ...) {
+  as.character(as_sass(x))
+}
 
 #' @export
 #' @noRd
 print.css <- function(x, ...) {
   cat0("/* CSS */\n", format(x), "\n") # nolint
+  invisible(x)
 }
 #' @export
 #' @noRd
 print.sass <- function(x, ...) {
   cat0("/* Sass */\n", format(x), "\n") # nolint
+  invisible(x)
 }
 #' @export
 #' @noRd
-print.sass_layer <- function(x, ...) {
-  cat0("/* Sass Layer */\n", format(x), "\n/* *** */\n")
+print.sass_layer <- function(
+  x, ...,
+  # currently only used by `print.sass_layers`
+  header_name = "Sass Layer", info_name = "Sass Layer"
+) {
+  x_fmt <- format(x)
+  if (nchar(x_fmt) == 0) x_fmt <- "/* (empty) */"
+  cat0(
+    "/* ", header_name, " */\n",
+    x_fmt, "\n",
+    "/* *** */\n"
+  )
+
 
   x_other <- x[setdiff(names(x), c("defaults", "declarations", "rules"))]
   if (length(unlist(x_other)) > 0) {
-    cat0("\nOther Sass Layer information:\n")
+    cat0("\nOther ", info_name, " information:\n")
     utils::str(x_other)
   }
+  invisible(x)
+}
+#' @export
+#' @noRd
+print.sass_layers <- function(x, ..., name = NULL) {
+  if (length(x$layers) == 0) {
+    cat0("/* Sass layers: (empty) *** */\n")
+    return(invisible(x))
+  }
+
+  named_layers <- setdiff(unique(rlang::names2(x$layers)), "")
+  named_layer_txt <-
+    if (length(named_layers) > 0) {
+      paste0(": ", paste0(named_layers, collapse = ", "))
+    } else {
+      NULL
+    }
+  print(
+    as_sass_layer(x),
+    header_name = paste0("Sass Layers", named_layer_txt),
+    info_name = "Sass Layers"
+  )
+  invisible(x)
 }
 
 
