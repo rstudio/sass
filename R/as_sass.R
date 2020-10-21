@@ -81,7 +81,38 @@ as_sass_.sass_removable <- function(input) {
   stop("`sass_removeable()` objects are only allowed in `sass_layer(rules)`")
 }
 
-as_sass_.sass_layer_list <- function(input) {
+as_sass_.list <- function(input) {
+  input_names <- names(input)
+
+  # if it is a list of independent items...
+  if (length(input_names) == 0) {
+    # must use `lapply(a, function(x) as_sass_(x))`
+    #   as `as_sass_` can not be found if using `lapply(a, as_sass_)`
+    input_vals <- lapply(input, function(x) {
+      as_sass_(x)
+    })
+    compiled <- collapse0(input_vals)
+    return(compiled)
+  }
+
+  # named list of variables
+  if (any(input_names == "")) {
+    stop(
+      "If providing sass with a named variable list.  All variables must be named. \n", "
+      Missing name at index: ", paste0(which(input_names == ""), collapse = ", ")
+    )
+  }
+
+  input_values <- lapply(input, function(x) {
+    as_sass_(x)
+  })
+  collapse0("$", input_names, ": ", input_values, ";")
+}
+
+
+# Do not have this register to restrict where it can be called
+# Have it hard coded in `as_sass_.sass_layer`
+as_sass__sass_layer_list <- function(input) {
   allow_removable <- inherits(input, "sass_layer_list_removable")
   collapse0(Map(
     rlang::names2(input),
@@ -111,44 +142,24 @@ as_sass_.sass_layer_list <- function(input) {
   ))
 }
 
-as_sass_.list <- function(input) {
-  input_names <- names(input)
-
-  # if it is a list of independent items...
-  if (length(input_names) == 0) {
-    # must use `lapply(a, function(x) as_sass_(x))`
-    #   as `as_sass_` can not be found if using `lapply(a, as_sass_)`
-    input_vals <- lapply(input, function(x) {
-      as_sass_(x)
-    })
-    compiled <- collapse0(input_vals)
-    return(compiled)
-  }
-
-  # named list of variables
-  if (any(input_names == "")) {
-    stop(
-      "If providing sass with a named variable list.  All variables must be named. \n", "
-      Missing name at index: ", paste0(which(input_names == ""), collapse = ", ")
-    )
-  }
-
-  input_values <- lapply(input, function(x) {
-    as_sass_(x)
-  })
-  collapse0("$", input_names, ": ", input_values, ";")
-}
-
 as_sass_.sass_layer <- function(input) {
   # concatinate all sass layer content in order
   collapse0(
     c(
       # only collect non-null values
-      if (!is.null(input$defaults)) as_sass_(input$defaults),
-      if (!is.null(input$declarations)) as_sass_(input$declarations),
-      if (!is.null(input$rules)) as_sass_(input$rules)
+      if (!is.null(input$defaults)) as_sass__sass_layer_list(input$defaults),
+      if (!is.null(input$declarations)) as_sass__sass_layer_list(input$declarations),
+      if (!is.null(input$rules)) as_sass__sass_layer_list(input$rules)
     ) %||% ""
   )
+}
+
+as_sass_.sass_layers <- function(input) {
+  if (length(input$layers) == 0) {
+    # if there are no layers, return nothing
+    return("")
+  }
+  as_sass_(as_sass_layer(input))
 }
 
 as_sass_.character <- function(input) {
