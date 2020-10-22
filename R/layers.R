@@ -42,7 +42,6 @@ NULL
 #'   copied directly into the output directory.
 #' @param tags A character vector with zero or more elements. Can be used to
 #'   preserve simple metadata as layers are merged.
-#' @seealso [sass_layer_remove_rule()]
 #' @examples
 #' blue <- list(color = "blue !default")
 #' red <- list(color = "red !default")
@@ -232,6 +231,7 @@ sass_bundle <- function(...) {
 
 #' @describeIn sass_layer Remove a whole [sass_layer()] from a Sass layers object
 #' @param bundle Output value from [sass_layer()] or [sass_bundle()]
+#' @param name If a Sass layer name is contained in `name`, the matching Sass layer will be removed from the `bundle`
 #' @export
 sass_bundle_remove <- function(bundle, name) {
   stopifnot(is_sass_bundle(bundle))
@@ -257,6 +257,7 @@ is_sass_layer <- function(x) {
 
 
 #' @describeIn sass_layer Check if `x` is a Sass layers object
+#' @param x object to inspect
 #' @export
 is_sass_bundle <- function(x) {
   inherits(x, "sass_bundle")
@@ -268,7 +269,7 @@ is_sass_bundle <- function(x) {
 as_sass_layer <- function(x) {
   if (is_sass_layer(x)) return(x)
   # sass_bundle(x) will auto upgrade to a sass bundle object
-  Reduce(function(y) { sass_layers_join(y) }, sass_bundle(x)$layers)
+  Reduce(function(y1, y2) { sass_layers_join(y1, y2) }, sass_bundle(x)$layers)
 }
 sass_layers_join <- function(layer1, layer2) {
   sass_layer_struct(

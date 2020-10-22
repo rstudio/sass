@@ -18,7 +18,7 @@ sass_layer(
 
 sass_bundle(...)
 
-sass_bundle_remove(x, name)
+sass_bundle_remove(bundle, name)
 
 is_sass_bundle(x)
 }
@@ -59,6 +59,12 @@ understands. Arguments should be provided in reverse priority order:
 defaults, declarations, and rules in later layers will take precedence over
 those of previous layers. Non-layer values will be converted to layers by
 calling \code{sass_layer(rules = ...)}.}
+
+\item{bundle}{Output value from \code{\link[=sass_layer]{sass_layer()}} or \code{\link[=sass_bundle]{sass_bundle()}}}
+
+\item{name}{If a Sass layer name is contained in \code{name}, the matching Sass layer will be removed from the \code{bundle}}
+
+\item{x}{object to inspect}
 }
 \description{
 Sass layers are a way to group a set of related Sass variable definitions,
@@ -125,7 +131,4 @@ layer <- sass_layer(
 
 output_path <- tempfile(fileext = ".css")
 sass(layer, output = output_path, write_attachments = TRUE)
-}
-\seealso{
-\code{\link[=sass_layer_remove_rule]{sass_layer_remove_rule()}}
 }

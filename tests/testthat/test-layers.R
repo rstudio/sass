@@ -86,7 +86,6 @@ test_that("sass_bundle_remove() will remove all layers", {
 
   just_core <- sass_bundle_remove(obj, c("green", "red"))
   only_core <- sass_bundle(core)
-browser()
   expect_identical(just_core, only_core)
 
   expect_equal(

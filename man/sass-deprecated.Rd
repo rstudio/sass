@@ -15,3 +15,4 @@ Deprecated Sass functions
 \item \code{sass_layer_merge}: Please use \code{sass_bundle(...)}
 }}
 
+\keyword{internal}

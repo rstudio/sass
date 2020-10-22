@@ -5,6 +5,7 @@
 #'
 #' @rdname sass-deprecated
 #' @name sass-deprecated
+#' @keywords internal
 NULL
 
 #' @describeIn sass-deprecated Please use `sass_bundle(...)`
