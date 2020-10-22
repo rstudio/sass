@@ -14,6 +14,7 @@ Other improvements include:
 
 * `sass_layer()` will now return a `sass_bundle()` that contains a single Sass layer. To test for `sass_bundle()` output, use `is_sass_bundle()`. (#54)
 
+
 ## Breaking changes
 
 * When `output` is specified, `sass()` now returns the output file path instead of the CSS content as a character vector.
@@ -23,6 +24,9 @@ Other improvements include:
 * `sass_cache_options()` has been deprecated (it no longer does anything) in favor of the new caching functions (`sass_file_cache()`).
 
 * Deprecate `sass_layer_merge()` in favor of `sass_bundle()` to reflect the data structures being returned. (#54)
+
+* `sass_partial(layer)` is now `sass_partial(bundle)` to match the corresponding data structure of `sass_bundle()`. (#54)
+
 
 # sass 0.2.0
 
