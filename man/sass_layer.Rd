@@ -4,9 +4,8 @@
 \alias{sass_layer}
 \alias{sass_bundle}
 \alias{sass_bundle_remove}
-\alias{is_sass_layer}
 \alias{is_sass_bundle}
-\title{Sass layer objects}
+\title{Sass layer and Sass bundle objects}
 \usage{
 sass_layer(
   defaults = NULL,
@@ -20,8 +19,6 @@ sass_layer(
 sass_bundle(...)
 
 sass_bundle_remove(x, name)
-
-is_sass_layer(x)
 
 is_sass_bundle(x)
 }
@@ -67,20 +64,18 @@ calling \code{sass_layer(rules = ...)}.}
 Sass layers are a way to group a set of related Sass variable definitions,
 function/mixin declarations, and CSS rules into a single object. Use
 \code{sass_layer()} to create these objects, and \code{sass_bundle()} to combine
-two or more layer-like objects into a set of sass layers; this ability to be merged is
+two or more layers or bundles objects into a Sass bundle; this ability to be merged is
 the main benefit of using Sass layers versus lower-level forms of sass input.
-At a later time, layers that have been combined can also be removed
-by referencing the same name that was used during combination.
+At a later time, Sass layers may be removed from Sass bundles
+by referencing the same name that was used when creating the Sass bundle.
 }
 \section{Functions}{
 \itemize{
 \item \code{sass_layer}: Compose the parts of a single Sass layer. Object returned is a \code{sass_bundle()} with a single Sass layer
 
-\item \code{sass_bundle}: Merge multiple \code{\link[=sass_bundle]{sass_bundle()}} or \code{\link[=sass_layer]{sass_layer()}} objects
+\item \code{sass_bundle}: Merge multiple \code{\link[=sass_bundle]{sass_bundle()}} or \code{\link[=sass_layer]{sass_layer()}} objects. Unnamed Sass bundles will be concatinated together, preserving their internal name structures. Named Sass bundles will be condenced into a single Sass layer for easier removal from the returned Sass bundle.
 
 \item \code{sass_bundle_remove}: Remove a whole \code{\link[=sass_layer]{sass_layer()}} from a Sass layers object
-
-\item \code{is_sass_layer}: Check if \code{x} is a Sass layer object
 
 \item \code{is_sass_bundle}: Check if \code{x} is a Sass layers object
 }}

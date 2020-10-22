@@ -2,11 +2,11 @@
 % Please edit documentation in R/sass.R
 \name{sass_partial}
 \alias{sass_partial}
-\title{Set the rules for a \code{sass_layer} object}
+\title{Compile rules against a Sass Bundle or Sass Layer object}
 \usage{
 sass_partial(
   rules,
-  layer,
+  bundle,
   options = sass_options(),
   output = NULL,
   write_attachments = NA,
@@ -18,7 +18,7 @@ sass_partial(
 \item{rules}{A set of sass rules, which will be used instead of the rules
 from \code{layer}.}
 
-\item{layer}{A \code{\link[=sass_layer]{sass_layer()}} object.}
+\item{bundle}{A \code{\link[=sass_bundle]{sass_bundle()}} or \code{\link[=sass_layer]{sass_layer()}} object.}
 
 \item{options}{Compiler options for Sass. Please specify options using
 \code{\link[=sass_options]{sass_options()}}.}
