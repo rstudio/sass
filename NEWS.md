@@ -23,9 +23,11 @@ Other improvements include:
 
 * `sass_cache_options()` has been deprecated (it no longer does anything) in favor of the new caching functions (`sass_file_cache()`).
 
-* Deprecate `sass_layer_merge()` in favor of `sass_bundle()` to reflect the data structures being returned. (#54)
+* Deprecated `sass_layer_merge()` in favor of `sass_bundle()` to reflect the data structures being returned. (#54)
 
 * `sass_partial(layer)` is now `sass_partial(bundle)` to match the corresponding data structure of `sass_bundle()`. (#54)
+
+* Deprecated the `tags` parameter of `sass_layer()` in favor of named layers in `sass_bundle(NAME = layer)`. (#54)
 
 
 # sass 0.2.0

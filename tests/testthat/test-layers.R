@@ -53,8 +53,7 @@ test_that("sass layer format", {
   layer1 <- sass_layer(
     file_attachments = c(
       file.path(assets, "a.txt")
-    ),
-    tags = c("tag1", "tag2")
+    )
   )
 
   core_extra <- sass_bundle(core, layer1)
@@ -105,15 +104,13 @@ test_that("additional merging features", {
   layer1 <- sass_layer(
     file_attachments = c(
       file.path(assets, "a.txt")
-    ),
-    tags = c("tag1", "tag2")
+    )
   )
 
   layer2 <- sass_layer(
     file_attachments = c(
       "b/b1.txt" = file.path(assets, "b/b1.txt")
-    ),
-    tags = c("tag3")
+    )
   )
 
   layer_merged <- as_sass_layer(sass_bundle(layer1, layer2))
@@ -123,10 +120,6 @@ test_that("additional merging features", {
       file.path(assets, "a.txt"),
       "b/b1.txt" = file.path(assets, "b/b1.txt")
     )
-  )
-  expect_identical(
-    layer_merged$tags,
-    c("tag1", "tag2", "tag3")
   )
 })
 

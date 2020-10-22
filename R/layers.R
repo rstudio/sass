@@ -40,7 +40,7 @@ NULL
 #'   into the destination directory; the directory itself will not be copied.)
 #'   You can also omit the name, in which case that file or directory will be
 #'   copied directly into the output directory.
-#' @param tags A character vector with zero or more elements. Can be used to
+#' @param tags Deprecated. Preserve meta information using a key in `sass_bundle(KEY = val)`.
 #'   preserve simple metadata as layers are merged.
 #' @examples
 #' blue <- list(color = "blue !default")
@@ -95,8 +95,12 @@ sass_layer <- function(
   rules = NULL,
   html_deps = NULL,
   file_attachments = character(0),
-  tags = character(0)
+  tags = NULL
 ) {
+
+  if (!missing(tags)) {
+    .Deprecated(msg="`sass_layer(tags)` is deprecated. Please use a named layer in a `sass_bundle(NAME = layer)`")
+  }
 
   # return a size 1 sass_bundle()
   as_sass_bundle(
@@ -105,8 +109,7 @@ sass_layer <- function(
       declarations = declarations,
       rules = rules,
       html_deps = html_deps,
-      file_attachments = file_attachments,
-      tags = tags
+      file_attachments = file_attachments
     )
   )
 }
@@ -119,8 +122,7 @@ sass_layer_struct <- function(
   declarations = NULL,
   rules = NULL,
   html_deps = NULL,
-  file_attachments = character(0),
-  tags = character(0)
+  file_attachments = character(0)
 ) {
 
   validate_attachments(file_attachments)
@@ -138,8 +140,7 @@ sass_layer_struct <- function(
     declarations = declarations,
     rules = rules,
     html_deps = html_deps,
-    file_attachments = file_attachments,
-    tags = tags
+    file_attachments = file_attachments
   )
   add_class(layer, "sass_layer")
 }
@@ -277,8 +278,7 @@ sass_layers_join <- function(layer1, layer2) {
     declarations = c(layer1$declarations, layer2$declarations),
     rules = c(layer1$rules, layer2$rules),
     html_deps = c(layer1$html_deps, layer2$html_deps),
-    file_attachments = join_attachments(layer1$file_attachments, layer2$file_attachments),
-    tags = c(layer1$tags, layer2$tags)
+    file_attachments = join_attachments(layer1$file_attachments, layer2$file_attachments)
   )
 }
 # attach2 takes precedence

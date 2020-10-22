@@ -13,7 +13,7 @@ sass_layer(
   rules = NULL,
   html_deps = NULL,
   file_attachments = character(0),
-  tags = character(0)
+  tags = NULL
 )
 
 sass_bundle(...)
@@ -51,7 +51,7 @@ into the destination directory; the directory itself will not be copied.)
 You can also omit the name, in which case that file or directory will be
 copied directly into the output directory.}
 
-\item{tags}{A character vector with zero or more elements. Can be used to
+\item{tags}{Deprecated. Preserve meta information using a key in \code{sass_bundle(KEY = val)}.
 preserve simple metadata as layers are merged.}
 
 \item{...}{A collection of \code{\link[=sass_layer]{sass_layer()}}s and/or objects that \code{\link[=as_sass]{as_sass()}}
