@@ -172,7 +172,7 @@ sass <- function(
     sass_hash(list(
       input, options, cache_key_extra,
       # Detect if any attachments have changed
-      if (is.list(layer) && !is.null(layer$file_attachments)) get_file_mtimes(layer$file_attachments)
+      if (is_sass_layer(layer) && !is.null(layer$file_attachments)) get_file_mtimes(layer$file_attachments)
     ))
   }
 

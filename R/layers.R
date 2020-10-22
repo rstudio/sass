@@ -231,18 +231,19 @@ sass_bundle <- function(...) {
 
 
 #' @describeIn sass_layer Remove a whole [sass_layer()] from a Sass layers object
+#' @param bundle Output value from [sass_layer()] or [sass_bundle()]
 #' @export
-sass_bundle_remove <- function(x, name) {
-  stopifnot(is_sass_bundle(x))
+sass_bundle_remove <- function(bundle, name) {
+  stopifnot(is_sass_bundle(bundle))
 
-  layer_names <- names(x$layers)
+  layer_names <- names(bundle$layers)
   # vector support
   layer_name_matches <- layer_names %in% name
   if (any(layer_name_matches)) {
     name_pos <- which(layer_name_matches)
-    x$layers <- x$layers[-1 * name_pos]
+    bundle$layers <- bundle$layers[-1 * name_pos]
   }
-  x
+  bundle
 }
 
 
