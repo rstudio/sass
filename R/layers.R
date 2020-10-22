@@ -107,9 +107,9 @@ sass_layer <- function(
   }
 
   layer <- list(
-    defaults =     as_sass_layer_list(defaults,     allow_removable = FALSE, name = "defaults"),
-    declarations = as_sass_layer_list(declarations, allow_removable = FALSE, name = "declarations"),
-    rules =        as_sass_layer_list(rules,        allow_removable = TRUE,  name = "rules"),
+    defaults = defaults,
+    declarations = declarations,
+    rules = rules,
     html_deps = html_deps,
     file_attachments = file_attachments,
     tags = tags
@@ -218,106 +218,6 @@ is_sass_layers <- function(x) {
   inherits(x, "sass_layers")
 }
 
-
-as_sass_layer_list <- function(x, allow_removable = FALSE, name = NULL) {
-  if (inherits(x, "sass_removable")) {
-    stop("A single removable layer item must be nested in a named list to be removable")
-  }
-
-  # make sure it is a list
-  if (!is.null(x) && !is.list(x)) {
-    x <- as.list(x)
-  }
-
-  # validate content
-  if (is.list(x)) {
-    x_names <- rlang::names2(x)
-    item_is_removable <- vapply(x, function(y) { is_sass_removable(y) }, logical(1))
-    if (isTRUE(allow_removable)) {
-      # list names should not exist except when pointing to sass_removable items
-      has_unexpected_name <- which(
-        x_names != "" &
-        !item_is_removable
-      )
-      if (any(has_unexpected_name)) {
-        stop("sass_layer(", name, ") only allows list names that point to `sass_removable()` output. Unexpected names: ", paste0(x_names[has_unexpected_name], collapse = ", "))
-      }
-    } else {
-      # variable names are allowed, no removable items allowed
-      if (any(item_is_removable)) {
-        stop("sass_layer(", name, ") does not allow for `sass_removable()` items. Found removable item names: ", paste0(x_names[item_is_removable], collapse = ", "))
-      }
-    }
-  }
-
-  ret <- add_class(x, "sass_layer_list")
-  if (isTRUE(allow_removable)) {
-    ret <- add_class(ret, "sass_layer_list_removable")
-  }
-  ret
-}
-
-#' Remove Sass layer rule
-#'
-#' @param layer Output from [sass_layer()]
-#' @param rule Layer rule name to remove
-#' @param x Value to add or check for a `"sass_removable"` class
-#' @rdname sass_removable
-#' @export
-is_sass_removable <- function(x) {
-  inherits(x, "sass_removable")
-}
-#' @rdname sass_removable
-#' @export
-sass_removable <- function(x) {
-  add_class(x, "sass_removable")
-}
-#' @rdname sass_removable
-#' @export
-#' @examples
-#' # set up a base blue color
-#' blue <- list(color = "blue !default")
-#'
-#' # make a layer that has a custom red rule
-#' core <- sass_layer(
-#'   defaults = blue,
-#'   rules = list(
-#'     custom = sass_removable(
-#'       # any R sass definitions can be nested under the `custom` key
-#'       "body > custom { color: $color; }"
-#'     ),
-#'     "body { color: $color; }"
-#'   )
-#' )
-#' # contains custom css
-#' sass(core)
-#'
-#' core_slim <- sass_layer_remove_rule(core, "custom")
-#' # does NOT contain custom css
-#' sass(core_slim)
-sass_layer_remove_rule <- function(layer, rule) {
-  type <- "rules"
-  key <- rule
-  type_vals <- layer[[type]]
-  if (! (key %in% names(type_vals))) {
-    # key not found
-    return(layer)
-  }
-  key_val <- type_vals[[key]]
-  if (is.null(key_val)) {
-    # remove the key/NULL pair
-    type_vals[[key]] <- NULL
-  } else {
-    if (is_sass_removable(key_val)) {
-      # remove the removable key/val pair
-      type_vals[[key]] <- NULL
-    } else {
-      stop("Not allowed to remove ", type, " key: '", key, "'")
-    }
-  }
-  layer[[type]] <- type_vals
-  layer
-}
 
 
 # Used in `as_sass.sass_layers`

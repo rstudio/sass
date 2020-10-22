@@ -35,7 +35,6 @@ reference:
     - sass_file
     - sass_layer
     - sass_partial
-    - is_sass_removable
 - title: Caching
   description: |
     Functions related to caching sass output

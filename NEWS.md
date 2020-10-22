@@ -8,8 +8,6 @@ Other improvements include:
 
 * A new `output_template()` function for more convenient `output` path creation that is `cache` and `options` aware.
 
-* Add support to remove `rules` from `sass_layer()` objects using the new function `sass_layer_remove_rule()`. Added `sass_removable()` and `is_sass_removable()` to create removable Sass definitions objects. Sass layer `defaults` and `declaration` should not impact the compiled css size, therefore removal is not supported. (#54)
-
 * When `sass()` has a cache hit, and `output` is specified, the cached file is now simply copied to `output` at the OS level (previously, `sass()` was reading the cache file into R, then writing it to `output`). (#42)
 
 * Add `sass_layers()` function which will combine Sass layer and Sass layers objects. Combining with `sass_layers_remove()`, Sass layers can be removed by name. (#54)

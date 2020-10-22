@@ -77,10 +77,6 @@ as_sass_.logical <- function(input) {
   }
 }
 
-as_sass_.sass_removable <- function(input) {
-  stop("`sass_removeable()` objects are only allowed in `sass_layer(rules)`")
-}
-
 as_sass_.list <- function(input) {
   input_names <- names(input)
 
@@ -109,47 +105,14 @@ as_sass_.list <- function(input) {
   collapse0("$", input_names, ": ", input_values, ";")
 }
 
-
-# Do not have this register to restrict where it can be called
-# Have it hard coded in `as_sass_.sass_layer`
-as_sass__sass_layer_list <- function(input) {
-  allow_removable <- inherits(input, "sass_layer_list_removable")
-  collapse0(Map(
-    rlang::names2(input),
-    input,
-    f = function(name, val) {
-      if (is_sass_removable(val)) {
-        # if the class is not removed, as_sass.sass_removable(val) will throw an error
-        if (allow_removable) {
-          # process only the value
-          class(val) <- setdiff(class(val), "sass_removable")
-        }
-        as_sass_(val)
-
-      } else {
-
-        if (identical(name, "")) {
-          # no name... process only the value
-          as_sass_(val)
-        } else {
-          # process as if it was a key/val list pair
-          keyval <- list()
-          keyval[[name]] <- val
-          as_sass_(keyval)
-        }
-      }
-    }
-  ))
-}
-
 as_sass_.sass_layer <- function(input) {
   # concatinate all sass layer content in order
   collapse0(
     c(
       # only collect non-null values
-      if (!is.null(input$defaults)) as_sass__sass_layer_list(input$defaults),
-      if (!is.null(input$declarations)) as_sass__sass_layer_list(input$declarations),
-      if (!is.null(input$rules)) as_sass__sass_layer_list(input$rules)
+      if (!is.null(input$defaults)) as_sass_(input$defaults),
+      if (!is.null(input$declarations)) as_sass_(input$declarations),
+      if (!is.null(input$rules)) as_sass_(input$rules)
     ) %||% ""
   )
 }
