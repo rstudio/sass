@@ -39,7 +39,7 @@ test_that("sass layer format", {
   expect_equal(
     capture.output(print(core)),
     c(
-      "/* Sass Layer */",
+      "/* Sass Bundle */",
       "$color: blue !default;",
       "@function my_invert($color, $amount: 100%) {",
       "    $inverse: change-color($color, $hue: hue($color) + 180);",
@@ -57,34 +57,37 @@ test_that("sass layer format", {
     tags = c("tag1", "tag2")
   )
 
-  core_extra <- sass_layers(core, layer1)
+  core_extra <- sass_bundle(core, layer1)
   expect_output(
     print(core_extra),
-    "Other Sass Layers information:"
+    "Other Sass Bundle information:"
   )
 })
 
-test_that("sass_layers() works as intended", {
+test_that("sass_bundle() works as intended", {
   red_layer <- sass_layer(red, rules = ":root{ --color: #{$color}; }")
   expect_equivalent(
     sass(list(red, core, ":root{ --color: #{$color}; }")),
-    sass(sass_layers(core, red_layer))
+    sass(sass_bundle(core, red_layer))
   )
 })
 
-test_that("sass_layers_remove() will remove all layers", {
+test_that("sass_bundle_remove() will remove all layers", {
 
   obj <-
-    sass_layers(
-      sass_layers(core, red = ":root{ --color: #{$color}; }"),
+    sass_bundle(
+      sass_bundle(core, red = ":root{ --color: #{$color}; }"),
       green = sass_layer(green)
     )
 
-  obj_slim <- sass_layers_remove(obj, "red")
-  expected <- sass_layers(core, green = sass_layer(green))
+  obj_slim <- sass_bundle_remove(obj, "red")
+  expected <- sass_bundle(core, green = sass_layer(green))
   expect_identical(obj_slim, expected)
 
-  expect_identical(sass_layers_remove(obj, c("green", "red")), sass_layers(core))
+  just_core <- sass_bundle_remove(obj, c("green", "red"))
+  only_core <- sass_bundle(core)
+browser()
+  expect_identical(just_core, only_core)
 
   expect_equal(
     names(obj$layers),
@@ -95,8 +98,8 @@ test_that("sass_layers_remove() will remove all layers", {
     c("", "green")
   )
 
-  expect_true(is_sass_layers(obj_slim))
-  expect_true(is_sass_layers(expected))
+  expect_true(is_sass_bundle(obj_slim))
+  expect_true(is_sass_bundle(expected))
 })
 
 test_that("additional merging features", {
@@ -114,7 +117,7 @@ test_that("additional merging features", {
     tags = c("tag3")
   )
 
-  layer_merged <- as_sass_layer(sass_layers(layer1, layer2))
+  layer_merged <- as_sass_layer(sass_bundle(layer1, layer2))
   expect_identical(
     layer_merged$file_attachments,
     c(

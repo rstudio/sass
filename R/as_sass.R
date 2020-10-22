@@ -117,7 +117,7 @@ as_sass_.sass_layer <- function(input) {
   )
 }
 
-as_sass_.sass_layers <- function(input) {
+as_sass_.sass_bundle <- function(input) {
   if (length(input$layers) == 0) {
     # if there are no layers, return nothing
     return("")
@@ -126,7 +126,7 @@ as_sass_.sass_layers <- function(input) {
 }
 
 as_sass_.character <- function(input) {
-  if (any(nchar(rlang::names2(input)) > 0)) {
+  if (has_any_name(input)) {
     warning(
       "Character vector names are ignored. ",
       "Instead of a named character vector, use a named list to define Sass variables.",

@@ -118,6 +118,13 @@ add_class <- function(x, class_val) {
   class(x) <- c(class_val, class(x))
   x
 }
+
 collapse0 <- function(..., collapse = "\n") {
   paste0(..., collapse = collapse)
+}
+
+# checks for any non-"" key in the list x
+#' @importFrom  rlang have_name
+has_any_name <- function(x) {
+  any(have_name(x))
 }

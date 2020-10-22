@@ -231,11 +231,7 @@ sass <- function(
 
   # Attach HTML dependencies so that placing a sass::sass() call within HTML tags
   # will include the dependencies
-  if (is_sass_layers(layer)) {
-    for (layer_val in layer$layers) {
-      css <- htmltools::attachDependencies(css, layer_val$html_deps)
-    }
-  } else if (is_sass_layer(layer)) {
+  if (is_sass_layer(layer)) {
     css <- htmltools::attachDependencies(css, layer$html_deps)
   }
 

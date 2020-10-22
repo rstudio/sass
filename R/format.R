@@ -20,7 +20,7 @@ format.sass_layer <- function(x, ...) {
 }
 #' @export
 #' @noRd
-format.sass_layers <- function(x, ...) {
+format.sass_bundle <- function(x, ...) {
   as.character(as_sass(x))
 }
 
@@ -40,7 +40,7 @@ print.sass <- function(x, ...) {
 #' @noRd
 print.sass_layer <- function(
   x, ...,
-  # currently only used by `print.sass_layers`
+  # currently only used by `print.sass_bundle`
   header_name = "Sass Layer", info_name = "Sass Layer"
 ) {
   x_fmt <- format(x)
@@ -61,13 +61,13 @@ print.sass_layer <- function(
 }
 #' @export
 #' @noRd
-print.sass_layers <- function(x, ..., name = NULL) {
+print.sass_bundle <- function(x, ..., name = NULL) {
   if (length(x$layers) == 0) {
-    cat0("/* Sass layers: (empty) *** */\n")
+    cat0("/* Sass Bundle: (empty) *** */\n")
     return(invisible(x))
   }
 
-  named_layers <- setdiff(unique(rlang::names2(x$layers)), "")
+  named_layers <- setdiff(unique(names2(x$layers)), "")
   named_layer_txt <-
     if (length(named_layers) > 0) {
       paste0(": ", paste0(named_layers, collapse = ", "))
@@ -76,8 +76,8 @@ print.sass_layers <- function(x, ..., name = NULL) {
     }
   print(
     as_sass_layer(x),
-    header_name = paste0("Sass Layers", named_layer_txt),
-    info_name = "Sass Layers"
+    header_name = paste0("Sass Bundle", named_layer_txt),
+    info_name = "Sass Bundle"
   )
   invisible(x)
 }

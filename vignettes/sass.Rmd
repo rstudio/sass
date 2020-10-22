@@ -192,7 +192,7 @@ layer1 <- sass_layer(
 sass(layer1)
 ```
 
-This allows downstream `sass_layer()`s to be `sass_layers()`d into a single layer, where those downstream layers are granted higher priority. More specifically, this means:
+This allows downstream `sass_layer()`s to be `sass_bundle()`d into a single layer, where those downstream layers are granted higher priority. More specifically, this means:
 
 * `defaults` for `layer2` are placed _before_ `defaults` for `layer1`.
   * Allowing downstream Sass to override variable defaults in upstream Sass.
@@ -205,7 +205,7 @@ This allows downstream `sass_layer()`s to be `sass_layers()`d into a single laye
 layer2 <- sass_layer(
   defaults = list("body-bg" = "white !default")
 )
-sass(sass_layers(layer1, layer2))
+sass(sass_bundle(layer1, layer2))
 ```
 
 ### Resolving relative imports {#imports-relative}
