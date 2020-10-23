@@ -275,7 +275,7 @@ sass_partial <- function(
   cache_key_extra = NULL)
 {
   if (!is_sass_bundle(bundle)) {
-    stop("`layer` must be a `sass_bundle()` object.", call. = FALSE)
+    stop("`bundle` must be a `sass_bundle()` object.", call. = FALSE)
   }
 
   layer <- as_sass_layer(bundle)
