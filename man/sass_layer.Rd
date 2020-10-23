@@ -54,13 +54,13 @@ copied directly into the output directory.}
 \item{tags}{Deprecated. Preserve meta information using a key in \code{sass_bundle(KEY = val)}.
 preserve simple metadata as layers are merged.}
 
-\item{...}{A collection of \code{\link[=sass_layer]{sass_layer()}}s and/or objects that \code{\link[=as_sass]{as_sass()}}
+\item{...}{A collection of \code{sass_layer()}s and/or objects that \code{\link[=as_sass]{as_sass()}}
 understands. Arguments should be provided in reverse priority order:
 defaults, declarations, and rules in later layers will take precedence over
 those of previous layers. Non-layer values will be converted to layers by
 calling \code{sass_layer(rules = ...)}.}
 
-\item{bundle}{Output value from \code{\link[=sass_layer]{sass_layer()}} or \code{\link[=sass_bundle]{sass_bundle()}}}
+\item{bundle}{Output value from \code{sass_layer()} or \code{sass_bundle()}}
 
 \item{name}{If a Sass layer name is contained in \code{name}, the matching Sass layer will be removed from the \code{bundle}}
 

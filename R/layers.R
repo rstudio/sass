@@ -12,7 +12,7 @@ NULL
 #' by referencing the same name that was used when creating the Sass bundle.
 #'
 #' @md
-#' @param ... A collection of [sass_layer()]s and/or objects that [as_sass()]
+#' @param ... A collection of `sass_layer()`s and/or objects that [sass::as_sass()]
 #'   understands. Arguments should be provided in reverse priority order:
 #'   defaults, declarations, and rules in later layers will take precedence over
 #'   those of previous layers. Non-layer values will be converted to layers by
@@ -265,7 +265,7 @@ sass_bundle <- function(...) {
 
 
 #' @describeIn sass_layer Remove a whole `sass_layer()` from a `sass_bundle()` object.
-#' @param bundle Output value from [sass_layer()] or [sass_bundle()]
+#' @param bundle Output value from `sass_layer()` or `sass_bundle()`
 #' @param name If a Sass layer name is contained in `name`, the matching Sass layer will be removed from the `bundle`
 #' @export
 sass_bundle_remove <- function(bundle, name) {
