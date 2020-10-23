@@ -175,7 +175,8 @@ as_sass_bundle <- function(x, name = "") {
       x
     } else {
       # upgrade via sass_layer
-      if (is.list(x) && has_any_name(x)) {
+      if (is.list(x) && has_any_name_recursive(x)) {
+        # a name was found somewhere
         sass_layer_struct(defaults = x)
       } else {
         sass_layer_struct(rules = x)

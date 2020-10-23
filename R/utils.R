@@ -123,8 +123,22 @@ collapse0 <- function(..., collapse = "\n") {
   paste0(..., collapse = collapse)
 }
 
-# checks for any non-"" key in the list x
+# checks for any valid, non-"" keys in the list x
 #' @importFrom  rlang have_name
 has_any_name <- function(x) {
   any(have_name(x))
+}
+
+has_any_name_recursive <- function(x) {
+  if (has_any_name(x)) {
+    # if this level has a name, return true
+    return(TRUE)
+  }
+  if (!is.list(x)) {
+    return(FALSE)
+  }
+  # recursively inspect list objects
+  any(
+    vapply(x, has_any_name_recursive, logical(1))
+  )
 }
