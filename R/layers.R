@@ -283,10 +283,10 @@ as_sass_layer <- function(x) {
 }
 sass_layers_join <- function(layer1, layer2) {
   sass_layer_struct(
-    defaults = c(layer2$defaults, layer1$defaults),
-    declarations = c(layer1$declarations, layer2$declarations),
-    rules = c(layer1$rules, layer2$rules),
-    html_deps = c(layer1$html_deps, layer2$html_deps),
+    defaults = list(layer2$defaults, layer1$defaults),
+    declarations = list(layer1$declarations, layer2$declarations),
+    rules = list(layer1$rules, layer2$rules),
+    html_deps = list(layer1$html_deps, layer2$html_deps),
     file_attachments = join_attachments(layer1$file_attachments, layer2$file_attachments)
   )
 }
