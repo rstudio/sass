@@ -56,3 +56,29 @@ test_that("join_non_null_values combines null elements as expected", {
     )
   )
 })
+
+
+test_that("bundle like objects can be detected", {
+
+  sass_item <- sass_layer("body {}")
+  expect_equal(contains_sass_bundle_or_layer(list(list(list(4, 5, 6, list(sass_item), 7)))), sass_item)
+  expect_equal(contains_sass_bundle_or_layer(list(list(list(4, 5, 6, sass_item, 7)))), sass_item)
+  expect_equal(contains_sass_bundle_or_layer(list(list(list(4, 5, 6, sass_item, 7)))), sass_item)
+  expect_equal(contains_sass_bundle_or_layer(list(list(list(4, 5, 6, as_sass_layer(sass_item), 7)))), as_sass_layer(sass_item))
+
+  expect_equal(contains_sass_bundle_or_layer(list(list(list(4, 5, 6, 10, 7)))), NULL)
+
+  my_layer <- sass_layer(rules = "body {}")
+  expect_error(
+    sass_layer(defaults = list(1, 2, my_layer, 4)),
+    "`sass_layer(defaults)` can not contain", fixed = TRUE
+  )
+  expect_error(
+    sass_layer(declarations = list(1, 2, my_layer, 4)),
+    "sass_layer(declarations)` can not contain", fixed = TRUE
+  )
+  expect_error(
+    sass_layer(rules = list(1, 2, my_layer, 4)),
+    "sass_layer(rules)` can not contain", fixed = TRUE
+  )
+})

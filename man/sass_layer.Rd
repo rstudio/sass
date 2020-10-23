@@ -79,11 +79,11 @@ by referencing the same name that was used when creating the Sass bundle.
 \itemize{
 \item \code{sass_layer}: Compose the parts of a single Sass layer. Object returned is a \code{sass_bundle()} with a single Sass layer
 
-\item \code{sass_bundle}: Merge multiple \code{\link[=sass_bundle]{sass_bundle()}} or \code{\link[=sass_layer]{sass_layer()}} objects. Unnamed Sass bundles will be concatinated together, preserving their internal name structures. Named Sass bundles will be condenced into a single Sass layer for easier removal from the returned Sass bundle.
+\item \code{sass_bundle}: Collect \code{sass_bundle()} and/or \code{sass_layer()} objects. Unnamed Sass bundles will be concatenated together, preserving their internal name structures. Named Sass bundles will be condensed into a single Sass layer for easier removal from the returned Sass bundle.
 
-\item \code{sass_bundle_remove}: Remove a whole \code{\link[=sass_layer]{sass_layer()}} from a Sass layers object
+\item \code{sass_bundle_remove}: Remove a whole \code{sass_layer()} from a \code{sass_bundle()} object.
 
-\item \code{is_sass_bundle}: Check if \code{x} is a Sass layers object
+\item \code{is_sass_bundle}: Check if \code{x} is a Sass bundle object
 }}
 
 \examples{

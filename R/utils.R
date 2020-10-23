@@ -137,8 +137,12 @@ has_any_name_recursive <- function(x) {
   if (!is.list(x)) {
     return(FALSE)
   }
-  # recursively inspect list objects
-  any(
-    vapply(x, has_any_name_recursive, logical(1))
-  )
+  # Recursively inspect list objects
+  # Use for loop to pre-empty calculations
+  for (item in x) {
+    if (has_any_name_recursive(item)) {
+      return(TRUE)
+    }
+  }
+  return(FALSE)
 }
