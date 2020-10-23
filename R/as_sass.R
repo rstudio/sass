@@ -88,7 +88,7 @@ as_sass_.list <- function(input) {
         collapse0("$", name, ": ", as_sass_(val), ";")
       } else {
         # if no name is provided
-        as_sass(val)
+        as_sass_(val)
       }
     }
   )

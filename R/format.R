@@ -16,12 +16,12 @@ format.sass <- function(x, ...) {
 #' @export
 #' @noRd
 format.sass_layer <- function(x, ...) {
-  as.character(as_sass(x))
+  format(as_sass(x))
 }
 #' @export
 #' @noRd
 format.sass_bundle <- function(x, ...) {
-  as.character(as_sass(x))
+  format(as_sass(x))
 }
 
 #' @export

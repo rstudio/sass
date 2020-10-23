@@ -202,7 +202,7 @@ sass_bundle_struct <- function(layers = list()) {
   ret
 }
 
-#' @describeIn sass_layer Merge multiple [sass_bundle()] or [sass_layer()] objects. Unnamed Sass bundles will be concatinated together, preserving their internal name structures. Named Sass bundles will be condenced into a single Sass layer for easier removal from the returned Sass bundle.
+#' @describeIn sass_layer Collect `sass_bundle()` and/or `sass_layer()` objects. Unnamed Sass bundles will be concatenated together, preserving their internal name structures. Named Sass bundles will be condensed into a single Sass layer for easier removal from the returned Sass bundle.
 #' @export
 sass_bundle <- function(...) {
   layers <- dropNulls(list2(...))
@@ -230,7 +230,7 @@ sass_bundle <- function(...) {
 }
 
 
-#' @describeIn sass_layer Remove a whole [sass_layer()] from a Sass layers object
+#' @describeIn sass_layer Remove a whole `sass_layer()` from a `sass_bundle()` object.
 #' @param bundle Output value from [sass_layer()] or [sass_bundle()]
 #' @param name If a Sass layer name is contained in `name`, the matching Sass layer will be removed from the `bundle`
 #' @export
@@ -257,7 +257,7 @@ is_sass_layer <- function(x) {
 
 
 
-#' @describeIn sass_layer Check if `x` is a Sass layers object
+#' @describeIn sass_layer Check if `x` is a Sass bundle object
 #' @param x object to inspect
 #' @export
 is_sass_bundle <- function(x) {
@@ -314,6 +314,9 @@ extract_layer <- function(input) {
 
   layers <- lapply(input, function(x) extract_layer(x))
   layers <- dropNulls(layers)
+  if (length(layers) == 0) {
+    return(NULL)
+  }
   # convert to a sass layer object
   as_sass_layer(
     # merge all sass layers
