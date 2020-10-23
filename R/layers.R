@@ -266,7 +266,16 @@ is_sass_bundle <- function(x) {
 
 
 
-# Used in `as_sass.sass_bundle`
+#' Sass Bundle to Single Sass Layer
+#'
+#' Converts a [sass_bundle()] to a single Sass layer object.
+#'
+#' This is exported for internal use between packages and should not be used.
+#' Instead, please use [sass_layer()] or [sass_bundle()] to construct and manage your sass objects
+#' and [sass()] and [as_sass()] to convert your objects.
+#'
+#' @keywords internal
+#' @export
 as_sass_layer <- function(x) {
   if (is_sass_layer(x)) return(x)
   # sass_bundle(x) will auto upgrade to a sass bundle object
