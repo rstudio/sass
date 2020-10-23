@@ -284,12 +284,30 @@ as_sass_layer <- function(x) {
 }
 sass_layers_join <- function(layer1, layer2) {
   sass_layer_struct(
-    defaults = list(layer2$defaults, layer1$defaults),
-    declarations = list(layer1$declarations, layer2$declarations),
-    rules = list(layer1$rules, layer2$rules),
-    html_deps = list(layer1$html_deps, layer2$html_deps),
+    defaults = join_non_null_values(layer2$defaults, layer1$defaults),
+    declarations = join_non_null_values(layer1$declarations, layer2$declarations),
+    rules = join_non_null_values(layer1$rules, layer2$rules),
+    html_deps = c(layer1$html_deps, layer2$html_deps),
     file_attachments = join_attachments(layer1$file_attachments, layer2$file_attachments)
   )
+}
+join_non_null_values <- function(x, y) {
+  x_is_null <- is.null(x)
+  y_is_null <- is.null(y)
+  if (x_is_null) {
+    if (y_is_null) {
+      return(NULL)
+    } else {
+      return(y)
+    }
+  } else {
+    # x is NOT null
+    if (y_is_null) {
+      return(x)
+    } else {
+      return(list(x, y))
+    }
+  }
 }
 # attach2 takes precedence
 join_attachments <- function(attach1, attach2) {
