@@ -73,7 +73,7 @@ else
 endif
 
 ifndef SASS_LIBSASS_PATH
-	SASS_LIBSASS_PATH = $(CURDIR)
+	SASS_LIBSASS_PATH = .
 endif
 ifdef SASS_LIBSASS_PATH
 	CFLAGS   += -I $(SASS_LIBSASS_PATH)/include
@@ -204,17 +204,17 @@ debug-shared: shared
 lib:
 	$(MKDIR) lib
 
-lib/libsass.a: $(COBJECTS) $(OBJECTS) | lib
+lib/libsass.a: $(COBJECTS) $(OBJECTS) lib
 	$(AR) rcvs $@ $(COBJECTS) $(OBJECTS)
 
-lib/libsass.so: $(COBJECTS) $(OBJECTS) | lib
+lib/libsass.so: $(COBJECTS) $(OBJECTS) lib
 	$(CXX) -shared $(LDFLAGS) -o $@ $(COBJECTS) $(OBJECTS) $(LDLIBS)
 
-lib/libsass.dylib: $(COBJECTS) $(OBJECTS) | lib
+lib/libsass.dylib: $(COBJECTS) $(OBJECTS) lib
 	$(CXX) -shared $(LDFLAGS) -o $@ $(COBJECTS) $(OBJECTS) $(LDLIBS) \
 	-install_name @rpath/libsass.dylib
 
-lib/libsass.dll: $(COBJECTS) $(OBJECTS) $(RCOBJECTS) | lib
+lib/libsass.dll: $(COBJECTS) $(OBJECTS) $(RCOBJECTS) lib
 	$(CXX) -shared $(LDFLAGS) -o $@ $(COBJECTS) $(OBJECTS) $(RCOBJECTS) $(LDLIBS) \
 	-s -Wl,--subsystem,windows,--out-implib,lib/libsass.a
 
@@ -238,17 +238,16 @@ shared: $(SHAREDLIB)
 $(DESTDIR)$(PREFIX):
 	$(MKDIR) $(DESTDIR)$(PREFIX)
 
-$(DESTDIR)$(PREFIX)/lib: | $(DESTDIR)$(PREFIX)
+$(DESTDIR)$(PREFIX)/lib:
 	$(MKDIR) $(DESTDIR)$(PREFIX)/lib
 
-$(DESTDIR)$(PREFIX)/include: | $(DESTDIR)$(PREFIX)
+$(DESTDIR)$(PREFIX)/include:
 	$(MKDIR) $(DESTDIR)$(PREFIX)/include
 
-$(DESTDIR)$(PREFIX)/include/sass: | $(DESTDIR)$(PREFIX)/include
+$(DESTDIR)$(PREFIX)/include/sass:
 	$(MKDIR) $(DESTDIR)$(PREFIX)/include/sass
 
-$(DESTDIR)$(PREFIX)/include/%.h: include/%.h \
-                                 | $(DESTDIR)$(PREFIX)/include/sass
+$(DESTDIR)$(PREFIX)/include/%.h: include/%.h
 	$(INSTALL) -v -m0644 "$<" "$@"
 
 install-headers: $(DESTDIR)$(PREFIX)/include/sass.h \
@@ -259,20 +258,16 @@ install-headers: $(DESTDIR)$(PREFIX)/include/sass.h \
                  $(DESTDIR)$(PREFIX)/include/sass/context.h \
                  $(DESTDIR)$(PREFIX)/include/sass/functions.h
 
-$(DESTDIR)$(PREFIX)/lib/%.a: lib/%.a \
-                             | $(DESTDIR)$(PREFIX)/lib
+$(DESTDIR)$(PREFIX)/lib/%.a: lib/%.a
 	@$(INSTALL) -v -m0755 "$<" "$@"
 
-$(DESTDIR)$(PREFIX)/lib/%.so: lib/%.so \
-                             | $(DESTDIR)$(PREFIX)/lib
+$(DESTDIR)$(PREFIX)/lib/%.so: lib/%.so
 	@$(INSTALL) -v -m0755 "$<" "$@"
 
-$(DESTDIR)$(PREFIX)/lib/%.dll: lib/%.dll \
-                               | $(DESTDIR)$(PREFIX)/lib
+$(DESTDIR)$(PREFIX)/lib/%.dll: lib/%.dll
 	@$(INSTALL) -v -m0755 "$<" "$@"
 
-$(DESTDIR)$(PREFIX)/lib/%.dylib: lib/%.dylib \
-                               | $(DESTDIR)$(PREFIX)/lib
+$(DESTDIR)$(PREFIX)/lib/%.dylib: lib/%.dylib
 	@$(INSTALL) -v -m0755 "$<" "$@"
 
 install-static: $(DESTDIR)$(PREFIX)/lib/libsass.a
@@ -353,7 +348,7 @@ test_interactive: $(SASSC_BIN) $(SASS_SPEC_PATH) $(LIBSASS_SPEC_PATH)
 	--cmd-args "-I $(LIBSASS_SPEC_PATH)/styles/nested -t nested" \
 	--interactive $(LOG_FLAGS) $(LIBSASS_SPEC_PATH)/styles/nested
 
-clean-objects: | lib
+clean-objects:
 	-$(RM) lib/*.a lib/*.so lib/*.dll lib/*.dylib lib/*.la
 	-$(RMDIR) lib
 clean: clean-objects

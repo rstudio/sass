@@ -68,9 +68,6 @@ namespace Sass {
     // branches. This is not a bug, just a merging of behaviour into
     // one function
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wtautological-compare"
-
 #endif
 
 
@@ -226,8 +223,6 @@ namespace Sass {
     }
 
 #ifdef __clang__
-
-#pragma clang diagnostic pop
 
 #endif
 
