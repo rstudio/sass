@@ -85,7 +85,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9005</span>
       </span>
     </div>
 
@@ -141,6 +141,8 @@
 <ul>
 <li><p>A new <code><a href="../reference/output_template.html">output_template()</a></code> function for more convenient <code>output</code> path creation that is <code>cache</code> and <code>options</code> aware.</p></li>
 <li><p>When <code><a href="../reference/sass.html">sass()</a></code> has a cache hit, and <code>output</code> is specified, the cached file is now simply copied to <code>output</code> at the OS level (previously, <code><a href="../reference/sass.html">sass()</a></code> was reading the cache file into R, then writing it to <code>output</code>). (<a href='https://github.com/rstudio/sass/issues/42'>#42</a>)</p></li>
+<li><p>Added <code><a href="../reference/sass_layer.html">sass_bundle()</a></code> to collect <code><a href="../reference/sass_layer.html">sass_layer()</a></code>(s) and/or <code><a href="../reference/sass_layer.html">sass_bundle()</a></code>(s) into a single Sass bundle. When creating a bundle, any of the child layers/bundles may be named, so they can be later removed via <code><a href="../reference/sass_layer.html">sass_bundle_remove()</a></code>. (<a href='https://github.com/rstudio/sass/issues/54'>#54</a>)</p></li>
+<li><p><code><a href="../reference/sass_layer.html">sass_layer()</a></code> now returns a <code><a href="../reference/sass_layer.html">sass_bundle()</a></code> containing a single Sass layer. To test for <code><a href="../reference/sass_layer.html">sass_bundle()</a></code> output, use <code><a href="../reference/sass_layer.html">is_sass_bundle()</a></code>. (<a href='https://github.com/rstudio/sass/issues/54'>#54</a>)</p></li>
 </ul>
 <div id="breaking-changes" class="section level2">
 <h2 class="hasAnchor">
@@ -149,6 +151,8 @@
 <li><p>When <code>output</code> is specified, <code><a href="../reference/sass.html">sass()</a></code> now returns the output file path instead of the CSS content as a character vector.</p></li>
 <li><p>The <code>cache_options</code> argument in <code><a href="../reference/sass.html">sass()</a></code> has been renamed to <code>cache</code> and now defaults to <code><a href="../reference/sass_cache_get.html">sass_cache_get()</a></code> instead of <code><a href="../reference/sass_cache_options.html">sass_cache_options()</a></code>.</p></li>
 <li><p><code><a href="../reference/sass_cache_options.html">sass_cache_options()</a></code> has been deprecated (it no longer does anything) in favor of the new caching functions (<code><a href="../reference/sass_file_cache.html">sass_file_cache()</a></code>).</p></li>
+<li><p>Deprecated <code><a href="../reference/sass-deprecated.html">sass_layer_merge()</a></code> in favor of <code><a href="../reference/sass_layer.html">sass_bundle()</a></code> to reflect the data structures being returned. (<a href='https://github.com/rstudio/sass/issues/54'>#54</a>)</p></li>
+<li><p>Deprecated the <code>tags</code> parameter of <code><a href="../reference/sass_layer.html">sass_layer()</a></code> in favor of named layers in <code><a href="../reference/sass_layer.html">sass_bundle(NAME = layer)</a></code>. (<a href='https://github.com/rstudio/sass/issues/54'>#54</a>)</p></li>
 </ul>
 </div>
 </div>
@@ -157,7 +161,7 @@
 <a href="#sass-020" class="anchor"></a>sass 0.2.0<small> 2020-03-18 </small>
 </h1>
 <ul>
-<li><p>Added new <code><a href="../reference/sass_layer.html">sass_layer()</a></code> and <code><a href="../reference/sass_layer.html">sass_layer_merge()</a></code> functions. See <a href="https://rstudio.github.io/sass/articles/sass.html#layers">here</a> for more details.</p></li>
+<li><p>Added new <code><a href="../reference/sass_layer.html">sass_layer()</a></code> and <code><a href="../reference/sass-deprecated.html">sass_layer_merge()</a></code> functions. See <a href="https://rstudio.github.io/sass/articles/sass.html#layers">here</a> for more details.</p></li>
 <li><p>The objects that <code><a href="../reference/sass.html">sass()</a></code> and <code><a href="../reference/as_sass.html">as_sass()</a></code>) return now have better print methods in <strong>rmarkdown</strong>. See <a href="https://rstudio.github.io/sass/articles/sass.html#rmarkdown">here</a> for more details.</p></li>
 <li><p>Added the ability for <code><a href="../reference/sass.html">sass()</a></code> to retain <code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html">htmltools::htmlDependency()</a></code>s attached to it’s <code>input</code>.</p></li>
 <li><p>Fixed an issue with incorrect handling of length 2 or more character vector input (<a href='https://github.com/rstudio/sass/issues/37'>#37</a>).</p></li>

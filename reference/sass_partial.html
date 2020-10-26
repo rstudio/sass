@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Set the rules for a sass_layer object — sass_partial • sass</title>
+<title>Compile rules against a Sass Bundle or Sass Layer object — sass_partial • sass</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,7 +52,7 @@
 
 
 
-<meta property="og:title" content="Set the rules for a sass_layer object — sass_partial" />
+<meta property="og:title" content="Compile rules against a Sass Bundle or Sass Layer object — sass_partial" />
 <meta property="og:description" content="Replaces the rules for a sass_layer() object with new rules, and compile it.
 This is useful when (for example) you want to compile a set of rules using
 variables derived from a theme, but you do not want the resulting CSS for the
@@ -89,7 +89,7 @@ entire theme -- just the CSS for the specific rules passed in." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9005</span>
       </span>
     </div>
 
@@ -131,7 +131,7 @@ entire theme -- just the CSS for the specific rules passed in." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Set the rules for a <code>sass_layer</code> object</h1>
+    <h1>Compile rules against a Sass Bundle or Sass Layer object</h1>
     <small class="dont-index">Source: <a href='https://github.com/rstudio/sass/blob/master/R/sass.R'><code>R/sass.R</code></a></small>
     <div class="hidden name"><code>sass_partial.Rd</code></div>
     </div>
@@ -145,7 +145,7 @@ entire theme -- just the CSS for the specific rules passed in.</p>
 
     <pre class="usage"><span class='fu'>sass_partial</span><span class='op'>(</span>
   <span class='va'>rules</span>,
-  <span class='va'>layer</span>,
+  <span class='va'>bundle</span>,
   options <span class='op'>=</span> <span class='fu'><a href='sass_options.html'>sass_options</a></span><span class='op'>(</span><span class='op'>)</span>,
   output <span class='op'>=</span> <span class='cn'>NULL</span>,
   write_attachments <span class='op'>=</span> <span class='cn'>NA</span>,
@@ -162,8 +162,8 @@ entire theme -- just the CSS for the specific rules passed in.</p>
 from <code>layer</code>.</p></td>
     </tr>
     <tr>
-      <th>layer</th>
-      <td><p>A <code><a href='sass_layer.html'>sass_layer()</a></code> object.</p></td>
+      <th>bundle</th>
+      <td><p>A <code><a href='sass_layer.html'>sass_bundle()</a></code> or <code><a href='sass_layer.html'>sass_layer()</a></code> object.</p></td>
     </tr>
     <tr>
       <th>options</th>

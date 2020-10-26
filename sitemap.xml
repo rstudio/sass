@@ -10,7 +10,13 @@
     <loc>https://rstudio.github.io/sass//reference/as_sass.html</loc>
   </url>
   <url>
+    <loc>https://rstudio.github.io/sass//reference/as_sass_layer.html</loc>
+  </url>
+  <url>
     <loc>https://rstudio.github.io/sass//reference/output_template.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/sass//reference/sass-deprecated.html</loc>
   </url>
   <url>
     <loc>https://rstudio.github.io/sass//reference/sass.html</loc>

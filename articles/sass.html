@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9005</span>
       </span>
     </div>
 
@@ -120,16 +120,16 @@ pre.css {
 <h2 class="hasAnchor">
 <a href="#why" class="anchor"></a>Why Sass?</h2>
 <p><a href="https://sass-lang.com/">Sass</a> is the most widely used, feature rich, and stable CSS extension language available. It has become an essential tool in modern web development because of its ability to <em>reduce complexity</em> and <em>increase composability</em> when styling a website. For a basic example, suppose you want to use the same color for multiple styling rules in your website (e.g., hyperlinks and buttons). With CSS, you’d have to repeat that color every time it is used in styling rule, so in a large project, changing at a later point can be tedious and error-prone.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb1-1"><a href="#cb1-1"></a>a { </span>
-<span id="cb1-2"><a href="#cb1-2"></a>  <span class="kw">color</span>: <span class="cn">salmon</span><span class="op">;</span> </span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb1-1"><a href="#cb1-1"></a>a {</span>
+<span id="cb1-2"><a href="#cb1-2"></a>  <span class="kw">color</span>: <span class="cn">salmon</span><span class="op">;</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a>}</span>
 <span id="cb1-4"><a href="#cb1-4"></a>button {</span>
 <span id="cb1-5"><a href="#cb1-5"></a>  <span class="kw">background-color</span>: <span class="cn">salmon</span><span class="op">;</span></span>
 <span id="cb1-6"><a href="#cb1-6"></a>}</span></code></pre></div>
 <p>With Sass, you could store this color in a Sass variable and use it in the styling rules to produce the same CSS, resulting in a single entry point for the color’s value. This simple Sass tool can make CSS styling a lot easier to reason about, making styles a lot easier to customize and maintain.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb2-1"><a href="#cb2-1"></a>$main-color<span class="in">: salmon</span>;</span>
-<span id="cb2-2"><a href="#cb2-2"></a>a { </span>
-<span id="cb2-3"><a href="#cb2-3"></a>  <span class="kw">color</span>: $main-color<span class="op">;</span> </span>
+<span id="cb2-2"><a href="#cb2-2"></a>a {</span>
+<span id="cb2-3"><a href="#cb2-3"></a>  <span class="kw">color</span>: $main-color<span class="op">;</span></span>
 <span id="cb2-4"><a href="#cb2-4"></a>}</span>
 <span id="cb2-5"><a href="#cb2-5"></a>button {</span>
 <span id="cb2-6"><a href="#cb2-6"></a>  <span class="kw">background-color</span>: $main-color<span class="op">;</span></span>
@@ -192,9 +192,9 @@ pre.css {
   <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
     <span class="va">variable</span>,
     <span class="fu"><a href="../reference/sass_import.html">sass_file</a></span><span class="op">(</span><span class="st">"color-contrast.scss"</span><span class="op">)</span>,
-    <span class="st">"body { 
+    <span class="st">"body {
       background-color: $body-bg;
-      color: color-contrast($body-bg); 
+      color: color-contrast($body-bg);
     }"</span>
   <span class="op">)</span>
 <span class="op">)</span></pre></div>
@@ -243,7 +243,7 @@ pre.css {
 <span id="cb16-2"><a href="#cb16-2"></a>  <span class="kw">background-color</span>: <span class="cn">white</span><span class="op">;</span></span>
 <span id="cb16-3"><a href="#cb16-3"></a>  <span class="kw">color</span>: <span class="cn">black</span><span class="op">;</span></span>
 <span id="cb16-4"><a href="#cb16-4"></a>}</span></code></pre></div>
-<p>This allows downstream <code><a href="../reference/sass_layer.html">sass_layer()</a></code>s to be <code><a href="../reference/sass_layer.html">sass_layer_merge()</a></code>d into a single layer, where those downstream layers are granted higher priority. More specifically, this means:</p>
+<p>This allows downstream <code><a href="../reference/sass_layer.html">sass_layer()</a></code>s to be <code><a href="../reference/sass_layer.html">sass_bundle()</a></code>d into a single layer, where those downstream layers are granted higher priority. More specifically, this means:</p>
 <ul>
 <li>
 <code>defaults</code> for <code>layer2</code> are placed <em>before</em> <code>defaults</code> for <code>layer1</code>.
@@ -268,7 +268,7 @@ pre.css {
 <span class="va">layer2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sass_layer.html">sass_layer</a></span><span class="op">(</span>
   defaults <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"body-bg"</span> <span class="op">=</span> <span class="st">"white !default"</span><span class="op">)</span>
 <span class="op">)</span>
-<span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span><span class="fu"><a href="../reference/sass_layer.html">sass_layer_merge</a></span><span class="op">(</span><span class="va">layer1</span>, <span class="va">layer2</span><span class="op">)</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span><span class="fu"><a href="../reference/sass_layer.html">sass_bundle</a></span><span class="op">(</span><span class="va">layer1</span>, <span class="va">layer2</span><span class="op">)</span><span class="op">)</span></pre></div>
 <div class="sourceCode" id="cb18"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb18-1"><a href="#cb18-1"></a>body {</span>
 <span id="cb18-2"><a href="#cb18-2"></a>  <span class="kw">background-color</span>: <span class="cn">white</span><span class="op">;</span></span>
 <span id="cb18-3"><a href="#cb18-3"></a>  <span class="kw">color</span>: <span class="cn">black</span><span class="op">;</span></span>
@@ -302,7 +302,7 @@ pre.css {
 <p>If the CSS generated from <code><a href="../reference/sass.html">sass()</a></code> can be useful in more than one place, consider writing it to a file (instead of returning it as a string). To write CSS to a file, give a suitable file path to <code><a href="../reference/sass.html">sass()</a></code>’s <code>output</code> argument.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit">
 <span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span>
-  <span class="fu"><a href="../reference/sass_import.html">sass_file</a></span><span class="op">(</span><span class="st">"my-style.scss"</span><span class="op">)</span>, 
+  <span class="fu"><a href="../reference/sass_import.html">sass_file</a></span><span class="op">(</span><span class="st">"my-style.scss"</span><span class="op">)</span>,
   output <span class="op">=</span> <span class="st">"my-style.css"</span>
 <span class="op">)</span></pre></div>
 </div>
@@ -364,7 +364,7 @@ pre.css {
 <div class="sourceCode" id="cb26"><pre class="downlit">
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://shiny.rstudio.com">shiny</a></span><span class="op">)</span>
 <span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span>
-  <span class="fu"><a href="../reference/sass_import.html">sass_file</a></span><span class="op">(</span><span class="st">"my-style.scss"</span><span class="op">)</span>, 
+  <span class="fu"><a href="../reference/sass_import.html">sass_file</a></span><span class="op">(</span><span class="st">"my-style.scss"</span><span class="op">)</span>,
   output <span class="op">=</span> <span class="st">"www/my-style.css"</span>
 <span class="op">)</span>
 <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html">fluidPage</a></span><span class="op">(</span>
