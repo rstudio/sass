@@ -155,7 +155,7 @@ validate_layer_param <- function(x, name) {
     stop(
       "`sass_layer(", name, ")` can not contain another `sass_bundle()` object.\n",
       "Found:\n",
-      collapse0(capture.output(print(bundle_item)))
+      collapse0(utils::capture.output(print(bundle_item)))
     )
   }
 }

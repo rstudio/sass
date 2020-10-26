@@ -45,7 +45,7 @@ test_that("join_non_null_values combines null elements as expected", {
 
   expect_equal(as_sass_layer(obj), as_sass_layer(expected))
   expect_equal(
-    capture.output(print(obj)),
+    utils::capture.output(print(obj)),
     c(
       "/* Sass Bundle */",
       "$color: blue;",

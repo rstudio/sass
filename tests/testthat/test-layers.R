@@ -37,7 +37,7 @@ test_that("sass layer format", {
     ))
   )
   expect_equal(
-    capture.output(print(core)),
+    utils::capture.output(print(core)),
     c(
       "/* Sass Bundle */",
       "$color: blue !default;",
