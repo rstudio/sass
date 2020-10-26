@@ -7,14 +7,6 @@
 
 namespace Sass {
 
-  struct map_cmp_str
-  {
-    bool operator()(char const *a, char const *b) const
-    {
-      return std::strcmp(a, b) < 0;
-    }
-  };
-
   namespace ColorNames
   {
     extern const char aliceblue[];
@@ -321,7 +313,7 @@ namespace Sass {
   }
 
   const Color_RGBA* name_to_color(const char*);
-  const Color_RGBA* name_to_color(const std::string&);
+  const Color_RGBA* name_to_color(const sass::string&);
   const char* color_to_name(const int);
   const char* color_to_name(const Color_RGBA&);
   const char* color_to_name(const double);

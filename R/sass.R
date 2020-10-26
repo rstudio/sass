@@ -97,6 +97,7 @@
 #'   sass_file(tmp_file)
 #' ))
 #'
+#' \dontrun{
 #' # ======================
 #' # Caching examples
 #' # ======================
@@ -123,6 +124,7 @@
 #'
 #' # Clear the cache
 #' sass_cache_get()$reset()
+#' }
 #'
 #' \dontrun{
 #' # Example of disabling cache by setting the default cache to NULL.

@@ -19,7 +19,18 @@ namespace Sass {
   public:
 
     Env* environment();
-    Selector_List_Obj selector();
+    SelectorListObj& selector();
+    SelectorListObj& original();
+    SelectorListObj popFromSelectorStack();
+    SelectorStack getOriginalStack();
+    SelectorStack getSelectorStack();
+    void pushNullSelector();
+    void popNullSelector();
+    void pushToSelectorStack(SelectorListObj selector);
+
+    SelectorListObj popFromOriginalStack();
+
+    void pushToOriginalStack(SelectorListObj selector);
 
     Context&          ctx;
     Backtraces&       traces;
@@ -33,38 +44,47 @@ namespace Sass {
     EnvStack      env_stack;
     BlockStack    block_stack;
     CallStack     call_stack;
+  private:
     SelectorStack selector_stack;
-    MediaStack    media_stack;
+  public:
+    SelectorStack originalStack;
+    MediaStack    mediaStack;
 
     Boolean_Obj bool_true;
 
   private:
-    void expand_selector_list(Selector_Obj, Selector_List_Obj extender);
+
+    sass::vector<CssMediaQuery_Obj> mergeMediaQueries(const sass::vector<CssMediaQuery_Obj>& lhs, const sass::vector<CssMediaQuery_Obj>& rhs);
 
   public:
-    Expand(Context&, Env*, SelectorStack* stack = NULL);
+    Expand(Context&, Env*, SelectorStack* stack = nullptr, SelectorStack* original = nullptr);
     ~Expand() { }
 
     Block* operator()(Block*);
-    Statement* operator()(Ruleset*);
-    Statement* operator()(Media_Block*);
-    Statement* operator()(Supports_Block*);
-    Statement* operator()(At_Root_Block*);
-    Statement* operator()(Directive*);
+    Statement* operator()(StyleRule*);
+
+    Statement* operator()(MediaRule*);
+
+    // Css StyleRule is already static
+    // Statement* operator()(CssMediaRule*);
+
+    Statement* operator()(SupportsRule*);
+    Statement* operator()(AtRootRule*);
+    Statement* operator()(AtRule*);
     Statement* operator()(Declaration*);
     Statement* operator()(Assignment*);
     Statement* operator()(Import*);
     Statement* operator()(Import_Stub*);
-    Statement* operator()(Warning*);
-    Statement* operator()(Error*);
-    Statement* operator()(Debug*);
+    Statement* operator()(WarningRule*);
+    Statement* operator()(ErrorRule*);
+    Statement* operator()(DebugRule*);
     Statement* operator()(Comment*);
     Statement* operator()(If*);
-    Statement* operator()(For*);
-    Statement* operator()(Each*);
-    Statement* operator()(While*);
+    Statement* operator()(ForRule*);
+    Statement* operator()(EachRule*);
+    Statement* operator()(WhileRule*);
     Statement* operator()(Return*);
-    Statement* operator()(Extension*);
+    Statement* operator()(ExtendRule*);
     Statement* operator()(Definition*);
     Statement* operator()(Mixin_Call*);
     Statement* operator()(Content*);

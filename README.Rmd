@@ -46,7 +46,7 @@ knitr::opts_chunk$set(
 
 <br>
 
-The `sass` R package provides bindings to [LibSass](https://github.com/sass/libsass), a fast [Sass](https://sass-lang.com/) compiler written in C++. Sass is a mature and stable CSS extension language that makes styling modern websites less complex and more composible.
+The `sass` R package provides bindings to [LibSass](https://github.com/sass/libsass), a fast [Sass](https://sass-lang.com/) compiler written in C++. Sass is a mature and stable CSS extension language that makes styling modern websites less complex and more composable.
 
 ### Installation
 
