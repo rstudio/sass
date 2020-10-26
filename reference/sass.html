@@ -280,6 +280,7 @@ cache is one week. Older objects will be evicted from the cache.</p>
 #&gt;   margin: 36.6px;
 #&gt; }
 #&gt; </div><div class='input'>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># ======================</span>
 <span class='co'># Caching examples</span>
 <span class='co'># ======================</span>
@@ -297,18 +298,16 @@ body {
 
 <span class='co'># The first time this runs it will be very slow</span>
 <span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='fu'>sass</span><span class='op'>(</span><span class='va'>fib_sass</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   2.597   0.007   2.655 </div><div class='input'>
+
 <span class='co'># But on subsequent calls, it should be very fast</span>
 <span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='fu'>sass</span><span class='op'>(</span><span class='va'>fib_sass</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.001   0.000   0.002 </div><div class='input'>
+
 <span class='co'># sass() can be called with cache=NULL; it will be slow</span>
 <span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='fu'>sass</span><span class='op'>(</span><span class='va'>fib_sass</span>, cache <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   2.562   0.006   2.603 </div><div class='input'>
+
 <span class='co'># Clear the cache</span>
 <span class='fu'><a href='sass_cache_get.html'>sass_cache_get</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='fu'>reset</span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
 
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># Example of disabling cache by setting the default cache to NULL.</span>
