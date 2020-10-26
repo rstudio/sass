@@ -10,9 +10,9 @@ Other improvements include:
 
 * When `sass()` has a cache hit, and `output` is specified, the cached file is now simply copied to `output` at the OS level (previously, `sass()` was reading the cache file into R, then writing it to `output`). (#42)
 
-* Add `sass_bundle()` function which will combine Sass layer and Sass bundle objects. A Sass bundle can remove a layer by name using `sass_bundle_remove(bundle, name)`. (#54)
+* Added `sass_bundle()` to collect `sass_layer()`(s) and/or `sass_bundle()`(s) into a single Sass bundle. When creating a bundle, any of the child layers/bundles may be named, so they can be later removed via `sass_bundle_remove()`. (#54)
 
-* `sass_layer()` will now return a `sass_bundle()` that contains a single Sass layer. To test for `sass_bundle()` output, use `is_sass_bundle()`. (#54)
+* `sass_layer()` now returns a `sass_bundle()` containing a single Sass layer. To test for `sass_bundle()` output, use `is_sass_bundle()`. (#54)
 
 
 ## Breaking changes
@@ -24,8 +24,6 @@ Other improvements include:
 * `sass_cache_options()` has been deprecated (it no longer does anything) in favor of the new caching functions (`sass_file_cache()`).
 
 * Deprecated `sass_layer_merge()` in favor of `sass_bundle()` to reflect the data structures being returned. (#54)
-
-* `sass_partial(layer)` is now `sass_partial(bundle)` to match the corresponding data structure of `sass_bundle()`. (#54)
 
 * Deprecated the `tags` parameter of `sass_layer()` in favor of named layers in `sass_bundle(NAME = layer)`. (#54)
 

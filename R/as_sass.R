@@ -103,7 +103,7 @@ as_sass_.sass_layer <- function(input) {
       if (!is.null(input$defaults)) as_sass_(input$defaults),
       if (!is.null(input$declarations)) as_sass_(input$declarations),
       if (!is.null(input$rules)) as_sass_(input$rules)
-    ) %||% ""
+    )
   )
 }
 
