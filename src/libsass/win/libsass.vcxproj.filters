@@ -43,6 +43,15 @@
     <ClInclude Include="$(LIBSASS_INCLUDES_DIR)\sass\version.h.in">
       <Filter>Include Headers</Filter>
     </ClInclude>
+    <ClInclude Include="$(LIBSASS_INCLUDES_DIR)\extender.hpp">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="$(LIBSASS_INCLUDES_DIR)\extension.hpp">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="$(LIBSASS_INCLUDES_DIR)\stylesheet.hpp">
+      <Filter>Sources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup Label="Headers">
     <ClInclude Include="$(LIBSASS_HEADERS_DIR)\ast.hpp">
@@ -57,7 +66,25 @@
     <ClInclude Include="$(LIBSASS_HEADERS_DIR)\ast_supports.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="$(LIBSASS_HEADERS_DIR)\memory\SharedPtr.hpp">
+    <ClInclude Include="$(LIBSASS_HEADERS_DIR)\memory.hpp">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="$(LIBSASS_HEADERS_DIR)\settings.hpp">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="$(LIBSASS_HEADERS_DIR)\MurmurHash2.hpp">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="$(LIBSASS_HEADERS_DIR)\memory\config.hpp">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="$(LIBSASS_HEADERS_DIR)\memory\allocator.hpp">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="$(LIBSASS_HEADERS_DIR)\memory\shared_ptr.hpp">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="$(LIBSASS_HEADERS_DIR)\memory\memory_pool.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="$(LIBSASS_HEADERS_DIR)\ast_def_macros.hpp">
@@ -108,9 +135,6 @@
     <ClInclude Include="$(LIBSASS_HEADERS_DIR)\expand.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="$(LIBSASS_HEADERS_DIR)\extend.hpp">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="$(LIBSASS_HEADERS_DIR)\file.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -156,9 +180,6 @@
     <ClInclude Include="$(LIBSASS_HEADERS_DIR)\mapping.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="$(LIBSASS_HEADERS_DIR)\node.hpp">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="$(LIBSASS_HEADERS_DIR)\operation.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -172,6 +193,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="$(LIBSASS_HEADERS_DIR)\plugins.hpp">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="$(LIBSASS_HEADERS_DIR)\source.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="$(LIBSASS_HEADERS_DIR)\position.hpp">
@@ -189,16 +213,10 @@
     <ClInclude Include="$(LIBSASS_HEADERS_DIR)\sass_functions.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="$(LIBSASS_HEADERS_DIR)\sass_util.hpp">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="$(LIBSASS_HEADERS_DIR)\sass_values.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="$(LIBSASS_HEADERS_DIR)\source_map.hpp">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(LIBSASS_HEADERS_DIR)\subset_map.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="$(LIBSASS_HEADERS_DIR)\ast2c.hpp">
@@ -263,7 +281,10 @@
     <ClCompile Include="$(LIBSASS_SRC_DIR)\ast_sel_unify.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="$(LIBSASS_SRC_DIR)\memory\SharedPtr.cpp">
+    <ClCompile Include="$(LIBSASS_SRC_DIR)\memory\allocator.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSASS_SRC_DIR)\memory\shared_ptr.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="$(LIBSASS_SRC_DIR)\ast_fwd_decl.cpp">
@@ -311,9 +332,6 @@
     <ClCompile Include="$(LIBSASS_SRC_DIR)\expand.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="$(LIBSASS_SRC_DIR)\extend.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="$(LIBSASS_SRC_DIR)\file.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -353,9 +371,6 @@
     <ClCompile Include="$(LIBSASS_SRC_DIR)\listize.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="$(LIBSASS_SRC_DIR)\node.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="$(LIBSASS_SRC_DIR)\output.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -363,6 +378,9 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="$(LIBSASS_SRC_DIR)\plugins.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSASS_SRC_DIR)\source.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="$(LIBSASS_SRC_DIR)\position.cpp">
@@ -389,9 +407,6 @@
     <ClCompile Include="$(LIBSASS_SRC_DIR)\sass_functions.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="$(LIBSASS_SRC_DIR)\sass_util.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="$(LIBSASS_SRC_DIR)\sass_values.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -399,9 +414,6 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="$(LIBSASS_SRC_DIR)\source_map.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="$(LIBSASS_SRC_DIR)\subset_map.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="$(LIBSASS_SRC_DIR)\ast2c.cpp">
@@ -426,6 +438,27 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="$(LIBSASS_SRC_DIR)\values.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSASS_INCLUDES_DIR)\extender.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSASS_INCLUDES_DIR)\extension.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSASS_INCLUDES_DIR)\ast_sel_weave.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSASS_INCLUDES_DIR)\ast_sel_super.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSASS_INCLUDES_DIR)\stylesheet.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSASS_INCLUDES_DIR)\parser_selectors.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="$(LIBSASS_INCLUDES_DIR)\eval_selectors.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>

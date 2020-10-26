@@ -2,7 +2,7 @@
 #include <iostream>
 #include <typeinfo>
 
-#include "SharedPtr.hpp"
+#include "shared_ptr.hpp"
 #include "../ast_fwd_decl.hpp"
 
 #ifdef DEBUG_SHARED_PTR
@@ -26,7 +26,7 @@ namespace Sass {
       }
     }
   }
-  std::vector<SharedObj*> SharedObj::all;
+  sass::vector<SharedObj*> SharedObj::all;
   #endif
 
   bool SharedObj::taint = false;
