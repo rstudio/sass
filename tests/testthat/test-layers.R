@@ -1,5 +1,8 @@
 context("layers")
 
+# Disable sass cache
+local_disable_cache()
+
 assets <- normalizePath(testthat::test_path("test-assets"), mustWork = TRUE)
 
 blue <- list(color = "blue !default")
@@ -21,40 +24,102 @@ test_that("sass_layer is equivalent to sass", {
   )
 })
 
-test_that("sass_layer_merge() works as intended", {
+test_that("sass layer format", {
+  expect_equal(
+    format(core),
+    collapse0(c(
+      "$color: blue !default;",
+      "@function my_invert($color, $amount: 100%) {",
+      "    $inverse: change-color($color, $hue: hue($color) + 180);",
+      "    @return mix($inverse, $color, $amount);",
+      "  }",
+      "body { background-color: $color; color: my_invert($color); }"
+    ))
+  )
+  expect_equal(
+    utils::capture.output(print(core)),
+    c(
+      "/* Sass Bundle */",
+      "$color: blue !default;",
+      "@function my_invert($color, $amount: 100%) {",
+      "    $inverse: change-color($color, $hue: hue($color) + 180);",
+      "    @return mix($inverse, $color, $amount);",
+      "  }",
+      "body { background-color: $color; color: my_invert($color); }",
+      "/* *** */"
+    )
+  )
+
+  layer1 <- sass_layer(
+    file_attachments = c(
+      file.path(assets, "a.txt")
+    )
+  )
+
+  core_extra <- sass_bundle(core, layer1)
+  expect_output(
+    print(core_extra),
+    "Other Sass Bundle information:"
+  )
+})
+
+test_that("sass_bundle() works as intended", {
   red_layer <- sass_layer(red, rules = ":root{ --color: #{$color}; }")
   expect_equivalent(
     sass(list(red, core, ":root{ --color: #{$color}; }")),
-    sass(sass_layer_merge(core, red_layer))
+    sass(sass_bundle(core, red_layer))
   )
+})
+
+test_that("sass_bundle_remove() will remove all layers", {
+
+  obj <-
+    sass_bundle(
+      sass_bundle(core, red = ":root{ --color: #{$color}; }"),
+      green = sass_layer(green)
+    )
+
+  obj_slim <- sass_bundle_remove(obj, "red")
+  expected <- sass_bundle(core, green = sass_layer(green))
+  expect_identical(obj_slim, expected)
+
+  just_core <- sass_bundle_remove(obj, c("green", "red"))
+  only_core <- sass_bundle(core)
+  expect_identical(just_core, only_core)
+
+  expect_equal(
+    names(obj$layers),
+    c("", "red", "green")
+  )
+  expect_equal(
+    names(expected$layers),
+    c("", "green")
+  )
+
+  expect_true(is_sass_bundle(obj_slim))
+  expect_true(is_sass_bundle(expected))
 })
 
 test_that("additional merging features", {
   layer1 <- sass_layer(
     file_attachments = c(
       file.path(assets, "a.txt")
-    ),
-    tags = c("tag1", "tag2")
+    )
   )
 
   layer2 <- sass_layer(
     file_attachments = c(
       "b/b1.txt" = file.path(assets, "b/b1.txt")
-    ),
-    tags = c("tag3")
+    )
   )
 
-  layer_merged <- sass_layer_merge(layer1, layer2)
+  layer_merged <- as_sass_layer(sass_bundle(layer1, layer2))
   expect_identical(
     layer_merged$file_attachments,
     c(
       file.path(assets, "a.txt"),
       "b/b1.txt" = file.path(assets, "b/b1.txt")
     )
-  )
-  expect_identical(
-    layer_merged$tags,
-    c("tag1", "tag2", "tag3")
   )
 })
 

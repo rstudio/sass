@@ -10,6 +10,11 @@ Other improvements include:
 
 * When `sass()` has a cache hit, and `output` is specified, the cached file is now simply copied to `output` at the OS level (previously, `sass()` was reading the cache file into R, then writing it to `output`). (#42)
 
+* Added `sass_bundle()` to collect `sass_layer()`(s) and/or `sass_bundle()`(s) into a single Sass bundle. When creating a bundle, any of the child layers/bundles may be named, so they can be later removed via `sass_bundle_remove()`. (#54)
+
+* `sass_layer()` now returns a `sass_bundle()` containing a single Sass layer. To test for `sass_bundle()` output, use `is_sass_bundle()`. (#54)
+
+
 ## Breaking changes
 
 * When `output` is specified, `sass()` now returns the output file path instead of the CSS content as a character vector.
@@ -17,6 +22,10 @@ Other improvements include:
 * The `cache_options` argument in `sass()` has been renamed to `cache` and now defaults to `sass_cache_get()` instead of `sass_cache_options()`.
 
 * `sass_cache_options()` has been deprecated (it no longer does anything) in favor of the new caching functions (`sass_file_cache()`).
+
+* Deprecated `sass_layer_merge()` in favor of `sass_bundle()` to reflect the data structures being returned. (#54)
+
+* Deprecated the `tags` parameter of `sass_layer()` in favor of named layers in `sass_bundle(NAME = layer)`. (#54)
 
 
 # sass 0.2.0

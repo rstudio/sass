@@ -2,41 +2,41 @@
 % Please edit documentation in R/layers.R
 \name{sass_layer}
 \alias{sass_layer}
-\alias{sass_layer_merge}
-\title{Sass layer objects}
+\alias{sass_bundle}
+\alias{sass_bundle_remove}
+\alias{is_sass_bundle}
+\title{Bundling Sass layers}
 \usage{
-sass_layer_merge(...)
-
 sass_layer(
-  defaults = "",
-  declarations = "",
-  rules = "",
+  defaults = NULL,
+  declarations = NULL,
+  rules = NULL,
   html_deps = NULL,
   file_attachments = character(0),
-  tags = character(0)
+  tags = NULL
 )
+
+sass_bundle(...)
+
+sass_bundle_remove(bundle, name)
+
+is_sass_bundle(x)
 }
 \arguments{
-\item{...}{A collection of \code{\link[=sass_layer]{sass_layer()}}s and/or objects that \code{\link[=as_sass]{as_sass()}}
-understands. Arguments should be provided in reverse priority order:
-defaults, declarations, and rules in later layers will take precedence over
-those of previous layers. Non-layer values will be converted to layers by
-calling \code{sass_layer(rules = ...)}.}
-
 \item{defaults}{A suitable \code{\link[=as_sass]{as_sass()}} \code{input}. Intended for declaring
 variables with \code{!default}. When layers are combined, defaults are merged in
-reverse order; that is, \code{sass_layer_merge(layer1, layer2)} will include
+reverse order; that is, \code{sass_bundle(layer1, layer2)} will include
 \code{layer2$defaults} before \code{layer1$defaults}.}
 
 \item{declarations}{A suitable \code{\link[=as_sass]{as_sass()}} \code{input}.  Intended for
 function and mixin declarations, and variable declarations without
 \code{!default}; not intended for actual CSS rules. These will be merged in
-forward order; that is, \code{sass_layer_merge(layer1, layer2)} will include
+forward order; that is, \code{sass_bundle(layer1, layer2)} will include
 \code{layer1$declarations} before \code{layer2$declarations}.}
 
 \item{rules}{A suitable \code{\link[=as_sass]{as_sass()}} \code{input}. Intended for actual CSS
 rules. These will be merged in forward order; that is,
-\code{sass_layer_merge(layer1, layer2)} will include \code{layer1$rules} before
+\code{sass_bundle(layer1, layer2)} will include \code{layer1$rules} before
 \code{layer2$rules}.}
 
 \item{html_deps}{An HTML dependency (or a list of them).}
@@ -51,16 +51,41 @@ into the destination directory; the directory itself will not be copied.)
 You can also omit the name, in which case that file or directory will be
 copied directly into the output directory.}
 
-\item{tags}{A character vector with zero or more elements. Can be used to
+\item{tags}{Deprecated. Preserve meta information using a key in \code{sass_bundle(KEY = val)}.
 preserve simple metadata as layers are merged.}
+
+\item{...}{A collection of \code{sass_layer()}s and/or objects that \code{\link[=as_sass]{as_sass()}}
+understands. Arguments should be provided in reverse priority order:
+defaults, declarations, and rules in later layers will take precedence over
+those of previous layers. Non-layer values will be converted to layers by
+calling \code{sass_layer(rules = ...)}.}
+
+\item{bundle}{Output value from \code{sass_layer()} or \code{sass_bundle()}}
+
+\item{name}{If a Sass layer name is contained in \code{name}, the matching Sass layer will be removed from the \code{bundle}}
+
+\item{x}{object to inspect}
 }
 \description{
 Sass layers are a way to group a set of related Sass variable definitions,
 function/mixin declarations, and CSS rules into a single object. Use
-\code{sass_layer()} to create these objects, and \code{sass_layer_merge()} to combine
-two or more layer objects into a single layer; this ability to be merged is
+\code{sass_layer()} to create these objects, and \code{sass_bundle()} to combine
+two or more layers or bundles objects into a Sass bundle; this ability to be merged is
 the main benefit of using Sass layers versus lower-level forms of sass input.
+At a later time, Sass layers may be removed from Sass bundles
+by referencing the same name that was used when creating the Sass bundle.
 }
+\section{Functions}{
+\itemize{
+\item \code{sass_layer}: Compose the parts of a single Sass layer. Object returned is a \code{sass_bundle()} with a single Sass layer
+
+\item \code{sass_bundle}: Collect \code{sass_bundle()} and/or \code{sass_layer()} objects. Unnamed Sass bundles will be concatenated together, preserving their internal name structures. Named Sass bundles will be condensed into a single Sass layer for easier removal from the returned Sass bundle.
+
+\item \code{sass_bundle_remove}: Remove a whole \code{sass_layer()} from a \code{sass_bundle()} object.
+
+\item \code{is_sass_bundle}: Check if \code{x} is a Sass bundle object
+}}
+
 \examples{
 blue <- list(color = "blue !default")
 red <- list(color = "red !default")
@@ -77,8 +102,15 @@ sass(core)
 # Here we place a red default _before_ the blue default and export the
 # color SASS variable as a CSS variable _after_ the core
 red_layer <- sass_layer(red, rules = ":root{ --color: #{$color}; }")
-sass(sass_layer_merge(core, red_layer))
-sass(sass_layer_merge(core, red_layer, sass_layer(green)))
+sass(sass_bundle(core, red_layer))
+sass(sass_bundle(core, red_layer, sass_layer(green)))
+
+# Example of merging layers and removing a layer
+# Remember to name the layers that are removable
+core_layers <- sass_bundle(core, red = red_layer, green = sass_layer(green))
+core_layers # pretty printed for console
+core_slim <- sass_bundle_remove(core_layers, "red")
+sass(core_slim)
 
 
 # File attachment example: Create a checkboard pattern .png, then

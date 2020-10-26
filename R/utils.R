@@ -109,3 +109,40 @@ dir.create2 <- function(path, ...) {
     stop("Error creating directory: ", path)
   }
 }
+
+# adds a class to the object (if possible) (if not already done)
+add_class <- function(x, class_val) {
+  if (is.null(x)) return(x)
+  if (inherits(x, class_val)) return(x)
+
+  class(x) <- c(class_val, class(x))
+  x
+}
+
+collapse0 <- function(..., collapse = "\n") {
+  paste0(..., collapse = collapse)
+}
+
+# checks for any valid, non-"" keys in the list x
+#' @importFrom  rlang have_name
+has_any_name <- function(x) {
+  any(have_name(x))
+}
+
+has_any_name_recursive <- function(x) {
+  if (has_any_name(x)) {
+    # if this level has a name, return true
+    return(TRUE)
+  }
+  if (!is.list(x)) {
+    return(FALSE)
+  }
+  # Recursively inspect list objects
+  # Use for loop to pre-empty calculations
+  for (item in x) {
+    if (has_any_name_recursive(item)) {
+      return(TRUE)
+    }
+  }
+  return(FALSE)
+}

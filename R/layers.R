@@ -1,29 +1,34 @@
-#' Sass layer objects
+#' @importFrom rlang list2 names2
+NULL
+
+#' Bundling Sass layers
 #'
 #' Sass layers are a way to group a set of related Sass variable definitions,
 #' function/mixin declarations, and CSS rules into a single object. Use
-#' `sass_layer()` to create these objects, and `sass_layer_merge()` to combine
-#' two or more layer objects into a single layer; this ability to be merged is
+#' `sass_layer()` to create these objects, and `sass_bundle()` to combine
+#' two or more layers or bundles objects into a Sass bundle; this ability to be merged is
 #' the main benefit of using Sass layers versus lower-level forms of sass input.
+#' At a later time, Sass layers may be removed from Sass bundles
+#' by referencing the same name that was used when creating the Sass bundle.
 #'
 #' @md
-#' @param ... A collection of [sass_layer()]s and/or objects that [as_sass()]
+#' @param ... A collection of `sass_layer()`s and/or objects that [sass::as_sass()]
 #'   understands. Arguments should be provided in reverse priority order:
 #'   defaults, declarations, and rules in later layers will take precedence over
 #'   those of previous layers. Non-layer values will be converted to layers by
 #'   calling `sass_layer(rules = ...)`.
 #' @param defaults A suitable [sass::as_sass()] `input`. Intended for declaring
 #'   variables with `!default`. When layers are combined, defaults are merged in
-#'   reverse order; that is, `sass_layer_merge(layer1, layer2)` will include
+#'   reverse order; that is, `sass_bundle(layer1, layer2)` will include
 #'   `layer2$defaults` before `layer1$defaults`.
 #' @param declarations A suitable [sass::as_sass()] `input`.  Intended for
 #'   function and mixin declarations, and variable declarations without
 #'   `!default`; not intended for actual CSS rules. These will be merged in
-#'   forward order; that is, `sass_layer_merge(layer1, layer2)` will include
+#'   forward order; that is, `sass_bundle(layer1, layer2)` will include
 #'   `layer1$declarations` before `layer2$declarations`.
 #' @param rules A suitable [sass::as_sass()] `input`. Intended for actual CSS
 #'   rules. These will be merged in forward order; that is,
-#'   `sass_layer_merge(layer1, layer2)` will include `layer1$rules` before
+#'   `sass_bundle(layer1, layer2)` will include `layer1$rules` before
 #'   `layer2$rules`.
 #' @param html_deps An HTML dependency (or a list of them).
 #' @param file_attachments A named character vector, representing file assets
@@ -35,9 +40,8 @@
 #'   into the destination directory; the directory itself will not be copied.)
 #'   You can also omit the name, in which case that file or directory will be
 #'   copied directly into the output directory.
-#' @param tags A character vector with zero or more elements. Can be used to
+#' @param tags Deprecated. Preserve meta information using a key in `sass_bundle(KEY = val)`.
 #'   preserve simple metadata as layers are merged.
-#' @export
 #' @examples
 #' blue <- list(color = "blue !default")
 #' red <- list(color = "red !default")
@@ -54,8 +58,15 @@
 #' # Here we place a red default _before_ the blue default and export the
 #' # color SASS variable as a CSS variable _after_ the core
 #' red_layer <- sass_layer(red, rules = ":root{ --color: #{$color}; }")
-#' sass(sass_layer_merge(core, red_layer))
-#' sass(sass_layer_merge(core, red_layer, sass_layer(green)))
+#' sass(sass_bundle(core, red_layer))
+#' sass(sass_bundle(core, red_layer, sass_layer(green)))
+#'
+#' # Example of merging layers and removing a layer
+#' # Remember to name the layers that are removable
+#' core_layers <- sass_bundle(core, red = red_layer, green = sass_layer(green))
+#' core_layers # pretty printed for console
+#' core_slim <- sass_bundle_remove(core_layers, "red")
+#' sass(core_slim)
 #'
 #'
 #' # File attachment example: Create a checkboard pattern .png, then
@@ -76,20 +87,47 @@
 #'
 #' output_path <- tempfile(fileext = ".css")
 #' sass(layer, output = output_path, write_attachments = TRUE)
-#' @name sass_layer
-sass_layer_merge <- function(...) {
-  layers <- dropNulls(rlang::list2(...))
-  is_layer <- vapply(layers, is_sass_layer, logical(1))
-  layers[!is_layer] <- lapply(layers[!is_layer], function(x) {
-    sass_layer(rules = x)
-  })
-  Reduce(sass_layers_join, layers)
+#' @describeIn sass_layer Compose the parts of a single Sass layer. Object returned is a `sass_bundle()` with a single Sass layer
+#' @export
+sass_layer <- function(
+  defaults = NULL,
+  declarations = NULL,
+  rules = NULL,
+  html_deps = NULL,
+  file_attachments = character(0),
+  tags = NULL
+) {
+
+  if (!missing(tags)) {
+    .Deprecated(msg="`sass_layer(tags)` is deprecated. Please use a named layer in a `sass_bundle(NAME = layer)`")
+  }
+
+  # return a size 1 sass_bundle()
+  as_sass_bundle(
+    sass_layer_struct(
+      defaults = defaults,
+      declarations = declarations,
+      rules = rules,
+      html_deps = html_deps,
+      file_attachments = file_attachments
+    )
+  )
 }
 
-#' @rdname sass_layer
-#' @export
-sass_layer <- function(defaults = "", declarations = "", rules = "",
-  html_deps = NULL, file_attachments = character(0), tags = character(0)) {
+#' Helps avoid sass_layer / sass_bundle inf recursion
+#' @return object of class `sass_layer`
+#' @noRd
+sass_layer_struct <- function(
+  defaults = NULL,
+  declarations = NULL,
+  rules = NULL,
+  html_deps = NULL,
+  file_attachments = character(0)
+) {
+
+  validate_layer_param(defaults, "defaults")
+  validate_layer_param(declarations, "declarations")
+  validate_layer_param(rules, "rules")
 
   validate_attachments(file_attachments)
 
@@ -102,40 +140,235 @@ sass_layer <- function(defaults = "", declarations = "", rules = "",
   }
 
   layer <- list(
-    defaults = as_sass(defaults),
-    declarations = as_sass(declarations),
-    rules = as_sass(rules),
+    defaults = defaults,
+    declarations = declarations,
+    rules = rules,
     html_deps = html_deps,
-    file_attachments = file_attachments,
-    tags = tags
+    file_attachments = file_attachments
   )
-  structure(layer, class = "sass_layer")
+  add_class(layer, "sass_layer")
 }
 
+validate_layer_param <- function(x, name) {
+  bundle_item <- find_bundle_or_layer(x)
+  if (!is.null(bundle_item)) {
+    stop(
+      "`sass_layer(", name, ")` can not contain another `sass_bundle()` object.\n",
+      "Found:\n",
+      collapse0(utils::capture.output(print(bundle_item)))
+    )
+  }
+}
+is_sass_bundle_like <- function(x) {
+  is_sass_bundle(x) || is_sass_layer(x)
+}
+
+# returns the sass bundle like obj or NULL
+find_bundle_or_layer <- function(x) {
+  if (!is.list(x)) return(NULL)
+  if (is_sass_bundle_like(x)) return(x)
+
+  # Recursively inspect list objects
+  # Use for loop to pre-empty calculations
+  for (item in x) {
+    if (is_sass_bundle_like(item)) return(item)
+    ret <- find_bundle_or_layer(item)
+    if (!is.null(ret)) return(ret)
+  }
+  return(NULL)
+}
+
+
+# @param x object to inspect or turn into Sass bundle
+# @param name Sass layer name to use inside the Sass bundle object
+as_sass_bundle <- function(x, name = "") {
+  stopifnot(is.character(name) && length(name) == 1)
+
+  # Upgrade pattern:
+  # is_sass_bundle(x) && name == "" -> x
+  # is_sass_bundle(x) && name != "" -> sass_bundle(!!name := as_sass_layer(x))
+  # is_sass_layer(x)                -> sass_bundle(!!name := x)
+  # is.list(x) && has_any_name(x)   -> sass_bundle(!!name := sass_layer(defaults = x))
+  # else                            -> sass_bundle(!!name := sass_layer(rules = x))
+
+  # A list of sass_layer values can be handled by sass_bundle(...) or sass_bundle(!!!x). Do not test for this
+
+  if (is_sass_bundle(x)) {
+    # if there is nothing special about the name, return
+    if (identical(name, "")) {
+      return(x)
+    }
+
+    # convert to a single sass layer object so the overall name can be used
+    x <- as_sass_layer(x)
+  }
+
+  single_layer <-
+    if (is_sass_layer(x)) {
+      x
+    } else {
+      # upgrade via sass_layer
+      if (is.list(x) && has_any_name_recursive(x)) {
+        # a name was found somewhere
+        sass_layer_struct(defaults = x)
+      } else {
+        sass_layer_struct(rules = x)
+      }
+    }
+
+  layers <- list()
+  layers[[name]] <- single_layer
+
+  sass_bundle_struct(layers = layers)
+}
+
+#' Helps avoid sass_bundle inf recursion
+#' @param layers named or unnamed list containing sass_layer objects
+#' @return object of class `sass_bundle`
+#' @noRd
+sass_bundle_struct <- function(layers = list()) {
+  layers_are_sass_layers <- vapply(layers, is_sass_layer, logical(1))
+  stopifnot(all(layers_are_sass_layers))
+  ret <- list(
+    layers = layers
+  )
+  class(ret) <- "sass_bundle"
+  ret
+}
+
+#' @describeIn sass_layer Collect `sass_bundle()` and/or `sass_layer()` objects. Unnamed Sass bundles will be concatenated together, preserving their internal name structures. Named Sass bundles will be condensed into a single Sass layer for easier removal from the returned Sass bundle.
+#' @export
+sass_bundle <- function(...) {
+  layers <- dropNulls(list2(...))
+  layers_upgraded <-
+    mapply(
+      SIMPLIFY = FALSE,
+      layers,
+      names2(layers),
+      FUN = function(x, name) {
+        as_sass_bundle(x, name = name)
+      }
+    )
+  # collect and flatten
+  ## unlist(list(list(1), list(), NULL, list(2)), recursive = FALSE)
+  #> [[1]]
+  #> [1] 1
+  #>
+  #> [[2]]
+  #> [1] 2
+  ret_layers <- unlist(
+    lapply(unname(layers_upgraded), `[[`, "layers"),
+    recursive = FALSE
+  )
+  sass_bundle_struct(ret_layers)
+}
+
+
+#' @describeIn sass_layer Remove a whole `sass_layer()` from a `sass_bundle()` object.
+#' @param bundle Output value from `sass_layer()` or `sass_bundle()`
+#' @param name If a Sass layer name is contained in `name`, the matching Sass layer will be removed from the `bundle`
+#' @export
+sass_bundle_remove <- function(bundle, name) {
+  stopifnot(is_sass_bundle(bundle))
+  if (!(
+    is.character(name) &&
+    all(!is.na(name)) &&
+    all(nzchar(name))
+  )) {
+    stop("`name` needs to be a character vector containing non-NA and non-empty values")
+  }
+
+  layer_names <- names(bundle$layers)
+  # vector support
+  layer_name_matches <- layer_names %in% name
+  if (any(layer_name_matches)) {
+    name_pos <- which(layer_name_matches)
+    bundle$layers <- bundle$layers[-1 * name_pos]
+  }
+  bundle
+}
+
+
+
+
+# sass_layer Check if `x` is a Sass layer object
+is_sass_layer <- function(x) {
+  inherits(x, "sass_layer")
+}
+
+
+
+#' @describeIn sass_layer Check if `x` is a Sass bundle object
+#' @param x object to inspect
+#' @export
+is_sass_bundle <- function(x) {
+  inherits(x, "sass_bundle")
+}
+
+
+
+#' Sass Bundle to Single Sass Layer
+#'
+#' Converts a [sass_bundle()] to a single Sass layer object.
+#'
+#' This is exported for internal use between packages and should not be used.
+#' Instead, please use [sass_layer()] or [sass_bundle()] to construct and manage your sass objects
+#' and [sass()] and [as_sass()] to convert your objects.
+#'
+#' @keywords internal
+#' @export
+as_sass_layer <- function(x) {
+  if (is_sass_layer(x)) return(x)
+  # sass_bundle(x) will auto upgrade to a sass bundle object
+  Reduce(function(y1, y2) { sass_layers_join(y1, y2) }, sass_bundle(x)$layers)
+}
 sass_layers_join <- function(layer1, layer2) {
-  sass_layer(
-    defaults = as_sass(list(layer2$defaults, layer1$defaults)),
-    declarations = as_sass(list(layer1$declarations, layer2$declarations)),
-    rules = as_sass(list(layer1$rules, layer2$rules)),
+  sass_layer_struct(
+    defaults = join_non_null_values(layer2$defaults, layer1$defaults),
+    declarations = join_non_null_values(layer1$declarations, layer2$declarations),
+    rules = join_non_null_values(layer1$rules, layer2$rules),
     html_deps = c(layer1$html_deps, layer2$html_deps),
-    file_attachments = join_attachments(layer1$file_attachments, layer2$file_attachments),
-    tags = c(layer1$tags, layer2$tags)
+    file_attachments = join_attachments(layer1$file_attachments, layer2$file_attachments)
   )
 }
+join_non_null_values <- function(x, y) {
+  ret <- dropNulls(list(x, y))
+  if (length(ret) == 0) return(NULL)
+  if (length(ret) == 1) return(ret[[1]])
+  ret
+}
+# attach2 takes precedence
+join_attachments <- function(attach1, attach2) {
+  # I thought about removing duplicates here, but it's hard to do so reliably
+  # because the paths can be files or directories.
+  c(attach1, attach2)
+}
+
 
 # Given the `input` to `sass()`, returns either NULL or a single sass_layer
-# that merges any sass_layers found in the input
+# that merges any sass_bundle found in the input
+# returns a single `sass_layer()` / `NULL`
 extract_layer <- function(input) {
-  if (inherits(input, "sass_layer")) {
+  if (is_sass_layer(input)) {
     return(input)
+  }
+  if (is_sass_bundle(input)) {
+    return(as_sass_layer(input))
   }
   if (!identical(class(input), "list")) {
     return(NULL)
   }
 
-  layers <- lapply(input, extract_layer)
+  layers <- lapply(input, function(x) extract_layer(x))
   layers <- dropNulls(layers)
-  sass_layer_merge(!!!layers)
+  if (length(layers) == 0) {
+    return(NULL)
+  }
+  # convert to a sass layer object
+  as_sass_layer(
+    # merge all sass layers
+    sass_bundle(!!!layers)
+  )
 }
 
 validate_attachments <- function(attachments) {
@@ -181,12 +414,6 @@ validate_attachments <- function(attachments) {
     "Illegal file attachment destination path(s)")
 }
 
-# attach2 takes precedence
-join_attachments <- function(attach1, attach2) {
-  # I thought about removing duplicates here, but it's hard to do so reliably
-  # because the paths can be files or directories.
-  c(attach1, attach2)
-}
 
 #' Write file attachments from a sass theme object
 #'
@@ -238,9 +465,6 @@ write_file_attachments <- function(file_attachments, output_path) {
   invisible()
 }
 
-is_sass_layer <- function(x) {
-  inherits(x, "sass_layer")
-}
 
 dropNulls <- function(x) {
   x[!vapply(x, is.null, FUN.VALUE=logical(1))]

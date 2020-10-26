@@ -57,7 +57,7 @@ test_that("sass_partial() and sass() arguments match", {
 
   sp <- formals(sass_partial)
   sp$rules <- NULL
-  sp$layer <- NULL
+  sp$bundle <- NULL
 
   expect_identical(s, sp)
 })

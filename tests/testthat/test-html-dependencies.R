@@ -1,5 +1,8 @@
 context("html-dependencies")
 
+# Disable sass cache
+local_disable_cache()
+
 library(htmltools)
 dep1 <- htmlDependency(
   name = "fake1",
@@ -21,6 +24,6 @@ test_that("sass() relays sass_layer()'s html dependencies", {
   input1 <- list(layer1, "body{color: red}")
   expect_equal(htmlDependencies(sass(input1)), list(dep1))
   layer2 <- sass_layer(defaults = "body{color: blue}", html_deps = dep2)
-  input2 <- sass_layer_merge(layer1, layer2)
+  input2 <- sass_bundle(layer1, layer2)
   expect_equal(htmlDependencies(sass(input2)), list(dep1, dep2))
 })

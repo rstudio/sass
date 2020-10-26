@@ -121,7 +121,7 @@ sass_file_cache <- function(
 #'
 #' @keywords internal
 #' @importFrom R6 R6Class
-FileCache <- R6Class("FileCache",
+FileCache <- R6::R6Class("FileCache",
   public = list(
     #' @description Create a FileCache object.
     #' @param dir Directory to store files for the cache. If `NULL` (the default) it

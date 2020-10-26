@@ -174,7 +174,7 @@ sass <- function(
     sass_hash(list(
       input, options, cache_key_extra,
       # Detect if any attachments have changed
-      if (is.list(layer) && !is.null(layer$file_attachments)) get_file_mtimes(layer$file_attachments)
+      if (is_sass_layer(layer) && !is.null(layer$file_attachments)) get_file_mtimes(layer$file_attachments)
     ))
   }
 
@@ -241,7 +241,7 @@ sass <- function(
 }
 
 
-#' Set the rules for a `sass_layer` object
+#' Compile rules against a Sass Bundle or Sass Layer object
 #'
 #' Replaces the rules for a [sass_layer()] object with new rules, and compile it.
 #' This is useful when (for example) you want to compile a set of rules using
@@ -250,7 +250,7 @@ sass <- function(
 #'
 #' @param rules A set of sass rules, which will be used instead of the rules
 #'   from `layer`.
-#' @param layer A [sass_layer()] object.
+#' @param bundle A [sass_bundle()] or [sass_layer()] object.
 #' @inheritParams sass
 #'
 #' @examples
@@ -269,16 +269,18 @@ sass <- function(
 #' @export
 sass_partial <- function(
   rules,
-  layer,
+  bundle,
   options = sass_options(),
   output = NULL,
   write_attachments = NA,
   cache = sass_cache_get(),
   cache_key_extra = NULL)
 {
-  if (!is_sass_layer(layer)) {
-    stop("`layer` must be a sass_layer object.", call. = FALSE)
+  if (!is_sass_bundle(bundle)) {
+    stop("`bundle` must be a `sass_bundle()` object.", call. = FALSE)
   }
+
+  layer <- as_sass_layer(bundle)
 
   rules <- as_sass(rules)
   layer$rules <- rules

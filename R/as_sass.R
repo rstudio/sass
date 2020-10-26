@@ -78,39 +78,45 @@ as_sass_.logical <- function(input) {
 }
 
 as_sass_.list <- function(input) {
-  input_names <- names(input)
-
-  # if it is a list of independent items...
-  if (length(input_names) == 0) {
-    # must use `lapply(a, function(x) as_sass_(x))`
-    #   as `as_sass_` can not be found if using `lapply(a, as_sass_)`
-    input_vals <- lapply(input, function(x) {
-      as_sass_(x)
-    })
-    compiled <- paste0(input_vals, collapse = "\n")
-    return(compiled)
-  }
-
-  # named list of variables
-  if (any(input_names == "")) {
-    stop(
-      "If providing sass with a named variable list.  All variables must be named. \n", "
-      Missing name at index: ", paste0(which(input_names == ""), collapse = ", ")
-    )
-  }
-
-  input_values <- lapply(input, function(x) {
-    as_sass_(x)
-  })
-  paste0("$", input_names, ": ", input_values, ";", collapse = "\n")
+  sass_vals <- mapply(
+    SIMPLIFY = FALSE,
+    rlang::names2(input),
+    input,
+    FUN = function(name, val) {
+      if (nchar(name) > 0) {
+        # if a name is provided...
+        collapse0("$", name, ": ", as_sass_(val), ";")
+      } else {
+        # if no name is provided
+        as_sass_(val)
+      }
+    }
+  )
+  collapse0(sass_vals)
 }
 
 as_sass_.sass_layer <- function(input) {
-  as_sass_(list(input$defaults, input$declarations, input$rules))
+  # concatinate all sass layer content in order
+  collapse0(
+    c(
+      # only collect non-null values
+      if (!is.null(input$defaults)) as_sass_(input$defaults),
+      if (!is.null(input$declarations)) as_sass_(input$declarations),
+      if (!is.null(input$rules)) as_sass_(input$rules)
+    )
+  )
+}
+
+as_sass_.sass_bundle <- function(input) {
+  if (length(input$layers) == 0) {
+    # if there are no layers, return nothing
+    return("")
+  }
+  as_sass_(as_sass_layer(input))
 }
 
 as_sass_.character <- function(input) {
-  if (any(nchar(rlang::names2(input)) > 0)) {
+  if (has_any_name(input)) {
     warning(
       "Character vector names are ignored. ",
       "Instead of a named character vector, use a named list to define Sass variables.",
