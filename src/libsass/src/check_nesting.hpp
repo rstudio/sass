@@ -1,14 +1,18 @@
 #ifndef SASS_CHECK_NESTING_H
 #define SASS_CHECK_NESTING_H
 
+// sass.hpp must go before all system headers to get the
+// __EXTENSIONS__ fix on Solaris.
+#include "sass.hpp"
 #include "ast.hpp"
 #include "operation.hpp"
+#include <vector>
 
 namespace Sass {
 
   class CheckNesting : public Operation_CRTP<Statement*, CheckNesting> {
 
-    std::vector<Statement*>  parents;
+    sass::vector<Statement*>  parents;
     Backtraces                  traces;
     Statement*               parent;
     Definition*              current_mixin_definition;
@@ -29,7 +33,7 @@ namespace Sass {
       Statement* s = Cast<Statement>(x);
       if (s && this->should_visit(s)) {
         Block* b1 = Cast<Block>(s);
-        Has_Block* b2 = Cast<Has_Block>(s);
+        ParentStatement* b2 = Cast<ParentStatement>(s);
         if (b1 || b2) return visit_children(s);
       }
       return s;

@@ -8,15 +8,6 @@ namespace Sass {
 
   namespace Functions {
 
-    // features
-    static std::set<std::string> features {
-      "global-variable-shadowing",
-      "extend-selector-pseudoclass",
-      "at-error",
-      "units-level-3",
-      "custom-property"
-    };
-
     //////////////////////////
     // INTROSPECTION FUNCTIONS
     //////////////////////////
@@ -31,7 +22,7 @@ namespace Sass {
     Signature variable_exists_sig = "variable-exists($name)";
     BUILT_IN(variable_exists)
     {
-      std::string s = Util::normalize_underscores(unquote(ARG("$name", String_Constant)->value()));
+      sass::string s = Util::normalize_underscores(unquote(ARG("$name", String_Constant)->value()));
 
       if(d_env.has("$"+s)) {
         return SASS_MEMORY_NEW(Boolean, pstate, true);
@@ -44,7 +35,7 @@ namespace Sass {
     Signature global_variable_exists_sig = "global-variable-exists($name)";
     BUILT_IN(global_variable_exists)
     {
-      std::string s = Util::normalize_underscores(unquote(ARG("$name", String_Constant)->value()));
+      sass::string s = Util::normalize_underscores(unquote(ARG("$name", String_Constant)->value()));
 
       if(d_env.has_global("$"+s)) {
         return SASS_MEMORY_NEW(Boolean, pstate, true);
@@ -62,7 +53,7 @@ namespace Sass {
         error("$name: " + (env["$name"]->to_string()) + " is not a string for `function-exists'", pstate, traces);
       }
 
-      std::string name = Util::normalize_underscores(unquote(ss->value()));
+      sass::string name = Util::normalize_underscores(unquote(ss->value()));
 
       if(d_env.has(name+"[f]")) {
         return SASS_MEMORY_NEW(Boolean, pstate, true);
@@ -75,7 +66,7 @@ namespace Sass {
     Signature mixin_exists_sig = "mixin-exists($name)";
     BUILT_IN(mixin_exists)
     {
-      std::string s = Util::normalize_underscores(unquote(ARG("$name", String_Constant)->value()));
+      sass::string s = Util::normalize_underscores(unquote(ARG("$name", String_Constant)->value()));
 
       if(d_env.has(s+"[m]")) {
         return SASS_MEMORY_NEW(Boolean, pstate, true);
@@ -85,52 +76,54 @@ namespace Sass {
       }
     }
 
-    Signature feature_exists_sig = "feature-exists($name)";
+    Signature feature_exists_sig = "feature-exists($feature)";
     BUILT_IN(feature_exists)
     {
-      std::string s = unquote(ARG("$name", String_Constant)->value());
+      sass::string s = unquote(ARG("$feature", String_Constant)->value());
 
-      if(features.find(s) == features.end()) {
-        return SASS_MEMORY_NEW(Boolean, pstate, false);
-      }
-      else {
-        return SASS_MEMORY_NEW(Boolean, pstate, true);
-      }
+      static const auto *const features = new std::unordered_set<sass::string> {
+        "global-variable-shadowing",
+        "extend-selector-pseudoclass",
+        "at-error",
+        "units-level-3",
+        "custom-property"
+      };
+      return SASS_MEMORY_NEW(Boolean, pstate, features->find(s) != features->end());
     }
 
-    Signature call_sig = "call($name, $args...)";
+    Signature call_sig = "call($function, $args...)";
     BUILT_IN(call)
     {
-      std::string name;
-      Function* ff = Cast<Function>(env["$name"]);
-      String_Constant* ss = Cast<String_Constant>(env["$name"]);
+      sass::string function;
+      Function* ff = Cast<Function>(env["$function"]);
+      String_Constant* ss = Cast<String_Constant>(env["$function"]);
 
       if (ss) {
-        name = Util::normalize_underscores(unquote(ss->value()));
+        function = Util::normalize_underscores(unquote(ss->value()));
         std::cerr << "DEPRECATION WARNING: ";
         std::cerr << "Passing a string to call() is deprecated and will be illegal" << std::endl;
-        std::cerr << "in Sass 4.0. Use call(get-function(" + quote(name) + ")) instead." << std::endl;
+        std::cerr << "in Sass 4.0. Use call(get-function(" + quote(function) + ")) instead." << std::endl;
         std::cerr << std::endl;
       } else if (ff) {
-        name = ff->name();
+        function = ff->name();
       }
 
       List_Obj arglist = SASS_MEMORY_COPY(ARG("$args", List));
 
       Arguments_Obj args = SASS_MEMORY_NEW(Arguments, pstate);
-      // std::string full_name(name + "[f]");
+      // sass::string full_name(name + "[f]");
       // Definition* def = d_env.has(full_name) ? Cast<Definition>((d_env)[full_name]) : 0;
       // Parameters* params = def ? def->parameters() : 0;
       // size_t param_size = params ? params->length() : 0;
       for (size_t i = 0, L = arglist->length(); i < L; ++i) {
-        Expression_Obj expr = arglist->value_at_index(i);
+        ExpressionObj expr = arglist->value_at_index(i);
         // if (params && params->has_rest_parameter()) {
         //   Parameter_Obj p = param_size > i ? (*params)[i] : 0;
         //   List* list = Cast<List>(expr);
         //   if (list && p && !p->is_rest_parameter()) expr = (*list)[0];
         // }
         if (arglist->is_arglist()) {
-          Expression_Obj obj = arglist->at(i);
+          ExpressionObj obj = arglist->at(i);
           Argument_Obj arg = (Argument*) obj.ptr(); // XXX
           args->append(SASS_MEMORY_NEW(Argument,
                                        pstate,
@@ -142,8 +135,9 @@ namespace Sass {
           args->append(SASS_MEMORY_NEW(Argument, pstate, expr));
         }
       }
-      Function_Call_Obj func = SASS_MEMORY_NEW(Function_Call, pstate, name, args);
-      Expand expand(ctx, &d_env, &selector_stack);
+      Function_Call_Obj func = SASS_MEMORY_NEW(Function_Call, pstate, function, args);
+
+      Expand expand(ctx, &d_env, &selector_stack, &original_stack);
       func->via_call(true); // calc invoke is allowed
       if (ff) func->func(ff);
       return Cast<PreValue>(func->perform(&expand.eval));
@@ -160,15 +154,13 @@ namespace Sass {
     }
 
     Signature if_sig = "if($condition, $if-true, $if-false)";
-    // BUILT_IN(sass_if)
-    // { return ARG("$condition", Expression)->is_false() ? ARG("$if-false", Expression) : ARG("$if-true", Expression); }
     BUILT_IN(sass_if)
     {
-      Expand expand(ctx, &d_env, &selector_stack);
-      Expression_Obj cond = ARG("$condition", Expression)->perform(&expand.eval);
+      Expand expand(ctx, &d_env, &selector_stack, &original_stack);
+      ExpressionObj cond = ARG("$condition", Expression)->perform(&expand.eval);
       bool is_true = !cond->is_false();
-      Expression_Obj res = ARG(is_true ? "$if-true" : "$if-false", Expression);
-      Value_Obj qwe = Cast<Value>(res->perform(&expand.eval));
+      ExpressionObj res = ARG(is_true ? "$if-true" : "$if-false", Expression);
+      ValueObj qwe = Cast<Value>(res->perform(&expand.eval));
       // res = res->perform(&expand.eval.val_eval);
       qwe->set_delayed(false); // clone?
       return qwe.detach();
@@ -177,9 +169,6 @@ namespace Sass {
     //////////////////////////
     // MISCELLANEOUS FUNCTIONS
     //////////////////////////
-
-    // value.check_deprecated_interp if value.is_a?(Sass::Script::Value::String)
-    // unquoted_string(value.to_sass)
 
     Signature inspect_sig = "inspect($value)";
     BUILT_IN(inspect)
@@ -208,7 +197,6 @@ namespace Sass {
         ctx.c_options.output_style = old_style;
         return SASS_MEMORY_NEW(String_Quoted, pstate, i.get_buffer());
       }
-      // return v;
     }
 
     Signature content_exists_sig = "content-exists()";
@@ -228,8 +216,8 @@ namespace Sass {
         error("$name: " + (env["$name"]->to_string()) + " is not a string for `get-function'", pstate, traces);
       }
 
-      std::string name = Util::normalize_underscores(unquote(ss->value()));
-      std::string full_name = name + "[f]";
+      sass::string name = Util::normalize_underscores(unquote(ss->value()));
+      sass::string full_name = name + "[f]";
 
       Boolean_Obj css = ARG("$css", Boolean);
       if (!css->is_false()) {

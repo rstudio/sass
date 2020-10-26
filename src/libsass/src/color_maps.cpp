@@ -4,6 +4,7 @@
 
 #include "ast.hpp"
 #include "color_maps.hpp"
+#include "util_string.hpp"
 
 namespace Sass {
 
@@ -161,7 +162,7 @@ namespace Sass {
   }
 
   namespace Colors {
-    const ParserState color_table("[COLOR TABLE]");
+    const SourceSpan color_table("[COLOR TABLE]");
     const Color_RGBA aliceblue(color_table, 240, 248, 255, 1);
     const Color_RGBA antiquewhite(color_table, 250, 235, 215, 1);
     const Color_RGBA cyan(color_table, 0, 255, 255, 1);
@@ -313,7 +314,7 @@ namespace Sass {
     const Color_RGBA transparent(color_table, 0, 0, 0, 0);
   }
 
-  const std::map<const int, const char*> colors_to_names {
+  static const auto* const colors_to_names = new std::unordered_map<int, const char*> {
     { 240 * 0x10000 + 248 * 0x100 + 255, ColorNames::aliceblue },
     { 250 * 0x10000 + 235 * 0x100 + 215, ColorNames::antiquewhite },
     {   0 * 0x10000 + 255 * 0x100 + 255, ColorNames::cyan },
@@ -455,7 +456,7 @@ namespace Sass {
     { 102 * 0x10000 +  51 * 0x100 + 153, ColorNames::rebeccapurple }
   };
 
-  const std::map<const char*, const Color_RGBA*, map_cmp_str> names_to_colors
+  static const auto *const names_to_colors = new std::unordered_map<sass::string, const Color_RGBA*>
   {
     { ColorNames::aliceblue, &Colors::aliceblue },
     { ColorNames::antiquewhite, &Colors::antiquewhite },
@@ -610,29 +611,29 @@ namespace Sass {
 
   const Color_RGBA* name_to_color(const char* key)
   {
-    return name_to_color(std::string(key));
+    return name_to_color(sass::string(key));
   }
 
-  const Color_RGBA* name_to_color(const std::string& key)
+  const Color_RGBA* name_to_color(const sass::string& key)
   {
     // case insensitive lookup.  See #2462
-    std::string lower{key};
-    std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+    sass::string lower = key;
+    Util::ascii_str_tolower(&lower);
 
-    auto p = names_to_colors.find(lower.c_str());
-    if (p != names_to_colors.end()) {
+    auto p = names_to_colors->find(lower);
+    if (p != names_to_colors->end()) {
       return p->second;
     }
-    return 0;
+    return nullptr;
   }
 
   const char* color_to_name(const int key)
   {
-    auto p = colors_to_names.find(key);
-    if (p != colors_to_names.end()) {
+    auto p = colors_to_names->find(key);
+    if (p != colors_to_names->end()) {
       return p->second;
     }
-    return 0;
+    return nullptr;
   }
 
   const char* color_to_name(const double key)

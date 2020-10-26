@@ -3,7 +3,7 @@ directory paths, and R CMD check provides a warning.
 
 diff --git a/src/libsass/test/Makefile b/src/libsass/test/Makefile
 deleted file mode 100644
-index f990a43..0000000
+index 0f9aa30..0000000
 --- a/src/libsass/test/Makefile
 +++ /dev/null
 @@ -1,24 +0,0 @@
@@ -21,41 +21,45 @@ index f990a43..0000000
 -build:
 -	@mkdir build
 -
--build/test_shared_ptr: test_shared_ptr.cpp ../src/memory/SharedPtr.cpp | build
--	$(CXX) $(CXXFLAGS) -o build/test_shared_ptr test_shared_ptr.cpp ../src/memory/SharedPtr.cpp
+-build/test_shared_ptr: test_shared_ptr.cpp ../src/memory/shared_ptr.cpp | build
+-	$(CXX) $(CXXFLAGS) ../src/memory/allocator.cpp ../src/memory/shared_ptr.cpp -o build/test_shared_ptr test_shared_ptr.cpp
 -
 -build/test_util_string: test_util_string.cpp ../src/util_string.cpp | build
--	$(CXX) $(CXXFLAGS) -o build/test_util_string test_util_string.cpp ../src/util_string.cpp
+-	$(CXX) $(CXXFLAGS) ../src/memory/allocator.cpp ../src/util_string.cpp -o build/test_util_string test_util_string.cpp
 -
 -clean: | build
 -	rm -rf build
 -
 -.PHONY: test test_shared_ptr test_util_string clean
-diff --git a/src/libsass/test/e2e/unicode-pwd/Sáss-UŢF8/input.scss b/src/libsass/test/e2e/unicode-pwd/Sáss-UŢF8/input.scss
+diff --git "a/src/libsass/test/e2e/unicode-pwd/S\303\241ss-U\305\242F8/input.scss" "b/src/libsass/test/e2e/unicode-pwd/S\303\241ss-U\305\242F8/input.scss"
 deleted file mode 100644
 index 2d4b287..0000000
---- a/src/libsass/test/e2e/unicode-pwd/Sáss-UŢF8/input.scss
+--- "a/src/libsass/test/e2e/unicode-pwd/S\303\241ss-U\305\242F8/input.scss"
 +++ /dev/null
 @@ -1,3 +0,0 @@
 -span.utf8-in-path {
 -  margin: auto;
 -}
-diff --git a/src/libsass/test/e2e/unicode-pwd/Sáss-UŢF8/output.css b/src/libsass/test/e2e/unicode-pwd/Sáss-UŢF8/output.css
+diff --git "a/src/libsass/test/e2e/unicode-pwd/S\303\241ss-U\305\242F8/output.css" "b/src/libsass/test/e2e/unicode-pwd/S\303\241ss-U\305\242F8/output.css"
 deleted file mode 100644
 index 2d4b287..0000000
---- a/src/libsass/test/e2e/unicode-pwd/Sáss-UŢF8/output.css
+--- "a/src/libsass/test/e2e/unicode-pwd/S\303\241ss-U\305\242F8/output.css"
 +++ /dev/null
 @@ -1,3 +0,0 @@
 -span.utf8-in-path {
 -  margin: auto;
 -}
+diff --git a/src/libsass/test/go.mod b/src/libsass/test/go.mod
+deleted file mode 100644
+index e69de29..0000000
 diff --git a/src/libsass/test/test_shared_ptr.cpp b/src/libsass/test/test_shared_ptr.cpp
 deleted file mode 100644
-index 6b1ccc2..0000000
+index 7355c1a..0000000
 --- a/src/libsass/test/test_shared_ptr.cpp
 +++ /dev/null
-@@ -1,162 +0,0 @@
--#include "../src/memory/SharedPtr.hpp"
+@@ -1,191 +0,0 @@
+-#include "../src/memory/allocator.hpp"
+-#include "../src/memory/shared_ptr.hpp"
 -
 -#include <iostream>
 -#include <memory>
@@ -72,8 +76,8 @@ index 6b1ccc2..0000000
 - public:
 -  TestObj(bool *destroyed) : destroyed_(destroyed) {}
 -  ~TestObj() { *destroyed_ = true; }
--  const std::string to_string() const {
--    std::ostringstream result;
+-  Sass::sass::string to_string() const {
+-    Sass::sass::ostream result;
 -    result << "refcount=" << refcount << " destroyed=" << *destroyed_;
 -    return result.str();
 -  }
@@ -86,7 +90,7 @@ index 6b1ccc2..0000000
 -bool TestOneSharedPtr() {
 -  bool destroyed = false;
 -  {
--    SharedTestObj a = new TestObj(&destroyed);
+-    SharedTestObj a = SASS_MEMORY_NEW(TestObj, &destroyed);
 -  }
 -  ASSERT(destroyed);
 -  return true;
@@ -95,7 +99,7 @@ index 6b1ccc2..0000000
 -bool TestTwoSharedPtrs() {
 -  bool destroyed = false;
 -  {
--    SharedTestObj a = new TestObj(&destroyed);
+-    SharedTestObj a = SASS_MEMORY_NEW(TestObj, &destroyed);
 -    {
 -      SharedTestObj b = a;
 -    }
@@ -108,7 +112,7 @@ index 6b1ccc2..0000000
 -bool TestSelfAssignment() {
 -  bool destroyed = false;
 -  {
--    SharedTestObj a = new TestObj(&destroyed);
+-    SharedTestObj a = SASS_MEMORY_NEW(TestObj, &destroyed);
 -    a = a;
 -    ASSERT(!destroyed);
 -  }
@@ -192,6 +196,32 @@ index 6b1ccc2..0000000
 -  return true;
 -}
 -
+-class EmptyTestObj : public Sass::SharedObj {
+-  public:
+-    Sass::sass::string to_string() const { return ""; }
+-};
+-
+-bool TestComparisonWithSharedPtr() {
+-  Sass::SharedImpl<EmptyTestObj> a = new EmptyTestObj();
+-  ASSERT(a == a);
+-  Sass::SharedImpl<EmptyTestObj> b = a;
+-  ASSERT(a == b);
+-  Sass::SharedImpl<EmptyTestObj> c = new EmptyTestObj();
+-  ASSERT(a != c);
+-  Sass::SharedImpl<EmptyTestObj> nullobj;
+-  ASSERT(a != nullobj);
+-  ASSERT(nullobj == nullobj);
+-  return true;
+-}
+-
+-bool TestComparisonWithNullptr() {
+-  Sass::SharedImpl<EmptyTestObj> a = new EmptyTestObj();
+-  ASSERT(a != nullptr);
+-  Sass::SharedImpl<EmptyTestObj> nullobj;
+-  ASSERT(nullobj == nullptr);
+-  return true;
+-}
+-
 -#define TEST(fn) \
 -  if (fn()) { \
 -    passed.push_back(#fn); \
@@ -212,6 +242,8 @@ index 6b1ccc2..0000000
 -  TEST(TestSelfAssignDetach);
 -  TEST(TestDetachedPtrIsNotDestroyedUntilAssignment);
 -  TEST(TestDetachNull);
+-  TEST(TestComparisonWithSharedPtr);
+-  TEST(TestComparisonWithNullptr);
 -  std::cerr << argv[0] << ": Passed: " << passed.size()
 -            << ", failed: " << failed.size()
 -            << "." << std::endl;
@@ -219,10 +251,10 @@ index 6b1ccc2..0000000
 -}
 diff --git a/src/libsass/test/test_util_string.cpp b/src/libsass/test/test_util_string.cpp
 deleted file mode 100644
-index 5c73430..0000000
+index a44e6e1..0000000
 --- a/src/libsass/test/test_util_string.cpp
 +++ /dev/null
-@@ -1,123 +0,0 @@
+@@ -1,217 +0,0 @@
 -#include "../src/util_string.hpp"
 -
 -#include <iostream>
@@ -232,8 +264,8 @@ index 5c73430..0000000
 -
 -namespace {
 -
--std::string escape_string(const std::string& str) {
--  std::string out;
+-Sass::sass::string escape_string(const Sass::sass::string& str) {
+-  Sass::sass::string out;
 -  out.reserve(str.size());
 -  for (char c : str) {
 -    switch (c) {
@@ -253,6 +285,17 @@ index 5c73430..0000000
 -  return out;
 -}
 -
+-#define ASSERT_TRUE(cond) \
+-  if (!cond) { \
+-    std::cerr << \
+-      "Expected condition to be true at " << __FILE__ << ":" << __LINE__ << \
+-      std::endl; \
+-    return false; \
+-  } \
+-
+-#define ASSERT_FALSE(cond) \
+-  ASSERT_TRUE(!(cond)) \
+-
 -#define ASSERT_STR_EQ(a, b) \
 -  if (a != b) { \
 -    std::cerr << \
@@ -264,58 +307,134 @@ index 5c73430..0000000
 -  } \
 -
 -bool TestNormalizeNewlinesNoNewline() {
--  std::string input = "a";
--  std::string normalized = Sass::Util::normalize_newlines(input);
+-  Sass::sass::string input = "a";
+-  Sass::sass::string normalized = Sass::Util::normalize_newlines(input);
 -  ASSERT_STR_EQ(input, normalized);
 -  return true;
 -}
 -
 -bool TestNormalizeNewlinesLF() {
--  std::string input = "a\nb";
--  std::string normalized = Sass::Util::normalize_newlines(input);
+-  Sass::sass::string input = "a\nb";
+-  Sass::sass::string normalized = Sass::Util::normalize_newlines(input);
 -  ASSERT_STR_EQ(input, normalized);
 -  return true;
 -}
 -
 -bool TestNormalizeNewlinesCR() {
--  std::string normalized = Sass::Util::normalize_newlines("a\rb");
+-  Sass::sass::string normalized = Sass::Util::normalize_newlines("a\rb");
 -  ASSERT_STR_EQ("a\nb", normalized);
 -  return true;
 -}
 -
 -bool TestNormalizeNewlinesCRLF() {
--  std::string normalized = Sass::Util::normalize_newlines("a\r\nb\r\n");
+-  Sass::sass::string normalized = Sass::Util::normalize_newlines("a\r\nb\r\n");
 -  ASSERT_STR_EQ("a\nb\n", normalized);
 -  return true;
 -}
 -
 -bool TestNormalizeNewlinesFF() {
--  std::string normalized = Sass::Util::normalize_newlines("a\fb\f");
+-  Sass::sass::string normalized = Sass::Util::normalize_newlines("a\fb\f");
 -  ASSERT_STR_EQ("a\nb\n", normalized);
 -  return true;
 -}
 -
 -bool TestNormalizeNewlinesMixed() {
--  std::string normalized = Sass::Util::normalize_newlines("a\fb\nc\rd\r\ne\ff");
+-  Sass::sass::string normalized = Sass::Util::normalize_newlines("a\fb\nc\rd\r\ne\ff");
 -  ASSERT_STR_EQ("a\nb\nc\nd\ne\nf", normalized);
 -  return true;
 -}
 -
 -bool TestNormalizeUnderscores() {
--  std::string normalized = Sass::Util::normalize_underscores("a_b_c");
+-  Sass::sass::string normalized = Sass::Util::normalize_underscores("a_b_c");
 -  ASSERT_STR_EQ("a-b-c", normalized);
 -  return true;
 -}
 -
 -bool TestNormalizeDecimalsLeadingZero() {
--  std::string normalized = Sass::Util::normalize_decimals("0.5");
+-  Sass::sass::string normalized = Sass::Util::normalize_decimals("0.5");
 -  ASSERT_STR_EQ("0.5", normalized);
 -  return true;
 -}
 -
 -bool TestNormalizeDecimalsNoLeadingZero() {
--  std::string normalized = Sass::Util::normalize_decimals(".5");
+-  Sass::sass::string normalized = Sass::Util::normalize_decimals(".5");
 -  ASSERT_STR_EQ("0.5", normalized);
+-  return true;
+-}
+-
+-bool testEqualsLiteral() {
+-  ASSERT_TRUE(Sass::Util::equalsLiteral("moz", "moz"));
+-  ASSERT_TRUE(Sass::Util::equalsLiteral(":moz", ":moz"));
+-  ASSERT_FALSE(Sass::Util::equalsLiteral("moz", ":moz"));
+-  ASSERT_FALSE(Sass::Util::equalsLiteral(":moz", "moz"));
+-  ASSERT_TRUE(Sass::Util::equalsLiteral("moz-foo", "MOZ-foo"));
+-  ASSERT_FALSE(Sass::Util::equalsLiteral("moz-foo", "moz_foo"));
+-  ASSERT_TRUE(Sass::Util::equalsLiteral("moz-foo", "MOZ-FOOS"));
+-  ASSERT_FALSE(Sass::Util::equalsLiteral("moz-foos", "moz-foo"));
+-  ASSERT_FALSE(Sass::Util::equalsLiteral("-moz-foo", "moz-foo"));
+-  return true;
+-
+-}
+-
+-bool TestUnvendor() {
+-  // Generated by using dart sass
+-  ASSERT_STR_EQ("moz", Sass::Util::unvendor("moz"));
+-  ASSERT_STR_EQ(":moz", Sass::Util::unvendor(":moz"));
+-  ASSERT_STR_EQ("-moz", Sass::Util::unvendor("-moz"));
+-  ASSERT_STR_EQ("--moz", Sass::Util::unvendor("--moz"));
+-  ASSERT_STR_EQ("moz-bar", Sass::Util::unvendor("moz-bar"));
+-  ASSERT_STR_EQ("bar", Sass::Util::unvendor("-moz-bar"));
+-  ASSERT_STR_EQ("bar-", Sass::Util::unvendor("-moz-bar-"));
+-  ASSERT_STR_EQ("--moz-bar", Sass::Util::unvendor("--moz-bar"));
+-  ASSERT_STR_EQ("-bar", Sass::Util::unvendor("-moz--bar"));
+-  ASSERT_STR_EQ("any", Sass::Util::unvendor("-s-any"));
+-  ASSERT_STR_EQ("any-more", Sass::Util::unvendor("-s-any-more"));
+-  ASSERT_STR_EQ("any--more", Sass::Util::unvendor("-s-any--more"));
+-  ASSERT_STR_EQ("--s-any--more", Sass::Util::unvendor("--s-any--more"));
+-  ASSERT_STR_EQ("s-any--more", Sass::Util::unvendor("s-any--more"));
+-  ASSERT_STR_EQ("_s_any_more", Sass::Util::unvendor("_s_any_more"));
+-  ASSERT_STR_EQ("more", Sass::Util::unvendor("-s_any-more"));
+-  ASSERT_STR_EQ("any_more", Sass::Util::unvendor("-s-any_more"));
+-  ASSERT_STR_EQ("_s_any_more", Sass::Util::unvendor("_s_any_more"));
+-  return true;
+-}
+-
+-bool Test_ascii_str_to_lower() {
+-  Sass::sass::string str = "A B";
+-  Sass::Util::ascii_str_tolower(&str);
+-  ASSERT_STR_EQ("a b", str);
+-  return true;
+-}
+-
+-bool Test_ascii_str_to_upper() {
+-  Sass::sass::string str = "a b";
+-  Sass::Util::ascii_str_toupper(&str);
+-  ASSERT_STR_EQ("A B", str);
+-  return true;
+-}
+-
+-bool Test_ascii_isalpha() {
+-  ASSERT_TRUE(Sass::Util::ascii_isalpha('a'));
+-  ASSERT_FALSE(Sass::Util::ascii_isalpha('3'));
+-  return true;
+-}
+-
+-bool Test_ascii_isxdigit() {
+-  ASSERT_TRUE(Sass::Util::ascii_isxdigit('a'));
+-  ASSERT_TRUE(Sass::Util::ascii_isxdigit('F'));
+-  ASSERT_TRUE(Sass::Util::ascii_isxdigit('3'));
+-  ASSERT_FALSE(Sass::Util::ascii_isxdigit('G'));
+-  return true;
+-}
+-
+-bool Test_ascii_isspace() {
+-  ASSERT_TRUE(Sass::Util::ascii_isspace(' '));
+-  ASSERT_TRUE(Sass::Util::ascii_isspace('\t'));
+-  ASSERT_TRUE(Sass::Util::ascii_isspace('\v'));
+-  ASSERT_TRUE(Sass::Util::ascii_isspace('\f'));
+-  ASSERT_TRUE(Sass::Util::ascii_isspace('\r'));
+-  ASSERT_TRUE(Sass::Util::ascii_isspace('\n'));
+-  ASSERT_FALSE(Sass::Util::ascii_isspace('G'));
 -  return true;
 -}
 -
@@ -341,6 +460,13 @@ index 5c73430..0000000
 -  TEST(TestNormalizeUnderscores);
 -  TEST(TestNormalizeDecimalsLeadingZero);
 -  TEST(TestNormalizeDecimalsNoLeadingZero);
+-  TEST(testEqualsLiteral);
+-  TEST(TestUnvendor);
+-  TEST(Test_ascii_str_to_lower);
+-  TEST(Test_ascii_str_to_upper);
+-  TEST(Test_ascii_isalpha);
+-  TEST(Test_ascii_isxdigit);
+-  TEST(Test_ascii_isspace);
 -  std::cerr << argv[0] << ": Passed: " << passed.size()
 -            << ", failed: " << failed.size()
 -            << "." << std::endl;

@@ -1,7 +1,11 @@
 #ifndef SASS_EVAL_H
 #define SASS_EVAL_H
 
+// sass.hpp must go before all system headers to get the
+// __EXTENSIONS__ fix on Solaris.
+#include "sass.hpp"
 #include "ast.hpp"
+
 #include "context.hpp"
 #include "listize.hpp"
 #include "operation.hpp"
@@ -30,26 +34,22 @@ namespace Sass {
 
     Env* environment();
     EnvStack& env_stack();
-    const std::string cwd();
-    Selector_List_Obj selector();
+    const sass::string cwd();
     CalleeStack& callee_stack();
-    SelectorStack& selector_stack();
-    bool& old_at_root_without_rule();
     struct Sass_Inspect_Options& options();
-    struct Sass_Inspect_Options options2();
     struct Sass_Compiler* compiler();
 
     // for evaluating function bodies
     Expression* operator()(Block*);
     Expression* operator()(Assignment*);
     Expression* operator()(If*);
-    Expression* operator()(For*);
-    Expression* operator()(Each*);
-    Expression* operator()(While*);
+    Expression* operator()(ForRule*);
+    Expression* operator()(EachRule*);
+    Expression* operator()(WhileRule*);
     Expression* operator()(Return*);
-    Expression* operator()(Warning*);
-    Expression* operator()(Error*);
-    Expression* operator()(Debug*);
+    Expression* operator()(WarningRule*);
+    Expression* operator()(ErrorRule*);
+    Expression* operator()(DebugRule*);
 
     Expression* operator()(List*);
     Expression* operator()(Map*);
@@ -64,13 +64,12 @@ namespace Sass {
     Expression* operator()(String_Schema*);
     Expression* operator()(String_Quoted*);
     Expression* operator()(String_Constant*);
-    // Expression* operator()(Selector_List*);
     Media_Query* operator()(Media_Query*);
     Expression* operator()(Media_Query_Expression*);
     Expression* operator()(At_Root_Query*);
-    Expression* operator()(Supports_Operator*);
-    Expression* operator()(Supports_Negation*);
-    Expression* operator()(Supports_Declaration*);
+    Expression* operator()(SupportsOperation*);
+    Expression* operator()(SupportsNegation*);
+    Expression* operator()(SupportsDeclaration*);
     Expression* operator()(Supports_Interpolation*);
     Expression* operator()(Null*);
     Expression* operator()(Argument*);
@@ -78,23 +77,22 @@ namespace Sass {
     Expression* operator()(Comment*);
 
     // these will return selectors
-    Selector_List* operator()(Selector_List*);
-    Selector_List* operator()(Complex_Selector*);
-    Compound_Selector* operator()(Compound_Selector*);
-    Simple_Selector* operator()(Simple_Selector* s);
-    Wrapped_Selector* operator()(Wrapped_Selector* s);
+    SelectorList* operator()(SelectorList*);
+    SelectorList* operator()(ComplexSelector*);
+    CompoundSelector* operator()(CompoundSelector*);
+    SelectorComponent* operator()(SelectorComponent*);
+    SimpleSelector* operator()(SimpleSelector* s);
+    PseudoSelector* operator()(PseudoSelector* s);
 
     // they don't have any specific implementation (yet)
-    Id_Selector* operator()(Id_Selector* s) { return s; };
-    Class_Selector* operator()(Class_Selector* s) { return s; };
-    Pseudo_Selector* operator()(Pseudo_Selector* s) { return s; };
-    Type_Selector* operator()(Type_Selector* s) { return s; };
-    Attribute_Selector* operator()(Attribute_Selector* s) { return s; };
-    Placeholder_Selector* operator()(Placeholder_Selector* s) { return s; };
+    IDSelector* operator()(IDSelector* s) { return s; };
+    ClassSelector* operator()(ClassSelector* s) { return s; };
+    TypeSelector* operator()(TypeSelector* s) { return s; };
+    AttributeSelector* operator()(AttributeSelector* s) { return s; };
+    PlaceholderSelector* operator()(PlaceholderSelector* s) { return s; };
 
     // actual evaluated selectors
-    Selector_List* operator()(Selector_Schema*);
-    Expression* operator()(Parent_Selector*);
+    SelectorList* operator()(Selector_Schema*);
     Expression* operator()(Parent_Reference*);
 
     // generic fallback
@@ -103,7 +101,7 @@ namespace Sass {
     { return Cast<Expression>(x); }
 
   private:
-    void interpolation(Context& ctx, std::string& res, Expression_Obj ex, bool into_quotes, bool was_itpl = false);
+    void interpolation(Context& ctx, sass::string& res, ExpressionObj ex, bool into_quotes, bool was_itpl = false);
 
   };
 

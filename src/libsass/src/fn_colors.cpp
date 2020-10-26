@@ -2,12 +2,12 @@
 // __EXTENSIONS__ fix on Solaris.
 #include "sass.hpp"
 
-#include <cctype>
 #include <iomanip>
 #include "ast.hpp"
 #include "fn_utils.hpp"
 #include "fn_colors.hpp"
 #include "util.hpp"
+#include "util_string.hpp"
 
 namespace Sass {
 
@@ -16,16 +16,16 @@ namespace Sass {
     bool string_argument(AST_Node_Obj obj) {
       String_Constant* s = Cast<String_Constant>(obj);
       if (s == nullptr) return false;
-      const std::string& str = s->value();
+      const sass::string& str = s->value();
       return starts_with(str, "calc(") ||
              starts_with(str, "var(");
     }
 
-    void hsla_alpha_percent_deprecation(const ParserState& pstate, const std::string val)
+    void hsla_alpha_percent_deprecation(const SourceSpan& pstate, const sass::string val)
     {
 
-      std::string msg("Passing a percentage as the alpha value to hsla() will be interpreted");
-      std::string tail("differently in future versions of Sass. For now, use " + val + " instead.");
+      sass::string msg("Passing a percentage as the alpha value to hsla() will be interpreted");
+      sass::string tail("differently in future versions of Sass. For now, use " + val + " instead.");
 
       deprecated(msg, tail, false, pstate);
 
@@ -104,7 +104,7 @@ namespace Sass {
       if (
         string_argument(env["$alpha"])
       ) {
-        std::stringstream strm;
+        sass::ostream strm;
         strm << "rgba("
                  << (int)c_arg->r() << ", "
                  << (int)c_arg->g() << ", "
@@ -145,7 +145,7 @@ namespace Sass {
       return SASS_MEMORY_NEW(Number, pstate, color->b());
     }
 
-    Color_RGBA* colormix(Context& ctx, ParserState& pstate, Color* color1, Color* color2, double weight) {
+    Color_RGBA* colormix(Context& ctx, SourceSpan& pstate, Color* color1, Color* color2, double weight) {
       Color_RGBA_Obj c1 = color1->toRGBA();
       Color_RGBA_Obj c2 = color2->toRGBA();
       double p = weight/100;
@@ -163,11 +163,11 @@ namespace Sass {
                              c1->a()*p + c2->a()*(1-p));
     }
 
-    Signature mix_sig = "mix($color-1, $color-2, $weight: 50%)";
+    Signature mix_sig = "mix($color1, $color2, $weight: 50%)";
     BUILT_IN(mix)
     {
-      Color_Obj  color1 = ARG("$color-1", Color);
-      Color_Obj  color2 = ARG("$color-2", Color);
+      Color_Obj  color1 = ARG("$color1", Color);
+      Color_Obj  color2 = ARG("$color2", Color);
       double weight = DARG_U_PRCT("$weight");
       return colormix(ctx, pstate, color1, color2, weight);
 
@@ -230,7 +230,7 @@ namespace Sass {
         Number_Obj val = SASS_MEMORY_COPY(alpha);
         val->numerators.clear(); // convert
         val->value(val->value() / 100.0);
-        std::string nr(val->to_string(ctx.c_options));
+        sass::string nr(val->to_string(ctx.c_options));
         hsla_alpha_percent_deprecation(pstate, nr);
       }
 
@@ -361,12 +361,16 @@ namespace Sass {
     {
       // CSS3 filter function overload: pass literal through directly
       Number* amount = Cast<Number>(env["$color"]);
+      double weight = DARG_U_PRCT("$weight");
       if (amount) {
+        // TODO: does not throw on 100% manually passed as value
+        if (weight < 100.0) {
+          error("Only one argument may be passed to the plain-CSS invert() function.", pstate, traces);
+        }
         return SASS_MEMORY_NEW(String_Quoted, pstate, "invert(" + amount->to_string(ctx.c_options) + ")");
       }
 
       Color* col = ARG("$color", Color);
-      double weight = DARG_U_PRCT("$weight");
       Color_RGBA_Obj inv = col->copyAsRGBA();
       inv->r(clip(255.0 - inv->r(), 0.0, 255.0));
       inv->g(clip(255.0 - inv->g(), 0.0, 255.0));
@@ -504,7 +508,7 @@ namespace Sass {
         double lscale = (l ? DARG_R_PRCT("$lightness") : 0.0) / 100.0;
         double ascale = (a ? DARG_R_PRCT("$alpha") : 0.0) / 100.0;
         if (hscale) c->h(c->h() + hscale * (hscale > 0.0 ? 360.0 - c->h() : c->h()));
-        if (sscale) c->s(c->s() + sscale * (sscale > 0.0 ? 100.0 - c->l() : c->s()));
+        if (sscale) c->s(c->s() + sscale * (sscale > 0.0 ? 100.0 - c->s() : c->s()));
         if (lscale) c->l(c->l() + lscale * (lscale > 0.0 ? 100.0 - c->l() : c->l()));
         if (ascale) c->a(c->a() + ascale * (ascale > 0.0 ? 1.0 - c->a() : c->a()));
         return c.detach();
@@ -575,17 +579,15 @@ namespace Sass {
       double b = clip(c->b(), 0.0, 255.0);
       double a = clip(c->a(), 0.0, 1.0) * 255.0;
 
-      std::stringstream ss;
+      sass::ostream ss;
       ss << '#' << std::setw(2) << std::setfill('0');
       ss << std::hex << std::setw(2) << static_cast<unsigned long>(Sass::round(a, ctx.c_options.precision));
       ss << std::hex << std::setw(2) << static_cast<unsigned long>(Sass::round(r, ctx.c_options.precision));
       ss << std::hex << std::setw(2) << static_cast<unsigned long>(Sass::round(g, ctx.c_options.precision));
       ss << std::hex << std::setw(2) << static_cast<unsigned long>(Sass::round(b, ctx.c_options.precision));
 
-      std::string result(ss.str());
-      for (size_t i = 0, L = result.length(); i < L; ++i) {
-        result[i] = std::toupper(result[i]);
-      }
+      sass::string result = ss.str();
+      Util::ascii_str_toupper(&result);
       return SASS_MEMORY_NEW(String_Quoted, pstate, result);
     }
 
