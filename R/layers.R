@@ -272,7 +272,7 @@ sass_bundle_remove <- function(bundle, name) {
   stopifnot(is_sass_bundle(bundle))
   if (!(
     is.character(name) &&
-    all(!is.na(name)) &
+    all(!is.na(name)) &&
     all(nzchar(name))
   )) {
     stop("`name` needs to be a character vector containing non-NA and non-empty values")
