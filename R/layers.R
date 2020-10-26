@@ -325,22 +325,11 @@ sass_layers_join <- function(layer1, layer2) {
   )
 }
 join_non_null_values <- function(x, y) {
-  x_is_null <- is.null(x)
-  y_is_null <- is.null(y)
-  if (x_is_null) {
-    if (y_is_null) {
-      return(NULL)
-    } else {
-      return(y)
-    }
-  } else {
-    # x is NOT null
-    if (y_is_null) {
-      return(x)
-    } else {
-      return(list(x, y))
-    }
+  ret <- dropNulls(list(x, y))
+  if (length(ret) == 1) {
+    return(ret[[1]])
   }
+  ret
 }
 # attach2 takes precedence
 join_attachments <- function(attach1, attach2) {
