@@ -1,7 +1,7 @@
 #' @importFrom rlang list2 names2
 NULL
 
-#' Sass layer and Sass bundle objects
+#' Bundling Sass layers
 #'
 #' Sass layers are a way to group a set of related Sass variable definitions,
 #' function/mixin declarations, and CSS rules into a single object. Use

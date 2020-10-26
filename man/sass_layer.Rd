@@ -5,7 +5,7 @@
 \alias{sass_bundle}
 \alias{sass_bundle_remove}
 \alias{is_sass_bundle}
-\title{Sass layer and Sass bundle objects}
+\title{Bundling Sass layers}
 \usage{
 sass_layer(
   defaults = NULL,
