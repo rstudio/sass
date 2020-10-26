@@ -61,12 +61,12 @@ test_that("join_non_null_values combines null elements as expected", {
 test_that("bundle like objects can be detected", {
 
   sass_item <- sass_layer("body {}")
-  expect_equal(contains_sass_bundle_or_layer(list(list(list(4, 5, 6, list(sass_item), 7)))), sass_item)
-  expect_equal(contains_sass_bundle_or_layer(list(list(list(4, 5, 6, sass_item, 7)))), sass_item)
-  expect_equal(contains_sass_bundle_or_layer(list(list(list(4, 5, 6, sass_item, 7)))), sass_item)
-  expect_equal(contains_sass_bundle_or_layer(list(list(list(4, 5, 6, as_sass_layer(sass_item), 7)))), as_sass_layer(sass_item))
+  expect_equal(find_bundle_or_layer(list(list(list(4, 5, 6, list(sass_item), 7)))), sass_item)
+  expect_equal(find_bundle_or_layer(list(list(list(4, 5, 6, sass_item, 7)))), sass_item)
+  expect_equal(find_bundle_or_layer(list(list(list(4, 5, 6, sass_item, 7)))), sass_item)
+  expect_equal(find_bundle_or_layer(list(list(list(4, 5, 6, as_sass_layer(sass_item), 7)))), as_sass_layer(sass_item))
 
-  expect_equal(contains_sass_bundle_or_layer(list(list(list(4, 5, 6, 10, 7)))), NULL)
+  expect_equal(find_bundle_or_layer(list(list(list(4, 5, 6, 10, 7)))), NULL)
 
   my_layer <- sass_layer(rules = "body {}")
   expect_error(

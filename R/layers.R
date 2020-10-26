@@ -150,7 +150,7 @@ sass_layer_struct <- function(
 }
 
 validate_layer_param <- function(x, name) {
-  bundle_item <- contains_sass_bundle_or_layer(x)
+  bundle_item <- find_bundle_or_layer(x)
   if (!is.null(bundle_item)) {
     stop(
       "`sass_layer(", name, ")` can not contain another `sass_bundle()` object.\n",
@@ -164,7 +164,7 @@ is_sass_bundle_like <- function(x) {
 }
 
 # returns the sass bundle like obj or NULL
-contains_sass_bundle_or_layer <- function(x) {
+find_bundle_or_layer <- function(x) {
   if (!is.list(x)) return(NULL)
   if (is_sass_bundle_like(x)) return(x)
 
@@ -172,7 +172,7 @@ contains_sass_bundle_or_layer <- function(x) {
   # Use for loop to pre-empty calculations
   for (item in x) {
     if (is_sass_bundle_like(item)) return(item)
-    ret <- contains_sass_bundle_or_layer(item)
+    ret <- find_bundle_or_layer(item)
     if (!is.null(ret)) return(ret)
   }
   return(NULL)
