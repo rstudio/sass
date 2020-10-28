@@ -131,12 +131,17 @@ sass_layer_struct <- function(
 
   validate_attachments(file_attachments)
 
-  if (inherits(html_deps, "html_dependency")) {
-    html_deps <- list(html_deps)
-  }
   if (!is.null(html_deps)) {
-    is_dependency <- vapply(html_deps, inherits, logical(1), "html_dependency")
-    if (any(!is_dependency)) stop("html_deps must be a collection of htmltools::htmlDependency() objects", call. = FALSE)
+    if (is_dependency_maybe(html_deps)) {
+      html_deps <- list(html_deps)
+    }
+    if (!is.list(html_deps)) {
+      stop("`html_deps` must be a collection of htmlDependency() and/or tagFunction() objects")
+    }
+    is_dependency <- vapply(html_deps, is_dependency_maybe, logical(1))
+    if (any(!is_dependency)) {
+      stop("`html_deps` must be a collection of htmlDependency() and/or tagFunction() objects")
+    }
   }
 
   layer <- list(
@@ -147,6 +152,10 @@ sass_layer_struct <- function(
     file_attachments = file_attachments
   )
   add_class(layer, "sass_layer")
+}
+
+is_dependency_maybe <- function(x) {
+  inherits(x, "html_dependency") || inherits(x, "shiny.tag.function")
 }
 
 validate_layer_param <- function(x, name) {
