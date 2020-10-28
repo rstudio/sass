@@ -131,13 +131,16 @@ sass_layer_struct <- function(
 
   validate_attachments(file_attachments)
 
-  if (is_dependency_maybe(html_deps)) {
-    html_deps <- list(html_deps)
-  }
   if (!is.null(html_deps)) {
+    if (is_dependency_maybe(html_deps)) {
+      html_deps <- list(html_deps)
+    }
+    if (!is.list(html_deps)) {
+      stop("`html_deps` must be a collection of htmlDependency() and/or tagFunction() objects")
+    }
     is_dependency <- vapply(html_deps, is_dependency_maybe, logical(1))
     if (any(!is_dependency)) {
-      warning("Expected html_deps to be a collection of htmlDependency() or tagFunction() objects", call. = FALSE)
+      stop("`html_deps` must be a collection of htmlDependency() and/or tagFunction() objects")
     }
   }
 
