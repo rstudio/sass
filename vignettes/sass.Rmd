@@ -60,7 +60,7 @@ button {
 
 Sass variables are not the only Sass tool useful for reducing complexity. For Sass and **sass** newcomers, this vignette first covers how to use basic Sass tools like [variables](#variables), [mixins](#mixins), and [functions](#functions) in the **sass** R package. After the basics, you'll also learn how to write [composable **sass**](#layering) that allows users to easily override your styling defaults and developers to [include](#includes) your Sass in their styling projects. You'll also learn how to control the CSS output (e.g., [compress](#compression) and [cache](#caching) it), and how to use it in [**shiny**](#shiny) & [**rmarkdown**](#rmarkdown).
 
-By mastering these concepts, you'll not only be able to leverage the advantages of using Sass over CSS, but you'll also have the basis needed to develop R interfaces to Sass projects that allow users to easily customize your styling templates _without any knowledge of Sass/CSS_. For an example, see the [**bootstraplib** R package](https://github.com/rstudio/bootstraplib), which provides a interface to [Bootstrap Sass](https://getbootstrap.com/docs/4.0/getting-started/theming/) through easy-to-use functions like `bs_theme_add_variables()`.
+By mastering these concepts, you'll not only be able to leverage the advantages of using Sass over CSS, but you'll also have the basis needed to develop R interfaces to Sass projects that allow users to easily customize your styling templates _without any knowledge of Sass/CSS_. For an example, see the [**bslib** R package](https://github.com/rstudio/bslib), which provides a interface to [Bootstrap Sass](https://getbootstrap.com/docs/4.0/getting-started/theming/) through easy-to-use functions like `bs_theme_add_variables()`.
 
 ## Sass Basics {#basics}
 
@@ -143,7 +143,7 @@ sass(
 )
 ```
 
-**NOTE**: [Bootstrap 4 Sass](https://getbootstrap.com/docs/4.0/getting-started/theming/) provides it's own color contrasting function, named `color-yiq()`, which does essentially the same thing as `color-contrast()`, and is easy to use via `bootstrap_sass()` function the **bootstraplib** package (this function automatically imports Bootstrap's variables, functions, and mixins):
+**NOTE**: [Bootstrap 4 Sass](https://getbootstrap.com/docs/4.0/getting-started/theming/) provides it's own color contrasting function, named `color-yiq()`, which does essentially the same thing as `color-contrast()`, and is easy to use via `bootstrap_sass()` function the **bslib** package (this function automatically imports Bootstrap's variables, functions, and mixins):
 
 ```{r, eval=FALSE, ref.label='bs_sass'}
 ```
@@ -210,7 +210,7 @@ sass(sass_bundle(layer1, layer2))
 
 ### Resolving relative imports {#imports-relative}
 
-Another problem that `sass_layer()` helps solve is that sometimes your Sass code might want to [import](#imports) a local file using a relative path that _you_ know how to resolve, but not necessarily the person who eventually compiles your Sass. To solve this issue, provide a named character vector to `file_attachments`, pointing the relevant relative path(s) to the appropriate absolute path(s). Here's a contrived example of how that might look ([here's](https://github.com/rstudio/bootstraplib/blob/9c973e9/R/layers.R#L75-L77) a more real example of using it in an R package).
+Another problem that `sass_layer()` helps solve is that sometimes your Sass code might want to [import](#imports) a local file using a relative path that _you_ know how to resolve, but not necessarily the person who eventually compiles your Sass. To solve this issue, provide a named character vector to `file_attachments`, pointing the relevant relative path(s) to the appropriate absolute path(s). Here's a contrived example of how that might look ([here's](https://github.com/rstudio/bslib/blob/9c973e9/R/layers.R#L75-L77) a more real example of using it in an R package).
 
 ```r
 sass_layer(
