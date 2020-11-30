@@ -168,11 +168,12 @@ sass <- function(
 
   css <- NULL
   layer <- extract_layer(input)
+  sass_input <- as_sass(input)
 
   # If caching is active, compute the hash key
   cache_key <- if (!is.null(cache)) {
     sass_hash(list(
-      input, options, cache_key_extra,
+      sass_input, options, cache_key_extra,
       # Detect if any attachments have changed
       if (is_sass_layer(layer) && !is.null(layer$file_attachments)) get_file_mtimes(layer$file_attachments)
     ))
@@ -207,7 +208,7 @@ sass <- function(
 
     if (!cache_hit) {
       # We had a cache miss, so write to disk now
-      css <- compile_data(as_sass(input), options)
+      css <- compile_data(sass_input, options)
       Encoding(css) <- "UTF-8"
 
       # In case this same code is running in two processes pointed at the same
@@ -219,7 +220,7 @@ sass <- function(
 
   } else {
     # If we got here, we're not using a cache.
-    css <- compile_data(as_sass(input), options)
+    css <- compile_data(sass_input, options)
     Encoding(css) <- "UTF-8"
   }
 
