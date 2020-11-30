@@ -29,34 +29,52 @@ test_that("reads from and writes to cache", {
 })
 
 test_that("writes to cache", {
-  local_temp_cache()
-  cache <- sass_cache_get()
 
-  input <- list(
-    list(text_color = "#313131"),
-    list("body { color: $text_color; }")
+  expect_cached <- function(input, css) {
+    local_temp_cache()
+    cache <- sass_cache_get()
+    # Did we get the right result?
+    expect_css(input, css)
+    # Did a cache entry get added?
+    expect_equal(cache$size(), 1)
+    # Again, now with an output file
+    out_file <- tempfile(fileext = ".css")
+    expect_css(input, css, output = out_file)
+    # Now manipulate the cache directly to make sure it is actually being read
+    # from. We'll change the value in the cache and see if sass() reads from it.
+    cache$set_content(cache$keys(), "foo")
+    expect_css(input, "foo")
+  }
+
+  expect_cached(
+    list(
+      list(text_color = "#313131"),
+      list("body { color: $text_color; }")
+    ),
+    "body{color:#313131;}"
   )
 
-  options <- sass_options(output_style = "compact")
+  # Make sure cache key doesn't change with new/temporary HTML dependencies
+  my_layer <- function() {
+    src <- tempfile()
+    dir.create(src)
+    sass_layer(
+      "@function fib($x) {
+         @if $x <= 1 {
+           @return $x
+         }
+         @return fib($x - 2) + fib($x - 1);
+       }
+       body { width: fib(27);}",
+      html_deps = htmltools::htmlDependency("foo", "1.0", src)
+    )
+  }
 
-  res <- sass(input, options)
+  expect_cached(
+    my_layer(),
+    "body{width:196418;}"
+  )
 
-  # Did we get the right result?
-  expect_equal(as.character(res), "body { color: #313131; }\n")
-
-  # Did a cache entry get added?
-  expect_equal(cache$size(), 1)
-
-  # Again, now with an output file
-  out_file <- tempfile(fileext = ".css")
-  sass(input, options, out_file)
-  expect_equal(read_utf8(out_file), c("body { color: #313131; }\n"))
-
-  # Now manipulate the cache directly to make sure it is actually being read
-  # from. We'll change the value in the cache and see if sass() reads from it.
-  cache$set_content(cache$keys(), "foo")
-  res <- sass(input, options)
-  expect_equal(as.character(res), "foo")
 })
 
 test_that("unicode characters work OK after caching", {
