@@ -109,7 +109,9 @@ sass_cache_set_dir <- function(dir, cache) {
 #'
 #' @section Shiny Developer Mode:
 #'
-#' If Shiny Developer Mode is enabled (by setting `options(shiny.devmode = TRUE)` or calling [shiny::devmode(TRUE)]),
+# TODO change shiny devmode link to a roxygen link once shiny is released
+# Would need a shiny version >= 1.5.0.9006
+#' If Shiny Developer Mode is enabled (by setting `options(shiny.devmode = TRUE)` or calling `shiny::devmode(TRUE)`,
 #' the default global option value for `sass.cache` is updated to `FALSE` instead
 #' of `TRUE`, similar to `getOption("sass.cache", FALSE)`.  This setting allows
 #' developers to make sure what is being returned from [sass()] is not an incorrect

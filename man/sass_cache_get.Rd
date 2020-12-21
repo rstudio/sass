@@ -34,10 +34,10 @@ application and will not interfere with another application's cache.
 \section{Shiny Developer Mode}{
 
 
-If Shiny Developer Mode is enabled (by setting \code{options(shiny.devmode = TRUE)}),
+If Shiny Developer Mode is enabled (by setting \code{options(shiny.devmode = TRUE)} or calling \code{shiny::devmode(TRUE)},
 the default global option value for \code{sass.cache} is updated to \code{FALSE} instead
 of \code{TRUE}, similar to \code{getOption("sass.cache", FALSE)}.  This setting allows
-developers to make sure what is being returned from \code{\link[=sass]{sass()}} is not a dirty
+developers to make sure what is being returned from \code{\link[=sass]{sass()}} is not an incorrect
 cache result.
 }
 

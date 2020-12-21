@@ -1,5 +1,11 @@
 
 
+###
+# These methods could be removed if shiny were able to be imported.
+# * `shiny::in_devmode()`
+# * `shiny::get_devmode_option()`
+###
+
 
 in_shiny_devmode <- function() {
   isTRUE(getOption("shiny.devmode", FALSE)) &&
