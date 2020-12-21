@@ -1,6 +1,14 @@
 
 test_that("shiny devmode shuts off default caching", {
 
+  expect_equal(
+    identical(
+      sass_cache_get(),
+      NULL
+    ),
+    FALSE
+  )
+
 
   withr::local_options(list(
     shiny.devmode = TRUE,
@@ -11,8 +19,11 @@ test_that("shiny devmode shuts off default caching", {
   ))
 
   expect_equal(
-    sass_cache_get(),
-    NULL
+    identical(
+      sass_cache_get(),
+      NULL
+    ),
+    TRUE
   )
 
 })
