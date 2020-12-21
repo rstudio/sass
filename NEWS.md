@@ -6,7 +6,7 @@ Although caching is now enabled by default, it still may not be desirable while 
 
 Other improvements include:
 
-* Added support for Shiny Developer Mode by turning off sass caching by default. To enable Shiny Developer Mode, call `options(shiny.devmode = TRUE)`. (Related rstudio/shiny#3174, #68)
+* Added support for Shiny Developer Mode by turning off sass caching by default. To enable Shiny Developer Mode, call `options(shiny.devmode = TRUE)` (or `shiny::devmode(TRUE)`). (Related rstudio/shiny#3174, #68)
 
 * A new `output_template()` function for more convenient `output` path creation that is `cache` and `options` aware.
 

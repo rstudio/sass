@@ -109,10 +109,10 @@ sass_cache_set_dir <- function(dir, cache) {
 #'
 #' @section Shiny Developer Mode:
 #'
-#' If Shiny Developer Mode is enabled (by setting `options(shiny.devmode = TRUE)`),
+#' If Shiny Developer Mode is enabled (by setting `options(shiny.devmode = TRUE)` or calling [shiny::devmode(TRUE)]),
 #' the default global option value for `sass.cache` is updated to `FALSE` instead
 #' of `TRUE`, similar to `getOption("sass.cache", FALSE)`.  This setting allows
-#' developers to make sure what is being returned from [sass()] is not a dirty
+#' developers to make sure what is being returned from [sass()] is not an incorrect
 #' cache result.
 #'
 #' @seealso [sass_cache_get_dir()], [sass()]
@@ -124,7 +124,7 @@ sass_cache_get <- function() {
       "sass.cache",
       default = TRUE,
       devmode_default = FALSE,
-      "Turning off sass cache. To enable, call `options(sass.cache = TRUE)`"
+      devmode_message = "Turning off caching of Sass -> CSS compilation. To turn caching on, call `options(sass.cache = TRUE)`"
     )
 
   if (is.null(cache_option) || identical(cache_option, FALSE)) {
