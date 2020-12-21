@@ -11,7 +11,7 @@ Get the default sass cache object, for the current context. The context
 depends on factors described below.
 
 \code{sass_cache_get()} first checks the \code{sass.cache} option. If it is set to
-\code{FALSE}, then this function returns \code{NULL}. If it has been set to a string,
+\code{NULL} or \code{FALSE}, then this function returns \code{NULL}. If it has been set to a string,
 it is treated as a directory name, and this function returns a
 \code{sass_file_cache()} object using that directory. If the option has been set
 to a \code{sass_file_cache()} object, then it will return that object.
@@ -31,6 +31,16 @@ With Shiny applications hosted on Shiny Server and Connect, it \emph{will} creat
 a \verb{app_cache/sass/} subdirectory, so that the cache is scoped to the
 application and will not interfere with another application's cache.
 }
+\section{Shiny Developer Mode}{
+
+
+If Shiny Developer Mode is enabled (by setting \code{options(shiny.devmode = TRUE)} or calling \code{shiny::devmode(TRUE)},
+the default global option value for \code{sass.cache} is updated to \code{FALSE} instead
+of \code{TRUE}, similar to \code{getOption("sass.cache", FALSE)}.  This setting allows
+developers to make sure what is being returned from \code{\link[=sass]{sass()}} is not an incorrect
+cache result.
+}
+
 \seealso{
 \code{\link[=sass_cache_get_dir]{sass_cache_get_dir()}}, \code{\link[=sass]{sass()}}
 }
