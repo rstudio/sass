@@ -104,7 +104,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/rstudio/sass/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -139,6 +139,7 @@
 <p>Although caching is now enabled by default, it still may not be desirable while developing Sass code, because of the possibility of a false positive. (For more, see the Caching section of <code><a href="../reference/sass.html">?sass</a></code>) Caching can be disabled with <code><a href="https://rdrr.io/r/base/options.html">options(sass.cache = FALSE)</a></code>. Also, to help reduce the chance of a false positive in caching, <code><a href="../reference/sass.html">sass()</a></code> now includes a <code>cache_key_extra</code> parameter which may be used to pass information that the Sass <code>input</code> may not capture, such as file imports.</p>
 <p>Other improvements include:</p>
 <ul>
+<li><p>Added support for Shiny Developer Mode by turning off sass caching by default. To enable Shiny Developer Mode, call <code><a href="https://rdrr.io/r/base/options.html">options(shiny.devmode = TRUE)</a></code> (or <code>shiny::devmode(TRUE)</code>). (Related rstudio/shiny<a href='https://github.com/rstudio/sass/issues/3174'>#3174</a>, <a href='https://github.com/rstudio/sass/issues/68'>#68</a>)</p></li>
 <li><p>A new <code><a href="../reference/output_template.html">output_template()</a></code> function for more convenient <code>output</code> path creation that is <code>cache</code> and <code>options</code> aware.</p></li>
 <li><p>When <code><a href="../reference/sass.html">sass()</a></code> has a cache hit, and <code>output</code> is specified, the cached file is now simply copied to <code>output</code> at the OS level (previously, <code><a href="../reference/sass.html">sass()</a></code> was reading the cache file into R, then writing it to <code>output</code>). (<a href='https://github.com/rstudio/sass/issues/42'>#42</a>)</p></li>
 <li><p>Added <code><a href="../reference/sass_layer.html">sass_bundle()</a></code> to collect <code><a href="../reference/sass_layer.html">sass_layer()</a></code>(s) and/or <code><a href="../reference/sass_layer.html">sass_bundle()</a></code>(s) into a single Sass bundle. When creating a bundle, any of the child layers/bundles may be named, so they can be later removed via <code><a href="../reference/sass_layer.html">sass_bundle_remove()</a></code>. (<a href='https://github.com/rstudio/sass/issues/54'>#54</a>)</p></li>
