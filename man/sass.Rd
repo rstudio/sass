@@ -160,5 +160,5 @@ sass_cache_set(old_cache)
 }
 }
 \seealso{
-\url{http://sass-lang.com/guide}
+\url{https://sass-lang.com/guide}
 }
