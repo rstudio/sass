@@ -1,3 +1,5 @@
+# sass 0.3.0.9000
+
 # sass 0.3.0
 
 This release improves the caching of CSS compilation in `sass()`. Previously, caching was (by default) enabled in non-`interactive()` sessions and was allowed to grow indefinitely within `tempdir()` (i.e., within an R session). Now, caching is enabled by default in both interactive and non-interactive R sessions. In most cases, the cache will be stored in a user-level cache directory and persist across R sessions. In some cases (such as deployment on Shiny Server or Connect), the cache will be stored in a subdirectory of the application named `cache/`, to eliminate the risk of cache poisoning across applications. For more information about where the cache is stored, see `?sass_cache_get`.
