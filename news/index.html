@@ -85,7 +85,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -131,9 +131,9 @@
       <small>Source: <a href='https://github.com/rstudio/sass/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="sass-0209000" class="section level1">
-<h1 class="page-header" data-toc-text="0.2.0.9000">
-<a href="#sass-0209000" class="anchor"></a>sass 0.2.0.9000<small> Unreleased </small>
+    <div id="sass-030" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.0">
+<a href="#sass-030" class="anchor"></a>sass 0.3.0<small> 2021-01-13 </small>
 </h1>
 <p>This release improves the caching of CSS compilation in <code><a href="../reference/sass.html">sass()</a></code>. Previously, caching was (by default) enabled in non-<code><a href="https://rdrr.io/r/base/interactive.html">interactive()</a></code> sessions and was allowed to grow indefinitely within <code><a href="https://rdrr.io/r/base/tempfile.html">tempdir()</a></code> (i.e., within an R session). Now, caching is enabled by default in both interactive and non-interactive R sessions. In most cases, the cache will be stored in a user-level cache directory and persist across R sessions. In some cases (such as deployment on Shiny Server or Connect), the cache will be stored in a subdirectory of the application named <code>cache/</code>, to eliminate the risk of cache poisoning across applications. For more information about where the cache is stored, see <code><a href="../reference/sass_cache_get.html">?sass_cache_get</a></code>.</p>
 <p>Although caching is now enabled by default, it still may not be desirable while developing Sass code, because of the possibility of a false positive. (For more, see the Caching section of <code><a href="../reference/sass.html">?sass</a></code>) Caching can be disabled with <code><a href="https://rdrr.io/r/base/options.html">options(sass.cache = FALSE)</a></code>. Also, to help reduce the chance of a false positive in caching, <code><a href="../reference/sass.html">sass()</a></code> now includes a <code>cache_key_extra</code> parameter which may be used to pass information that the Sass <code>input</code> may not capture, such as file imports.</p>
