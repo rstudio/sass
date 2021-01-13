@@ -73,7 +73,7 @@
 #'   compiled CSS. If `output` is specified, the compiled CSS is written to a
 #'   file and the filename is returned.
 #'
-#' @seealso <http://sass-lang.com/guide>
+#' @seealso <https://sass-lang.com/guide>
 #' @export
 #' @examples
 #' # Raw Sass input
