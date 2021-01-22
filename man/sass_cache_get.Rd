@@ -17,7 +17,8 @@ it is treated as a directory name, and this function returns a
 to a \code{sass_file_cache()} object, then it will return that object.
 
 In most cases, this function uses the user's cache directory, by calling
-\code{rappdirs::user_cache_dir("R-sass")}.
+\code{tools::R_user_dir("sass", which = "cache")} (for R 4.0 and above) or
+\code{rappdirs::user_cache_dir("R-sass")} (for older versions of R).
 
 If this function is called from a Shiny application, it will also look for a
 subdirectory named \verb{app_cache/}. If it exists, it will use a directory named

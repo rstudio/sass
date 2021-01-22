@@ -93,7 +93,8 @@ sass_cache_set_dir <- function(dir, cache) {
 #' to a `sass_file_cache()` object, then it will return that object.
 #'
 #' In most cases, this function uses the user's cache directory, by calling
-#' `rappdirs::user_cache_dir("R-sass")`.
+#' `tools::R_user_dir("sass", which = "cache")` (for R 4.0 and above) or
+#' `rappdirs::user_cache_dir("R-sass")` (for older versions of R).
 #'
 #' If this function is called from a Shiny application, it will also look for a
 #' subdirectory named `app_cache/`. If it exists, it will use a directory named
@@ -157,7 +158,7 @@ sass_cache_context_dir <- function() {
   tryCatch(
     {
       # The usual place we'll look. This may be superseded below.
-      cache_dir <- rappdirs::user_cache_dir("R-sass")
+      cache_dir <- find_cache_dir("sass")
 
       if (is_shiny_app()) {
         # We might use ./cache/sass, if it's a hosted app, or if the directory
@@ -231,6 +232,19 @@ add_sass_file_mtime <- function(x) {
     x
   }
 }
+
+
+find_cache_dir <- function(pkg) {
+  # In R 4.0 and above, CRAN wants us to use the new tools::R_user_dir().
+  # If not present, fall back to rappdirs::user_cache_dir().
+  R_user_dir <- getNamespace('tools')$R_user_dir
+  if (!is.null(R_user_dir)) {
+    R_user_dir(pkg, which = "cache")
+  } else {
+    rappdirs::user_cache_dir(paste0("R-", pkg))
+  }
+}
+
 
 #' Caching Options for Sass (defunct)
 #'
