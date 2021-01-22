@@ -61,7 +61,8 @@ it is treated as a directory name, and this function returns a
 sass_file_cache() object using that directory. If the option has been set
 to a sass_file_cache() object, then it will return that object.
 In most cases, this function uses the user's cache directory, by calling
-rappdirs::user_cache_dir(&quot;R-sass&quot;).
+tools::R_user_dir(&quot;sass&quot;, which = &quot;cache&quot;) (for R 4.0 and above) or
+rappdirs::user_cache_dir(&quot;R-sass&quot;) (for older versions of R).
 If this function is called from a Shiny application, it will also look for a
 subdirectory named app_cache/. If it exists, it will use a directory named
 app_cache/sass/ to store the cache.
@@ -159,7 +160,8 @@ it is treated as a directory name, and this function returns a
 <code><a href='sass_file_cache.html'>sass_file_cache()</a></code> object using that directory. If the option has been set
 to a <code><a href='sass_file_cache.html'>sass_file_cache()</a></code> object, then it will return that object.</p>
 <p>In most cases, this function uses the user's cache directory, by calling
-<code><a href='https://rdrr.io/pkg/rappdirs/man/user_cache_dir.html'>rappdirs::user_cache_dir("R-sass")</a></code>.</p>
+<code><a href='https://rdrr.io/r/tools/userdir.html'>tools::R_user_dir("sass", which = "cache")</a></code> (for R 4.0 and above) or
+<code><a href='https://rdrr.io/pkg/rappdirs/man/user_cache_dir.html'>rappdirs::user_cache_dir("R-sass")</a></code> (for older versions of R).</p>
 <p>If this function is called from a Shiny application, it will also look for a
 subdirectory named <code>app_cache/</code>. If it exists, it will use a directory named
 <code>app_cache/sass/</code> to store the cache.</p>
