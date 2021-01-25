@@ -1,3 +1,6 @@
+# sass 0.3.1.9000
+
+
 # sass 0.3.1
 
 This small patch release changes `sass::sass_cache_context_dir()` to use `tools::R_user_dir()` over `rappdirs::user_cache_dir()` (when relevant, as requested by CRAN). (#70)
