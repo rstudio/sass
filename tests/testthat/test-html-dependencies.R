@@ -5,16 +5,12 @@ library(htmltools)
 dep1 <- htmlDependency(
   name = "fake1",
   version = "1.0.0",
-  src = system.file("tests", "testthat", package = "sass"),
-  stylesheet = "test-nesting-expected.css",
-  all_files = FALSE
+  src = ""
 )
 dep2 <- htmlDependency(
   name = "fake2",
   version = "1.0.0",
-  src = system.file("tests", "testthat", package = "sass"),
-  stylesheet = "test-nesting-expected.css",
-  all_files = FALSE
+  src = ""
 )
 
 test_that("sass()/as_sass() relay html dependencies", {

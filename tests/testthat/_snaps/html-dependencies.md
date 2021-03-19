@@ -15,14 +15,14 @@
         ..$ name      : chr "fake1"
         ..$ version   : chr "1.0.0"
         ..$ src       :List of 1
-        .. ..$ file: chr "/Users/cpsievert/github/sass/tests/testthat"
+        .. ..$ file: chr ""
         ..$ meta      : NULL
         ..$ script    : NULL
-        ..$ stylesheet: chr "test-nesting-expected.css"
+        ..$ stylesheet: NULL
         ..$ head      : NULL
         ..$ attachment: NULL
         ..$ package   : NULL
-        ..$ all_files : logi FALSE
+        ..$ all_files : logi TRUE
         ..- attr(*, "class")= chr "html_dependency"
 
 ---
@@ -39,13 +39,13 @@
         ..$ name      : chr "fake1"
         ..$ version   : chr "1.0.0"
         ..$ src       :List of 1
-        .. ..$ file: chr "/Users/cpsievert/github/sass/tests/testthat"
+        .. ..$ file: chr ""
         ..$ meta      : NULL
         ..$ script    : NULL
-        ..$ stylesheet: chr "test-nesting-expected.css"
+        ..$ stylesheet: NULL
         ..$ head      : NULL
         ..$ attachment: NULL
         ..$ package   : NULL
-        ..$ all_files : logi FALSE
+        ..$ all_files : logi TRUE
         ..- attr(*, "class")= chr "html_dependency"
 
