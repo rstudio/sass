@@ -206,7 +206,6 @@ unquote_font_family <- function(x) {
 }
 
 
-#' @importFrom htmltools attachDependencies tagFunction
 font_object <- function(x, dep_func) {
   stopifnot(is.function(dep_func))
   # Produce dependency at render-time (i.e., tagFunction())
@@ -229,7 +228,7 @@ font_dep_name <- function(x) {
   paste0(class(x)[[1]], sub("\\s*", "_", tolower(x$family)))
 }
 
-#' @importFrom htmltools htmlDependency
+#' @import htmltools
 font_dep_face <- function(x) {
   src_dir <- tempfile()
   dir.create(src_dir)

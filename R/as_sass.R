@@ -58,7 +58,6 @@ as_sass <- function(input) {
   )
 }
 
-#' @importFrom htmltools htmlDependencies
 find_dependencies <- function(x) {
   deps <- if (is_sass_bundle_like(x)) {
     as_sass_layer(x)$html_deps
