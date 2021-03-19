@@ -80,6 +80,8 @@ argument to \code{FALSE} or \code{NULL} to disable caching.}
 \item \code{1}, meaning \code{font-style: italic}
 \item \code{c(0, 1)}, meaning both \code{normal} and \code{italic}
 }}
+
+\item{x}{an object to test whether it's a \code{font_face()}/\code{font_link()}/\code{font_google()} object.}
 }
 \value{
 a \code{\link[=sass_bundle]{sass_bundle()}} with a special class.

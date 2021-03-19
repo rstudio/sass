@@ -219,6 +219,7 @@ font_object <- function(x, dep_func) {
 }
 
 #' @rdname font_face
+#' @param x an object to test whether it's a `font_face()`/`font_link()`/`font_google()` object.
 #' @export
 is_font_object <- function(x) {
   inherits(x, "font_object")
@@ -347,8 +348,10 @@ extract_group <- function(x, pattern, which = 1) {
 }
 
 # similar to thematic:::download_file, but also translates headers to curl
+#' @importFrom stats na.omit
+#' @importFrom utils download.file packageVersion
 download_file <- function(url, dest, headers = NULL, ...) {
-  if (shiny:::is_available("curl")) {
+  if (is_available("curl")) {
     if (!curl::has_internet()) {
       warning(
         "Looks like you don't have internet access, which is needed to ",
