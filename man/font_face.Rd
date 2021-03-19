@@ -16,10 +16,10 @@ font_face(
   stretch = NULL,
   variant = NULL,
   unicode_range = NULL,
-  default = TRUE
+  default_flag = TRUE
 )
 
-font_link(family, href, default)
+font_link(family, href, default_flag = TRUE)
 
 font_google(
   family,
@@ -56,6 +56,8 @@ property.}
 \item{unicode_range}{A character vector for \code{unicode-range} \verb{@font-face}
 property.}
 
+\item{default_flag}{whether or not to include a \code{!default} when the object is converted to Sass with \code{\link[=as_sass]{as_sass()}}.}
+
 \item{href}{A URL resource pointing to the font data.}
 
 \item{local}{Whether or not download and bundle local (woff) font files.}
@@ -78,8 +80,6 @@ argument to \code{FALSE} or \code{NULL} to disable caching.}
 \item \code{1}, meaning \code{font-style: italic}
 \item \code{c(0, 1)}, meaning both \code{normal} and \code{italic}
 }}
-
-\item{default_flag}{whether or not to include a \code{!default} when the object is converted to Sass with \code{\link[=as_sass]{as_sass()}}.}
 }
 \value{
 a \code{\link[=sass_bundle]{sass_bundle()}} with a special class.

@@ -88,7 +88,7 @@
 #'
 font_face <- function(family, src, weight = NULL, style = NULL,
                       display = c("swap", "auto", "block", "fallback", "optional"),
-                      stretch = NULL, variant = NULL, unicode_range = NULL, default = TRUE) {
+                      stretch = NULL, variant = NULL, unicode_range = NULL, default_flag = TRUE) {
 
   x <- dropNulls(list(
     family = unquote_font_family(family),
@@ -99,7 +99,7 @@ font_face <- function(family, src, weight = NULL, style = NULL,
     stretch = stretch,
     variant = variant,
     unicode_range = unicode_range,
-    default = default
+    default_flag = default_flag
   ))
 
   # Multiple src values are separated by "," (everything else by white space)
@@ -128,11 +128,11 @@ font_face_css <- function(x) {
 #' @rdname font_face
 #' @param href A URL resource pointing to the font data.
 #' @export
-font_link <- function(family, href, default) {
+font_link <- function(family, href, default_flag = TRUE) {
   x <- list(
     family = unquote_font_family(family),
     href = href,
-    default = default
+    default_flag = default_flag
   )
   font_object(x, font_dep_link)
 }

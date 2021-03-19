@@ -1,0 +1,69 @@
+library(htmltools)
+
+expect_remote_font <- function(x) {
+  input <- list(
+    list("font-variable" = x),
+    list("body {font-family: $font-variable}")
+  )
+  tagz <- renderTags(tags$style(sass(input)))
+  # Produces the correct CSS rules
+  expect_snapshot(tagz$html, cran = TRUE)
+  # Produces the right <link> tag via attached dependency
+  expect_snapshot(tagz$dependencies[[1]]$head, cran = TRUE)
+}
+
+test_that("Remote font importing basically works", {
+  # font_link()
+  expect_remote_font(font_link("foo", "bar"))
+  expect_remote_font(font_link("foo", "bar", default_flag = FALSE))
+  # font_face()
+  expect_remote_font(font_face("foo", "bar"))
+  expect_remote_font(
+    font_face(
+      "foo", src = c("bar", "baz"),
+      weight = c(400, 600), display = "auto",
+      style = c("oblique", "30deg", "50deg"),
+      stretch = c("75%", "125%"),
+      unicode_range = c("U+0025-00FF", "U+4??"),
+      default_flag = FALSE
+    )
+  )
+  # font_google()
+  expect_remote_font(font_google("Pacifico", local = FALSE))
+  expect_remote_font(font_google("Pacifico", local = FALSE, display = "auto"))
+  expect_remote_font(
+    font_google("Crimson Pro", local = FALSE, wght = "200..900")
+  )
+  expect_remote_font(
+    font_google("Crimson Pro", local = FALSE, wght = "200..900", ital = 1)
+  )
+  expect_remote_font(
+    font_google("Crimson Pro", local = FALSE, wght = c(400, 500), ital = 1)
+  )
+  expect_remote_font(
+    font_google("Crimson Pro", local = FALSE, wght = c(400, 500), ital = c(0, 1))
+  )
+  expect_remote_font(
+    font_google("Crimson Pro", local = FALSE, wght = c(600, 400, 500), ital = c(1, 0))
+  )
+})
+
+test_that("font_google(local = TRUE) basically works", {
+  scss <- list(
+    list("my-font" = font_google("Pacifico")),
+    list("body {font-family: $my-font}")
+  )
+  tagz <- renderTags(tags$style(sass(scss)))
+  expect_snapshot(tagz$html, cran = TRUE)
+  src <- tagz$dependencies[[1]]$src$file
+  # Don't run these on CRAN since Google could update the
+  # font files at any time
+  expect_snapshot_file(
+    dir(src, pattern = "\\.css", full.names = TRUE),
+    name = "font-css"
+  )
+  expect_snapshot_file(
+    dir(src, pattern = "\\.woff", full.names = TRUE),
+    name = "font-file"
+  )
+})
