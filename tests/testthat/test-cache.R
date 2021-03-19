@@ -1,5 +1,3 @@
-context("cache")
-
 test_that("throws on invalid output dir", {
   local_temp_cache()
 

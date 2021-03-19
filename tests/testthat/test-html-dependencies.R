@@ -1,5 +1,3 @@
-context("html-dependencies")
-
 # Disable sass cache
 local_disable_cache()
 

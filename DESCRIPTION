@@ -55,3 +55,4 @@ Suggests:
     shiny,
     curl
 VignetteBuilder: knitr
+Config/testthat/edition: 3

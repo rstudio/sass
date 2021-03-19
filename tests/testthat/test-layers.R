@@ -1,5 +1,3 @@
-context("layers")
-
 # Disable sass cache
 local_disable_cache()
 
@@ -18,9 +16,10 @@ core <- sass_layer(
 )
 
 test_that("sass_layer is equivalent to sass", {
-  expect_equivalent(
+  expect_equal(
     sass(core),
-    sass(list(blue, "body { background-color: $color; color: yellow; }"))
+    sass(list(blue, "body { background-color: $color; color: yellow; }")),
+    ignore_attr = TRUE
   )
 })
 
@@ -65,9 +64,10 @@ test_that("sass layer format", {
 
 test_that("sass_bundle() works as intended", {
   red_layer <- sass_layer(red, rules = ":root{ --color: #{$color}; }")
-  expect_equivalent(
+  expect_equal(
     sass(list(red, core, ":root{ --color: #{$color}; }")),
-    sass(sass_bundle(core, red_layer))
+    sass(sass_bundle(core, red_layer)),
+    ignore_attr = TRUE
   )
 })
 

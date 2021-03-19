@@ -1,5 +1,3 @@
-context("unicode")
-
 test_that("unicode variables work", {
   local_disable_cache()
   expected <- read_utf8("test-unicode-var-expected.css")

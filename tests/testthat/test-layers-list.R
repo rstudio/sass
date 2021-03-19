@@ -1,5 +1,3 @@
-context("layers")
-
 # Disable sass cache
 local_disable_cache()
 
@@ -18,8 +16,9 @@ core <- sass_layer(
 )
 
 test_that("sass_layer is equivalent to sass", {
-  expect_equivalent(
+  expect_equal(
     sass(core),
-    sass(list(blue, "body { background-color: $color; color: yellow; }"))
+    sass(list(blue, "body { background-color: $color; color: yellow; }")),
+    ignore_attr = TRUE
   )
 })
