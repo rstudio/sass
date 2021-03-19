@@ -129,6 +129,18 @@ has_any_name <- function(x) {
   any(have_name(x))
 }
 
+is_string <- function(x) {
+  is.character(x) && length(x) == 1
+}
+
+is_available <- function(package, version = NULL) {
+  installed <- nzchar(system.file(package = package))
+  if (is.null(version)) {
+    return(installed)
+  }
+  installed && isTRUE(utils::packageVersion(package) >= version)
+}
+
 has_any_name_recursive <- function(x) {
   if (has_any_name(x)) {
     # if this level has a name, return true

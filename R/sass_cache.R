@@ -210,13 +210,12 @@ sass_cache_context_dir <- function() {
 #' @param x A list with sass objects.
 #' @noRd
 sass_hash <- function(x) {
-  digest::digest(
-    add_sass_file_mtime(list(x, utils::packageVersion("sass"))),
-    algo = "xxhash64"
+  rlang::hash(
+    add_sass_file_mtime(list(x, utils::packageVersion("sass")))
   )
 }
 
-# Given an object, return an object that can be \code{digest::digest}-ed into a
+# Given an object, return an object that can be \code{rlang::hash}-ed into a
 # hash key. This traverses the object and adds file mtimes for files imported
 # via `sass_file` directives (but not files that are imported by those files).
 add_sass_file_mtime <- function(x) {

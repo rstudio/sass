@@ -52,7 +52,27 @@
 #' sass(input)
 #' }
 as_sass <- function(input) {
-  as_html(as_sass_(input), "sass")
+  attachDependencies(
+    as_html(as_sass_(input), "sass"),
+    find_dependencies(input)
+  )
+}
+
+#' @importFrom htmltools htmlDependencies
+find_dependencies <- function(x) {
+  deps <- if (is_sass_bundle_like(x)) {
+    as_sass_layer(x)$html_deps
+  } else {
+    htmlDependencies(x)
+  }
+  childDeps <- NULL
+  if (is.list(x)) {
+    childDeps <- unlist(
+      lapply(x, find_dependencies),
+      recursive = FALSE, use.names = FALSE
+    )
+  }
+  unique(c(childDeps, deps))
 }
 
 as_sass_ <- function(input) {
@@ -93,6 +113,14 @@ as_sass_.list <- function(input) {
     }
   )
   collapse0(sass_vals)
+}
+
+as_sass_.font_object <- function(input) {
+  if (isTRUE(input$default_flag)) {
+    paste(input$family, "!default")
+  } else {
+    input$family
+  }
 }
 
 as_sass_.sass_layer <- function(input) {

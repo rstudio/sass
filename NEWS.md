@@ -1,5 +1,12 @@
 # sass 0.3.1.9000
 
+## Breaking changes
+
+* `sass()` and `as_sass()` now always include any `htmlDependency()` objects inside of `input` with their return value.
+
+## New features
+
+* Added new font importing helpers, namely `font_google()`, `font_link()`, `font_face()`, intelligently import web fonts files. They must be used inside a named list, for example: `list("font-variable" = font_google("Pacifico"))`. See `help(font_face, package = "sass")` for more details and examples.
 
 # sass 0.3.1
 

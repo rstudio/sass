@@ -169,6 +169,7 @@ sass <- function(
   css <- NULL
   layer <- extract_layer(input)
   sass_input <- as_sass(input)
+  html_deps <- htmlDependencies(sass_input)
 
   # If caching is active, compute the hash key
   cache_key <- if (!is.null(cache)) {
@@ -199,10 +200,10 @@ sass <- function(
       cache_hit <- cache$get_file(cache_key, outfile = output)
       if (cache_hit) {
         if (isTRUE(write_attachments == FALSE)) {
-          return(output)
+          return(attachDependencies(output, html_deps))
         }
         maybe_write_attachments(layer, output, write_attachments)
-        return(output)
+        return(attachDependencies(output, html_deps))
       }
     }
 
@@ -229,16 +230,14 @@ sass <- function(
   if (!is.null(output)) {
     write_utf8(css, output)
     maybe_write_attachments(layer, output, write_attachments)
-    return(output)
+    return(
+      attachDependencies(output, html_deps)
+    )
   }
 
   # Attach HTML dependencies so that placing a sass::sass() call within HTML tags
   # will include the dependencies
-  if (is_sass_layer(layer)) {
-    css <- htmltools::attachDependencies(css, layer$html_deps)
-  }
-
-  css
+  attachDependencies(css, html_deps)
 }
 
 
