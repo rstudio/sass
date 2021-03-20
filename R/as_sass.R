@@ -67,13 +67,14 @@ find_dependencies <- function(x) {
     htmlDependencies(x)
   }
   childDeps <- NULL
-  if (is.list(x)) {
+  # only recurse into generic lists
+  if (identical(class(x), "list")) {
     childDeps <- unlist(
       lapply(x, find_dependencies),
       recursive = FALSE, use.names = FALSE
     )
   }
-  unique(c(childDeps, deps))
+  c(childDeps, deps)
 }
 
 as_sass_ <- function(input) {

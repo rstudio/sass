@@ -91,4 +91,6 @@ test_that("font_collection() basically works", {
   )
 })
 
-# TODO: test that dependencies are reported in a call to sass()/as_sass()
+# TODO:
+# 1. test that dependencies are reported in a call to sass()/as_sass()
+# 2. test that font_collection works recursively
