@@ -119,7 +119,7 @@ font_face <- function(family, src, weight = NULL, style = NULL,
                       stretch = NULL, variant = NULL, unicode_range = NULL) {
 
   x <- dropNulls(list(
-    family = unquote_font_family(family),
+    family = family,
     src = src,
     weight = weight,
     style = style,
@@ -156,11 +156,7 @@ font_face_css <- function(x) {
 #' @param href A URL resource pointing to the font data.
 #' @export
 font_link <- function(family, href) {
-  x <- list(
-    family = unquote_font_family(family),
-    href = href
-  )
-  font_object(x, font_dep_link)
+  font_object(list(family = family, href = href), font_dep_link)
 }
 
 #' @rdname font_face
@@ -210,7 +206,7 @@ font_google <- function(family, local = TRUE,
     }
 
   x <- list(
-    family = unquote_font_family(family),
+    family = family,
     local = isTRUE(local), cache = cache,
     href = paste0(
       "https://fonts.googleapis.com/css2?family=",
@@ -224,16 +220,17 @@ font_google <- function(family, local = TRUE,
 
 font_object <- function(x, dep_func) {
   stopifnot(is.function(dep_func))
-  # Produce dependency at render-time (i.e., tagFunction())
-  # so the context-aware caching dir has the proper context
+  # Dependency functions want to use unquoted family name
   new_font_collection(
-    families = x$family,
+    families = verify_single_unquoted_family(x$family),
+    # Produce dependency at render-time (i.e., tagFunction())
+    # so the context-aware caching dir has the proper context
     html_deps = tagFunction(function() dep_func(x))
   )
 }
 
 #' @rdname font_face
-#' @param ... a collection of font objects and/or strings.
+#' @param ... a collection of `font_google()`, `font_link()`, `font_face()`, and/or character strings. Character strings must define a single `font-family`.
 #' @param default_flag whether or not to include a `!default` when converted to a Sass variable with [as_sass()].
 #' @export
 font_collection <- function(..., default_flag = TRUE) {
@@ -242,17 +239,18 @@ font_collection <- function(..., default_flag = TRUE) {
     if (is_font_collection(x))
       return(x$families)
     if (is_string(x))
-      return(unquote_font_family(x))
+      return(verify_single_unquoted_family(x))
     stop(
       "`font_collection()` expects a collection of `font_google()`, `font_link()`, `font_face()`, and/or character strings.",
       call. = FALSE
     )
   })
+  families <- unlist(families, recursive = FALSE, use.names = FALSE)
   deps <- lapply(fonts, function(x) {
     if (is_font_collection(x)) x$html_deps
   })
   new_font_collection(
-    families = unlist(families, recursive = FALSE, use.names = FALSE),
+    families = families,
     html_deps = unlist(deps, recursive = FALSE, use.names = FALSE),
     default_flag = isTRUE(default_flag)
   )
@@ -260,7 +258,11 @@ font_collection <- function(..., default_flag = TRUE) {
 
 new_font_collection <- function(families, html_deps, default_flag = TRUE) {
   add_class(
-    list(families = families, html_deps = html_deps, default_flag = default_flag),
+    list(
+      families = families,
+      html_deps = html_deps,
+      default_flag = default_flag
+    ),
     "font_collection"
   )
 }
@@ -273,10 +275,21 @@ is_font_collection <- function(x) {
 }
 
 # Only to be used when we know x is meant to be a single font family
-unquote_font_family <- function(x) {
-  if (!is_string(x)) stop("Font family must be a string")
-  if (grepl(",", x)) stop("Font family cannot contain comma(s)")
-  gsub("(^\\s*)|(\\s*$)|(')|(\")", "", x)
+verify_single_unquoted_family <- function(x) {
+  if (!is_string(x)) {
+    stop("Font family definitions must be a character string (length 1).", call. = FALSE)
+  }
+  has_comma <- grepl(",", x)
+  quoted <- grepl("'", x) || grepl('"', x)
+  if (has_comma || quoted) {
+    stop(
+      "This family definition contains ",
+      if (has_comma) "a comma: " else "quotes: ", x, ". ",
+      "Font family definitions must define a single (unquoted) family name. ",
+      call. = FALSE
+    )
+  }
+  x
 }
 
 font_dep_name <- function(x) {

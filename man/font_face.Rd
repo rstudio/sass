@@ -80,11 +80,11 @@ argument to \code{FALSE} or \code{NULL} to disable caching.}
 \item \code{c(0, 1)}, meaning both \code{normal} and \code{italic}
 }}
 
-\item{...}{a collection of font objects and/or strings.}
+\item{...}{a collection of \code{font_google()}, \code{font_link()}, \code{font_face()}, and/or character strings. Character strings must define a single \code{font-family}.}
 
 \item{default_flag}{whether or not to include a \code{!default} when converted to a Sass variable with \code{\link[=as_sass]{as_sass()}}.}
 
-\item{x}{an object to test whether it's a \code{font_collection()}.}
+\item{x}{test whether \code{x} is a \code{font_collection()}, \code{font_google()}, \code{font_link()}, or \code{font_face()} object.}
 }
 \value{
 a \code{\link[=sass_bundle]{sass_bundle()}} with a special class.

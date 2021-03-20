@@ -4,7 +4,7 @@
       tagz$html
     Output
       <style>body {
-        font-family: foo;
+        font-family: "foo";
       }
       </style>
 
@@ -21,7 +21,7 @@
       tagz$html
     Output
       <style>body {
-        font-family: foo;
+        font-family: "foo";
       }
       </style>
 
@@ -38,7 +38,7 @@
       tagz$html
     Output
       <style>body {
-        font-family: foo;
+        font-family: "foo";
       }
       </style>
 
@@ -55,7 +55,7 @@
       tagz$html
     Output
       <style>body {
-        font-family: foo;
+        font-family: "foo";
       }
       </style>
 
@@ -72,7 +72,7 @@
       tagz$html
     Output
       <style>body {
-        font-family: Pacifico;
+        font-family: "Pacifico";
       }
       </style>
 
@@ -89,7 +89,7 @@
       tagz$html
     Output
       <style>body {
-        font-family: Pacifico;
+        font-family: "Pacifico";
       }
       </style>
 
@@ -106,7 +106,7 @@
       tagz$html
     Output
       <style>body {
-        font-family: Crimson Pro;
+        font-family: "Crimson Pro";
       }
       </style>
 
@@ -123,7 +123,7 @@
       tagz$html
     Output
       <style>body {
-        font-family: Crimson Pro;
+        font-family: "Crimson Pro";
       }
       </style>
 
@@ -140,7 +140,7 @@
       tagz$html
     Output
       <style>body {
-        font-family: Crimson Pro;
+        font-family: "Crimson Pro";
       }
       </style>
 
@@ -157,7 +157,7 @@
       tagz$html
     Output
       <style>body {
-        font-family: Crimson Pro;
+        font-family: "Crimson Pro";
       }
       </style>
 
@@ -174,7 +174,7 @@
       tagz$html
     Output
       <style>body {
-        font-family: Crimson Pro;
+        font-family: "Crimson Pro";
       }
       </style>
 
@@ -191,7 +191,7 @@
       tagz$html
     Output
       <style>body {
-        font-family: Pacifico;
+        font-family: "Pacifico";
       }
       </style>
 

@@ -76,18 +76,18 @@ expect_collection <- function(..., expected) {
 }
 
 test_that("font_collection() basically works", {
-  expect_collection("foo", expected = "foo")
+  expect_collection("foo", expected = "'foo'")
   expect_collection(
     "foo", "bar",
-    expected = "foo, bar"
+    expected = "'foo', 'bar'"
   )
   expect_collection(
     "foo", "foo bar",
-    expected = "foo, 'foo bar'"
+    expected = "'foo', 'foo bar'"
   )
   expect_collection(
     font_link("foo bar baz", "link"), "foo",
-    expected = "'foo bar baz', foo"
+    expected = "'foo bar baz', 'foo'"
   )
 })
 

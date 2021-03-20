@@ -117,13 +117,10 @@ as_sass_.list <- function(input) {
 }
 
 as_sass_.font_collection <- function(input) {
-  families <- input$families
-  families <- ifelse(
-    grepl("\\s+", families),
-    paste0("'", families, "'"),
-    families
+  families <- paste(
+    paste0("'", input$families, "'"),
+    collapse = ", "
   )
-  families <- paste(families, collapse = ", ")
   if (input$default_flag) {
     paste(families, "!default")
   } else {
