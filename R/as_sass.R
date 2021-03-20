@@ -61,6 +61,8 @@ as_sass <- function(input) {
 find_dependencies <- function(x) {
   deps <- if (is_sass_bundle_like(x)) {
     as_sass_layer(x)$html_deps
+  } else if (is_font_collection(x)) {
+    x$html_deps
   } else {
     htmlDependencies(x)
   }
@@ -114,11 +116,18 @@ as_sass_.list <- function(input) {
   collapse0(sass_vals)
 }
 
-as_sass_.font_object <- function(input) {
-  if (isTRUE(input$default_flag)) {
-    paste(input$family, "!default")
+as_sass_.font_collection <- function(input) {
+  families <- input$families
+  families <- ifelse(
+    grepl("\\s+", families),
+    paste0("'", families, "'"),
+    families
+  )
+  families <- paste(families, collapse = ", ")
+  if (input$default_flag) {
+    paste(families, "!default")
   } else {
-    input$family
+    families
   }
 }
 

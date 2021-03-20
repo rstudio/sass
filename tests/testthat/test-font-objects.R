@@ -15,7 +15,7 @@ expect_remote_font <- function(x) {
 test_that("Remote font importing basically works", {
   # font_link()
   expect_remote_font(font_link("foo", "bar"))
-  expect_remote_font(font_link("foo", "bar", default_flag = FALSE))
+  expect_remote_font(font_link("foo", "bar"))
   # font_face()
   expect_remote_font(font_face("foo", "bar"))
   expect_remote_font(
@@ -24,8 +24,7 @@ test_that("Remote font importing basically works", {
       weight = c(400, 600), display = "auto",
       style = c("oblique", "30deg", "50deg"),
       stretch = c("75%", "125%"),
-      unicode_range = c("U+0025-00FF", "U+4??"),
-      default_flag = FALSE
+      unicode_range = c("U+0025-00FF", "U+4??")
     )
   )
   # font_google()
@@ -67,3 +66,29 @@ test_that("font_google(local = TRUE) basically works", {
     name = "font-file"
   )
 })
+
+expect_collection <- function(..., expected) {
+  scss <- as_sass(list(font = font_collection(...)))
+  expect_equal(
+    scss, paste0("$font: ", expected, " !default;"),
+    ignore_attr = TRUE
+  )
+}
+
+test_that("font_collection() basically works", {
+  expect_collection("foo", expected = "foo")
+  expect_collection(
+    "foo", "bar",
+    expected = "foo, bar"
+  )
+  expect_collection(
+    "foo", "foo bar",
+    expected = "foo, 'foo bar'"
+  )
+  expect_collection(
+    font_link("foo bar baz", "link"), "foo",
+    expected = "'foo bar baz', foo"
+  )
+})
+
+# TODO: test that dependencies are reported in a call to sass()/as_sass()

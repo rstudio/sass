@@ -2,10 +2,48 @@
 #'
 #' Helpers for importing font file(s) when declaring a Sass variable(s) that
 #' represent a CSS `font-family` declaration. These helpers **must be used the
-#' named list approach to variable definitions** (e.g., `list("font-variable" =
-#' font_google("Pacifico"))` -- see examples below).
+#' named list approach to variable definitions**, for example:
 #'
+#'  ```
+#'  as_sass(list(
+#'    list("font-variable" = font_google("Pacifico")),
+#'    list("body{font-family: $font-variable}")
+#'  ))
+#'  ```
 #'
+#'  By default, `font_google()` downloads, caches, and serves fonts locally (via
+#'  [htmltools::htmlDependency()] attached to the Sass/CSS result). This
+#'  approach guarantees that the font can render in any client browser. However,
+#'  when importing font files remotely, it's a good idea to provide a fallback
+#'  font in case the remote link isn't working (e.g., maybe the end user doesn't
+#'  have an internet connection). To provide fallback fonts, use
+#'  [font_collection()], for example:
+#'
+#'  ```
+#'  pacifico <- font_google("Pacifico", local = FALSE)
+#'  as_sass(list(
+#'    list("font-variable" = font_collection(pacifico, "system-ui")),
+#'    list("body{font-family: $font-variable}")
+#'  ))
+#'  ```
+#'
+#' These font helpers encourage best practice of adding a `!default` to Sass
+#' variable definitions, but the flag may be removed via `font_collection()` if
+#' desired.
+#'
+#'  ```
+#'  as_sass(list("font-variable" = pacifico))
+#'  #> $font-variable: Pacifico !default;
+#'  as_sass(list("font-variable" = font_collection(pacifico, default_flag = F)))
+#'  #> $font-variable: Pacifico;
+#'  ```
+#'
+#' @section Remote fonts:
+#'
+#'   With remotely hosted fonts, clients (i.e., end users) need an internet
+#'   connection to render the fonts. Remote fonts can be implemented using
+#'   `font_google(..., local = FALSE)` (hosted via Google), `font_link()`
+#'   (hosted via `href` URL), or `font_face()` (hosted via `src` URL).
 #'
 #' @section Local fonts:
 #'
@@ -14,14 +52,11 @@
 #'   automatically download, cache, and serve font files locally. Non-Google
 #'   fonts may also be served locally, but you'll have to download and serve
 #'   local file using something like [shiny::addResourcePath()] (or similar) and
-#'   provide the relevant files to a [font_face()] definiton.
+#'   provide the relevant files to a [font_face()] definition.
 #'
-#' @section Remote fonts:
+#' @section Local file caching:
 #'
-#'   With remotely hosted fonts, clients (i.e., end users) need an internet
-#'   connection to render the fonts. Remote fonts can be implemented using
-#'   `font_google(..., local = FALSE)` (hosted via Google), `font_link()`
-#'   (hosted via `href` URL), or `font_face()` (hosted via `src` URL).
+#'   TODO: explain how to configure the cache.
 #'
 #' @param family A character string with a _single_ font family name.
 #' @param src A character vector for the `src` `@font-face` property. Beware
@@ -38,7 +73,6 @@
 #'   property.
 #' @param unicode_range A character vector for `unicode-range` `@font-face`
 #'   property.
-#' @param default_flag whether or not to include a `!default` when the object is converted to Sass with [as_sass()].
 #'
 #' @return a [sass_bundle()] with a special class.
 #'
@@ -66,10 +100,6 @@
 #'   browsable(hello)
 #' }
 #'
-#' # By default, font_*() includes a !default flag
-#' as_sass(my_font)
-#' as_sass(list("my-font" = font_google("Pacifico", default_flag = FALSE)))
-#'
 #' # Three different yet equivalent ways of importing a remotely-hosted Google Font
 #' a <- font_google("Crimson Pro", wght = "200..900", local = FALSE)
 #' b <- font_link(
@@ -84,11 +114,9 @@
 #'   src = paste0("url(", url, ") format('woff2')")
 #' )
 #'
-#' # TODO: show the difference in as_sass()?
-#'
 font_face <- function(family, src, weight = NULL, style = NULL,
                       display = c("swap", "auto", "block", "fallback", "optional"),
-                      stretch = NULL, variant = NULL, unicode_range = NULL, default_flag = TRUE) {
+                      stretch = NULL, variant = NULL, unicode_range = NULL) {
 
   x <- dropNulls(list(
     family = unquote_font_family(family),
@@ -98,8 +126,7 @@ font_face <- function(family, src, weight = NULL, style = NULL,
     display = if (!is.null(display)) match.arg(display),
     stretch = stretch,
     variant = variant,
-    unicode_range = unicode_range,
-    default_flag = default_flag
+    unicode_range = unicode_range
   ))
 
   # Multiple src values are separated by "," (everything else by white space)
@@ -128,11 +155,10 @@ font_face_css <- function(x) {
 #' @rdname font_face
 #' @param href A URL resource pointing to the font data.
 #' @export
-font_link <- function(family, href, default_flag = TRUE) {
+font_link <- function(family, href) {
   x <- list(
     family = unquote_font_family(family),
-    href = href,
-    default_flag = default_flag
+    href = href
   )
   font_object(x, font_dep_link)
 }
@@ -157,8 +183,7 @@ font_link <- function(family, href, default_flag = TRUE) {
 font_google <- function(family, local = TRUE,
                         # TODO: should this listen to a different option?
                         cache = sass_cache_get(),
-                        wght = NULL, ital = NULL, display = c("swap", "auto", "block", "fallback", "optional"),
-                        default_flag = TRUE) {
+                        wght = NULL, ital = NULL, display = c("swap", "auto", "block", "fallback", "optional")) {
   stopifnot(is.logical(local))
   if (!is.null(wght)) {
     stopifnot(is.character(wght) || is.numeric(wght))
@@ -190,12 +215,61 @@ font_google <- function(family, local = TRUE,
     href = paste0(
       "https://fonts.googleapis.com/css2?family=",
       family, axis_rng, "&display=", display
-    ),
-    default_flag = isTRUE(default_flag)
+    )
   )
 
   dep_func <- if (x$local) font_dep_google_local else font_dep_link
   font_object(x, dep_func)
+}
+
+font_object <- function(x, dep_func) {
+  stopifnot(is.function(dep_func))
+  # Produce dependency at render-time (i.e., tagFunction())
+  # so the context-aware caching dir has the proper context
+  new_font_collection(
+    families = x$family,
+    html_deps = tagFunction(function() dep_func(x))
+  )
+}
+
+#' @rdname font_face
+#' @param ... a collection of font objects and/or strings.
+#' @param default_flag whether or not to include a `!default` when converted to a Sass variable with [as_sass()].
+#' @export
+font_collection <- function(..., default_flag = TRUE) {
+  fonts <- list2(...)
+  families <- lapply(fonts, function(x) {
+    if (is_font_collection(x))
+      return(x$families)
+    if (is_string(x))
+      return(unquote_font_family(x))
+    stop(
+      "`font_collection()` expects a collection of `font_google()`, `font_link()`, `font_face()`, and/or character strings.",
+      call. = FALSE
+    )
+  })
+  deps <- lapply(fonts, function(x) {
+    if (is_font_collection(x)) x$html_deps
+  })
+  new_font_collection(
+    families = unlist(families, recursive = FALSE, use.names = FALSE),
+    html_deps = unlist(deps, recursive = FALSE, use.names = FALSE),
+    default_flag = isTRUE(default_flag)
+  )
+}
+
+new_font_collection <- function(families, html_deps, default_flag = TRUE) {
+  add_class(
+    list(families = families, html_deps = html_deps, default_flag = default_flag),
+    "font_collection"
+  )
+}
+
+#' @rdname font_face
+#' @param x test whether `x` is a `font_collection()`, `font_google()`, `font_link()`, or `font_face()` object.
+#' @export
+is_font_collection <- function(x) {
+  inherits(x, "font_collection")
 }
 
 # Only to be used when we know x is meant to be a single font family
@@ -203,25 +277,6 @@ unquote_font_family <- function(x) {
   if (!is_string(x)) stop("Font family must be a string")
   if (grepl(",", x)) stop("Font family cannot contain comma(s)")
   gsub("(^\\s*)|(\\s*$)|(')|(\")", "", x)
-}
-
-
-font_object <- function(x, dep_func) {
-  stopifnot(is.function(dep_func))
-  # Produce dependency at render-time (i.e., tagFunction())
-  # so the context-aware caching dir has the proper context
-  dep <- tagFunction(function() dep_func(x))
-  add_class(
-    attachDependencies(x, dep),
-    "font_object"
-  )
-}
-
-#' @rdname font_face
-#' @param x an object to test whether it's a `font_face()`/`font_link()`/`font_google()` object.
-#' @export
-is_font_object <- function(x) {
-  inherits(x, "font_object")
 }
 
 font_dep_name <- function(x) {

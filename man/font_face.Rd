@@ -4,7 +4,8 @@
 \alias{font_face}
 \alias{font_link}
 \alias{font_google}
-\alias{is_font_object}
+\alias{font_collection}
+\alias{is_font_collection}
 \title{Helpers for importing web fonts}
 \usage{
 font_face(
@@ -15,11 +16,10 @@ font_face(
   display = c("swap", "auto", "block", "fallback", "optional"),
   stretch = NULL,
   variant = NULL,
-  unicode_range = NULL,
-  default_flag = TRUE
+  unicode_range = NULL
 )
 
-font_link(family, href, default_flag = TRUE)
+font_link(family, href)
 
 font_google(
   family,
@@ -27,11 +27,12 @@ font_google(
   cache = sass_cache_get(),
   wght = NULL,
   ital = NULL,
-  display = c("swap", "auto", "block", "fallback", "optional"),
-  default_flag = TRUE
+  display = c("swap", "auto", "block", "fallback", "optional")
 )
 
-is_font_object(x)
+font_collection(..., default_flag = TRUE)
+
+is_font_collection(x)
 }
 \arguments{
 \item{family}{A character string with a \emph{single} font family name.}
@@ -56,8 +57,6 @@ property.}
 \item{unicode_range}{A character vector for \code{unicode-range} \verb{@font-face}
 property.}
 
-\item{default_flag}{whether or not to include a \code{!default} when the object is converted to Sass with \code{\link[=as_sass]{as_sass()}}.}
-
 \item{href}{A URL resource pointing to the font data.}
 
 \item{local}{Whether or not download and bundle local (woff) font files.}
@@ -81,7 +80,11 @@ argument to \code{FALSE} or \code{NULL} to disable caching.}
 \item \code{c(0, 1)}, meaning both \code{normal} and \code{italic}
 }}
 
-\item{x}{an object to test whether it's a \code{font_face()}/\code{font_link()}/\code{font_google()} object.}
+\item{...}{a collection of font objects and/or strings.}
+
+\item{default_flag}{whether or not to include a \code{!default} when converted to a Sass variable with \code{\link[=as_sass]{as_sass()}}.}
+
+\item{x}{an object to test whether it's a \code{font_collection()}.}
 }
 \value{
 a \code{\link[=sass_bundle]{sass_bundle()}} with a special class.
@@ -89,8 +92,45 @@ a \code{\link[=sass_bundle]{sass_bundle()}} with a special class.
 \description{
 Helpers for importing font file(s) when declaring a Sass variable(s) that
 represent a CSS \code{font-family} declaration. These helpers \strong{must be used the
-named list approach to variable definitions} (e.g., \code{list("font-variable" = font_google("Pacifico"))} -- see examples below).
+named list approach to variable definitions}, for example:
 }
+\details{
+\preformatted{as_sass(list(
+  list("font-variable" = font_google("Pacifico")),
+  list("body\{font-family: $font-variable\}")
+))
+}
+
+By default, \code{font_google()} downloads, caches, and serves fonts locally (via
+\code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}} attached to the Sass/CSS result). This
+approach guarantees that the font can render in any client browser. However,
+when importing font files remotely, it's a good idea to provide a fallback
+font in case the remote link isn't working (e.g., maybe the end user doesn't
+have an internet connection). To provide fallback fonts, use
+\code{\link[=font_collection]{font_collection()}}, for example:\preformatted{pacifico <- font_google("Pacifico", local = FALSE)
+as_sass(list(
+  list("font-variable" = font_collection(pacifico, "system-ui")),
+  list("body\{font-family: $font-variable\}")
+))
+}
+
+These font helpers encourage best practice of adding a \code{!default} to Sass
+variable definitions, but the flag may be removed via \code{font_collection()} if
+desired.\preformatted{as_sass(list("font-variable" = pacifico))
+#> $font-variable: Pacifico !default;
+as_sass(list("font-variable" = font_collection(pacifico, default_flag = F)))
+#> $font-variable: Pacifico;
+}
+}
+\section{Remote fonts}{
+
+
+With remotely hosted fonts, clients (i.e., end users) need an internet
+connection to render the fonts. Remote fonts can be implemented using
+\code{font_google(..., local = FALSE)} (hosted via Google), \code{font_link()}
+(hosted via \code{href} URL), or \code{font_face()} (hosted via \code{src} URL).
+}
+
 \section{Local fonts}{
 
 
@@ -99,16 +139,13 @@ fonts without an internet connection. By default, \code{google_font()} will
 automatically download, cache, and serve font files locally. Non-Google
 fonts may also be served locally, but you'll have to download and serve
 local file using something like \code{\link[shiny:resourcePaths]{shiny::addResourcePath()}} (or similar) and
-provide the relevant files to a \code{\link[=font_face]{font_face()}} definiton.
+provide the relevant files to a \code{\link[=font_face]{font_face()}} definition.
 }
 
-\section{Remote fonts}{
+\section{Local file caching}{
 
 
-With remotely hosted fonts, clients (i.e., end users) need an internet
-connection to render the fonts. Remote fonts can be implemented using
-\code{font_google(..., local = FALSE)} (hosted via Google), \code{font_link()}
-(hosted via \code{href} URL), or \code{font_face()} (hosted via \code{src} URL).
+TODO: explain how to configure the cache.
 }
 
 \examples{
@@ -132,10 +169,6 @@ if (interactive()) {
   browsable(hello)
 }
 
-# By default, font_*() includes a !default flag
-as_sass(my_font)
-as_sass(list("my-font" = font_google("Pacifico", default_flag = FALSE)))
-
 # Three different yet equivalent ways of importing a remotely-hosted Google Font
 a <- font_google("Crimson Pro", wght = "200..900", local = FALSE)
 b <- font_link(
@@ -149,8 +182,6 @@ c <- font_face(
   weight = "200 900",
   src = paste0("url(", url, ") format('woff2')")
 )
-
-# TODO: show the difference in as_sass()?
 
 }
 \references{
