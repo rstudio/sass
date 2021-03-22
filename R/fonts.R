@@ -1,22 +1,31 @@
 #' Helpers for importing web fonts
 #'
-#' Helpers for importing font file(s) when declaring a Sass variable(s) that
-#' represent a CSS `font-family` declaration. These helpers **must be used the
-#' named list approach to variable definitions**, for example:
+#' @description
+#'
+#' Include font file(s) when defining a Sass variable that represents a CSS
+#' `font-family` property.
+#'
+#' @details
+#'
+#' These helpers **must be used the named list approach to variable
+#' definitions**, for example:
 #'
 #'  ```
-#'  as_sass(list(
+#'  list(
 #'    list("font-variable" = font_google("Pacifico")),
 #'    list("body{font-family: $font-variable}")
-#'  ))
+#'  )
 #'  ```
 #'
-#'  By default, `font_google()` downloads, caches, and serves fonts locally (via
-#'  [htmltools::htmlDependency()] attached to the Sass/CSS result). This
-#'  approach guarantees that the font can render in any client browser. However,
-#'  when importing font files remotely, it's a good idea to provide a fallback
-#'  font in case the remote link isn't working (e.g., maybe the end user doesn't
-#'  have an internet connection). To provide fallback fonts, use
+#' @section Font fallbacks:
+#'
+#'  By default, `font_google()` downloads, caches, and serves the relevant font
+#'  file(s) locally. By locally serving files, there's a guarantee that the font
+#'  can render in any client browser, even when the client doesn't have internet
+#'  access. However, when importing font files remotely (i.e., `font_google(...,
+#'  local = FALSE)` or `font_link()`), it's a good idea to provide fallback
+#'  font(s) in case the remote link isn't working (e.g., maybe the end user
+#'  doesn't have an internet connection). To provide fallback fonts, use
 #'  [font_collection()], for example:
 #'
 #'  ```
@@ -27,9 +36,11 @@
 #'  ))
 #'  ```
 #'
-#' These font helpers encourage best practice of adding a `!default` to Sass
-#' variable definitions, but the flag may be removed via `font_collection()` if
-#' desired.
+#' @section Default flags:
+#'
+#'  These font helpers encourage best practice of adding a `!default` to Sass
+#'  variable definitions, but the flag may be removed via `font_collection()` if
+#'  desired.
 #'
 #'  ```
 #'  as_sass(list("font-variable" = pacifico))
@@ -38,47 +49,40 @@
 #'  #> $font-variable: Pacifico;
 #'  ```
 #'
-#' @section Remote fonts:
+#' @section Serving non-Google fonts locally:
 #'
-#'   With remotely hosted fonts, clients (i.e., end users) need an internet
-#'   connection to render the fonts. Remote fonts can be implemented using
-#'   `font_google(..., local = FALSE)` (hosted via Google), `font_link()`
-#'   (hosted via `href` URL), or `font_face()` (hosted via `src` URL).
-#'
-#' @section Local fonts:
-#'
-#'   With local (i.e., self-hosted) fonts, clients (i.e., end users) can render
-#'   fonts without an internet connection. By default, `google_font()` will
-#'   automatically download, cache, and serve font files locally. Non-Google
-#'   fonts may also be served locally, but you'll have to download and serve
-#'   local file using something like [shiny::addResourcePath()] (or similar) and
-#'   provide the relevant files to a [font_face()] definition.
-#'
-#' @section Local file caching:
-#'
-#'   TODO: explain how to configure the cache.
+#'  Non-Google fonts may also be served locally with `font_face()`, but it
+#'  requires downloading font file(s) and pointing `src` to the right location
+#'  on disk. If you want `src` to be a relative file path (you almost certainly
+#'  do), then you'll need to mount that resource path using something like
+#'  [shiny::addResourcePath()] (for a shiny app) or `servr::httd()` (for static
+#'  HTML).
 #'
 #' @param family A character string with a _single_ font family name.
-#' @param src A character vector for the `src` `@font-face` property. Beware
-#'   that is character strings are taken verbatim, so careful quoting and/or URL
-#'   encoding may be required.
-#' @param weight A character (or numeric) vector for the `font-weight`
-#'   `@font-face` property.
-#' @param display A character vector for the `font-display` `@font-face`
-#'   property.
-#' @param style A character vector for the `font-style` `@font-face` property.
-#' @param stretch A character vector for the `font-stretch` `@font-face`
-#'   property.
-#' @param variant A character vector for the `font-variant` `@font-face`
-#'   property.
-#' @param unicode_range A character vector for `unicode-range` `@font-face`
-#'   property.
+#' @param local Whether or not download and bundle local (woff) font files.
+#' @param cache A [sass::sass_file_cache()] object (or, more generally, a file
+#'   caching class with `$get_file()` and `$set_file()` methods). Set this
+#'   argument to `FALSE` or `NULL` to disable caching.
+#' @param wght One of the following:
+#'   * `NULL`, the default weight for the `family`.
+#'   * A character string defining an [axis range](https://developers.google.com/fonts/docs/css2#axis_ranges)
+#'   * A numeric vector of desired font weight(s).
+#' @param ital One of the following:
+#'   * `NULL`, the default `font-style` for the `family`.
+#'   * `0`, meaning `font-style: normal`
+#'   * `1`, meaning `font-style: italic`
+#'   * `c(0, 1)`, meaning both `normal` and `italic`
+#' @param display the `font-display` `@font-face` property.
 #'
-#' @return a [sass_bundle()] with a special class.
+#' @return a [sass_layer()] holding an [htmltools::htmlDependency()] which points
+#'   to the font files.
 #'
+#' @references <https://developers.google.com/fonts/docs/css2>
 #' @references <https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face>
 #' @references <https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Web_fonts>
+#'
 #' @export
+#' @rdname font_face
 #' @examples
 #'
 #' library(htmltools)
@@ -113,69 +117,6 @@
 #'   weight = "200 900",
 #'   src = paste0("url(", url, ") format('woff2')")
 #' )
-#'
-font_face <- function(family, src, weight = NULL, style = NULL,
-                      display = c("swap", "auto", "block", "fallback", "optional"),
-                      stretch = NULL, variant = NULL, unicode_range = NULL) {
-
-  x <- dropNulls(list(
-    family = family,
-    src = src,
-    weight = weight,
-    style = style,
-    display = if (!is.null(display)) match.arg(display),
-    stretch = stretch,
-    variant = variant,
-    unicode_range = unicode_range
-  ))
-
-  # Multiple src values are separated by "," (everything else by white space)
-  # TODO: src could accept a list of named lists which might give us the
-  # opportunity to handle quoting and encoding of URLs
-  for (prop in names(x)) {
-    collapse <- if (prop %in% c("src", "unicode_range")) ", " else " "
-    x[[prop]] <- paste0(x[[prop]], collapse = collapse)
-  }
-  x$css <- font_face_css(x)
-
-  font_object(x, font_dep_face)
-}
-
-font_face_css <- function(x) {
-  props <- names(x)
-  font_prop <- !props %in% c("src", "unicode_range")
-  props[font_prop] <- paste0("font-", props[font_prop])
-  paste0(
-    "@font-face {\n",
-    paste0("  ", props, ": ", x, ";", collapse = "\n"),
-    "\n}"
-  )
-}
-
-#' @rdname font_face
-#' @param href A URL resource pointing to the font data.
-#' @export
-font_link <- function(family, href) {
-  font_object(list(family = family, href = href), font_dep_link)
-}
-
-#' @rdname font_face
-#' @param local Whether or not download and bundle local (woff) font files.
-#' @param cache A [sass::sass_file_cache()] object (or, more generally, a file
-#'   caching class with `$get_file()` and `$set_file()` methods). Set this
-#'   argument to `FALSE` or `NULL` to disable caching.
-#' @param wght One of the following:
-#'   * `NULL`, the default weight for the `family`.
-#'   * A character string defining an [axis range](https://developers.google.com/fonts/docs/css2#axis_ranges)
-#'   * A numeric vector of desired font weight(s).
-#' @param ital One of the following:
-#'   * `NULL`, the default `font-style` for the `family`.
-#'   * `0`, meaning `font-style: normal`
-#'   * `1`, meaning `font-style: italic`
-#'   * `c(0, 1)`, meaning both `normal` and `italic`
-#' @param display the `font-display` `@font-face` property.
-#' @references <https://developers.google.com/fonts/docs/css2>
-#' @export
 font_google <- function(family, local = TRUE,
                         cache = sass_file_cache(sass_cache_context_dir()),
                         wght = NULL, ital = NULL, display = c("swap", "auto", "block", "fallback", "optional")) {
@@ -215,6 +156,67 @@ font_google <- function(family, local = TRUE,
 
   dep_func <- if (x$local) font_dep_google_local else font_dep_link
   font_object(x, dep_func)
+}
+
+#' @rdname font_face
+#' @export
+#' @param href A URL resource pointing to the font data.
+font_link <- function(family, href) {
+  font_object(list(family = family, href = href), font_dep_link)
+}
+
+#' @rdname font_face
+#' @export
+#' @param src A character vector for the `src` `@font-face` property. Beware
+#'   that is character strings are taken verbatim, so careful quoting and/or URL
+#'   encoding may be required.
+#' @param weight A character (or numeric) vector for the `font-weight`
+#'   `@font-face` property.
+#' @param display A character vector for the `font-display` `@font-face`
+#'   property.
+#' @param style A character vector for the `font-style` `@font-face` property.
+#' @param stretch A character vector for the `font-stretch` `@font-face`
+#'   property.
+#' @param variant A character vector for the `font-variant` `@font-face`
+#'   property.
+#' @param unicode_range A character vector for `unicode-range` `@font-face`
+#'   property.
+font_face <- function(family, src, weight = NULL, style = NULL,
+                      display = c("swap", "auto", "block", "fallback", "optional"),
+                      stretch = NULL, variant = NULL, unicode_range = NULL) {
+
+  x <- dropNulls(list(
+    family = family,
+    src = src,
+    weight = weight,
+    style = style,
+    display = if (!is.null(display)) match.arg(display),
+    stretch = stretch,
+    variant = variant,
+    unicode_range = unicode_range
+  ))
+
+  # Multiple src values are separated by "," (everything else by white space)
+  # TODO: src could accept a list of named lists which might give us the
+  # opportunity to handle quoting and encoding of URLs
+  for (prop in names(x)) {
+    collapse <- if (prop %in% c("src", "unicode_range")) ", " else " "
+    x[[prop]] <- paste0(x[[prop]], collapse = collapse)
+  }
+  x$css <- font_face_css(x)
+
+  font_object(x, font_dep_face)
+}
+
+font_face_css <- function(x) {
+  props <- names(x)
+  font_prop <- !props %in% c("src", "unicode_range")
+  props[font_prop] <- paste0("font-", props[font_prop])
+  paste0(
+    "@font-face {\n",
+    paste0("  ", props, ": ", x, ";", collapse = "\n"),
+    "\n}"
+  )
 }
 
 font_object <- function(x, dep_func) {
