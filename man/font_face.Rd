@@ -24,7 +24,7 @@ font_link(family, href)
 font_google(
   family,
   local = TRUE,
-  cache = sass_cache_get(),
+  cache = sass_file_cache(sass_cache_context_dir()),
   wght = NULL,
   ital = NULL,
   display = c("swap", "auto", "block", "fallback", "optional")

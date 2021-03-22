@@ -177,8 +177,7 @@ font_link <- function(family, href) {
 #' @references <https://developers.google.com/fonts/docs/css2>
 #' @export
 font_google <- function(family, local = TRUE,
-                        # TODO: should this listen to a different option?
-                        cache = sass_cache_get(),
+                        cache = sass_file_cache(sass_cache_context_dir()),
                         wght = NULL, ital = NULL, display = c("swap", "auto", "block", "fallback", "optional")) {
   stopifnot(is.logical(local))
   if (!is.null(wght)) {
