@@ -4,7 +4,7 @@
       tagz$html
     Output
       <style>body {
-        font-family: "foo";
+        font-family: foo;
       }
       </style>
 
@@ -21,7 +21,7 @@
       tagz$html
     Output
       <style>body {
-        font-family: "foo";
+        font-family: foo;
       }
       </style>
 
@@ -38,7 +38,7 @@
       tagz$html
     Output
       <style>body {
-        font-family: "foo";
+        font-family: foo;
       }
       </style>
 
@@ -55,7 +55,7 @@
       tagz$html
     Output
       <style>body {
-        font-family: "foo";
+        font-family: foo;
       }
       </style>
 
@@ -72,7 +72,7 @@
       tagz$html
     Output
       <style>body {
-        font-family: "Pacifico";
+        font-family: Pacifico;
       }
       </style>
 
@@ -89,7 +89,7 @@
       tagz$html
     Output
       <style>body {
-        font-family: "Pacifico";
+        font-family: Pacifico;
       }
       </style>
 
@@ -191,7 +191,75 @@
       tagz$html
     Output
       <style>body {
-        font-family: "Pacifico";
+        font-family: Pacifico;
       }
       </style>
+
+# Special named args in font_collection
+
+    Code
+      tagz$html
+    Output
+      <style>body {
+        font-family: foo;
+      }
+      </style>
+
+---
+
+    Code
+      tagz$dependencies[[1]]$head
+    Output
+      [1] "<link href=\"https://fonts.googleapis.com/css2?family=foo&amp;display=swap\" rel=\"stylesheet\"/>"
+
+---
+
+    Code
+      tagz$html
+    Output
+      <style>body {
+        font-family: foo;
+      }
+      </style>
+
+---
+
+    Code
+      tagz$dependencies[[1]]$head
+    Output
+      [1] "<link href=\"bar\" rel=\"stylesheet\"/>"
+
+---
+
+    Code
+      tagz$html
+    Output
+      <style>body {
+        font-family: foo;
+      }
+      </style>
+
+---
+
+    Code
+      tagz$dependencies[[1]]$head
+    Output
+      NULL
+
+---
+
+    Code
+      tagz$html
+    Output
+      <style>body {
+        font-family: foo;
+      }
+      </style>
+
+---
+
+    Code
+      tagz$dependencies[[1]]$head
+    Output
+      [1] "<link href=\"https://fonts.googleapis.com/css2?family=foo&amp;display=swap\" rel=\"stylesheet\"/>"
 

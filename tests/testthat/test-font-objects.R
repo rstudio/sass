@@ -58,13 +58,13 @@ test_that("font_google(local = TRUE) basically works", {
   # Don't run these on CRAN since Google could update the
   # font files at any time
   expect_snapshot_file(
-    dir(src, pattern = "\\.css", full.names = TRUE),
-    name = "font-css"
+    dir(src, pattern = "\\.css$", full.names = TRUE),
+    name = "font-css",
+    # Don't run on CRAN since the src is a hash that might get updated
+    cran = FALSE
   )
-  expect_snapshot_file(
-    dir(src, pattern = "\\.woff", full.names = TRUE),
-    name = "font-file"
-  )
+  woff <- dir(src, pattern = "\\.woff$", full.names = TRUE)
+  expect_true(length(woff) > 0)
 })
 
 expect_collection <- function(..., expected) {
@@ -76,21 +76,57 @@ expect_collection <- function(..., expected) {
 }
 
 test_that("font_collection() basically works", {
-  expect_collection("foo", expected = "'foo'")
+  expect_collection("foo", expected = "foo")
   expect_collection(
     "foo", "bar",
-    expected = "'foo', 'bar'"
+    expected = "foo, bar"
   )
   expect_collection(
     "foo", "foo bar",
-    expected = "'foo', 'foo bar'"
+    expected = "foo, 'foo bar'"
+  )
+  expect_collection(
+    "foo", "foo bar, baz",
+    expected = "foo, 'foo bar', baz"
+  )
+  expect_collection(
+    "foo", c("foo bar", "baz"),
+    expected = "foo, 'foo bar', baz"
+  )
+  # Don't attempt to quote if , is quoted
+  expect_warning(
+    expect_collection(
+      "foo", "'foo, bar', baz",
+      expected = "foo, 'foo, bar', baz"
+    ),
+    "quote"
+  )
+  expect_collection(
+    font_google("foo bar baz"), "foo",
+    expected = "'foo bar baz', foo"
   )
   expect_collection(
     font_link("foo bar baz", "link"), "foo",
-    expected = "'foo bar baz', 'foo'"
+    expected = "'foo bar baz', foo"
+  )
+  expect_collection(
+    font_face("foo bar baz", "..."), "foo",
+    expected = "'foo bar baz', foo"
   )
 })
 
-# TODO:
-# 1. test that dependencies are reported in a call to sass()/as_sass()
-# 2. test that font_collection works recursively
+test_that("Special named args in font_collection", {
+  expect_remote_font(
+    font_collection(google = list("foo", local = FALSE))
+  )
+  expect_remote_font(
+    font_collection(link = list("foo", href = "bar"))
+  )
+  expect_remote_font(
+    font_collection(collection = list(google = list("foo", local = FALSE)))
+  )
+  expect_error(
+    font_collection(foo = "bar"),
+    "foo"
+  )
+})

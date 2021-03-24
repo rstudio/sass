@@ -186,7 +186,7 @@ font_face <- function(family, src, weight = NULL, style = NULL,
                       stretch = NULL, variant = NULL, unicode_range = NULL) {
 
   x <- dropNulls(list(
-    family = family,
+    family = quote_css_font_families(family),
     src = src,
     weight = weight,
     style = style,
@@ -221,9 +221,15 @@ font_face_css <- function(x) {
 
 font_object <- function(x, dep_func) {
   stopifnot(is.function(dep_func))
+  if (!is_string(x$family)) {
+    stop(
+      "Font `family` definitions must be a character string (length 1).",
+      call. = FALSE
+    )
+  }
   # Dependency functions want to use unquoted family name
   new_font_collection(
-    families = verify_single_unquoted_family(x$family),
+    families = x$family,
     # Produce dependency at render-time (i.e., tagFunction())
     # so the context-aware caching dir has the proper context
     html_deps = tagFunction(function() dep_func(x))
@@ -231,22 +237,60 @@ font_object <- function(x, dep_func) {
 }
 
 #' @rdname font_face
-#' @param ... a collection of `font_google()`, `font_link()`, `font_face()`, and/or character strings. Character strings must define a single `font-family`.
+#' @param ... a collection of `font_google()`, `font_link()`, `font_face()`, and/or character vector(s) (i.e., family names to include in the CSS `font-family` properly). Family names are automatically quoted as necessary.
 #' @param default_flag whether or not to include a `!default` when converted to a Sass variable with [as_sass()].
 #' @export
 font_collection <- function(..., default_flag = TRUE) {
-  fonts <- list2(...)
+  fonts <- dropNulls(list2(...))
+
+  # Transform syntax like font_collection(google = "Pacifico")
+  # into font_collection(font_google("Pacifico"))
+  # the primary motication for doing this is to support a Rmd
+  # syntax like this (for bslib theming):
+  # ---
+  # theme:
+  #   base_font:
+  #     google: Pacifico
+  # ---
+  fonts <- Map(
+    names2(fonts), fonts,
+    f = function(nm, val) {
+      if (identical(nm, "")) return(val)
+
+      func <- tryCatch(
+        match.fun(paste0("font_", nm), descend = FALSE),
+        error = function(e) {
+          funcs <- grep("^font_", getNamespaceExports("sass"), value = TRUE)
+          stop(
+            "Unsupported argument name: ", nm, ".\n",
+            "Did you want to try one of these names instead: ",
+            paste(sub("^font_", "", funcs), collapse = ", "), "?",
+            call. = FALSE
+          )
+        }
+      )
+
+      if (!is.function(func)) {
+        return(val)
+      }
+
+      do.call(func, as.list(val))
+    }
+  )
+
   families <- lapply(fonts, function(x) {
     if (is_font_collection(x))
       return(x$families)
-    if (is_string(x))
-      return(verify_single_unquoted_family(x))
+    if (is.character(x))
+      return(x)
     stop(
       "`font_collection()` expects a collection of `font_google()`, `font_link()`, `font_face()`, and/or character strings.",
       call. = FALSE
     )
   })
+
   families <- unlist(families, recursive = FALSE, use.names = FALSE)
+
   deps <- lapply(fonts, function(x) {
     if (is_font_collection(x)) x$html_deps
   })
@@ -260,7 +304,7 @@ font_collection <- function(..., default_flag = TRUE) {
 new_font_collection <- function(families, html_deps, default_flag = TRUE) {
   add_class(
     list(
-      families = families,
+      families = quote_css_font_families(families),
       html_deps = html_deps,
       default_flag = default_flag
     ),
@@ -275,30 +319,48 @@ is_font_collection <- function(x) {
   inherits(x, "font_collection")
 }
 
-# Only to be used when we know x is meant to be a single font family
-verify_single_unquoted_family <- function(x) {
-  if (!is_string(x)) {
-    stop("Font family definitions must be a character string (length 1).", call. = FALSE)
-  }
-  has_comma <- grepl(",", x)
-  quoted <- grepl("'", x) || grepl('"', x)
-  if (has_comma || quoted) {
-    stop(
-      "This family definition contains ",
-      if (has_comma) "a comma: " else "quotes: ", x, ". ",
-      "Font family definitions must define a single (unquoted) family name. ",
+quote_css_font_families <- function(x) {
+  stopifnot(is.character(x))
+
+  quoted_contents <- c(
+    unlist(regmatches(x, gregexpr("'([^']*)'", x))),
+    unlist(regmatches(x, gregexpr('"([^"]*)"', x)))
+  )
+  if (any(grepl(",", quoted_contents))) {
+    x <- paste(x, collapse = ", ")
+    warning(
+      "`sass::font_collection()` doesn't automatically quote CSS ",
+      "`font-family` names when they contain a ','. ",
+      "If fonts don't render properly, make sure family names are ",
+      "quoted properly: ", x,
       call. = FALSE
     )
+    return(x)
   }
-  x
+
+  pieces <- unlist(strsplit(x, ","))
+  pieces <- sub("^\\s*", "", sub("\\s*$", "", pieces))
+
+  # Are there non-alpha, non-dash characters? If so, then quote
+  needs_quote <- grepl("[^A-Za-z\\-]", pieces, perl = TRUE)
+  has_quote <- grepl("^'", pieces) | grepl('^"', pieces)
+  pieces <- ifelse(
+    needs_quote & !has_quote,
+    paste0("'", pieces, "'"),
+    pieces
+  )
+
+  paste(pieces, collapse = ", ")
 }
 
 font_dep_name <- function(x) {
-  paste0(class(x)[[1]], sub("\\s*", "_", tolower(x$family)))
+  sub("\\s*", "_", tolower(x$family))
 }
 
 #' @import htmltools
 font_dep_face <- function(x) {
+  # TODO: memoise::memoise() this or do something similar
+  # to output_template() to reduce file redundancy?
   src_dir <- tempfile()
   dir.create(src_dir)
   writeLines(x$css, file.path(src_dir, "font.css"))
@@ -345,7 +407,8 @@ resolve_cache <- function(cache) {
 }
 
 font_dep_google_local <- function(x) {
-
+  # TODO: memoise::memoise() this or do something similar
+  # to output_template() to reduce file redundancy?
   tmpdir <- tempfile()
   dir.create(tmpdir, recursive = TRUE)
   css_file <- file.path(tmpdir, "font.css")

@@ -81,7 +81,7 @@ property.}
 \item{unicode_range}{A character vector for \code{unicode-range} \verb{@font-face}
 property.}
 
-\item{...}{a collection of \code{font_google()}, \code{font_link()}, \code{font_face()}, and/or character strings. Character strings must define a single \code{font-family}.}
+\item{...}{a collection of \code{font_google()}, \code{font_link()}, \code{font_face()}, and/or character vector(s) (i.e., family names to include in the CSS \code{font-family} properly). Family names are automatically quoted as necessary.}
 
 \item{default_flag}{whether or not to include a \code{!default} when converted to a Sass variable with \code{\link[=as_sass]{as_sass()}}.}
 
