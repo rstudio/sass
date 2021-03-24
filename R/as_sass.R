@@ -59,7 +59,7 @@ as_sass <- function(input) {
 }
 
 find_dependencies <- function(x) {
-  deps <- if (is_sass_bundle_like(x)) {
+  deps <- if (is_sass_bundle(x)) {
     as_sass_layer(x)$html_deps
   } else if (is_font_collection(x)) {
     x$html_deps
@@ -68,7 +68,7 @@ find_dependencies <- function(x) {
   }
   childDeps <- NULL
   # only recurse into generic lists
-  if (identical(class(x), "list")) {
+  if (is.list(x)) {
     childDeps <- unlist(
       lapply(x, find_dependencies),
       recursive = FALSE, use.names = FALSE
