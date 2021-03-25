@@ -137,4 +137,6 @@ test_that("Special named args in font_collection", {
     font_collection(foo = "bar"),
     "foo"
   )
+  expect_error(font_collection(NA))
+  expect_error(font_collection(""))
 })

@@ -273,10 +273,10 @@ font_collection <- function(..., default_flag = TRUE, quote = TRUE) {
   families <- lapply(fonts, function(x) {
     if (is_font_collection(x))
       return(x$families)
-    if (is.character(x))
+    if (is.character(x) && isTRUE(nzchar(x, keepNA = TRUE)))
       return(x)
     stop(
-      "`font_collection()` expects a collection of `font_google()`, `font_link()`, `font_face()`, and/or character strings.",
+      "`font_collection()` expects a collection of `font_google()`, `font_link()`, `font_face()`, and/or non-empty character strings.",
       call. = FALSE
     )
   })
