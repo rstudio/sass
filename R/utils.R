@@ -54,10 +54,6 @@ get_file_mtimes <- function(files) {
   )
 }
 
-"%||%" <- function(x, y) {
-  if (is.null(x)) y else x
-}
-
 # Checks whether a package is installed
 is_installed <- function(package) {
   nzchar(system.file(package = package))
@@ -131,6 +127,10 @@ has_any_name <- function(x) {
 
 is_string <- function(x) {
   is.character(x) && length(x) == 1
+}
+
+trim_ws <- function(x) {
+  sub("^\\s*", "", sub("\\s*$", "", x))
 }
 
 is_available <- function(package, version = NULL) {

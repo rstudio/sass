@@ -239,8 +239,9 @@ font_object <- function(x, dep_func) {
 #' @rdname font_face
 #' @param ... a collection of `font_google()`, `font_link()`, `font_face()`, and/or character vector(s) (i.e., family names to include in the CSS `font-family` properly). Family names are automatically quoted as necessary.
 #' @param default_flag whether or not to include a `!default` when converted to a Sass variable with [as_sass()].
+#' @param quote whether or not to attempt automatic quoting of family names.
 #' @export
-font_collection <- function(..., default_flag = TRUE) {
+font_collection <- function(..., default_flag = TRUE, quote = TRUE) {
   fonts <- dropNulls(list2(...))
 
   # Transform syntax like font_collection(google = "Pacifico")
@@ -257,22 +258,13 @@ font_collection <- function(..., default_flag = TRUE) {
     f = function(nm, val) {
       if (identical(nm, "")) return(val)
 
-      func <- tryCatch(
-        match.fun(paste0("font_", nm), descend = FALSE),
-        error = function(e) {
-          funcs <- grep("^font_", getNamespaceExports("sass"), value = TRUE)
-          stop(
-            "Unsupported argument name: ", nm, ".\n",
-            "Did you want to try one of these names instead: ",
-            paste(sub("^font_", "", funcs), collapse = ", "), "?",
-            call. = FALSE
-          )
-        }
+      func <- known_font_helpers[[nm]] %||% rlang::abort(
+        paste0(
+          "Unsupported argument name: ", nm, ".\n",
+          "Did you want to try one of these names instead: ",
+          paste0(names(known_font_helpers), collapse = ", "), "?"
+        )
       )
-
-      if (!is.function(func)) {
-        return(val)
-      }
 
       do.call(func, as.list(val))
     }
@@ -297,14 +289,23 @@ font_collection <- function(..., default_flag = TRUE) {
   new_font_collection(
     families = families,
     html_deps = unlist(deps, recursive = FALSE, use.names = FALSE),
-    default_flag = isTRUE(default_flag)
+    default_flag = isTRUE(default_flag),
+    quote = quote
   )
 }
 
-new_font_collection <- function(families, html_deps, default_flag = TRUE) {
+
+known_font_helpers <- list(
+  "google" = font_google,
+  "link" = font_link,
+  "face" = font_face,
+  "collection" = font_collection
+)
+
+new_font_collection <- function(families, html_deps, default_flag = TRUE, quote = TRUE) {
   add_class(
     list(
-      families = quote_css_font_families(families),
+      families = if (isTRUE(quote)) quote_css_font_families(families) else families,
       html_deps = html_deps,
       default_flag = default_flag
     ),
@@ -327,7 +328,7 @@ quote_css_font_families <- function(x) {
     unlist(regmatches(x, gregexpr('"([^"]*)"', x)))
   )
   if (any(grepl(",", quoted_contents))) {
-    x <- paste(x, collapse = ", ")
+    x <- paste0(x, collapse = ", ")
     warning(
       "`sass::font_collection()` doesn't automatically quote CSS ",
       "`font-family` names when they contain a ','. ",
@@ -338,11 +339,10 @@ quote_css_font_families <- function(x) {
     return(x)
   }
 
-  pieces <- unlist(strsplit(x, ","))
-  pieces <- sub("^\\s*", "", sub("\\s*$", "", pieces))
+  pieces <- trim_ws(unlist(strsplit(x, ",")))
 
   # Are there non-alpha, non-dash characters? If so, then quote
-  needs_quote <- grepl("[^A-Za-z\\-]", pieces, perl = TRUE)
+  needs_quote <- grepl("[^A-Za-z-]", pieces, perl = TRUE)
   has_quote <- grepl("^'", pieces) | grepl('^"', pieces)
   pieces <- ifelse(
     needs_quote & !has_quote,
@@ -350,11 +350,12 @@ quote_css_font_families <- function(x) {
     pieces
   )
 
-  paste(pieces, collapse = ", ")
+  paste0(pieces, collapse = ", ")
 }
 
+
 font_dep_name <- function(x) {
-  sub("\\s*", "_", tolower(x$family))
+  sub("\\s*", "_", trim_ws(x$family))
 }
 
 #' @import htmltools

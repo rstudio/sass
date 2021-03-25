@@ -101,6 +101,14 @@ test_that("font_collection() basically works", {
     ),
     "quote"
   )
+  # Can suppress the warning with quote = FALSE
+  expect_warning(
+    expect_collection(
+      "'foo, bar', baz", quote = FALSE,
+      expected = "'foo, bar', baz"
+    ),
+    NA
+  )
   expect_collection(
     font_google("foo bar baz"), "foo",
     expected = "'foo bar baz', foo"

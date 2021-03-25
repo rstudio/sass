@@ -1,4 +1,4 @@
-#' @importFrom rlang list2 names2
+#' @importFrom rlang list2 names2 %||%
 NULL
 
 #' Bundling Sass layers

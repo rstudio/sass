@@ -244,22 +244,5 @@
     Code
       tagz$dependencies[[1]]$head
     Output
-      NULL
-
----
-
-    Code
-      tagz$html
-    Output
-      <style>body {
-        font-family: foo;
-      }
-      </style>
-
----
-
-    Code
-      tagz$dependencies[[1]]$head
-    Output
       [1] "<link href=\"https://fonts.googleapis.com/css2?family=foo&amp;display=swap\" rel=\"stylesheet\"/>"
 
