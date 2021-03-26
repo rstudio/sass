@@ -28,12 +28,22 @@ format.sass_bundle <- function(x, ...) {
 #' @noRd
 print.css <- function(x, ...) {
   cat0("/* CSS */\n", format(x), "\n") # nolint
+  deps <- htmlDependencies(x)
+  if (length(deps)) {
+    cat0("\n/* HTML Dependencies */\n")
+    utils::str(deps)
+  }
   invisible(x)
 }
 #' @export
 #' @noRd
 print.sass <- function(x, ...) {
   cat0("/* Sass */\n", format(x), "\n") # nolint
+  deps <- htmlDependencies(x)
+  if (length(deps)) {
+    cat0("\n/* HTML Dependencies */\n")
+    utils::str(deps)
+  }
   invisible(x)
 }
 #' @export

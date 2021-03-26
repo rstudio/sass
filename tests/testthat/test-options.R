@@ -1,5 +1,3 @@
-context("options")
-
 # Disable sass cache
 local_disable_cache()
 

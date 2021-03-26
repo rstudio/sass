@@ -41,3 +41,8 @@ reference:
   contents:
     - sass_file_cache
     - sass_cache_get
+- title: Font importing
+  description: |
+    Helpers for importing font files
+  contents:
+    - font_face

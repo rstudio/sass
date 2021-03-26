@@ -1,5 +1,3 @@
-context("utils")
-
 # Disable sass cache
 local_disable_cache()
 

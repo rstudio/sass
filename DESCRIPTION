@@ -1,6 +1,6 @@
 Type: Package
 Package: sass
-Version: 0.3.1.9000
+Version: 0.3.1.9001
 Title: Syntactically Awesome Style Sheets ('Sass')
 Description: An 'SCSS' compiler, powered by the 'LibSass' library. With this,
     R developers can use variables, inheritance, and functions to generate
@@ -42,10 +42,9 @@ RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 SystemRequirements: GNU make
 Imports:
-    digest,
     fs,
-    rlang,
-    htmltools,
+    rlang (>= 0.4.10),
+    htmltools (>= 0.5.1),
     R6,
     rappdirs
 Suggests:
@@ -53,5 +52,7 @@ Suggests:
     knitr,
     rmarkdown,
     withr,
-    shiny
+    shiny,
+    curl
 VignetteBuilder: knitr
+Config/testthat/edition: 3

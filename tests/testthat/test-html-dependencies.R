@@ -1,5 +1,3 @@
-context("html-dependencies")
-
 # Disable sass cache
 local_disable_cache()
 
@@ -7,17 +5,23 @@ library(htmltools)
 dep1 <- htmlDependency(
   name = "fake1",
   version = "1.0.0",
-  src = system.file("tests", "testthat", package = "sass"),
-  stylesheet = "test-nesting-expected.css",
-  all_files = FALSE
+  src = ""
 )
 dep2 <- htmlDependency(
   name = "fake2",
   version = "1.0.0",
-  src = system.file("tests", "testthat", package = "sass"),
-  stylesheet = "test-nesting-expected.css",
-  all_files = FALSE
+  src = ""
 )
+
+test_that("sass()/as_sass() relay html dependencies", {
+  scss <- attachDependencies(list("body{color: green}"), dep1)
+  # Test that the print methods also relay
+  expect_snapshot(sass(scss), cran = TRUE)
+  expect_snapshot(as_sass(scss), cran = TRUE)
+  tmpcss <- tempfile(fileext = ".css")
+  on.exit(unlink(tmpcss), add = TRUE)
+  expect_equal(htmlDependencies(sass(scss)), list(dep1))
+})
 
 test_that("sass() relays sass_layer()'s html dependencies", {
   layer1 <- sass_layer(defaults = "body{color: green}", html_deps = dep1)

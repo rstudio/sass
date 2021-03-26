@@ -1,5 +1,3 @@
-context("compile")
-
 # Disable sass cache
 local_disable_cache()
 
