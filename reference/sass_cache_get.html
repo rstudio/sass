@@ -104,7 +104,7 @@ application and will not interfere with another application's cache." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9001</span>
       </span>
     </div>
 
@@ -161,7 +161,7 @@ it is treated as a directory name, and this function returns a
 to a <code><a href='sass_file_cache.html'>sass_file_cache()</a></code> object, then it will return that object.</p>
 <p>In most cases, this function uses the user's cache directory, by calling
 <code><a href='https://rdrr.io/r/tools/userdir.html'>tools::R_user_dir("sass", which = "cache")</a></code> (for R 4.0 and above) or
-<code><a href='https://rdrr.io/pkg/rappdirs/man/user_cache_dir.html'>rappdirs::user_cache_dir("R-sass")</a></code> (for older versions of R).</p>
+<code><a href='https://rappdirs.r-lib.org/reference/user_cache_dir.html'>rappdirs::user_cache_dir("R-sass")</a></code> (for older versions of R).</p>
 <p>If this function is called from a Shiny application, it will also look for a
 subdirectory named <code>app_cache/</code>. If it exists, it will use a directory named
 <code>app_cache/sass/</code> to store the cache.</p>
@@ -181,7 +181,7 @@ application and will not interfere with another application's cache.</p>
     
 
 
-<p>If Shiny Developer Mode is enabled (by setting <code><a href='https://rdrr.io/r/base/options.html'>options(shiny.devmode = TRUE)</a></code> or calling <code>shiny::devmode(TRUE)</code>,
+<p>If Shiny Developer Mode is enabled (by setting <code><a href='https://rdrr.io/r/base/options.html'>options(shiny.devmode = TRUE)</a></code> or calling <code><a href='https://rdrr.io/pkg/shiny/man/devmode.html'>shiny::devmode(TRUE)</a></code>,
 the default global option value for <code>sass.cache</code> is updated to <code>FALSE</code> instead
 of <code>TRUE</code>, similar to <code><a href='https://rdrr.io/r/base/options.html'>getOption("sass.cache", FALSE)</a></code>.  This setting allows
 developers to make sure what is being returned from <code><a href='sass.html'>sass()</a></code> is not an incorrect
