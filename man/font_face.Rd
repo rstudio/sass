@@ -30,7 +30,7 @@ font_face(
   unicode_range = NULL
 )
 
-font_collection(..., default_flag = TRUE)
+font_collection(..., default_flag = TRUE, quote = TRUE)
 
 is_font_collection(x)
 }
@@ -84,6 +84,8 @@ property.}
 \item{...}{a collection of \code{font_google()}, \code{font_link()}, \code{font_face()}, and/or character vector(s) (i.e., family names to include in the CSS \code{font-family} properly). Family names are automatically quoted as necessary.}
 
 \item{default_flag}{whether or not to include a \code{!default} when converted to a Sass variable with \code{\link[=as_sass]{as_sass()}}.}
+
+\item{quote}{whether or not to attempt automatic quoting of family names.}
 
 \item{x}{test whether \code{x} is a \code{font_collection()}, \code{font_google()}, \code{font_link()}, or \code{font_face()} object.}
 }
