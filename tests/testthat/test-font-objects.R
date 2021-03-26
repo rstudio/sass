@@ -48,6 +48,8 @@ test_that("Remote font importing basically works", {
 })
 
 test_that("font_google(local = TRUE) basically works", {
+  skip_if_offline()
+
   scss <- list(
     list("my-font" = font_google("Pacifico")),
     list("body {font-family: $my-font}")
@@ -55,8 +57,6 @@ test_that("font_google(local = TRUE) basically works", {
   tagz <- renderTags(tags$style(sass(scss)))
   expect_snapshot(tagz$html, cran = TRUE)
   src <- tagz$dependencies[[1]]$src$file
-  # Don't run these on CRAN since Google could update the
-  # font files at any time
   expect_snapshot_file(
     dir(src, pattern = "\\.css$", full.names = TRUE),
     name = "font-css",

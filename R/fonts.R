@@ -200,7 +200,7 @@ font_face <- function(family, src, weight = NULL, style = NULL,
   # TODO: src could accept a list of named lists which might give us the
   # opportunity to handle quoting and encoding of URLs
   for (prop in names(x)) {
-    collapse <- if (prop %in% c("src", "unicode_range")) ", " else " "
+    collapse <- switch(prop, src = , unicode_range = ", ", " ")
     x[[prop]] <- paste0(x[[prop]], collapse = collapse)
   }
   x$css <- font_face_css(x)
@@ -273,7 +273,7 @@ font_collection <- function(..., default_flag = TRUE, quote = TRUE) {
   families <- lapply(fonts, function(x) {
     if (is_font_collection(x))
       return(x$families)
-    if (is.character(x) && isTRUE(nzchar(x, keepNA = TRUE)))
+    if (is.character(x) && isTRUE(all(nzchar(x, keepNA = TRUE))))
       return(x)
     stop(
       "`font_collection()` expects a collection of `font_google()`, `font_link()`, `font_face()`, and/or non-empty character strings.",
