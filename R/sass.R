@@ -301,7 +301,7 @@ sass_partial <- function(
 #'   directory name.
 #' @param fileext the output file extension. The default is `".min.css"` for
 #'   compressed and compact output styles; otherwise, its `".css"`.
-#' @param temp_dir the output directory to write the temporary file to. The
+#' @param tmpdir the output directory to write the temporary file to. The
 #'   default is `tempdir()` to write in the R session temp directory.
 #'
 #' @return A function with two arguments: `options` and `suffix`. When called inside
@@ -314,15 +314,15 @@ sass_partial <- function(
 #' func <- output_template(basename = "foo", dirname = "bar-")
 #' func(suffix = "baz")
 #'
-output_template <- function(basename = "sass", dirname = basename, fileext = NULL, temp_dir = tempdir()) {
+output_template <- function(basename = "sass", dirname = basename, fileext = NULL, tmpdir = tempdir()) {
   function(options = list(), suffix = NULL) {
     fileext <- fileext %||% if (isTRUE(options$output_style %in% c(2, 3))) ".min.css" else ".css"
     # If caching is enabled, then make sure the out dir is unique to the cache key;
     # otherwise, do the more conservative thing of making sure there is a fresh start everytime
     out_dir <- if (is.null(suffix)) {
-      tempfile(tmpdir = temp_dir, pattern = dirname)
+      tempfile(tmpdir, pattern = dirname)
     } else {
-      file.path(temp_dir, paste0(dirname, suffix))
+      file.path(tmpdir, paste0(dirname, suffix))
     }
     if (!dir.exists(out_dir)) {
       dir.create(out_dir, recursive = TRUE)

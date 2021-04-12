@@ -178,9 +178,9 @@ test_that("output_template() is cache and options aware", {
   expect_red(output6)
 
   # File can be written in another dir and still be cache aware
-  tmp_dir <- withr::local_tempdir()
-  output7 <- sass(input, output = output_template(temp_dir = tmp_dir), options = opts)
-  expect_true(basename(dirname(dirname(output7))) == basename(tmp_dir))
+  temp_dir <- withr::local_tempdir()
+  output7 <- sass(input, output = output_template(tmpdir = temp_dir), options = opts)
+  expect_true(basename(dirname(dirname(output7))) == basename(temp_dir))
   expect_true(basename(dirname(output7)) == basename(dirname(output1)))
 })
 

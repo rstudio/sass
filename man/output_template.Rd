@@ -8,7 +8,7 @@ output_template(
   basename = "sass",
   dirname = basename,
   fileext = NULL,
-  temp_dir = tempdir()
+  tmpdir = tempdir()
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ directory name.}
 \item{fileext}{the output file extension. The default is \code{".min.css"} for
 compressed and compact output styles; otherwise, its \code{".css"}.}
 
-\item{temp_dir}{the output directory to write the temporary file to. The
+\item{tmpdir}{the output directory to write the temporary file to. The
 default is \code{tempdir()} to write in the R session temp directory.}
 }
 \value{
