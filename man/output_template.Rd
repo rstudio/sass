@@ -4,7 +4,12 @@
 \alias{output_template}
 \title{An intelligent (temporary) output file}
 \usage{
-output_template(basename = "sass", dirname = basename, fileext = NULL)
+output_template(
+  basename = "sass",
+  dirname = basename,
+  fileext = NULL,
+  temp_dir = tempdir()
+)
 }
 \arguments{
 \item{basename}{a non-empty character vector giving the outfile name (without
@@ -15,6 +20,9 @@ directory name.}
 
 \item{fileext}{the output file extension. The default is \code{".min.css"} for
 compressed and compact output styles; otherwise, its \code{".css"}.}
+
+\item{temp_dir}{the output directory to write the temporary file to. The
+default is \code{tempdir()} to write in the R session temp directory.}
 }
 \value{
 A function with two arguments: \code{options} and \code{suffix}. When called inside
