@@ -320,7 +320,7 @@ output_template <- function(basename = "sass", dirname = basename, fileext = NUL
     # If caching is enabled, then make sure the out dir is unique to the cache key;
     # otherwise, do the more conservative thing of making sure there is a fresh start everytime
     out_dir <- if (is.null(suffix)) {
-      tempfile(tmpdir, pattern = dirname)
+      tempfile(tmpdir = tmpdir, pattern = dirname)
     } else {
       file.path(tmpdir, paste0(dirname, suffix))
     }
