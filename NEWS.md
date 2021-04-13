@@ -1,12 +1,14 @@
 # sass 0.3.1.9000
 
-## Breaking changes
+## Possibly breaking changes
 
-* `sass()` and `as_sass()` now always attach `htmlDependency()`(s) (found inside of their `input` argument) as an attribute on their return value. This mainly in support the new font importing feature (which relies on `sass()`/`as_sass()` being able to return `htmlDependency()`s), but this could be more generally useful for attaching HTML dependencies to Sass/CSS code.
+* `sass()` and `as_sass()` now always attach `htmlDependency()`(s) (found inside of their `input` argument) as an attribute on their return value. This mainly in support the new font importing feature (which relies on `sass()`/`as_sass()` being able to return `htmlDependency()`s), but this could be more generally useful for attaching HTML dependencies to Sass/CSS code. (#74)
 
 ## New features
 
-* Added new font importing helpers, namely `font_google()`, `font_link()`, `font_face()`, and `font_collection()` for intelligently importing web fonts files. They must be used inside a named list, for example: `list("font-variable" = font_google("Pacifico"))`. See `help(font_face, package = "sass")` for more details and examples.
+* Added new font importing helpers, namely `font_google()`, `font_link()`, `font_face()`, and `font_collection()` for intelligently importing web fonts files. They must be used inside a named list, for example: `list("font-variable" = font_google("Pacifico"))`. See `help(font_face, package = "sass")` for more details and examples. (#74)
+
+* `output_template()` gains a `path` argument to change the root directory where output file will be written. (#76)
 
 # sass 0.3.1
 
