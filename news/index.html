@@ -135,19 +135,20 @@
 <h1 class="page-header" data-toc-text="0.3.1.9000">
 <a href="#sass-0319000" class="anchor"></a>sass 0.3.1.9000<small> Unreleased </small>
 </h1>
-<div id="breaking-changes" class="section level2">
+<div id="possibly-breaking-changes" class="section level2">
 <h2 class="hasAnchor">
-<a href="#breaking-changes" class="anchor"></a>Breaking changes</h2>
+<a href="#possibly-breaking-changes" class="anchor"></a>Possibly breaking changes</h2>
 <ul>
 <li>
-<code><a href="../reference/sass.html">sass()</a></code> and <code><a href="../reference/as_sass.html">as_sass()</a></code> now always attach <code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html">htmlDependency()</a></code>(s) (found inside of their <code>input</code> argument) as an attribute on their return value. This mainly in support the new font importing feature (which relies on <code><a href="../reference/sass.html">sass()</a></code>/<code><a href="../reference/as_sass.html">as_sass()</a></code> being able to return <code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html">htmlDependency()</a></code>s), but this could be more generally useful for attaching HTML dependencies to Sass/CSS code.</li>
+<code><a href="../reference/sass.html">sass()</a></code> and <code><a href="../reference/as_sass.html">as_sass()</a></code> now always attach <code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html">htmlDependency()</a></code>(s) (found inside of their <code>input</code> argument) as an attribute on their return value. This mainly in support the new font importing feature (which relies on <code><a href="../reference/sass.html">sass()</a></code>/<code><a href="../reference/as_sass.html">as_sass()</a></code> being able to return <code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html">htmlDependency()</a></code>s), but this could be more generally useful for attaching HTML dependencies to Sass/CSS code. (<a href='https://github.com/rstudio/sass/issues/74'>#74</a>)</li>
 </ul>
 </div>
 <div id="new-features" class="section level2">
 <h2 class="hasAnchor">
 <a href="#new-features" class="anchor"></a>New features</h2>
 <ul>
-<li>Added new font importing helpers, namely <code><a href="../reference/font_google.html">font_google()</a></code>, <code><a href="../reference/font_google.html">font_link()</a></code>, <code><a href="../reference/font_google.html">font_face()</a></code>, and <code><a href="../reference/font_google.html">font_collection()</a></code> for intelligently importing web fonts files. They must be used inside a named list, for example: <code><a href="https://rdrr.io/r/base/list.html">list("font-variable" = font_google("Pacifico"))</a></code>. See <code><a href="../reference/font_google.html">help(font_face, package = "sass")</a></code> for more details and examples.</li>
+<li><p>Added new font importing helpers, namely <code><a href="../reference/font_google.html">font_google()</a></code>, <code><a href="../reference/font_google.html">font_link()</a></code>, <code><a href="../reference/font_google.html">font_face()</a></code>, and <code><a href="../reference/font_google.html">font_collection()</a></code> for intelligently importing web fonts files. They must be used inside a named list, for example: <code><a href="https://rdrr.io/r/base/list.html">list("font-variable" = font_google("Pacifico"))</a></code>. See <code><a href="../reference/font_google.html">help(font_face, package = "sass")</a></code> for more details and examples. (<a href='https://github.com/rstudio/sass/issues/74'>#74</a>)</p></li>
+<li><p><code><a href="../reference/output_template.html">output_template()</a></code> gains a <code>path</code> argument to change the root directory where output file will be written. (<a href='https://github.com/rstudio/sass/issues/76'>#76</a>)</p></li>
 </ul>
 </div>
 </div>
@@ -171,9 +172,9 @@
 <li><p>Added <code><a href="../reference/sass_layer.html">sass_bundle()</a></code> to collect <code><a href="../reference/sass_layer.html">sass_layer()</a></code>(s) and/or <code><a href="../reference/sass_layer.html">sass_bundle()</a></code>(s) into a single Sass bundle. When creating a bundle, any of the child layers/bundles may be named, so they can be later removed via <code><a href="../reference/sass_layer.html">sass_bundle_remove()</a></code>. (<a href='https://github.com/rstudio/sass/issues/54'>#54</a>)</p></li>
 <li><p><code><a href="../reference/sass_layer.html">sass_layer()</a></code> now returns a <code><a href="../reference/sass_layer.html">sass_bundle()</a></code> containing a single Sass layer. To test for <code><a href="../reference/sass_layer.html">sass_bundle()</a></code> output, use <code><a href="../reference/sass_layer.html">is_sass_bundle()</a></code>. (<a href='https://github.com/rstudio/sass/issues/54'>#54</a>)</p></li>
 </ul>
-<div id="breaking-changes-1" class="section level2">
+<div id="breaking-changes" class="section level2">
 <h2 class="hasAnchor">
-<a href="#breaking-changes-1" class="anchor"></a>Breaking changes</h2>
+<a href="#breaking-changes" class="anchor"></a>Breaking changes</h2>
 <ul>
 <li><p>When <code>output</code> is specified, <code><a href="../reference/sass.html">sass()</a></code> now returns the output file path instead of the CSS content as a character vector.</p></li>
 <li><p>The <code>cache_options</code> argument in <code><a href="../reference/sass.html">sass()</a></code> has been renamed to <code>cache</code> and now defaults to <code><a href="../reference/sass_cache_get.html">sass_cache_get()</a></code> instead of <code><a href="../reference/sass_cache_options.html">sass_cache_options()</a></code>.</p></li>
