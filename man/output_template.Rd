@@ -8,21 +8,20 @@ output_template(
   basename = "sass",
   dirname = basename,
   fileext = NULL,
-  tmpdir = tempdir()
+  path = tempdir()
 )
 }
 \arguments{
-\item{basename}{a non-empty character vector giving the outfile name (without
+\item{basename}{a non-empty character string giving the outfile name (without
 the extension).}
 
-\item{dirname}{a non-empty character vector giving the initial part of the
+\item{dirname}{a non-empty character string giving the initial part of the
 directory name.}
 
 \item{fileext}{the output file extension. The default is \code{".min.css"} for
 compressed and compact output styles; otherwise, its \code{".css"}.}
 
-\item{tmpdir}{the output directory to write the temporary file to. The
-default is \code{tempdir()} to write in the R session temp directory.}
+\item{path}{the output file's root directory path.}
 }
 \value{
 A function with two arguments: \code{options} and \code{suffix}. When called inside

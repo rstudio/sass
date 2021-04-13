@@ -295,14 +295,13 @@ sass_partial <- function(
 #' that new redundant file(s) aren't generated on a [sass()] cache hit, and that
 #' the file's extension is suitable for the [sass_options()]'s `output_style`.
 #'
-#' @param basename a non-empty character vector giving the outfile name (without
+#' @param basename a non-empty character string giving the outfile name (without
 #'   the extension).
-#' @param dirname a non-empty character vector giving the initial part of the
+#' @param dirname a non-empty character string giving the initial part of the
 #'   directory name.
 #' @param fileext the output file extension. The default is `".min.css"` for
 #'   compressed and compact output styles; otherwise, its `".css"`.
-#' @param tmpdir the output directory to write the temporary file to. The
-#'   default is `tempdir()` to write in the R session temp directory.
+#' @param path the output file's root directory path.
 #'
 #' @return A function with two arguments: `options` and `suffix`. When called inside
 #' [sass()] with caching enabled, the caching key is supplied to `suffix`.
@@ -314,15 +313,15 @@ sass_partial <- function(
 #' func <- output_template(basename = "foo", dirname = "bar-")
 #' func(suffix = "baz")
 #'
-output_template <- function(basename = "sass", dirname = basename, fileext = NULL, tmpdir = tempdir()) {
+output_template <- function(basename = "sass", dirname = basename, fileext = NULL, path = tempdir()) {
   function(options = list(), suffix = NULL) {
     fileext <- fileext %||% if (isTRUE(options$output_style %in% c(2, 3))) ".min.css" else ".css"
     # If caching is enabled, then make sure the out dir is unique to the cache key;
     # otherwise, do the more conservative thing of making sure there is a fresh start everytime
     out_dir <- if (is.null(suffix)) {
-      tempfile(tmpdir = tmpdir, pattern = dirname)
+      tempfile(tmpdir = path, pattern = dirname)
     } else {
-      file.path(tmpdir, paste0(dirname, suffix))
+      file.path(path, paste0(dirname, suffix))
     }
     if (!dir.exists(out_dir)) {
       dir.create(out_dir, recursive = TRUE)
