@@ -4,6 +4,8 @@
 
 * `sass()` and `as_sass()` now always attach `htmlDependency()`(s) (found inside of their `input` argument) as an attribute on their return value. This mainly in support the new font importing feature (which relies on `sass()`/`as_sass()` being able to return `htmlDependency()`s), but this could be more generally useful for attaching HTML dependencies to Sass/CSS code. (#74)
 
+* `sass_layer()`'s argument order has changed to better accommodate for the addition of new `functions` and `mixins` arguments as well as deprecation of the `declarations` argument. This change reflects an update in our understanding of Sass best practice of placing function definitions before variables, so that variable definitions may leverage functions. (#)
+
 ## New features
 
 * Added new font importing helpers, namely `font_google()`, `font_link()`, `font_face()`, and `font_collection()` for intelligently importing web fonts files. They must be used inside a named list, for example: `list("font-variable" = font_google("Pacifico"))`. See `help(font_face, package = "sass")` for more details and examples. (#74)

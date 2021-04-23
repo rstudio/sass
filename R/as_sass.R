@@ -134,7 +134,9 @@ as_sass_.sass_layer <- function(input) {
   collapse0(
     c(
       # only collect non-null values
+      if (!is.null(input$functions)) as_sass_(input$functions),
       if (!is.null(input$defaults)) as_sass_(input$defaults),
+      if (!is.null(input$mixins)) as_sass_(input$mixins),
       if (!is.null(input$declarations)) as_sass_(input$declarations),
       if (!is.null(input$rules)) as_sass_(input$rules)
     )

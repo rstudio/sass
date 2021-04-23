@@ -8,11 +8,13 @@
 \title{Bundling Sass layers}
 \usage{
 sass_layer(
+  functions = NULL,
   defaults = NULL,
-  declarations = NULL,
+  mixins = NULL,
   rules = NULL,
   html_deps = NULL,
   file_attachments = character(0),
+  declarations = NULL,
   tags = NULL
 )
 
@@ -23,23 +25,24 @@ sass_bundle_remove(bundle, name)
 is_sass_bundle(x)
 }
 \arguments{
-\item{defaults}{A suitable \code{\link[=as_sass]{as_sass()}} \code{input}. Intended for declaring
-variables with \code{!default}. When layers are combined, defaults are merged in
-reverse order; that is, \code{sass_bundle(layer1, layer2)} will include
+\item{functions}{\code{\link[=as_sass]{as_sass()}} \code{input} intended for \href{https://rstudio.github.io/sass/articles/sass.html#functions-1}{Sass functions}.
+Functions are placed before \code{defaults} so that variable definitions may make
+use of functions.}
+
+\item{defaults}{\code{\link[=as_sass]{as_sass()}} \code{input} intended for \href{https://rstudio.github.io/sass/articles/sass.html#variables-1}{variable defaults}.
+These variable defaults after placed after \code{functions} but before \code{mixins}.
+When multiple layers are combined in a \code{sass_bundle()}, defaults are merged
+in reverse order; that is, \code{sass_bundle(layer1, layer2)} will include
 \code{layer2$defaults} before \code{layer1$defaults}.}
 
-\item{declarations}{A suitable \code{\link[=as_sass]{as_sass()}} \code{input}.  Intended for
-function and mixin declarations, and variable declarations without
-\code{!default}; not intended for actual CSS rules. These will be merged in
-forward order; that is, \code{sass_bundle(layer1, layer2)} will include
-\code{layer1$declarations} before \code{layer2$declarations}.}
+\item{mixins}{\code{\link[=as_sass]{as_sass()}} \code{input} intended for \href{https://rstudio.github.io/sass/articles/sass.html#mixins-1}{Sass mixins}. Mixins
+are placed after \code{defaults}, but before \code{rules}.}
 
-\item{rules}{A suitable \code{\link[=as_sass]{as_sass()}} \code{input}. Intended for actual CSS
-rules. These will be merged in forward order; that is,
-\code{sass_bundle(layer1, layer2)} will include \code{layer1$rules} before
-\code{layer2$rules}.}
+\item{rules}{\code{\link[=as_sass]{as_sass()}} \code{input} intended for \href{https://sass-lang.com/documentation/style-rules}{Sass rules}. Rules are placed last
+(i.e., after \code{functions}, \code{defaults}, and \code{mixins}).}
 
-\item{html_deps}{An HTML dependency (or a list of them).}
+\item{html_deps}{An HTML dependency (or a list of them). This dependency
+gets attached to the return value of \code{\link[=sass]{sass()}}/\code{\link[=as_sass]{as_sass()}}.}
 
 \item{file_attachments}{A named character vector, representing file assets
 that are referenced (using relative paths) from the sass in this layer. The
@@ -50,6 +53,8 @@ time, each value will be copied to the relative path indicated by its name.
 into the destination directory; the directory itself will not be copied.)
 You can also omit the name, in which case that file or directory will be
 copied directly into the output directory.}
+
+\item{declarations}{Deprecated, use \code{functions} or \code{mixins} instead.}
 
 \item{tags}{Deprecated. Preserve meta information using a key in \code{sass_bundle(KEY = val)}.
 preserve simple metadata as layers are merged.}
@@ -67,13 +72,11 @@ calling \code{sass_layer(rules = ...)}.}
 \item{x}{object to inspect}
 }
 \description{
-Sass layers are a way to group a set of related Sass variable definitions,
-function/mixin declarations, and CSS rules into a single object. Use
-\code{sass_layer()} to create these objects, and \code{sass_bundle()} to combine
-two or more layers or bundles objects into a Sass bundle; this ability to be merged is
-the main benefit of using Sass layers versus lower-level forms of sass input.
-At a later time, Sass layers may be removed from Sass bundles
-by referencing the same name that was used when creating the Sass bundle.
+Sass layers provide a way to package Sass variables, rules, functions, and
+mixins in a structured and composable way that follows best Sass practices.
+Most importantly, when multiple \code{sass_layer()} are combined into a
+\code{sass_bundle()}, variable \code{defaults} for later layers are placed \emph{before}
+earlier layers, effectively 'new' defaults through all the 'old' defaults.
 }
 \section{Functions}{
 \itemize{
@@ -92,7 +95,7 @@ red <- list(color = "red !default")
 green <- list(color = "green !default")
 
 # a sass_layer() by itself is not very useful, it just defines some
-# SASS to place before (defaults) and after (declarations, rules)
+# SASS to place before (defaults) and after (rules)
 core <- sass_layer(defaults = blue, rules = "body { color: $color; }")
 core
 sass(core)
