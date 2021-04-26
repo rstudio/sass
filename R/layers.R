@@ -124,7 +124,8 @@ sass_layer <- function(
 
 
 #' @export
-#' @describeIn sass_layer Read in a .scss file with special `/*-- scss:(functions|defaults|rules|mixins) --*/` comments and put the contents into a `sass_layer()`.
+#' @param file file path to a `.scss` file.
+#' @describeIn sass_layer Read in a `.scss` file with parse special `/*-- scss:(functions|defaults|rules|mixins) --*/` comments as relevant sections of a `sass_layer()`.
 sass_layer_file <- function(file) {
   src <- readLines(file)
   # https://github.com/quarto-dev/quarto-cli/blob/3d6063/src/command/render/sass.ts#L119-L123
