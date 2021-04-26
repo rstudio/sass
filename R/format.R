@@ -61,8 +61,7 @@ print.sass_layer <- function(
     "/* *** */\n"
   )
 
-
-  x_other <- x[setdiff(names(x), c("defaults", "declarations", "rules"))]
+  x_other <- x[c("html_deps", "file_attachments")]
   if (length(unlist(x_other)) > 0) {
     cat0("\nOther ", info_name, " information:\n")
     utils::str(x_other)

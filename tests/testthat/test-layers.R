@@ -24,30 +24,8 @@ test_that("sass_layer is equivalent to sass", {
 })
 
 test_that("sass layer format", {
-  expect_equal(
-    format(core),
-    collapse0(c(
-      "$color: blue !default;",
-      "@function my_invert($color, $amount: 100%) {",
-      "    $inverse: change-color($color, $hue: hue($color) + 180);",
-      "    @return mix($inverse, $color, $amount);",
-      "  }",
-      "body { background-color: $color; color: my_invert($color); }"
-    ))
-  )
-  expect_equal(
-    utils::capture.output(print(core)),
-    c(
-      "/* Sass Bundle */",
-      "$color: blue !default;",
-      "@function my_invert($color, $amount: 100%) {",
-      "    $inverse: change-color($color, $hue: hue($color) + 180);",
-      "    @return mix($inverse, $color, $amount);",
-      "  }",
-      "body { background-color: $color; color: my_invert($color); }",
-      "/* *** */"
-    )
-  )
+  expect_snapshot(format(core))
+  expect_snapshot(core)
 
   layer1 <- sass_layer(
     file_attachments = c(

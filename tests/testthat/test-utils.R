@@ -29,30 +29,19 @@ test_that("has_any_name_recursive finds names", {
 test_that("join_non_null_values combines null elements as expected", {
 
   obj <- sass_bundle(
-    ".first {}", # sass rule
+    ".rule-a {}", # sass rule
     list(color = "blue"), # sass default
-    sass_layer(declarations = ".declarations {}"),
-    ".second {}", # sass rule
+    sass_layer(mixins = ".rule-b {}"),
+    ".rule-c {}", # sass rule
   )
   expected <- sass_layer(
     defaults = list(color = "blue"),
-    declarations = ".declarations {}",
-    rules = list(".first {}", ".second {}")
+    mixins = ".rule-b {}",
+    rules = list(".rule-a {}", ".rule-c {}")
   )
-
 
   expect_equal(as_sass_layer(obj), as_sass_layer(expected))
-  expect_equal(
-    utils::capture.output(print(obj)),
-    c(
-      "/* Sass Bundle */",
-      "$color: blue;",
-      ".declarations {}",
-      ".first {}",
-      ".second {}",
-      "/* *** */"
-    )
-  )
+  expect_snapshot(obj)
 })
 
 
@@ -72,8 +61,12 @@ test_that("bundle like objects can be detected", {
     "`sass_layer(defaults)` can not contain", fixed = TRUE
   )
   expect_error(
-    sass_layer(declarations = list(1, 2, my_layer, 4)),
-    "sass_layer(declarations)` can not contain", fixed = TRUE
+    sass_layer(functions = list(1, 2, my_layer, 4)),
+    "sass_layer(functions)` can not contain", fixed = TRUE
+  )
+  expect_error(
+    sass_layer(mixins = list(1, 2, my_layer, 4)),
+    "sass_layer(mixins)` can not contain", fixed = TRUE
   )
   expect_error(
     sass_layer(rules = list(1, 2, my_layer, 4)),
