@@ -137,7 +137,7 @@ sass_layer_file <- function(file) {
   }
   types <- extract_group(src[idx], pattern_key)
   utypes <- unique(types)
-  args <- setNames(vector("list", length(utypes)), utypes)
+  args <- rlang::set_names(vector("list", length(utypes)), utypes)
   for (i in seq_along(idx)) {
     start <- idx[i] + 1
     end <- if (i == length(idx)) length(src) else (idx[i + 1] - 1)
