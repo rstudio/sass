@@ -10,6 +10,8 @@
 
 * Added new font importing helpers, namely `font_google()`, `font_link()`, `font_face()`, and `font_collection()` for intelligently importing web fonts files. They must be used inside a named list, for example: `list("font-variable" = font_google("Pacifico"))`. See `help(font_face, package = "sass")` for more details and examples. (#74)
 
+* A new `sass_layer_file()` function was added to read in a `.scss` file as a `sass_layer()`. Special comments of the form `/*-- scss:(functions|defaults|rules|mixins) --*/` can be used to place certain sections of the file into `functions`, `defaults`, `rules`, and `mixins`. The primary motivation for this is to allow [quarto's theme file format](https://github.com/quarto-dev/quarto-cli/blob/main/design/quarto-themes.md) to also be used Shiny and R Markdown. (#81)
+
 * `output_template()` gains a `path` argument to change the root directory where output file will be written. (#76)
 
 # sass 0.3.1
