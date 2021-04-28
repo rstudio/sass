@@ -53,13 +53,11 @@
 
 
 <meta property="og:title" content="Bundling Sass layers — sass_layer" />
-<meta property="og:description" content="Sass layers are a way to group a set of related Sass variable definitions,
-function/mixin declarations, and CSS rules into a single object. Use
-sass_layer() to create these objects, and sass_bundle() to combine
-two or more layers or bundles objects into a Sass bundle; this ability to be merged is
-the main benefit of using Sass layers versus lower-level forms of sass input.
-At a later time, Sass layers may be removed from Sass bundles
-by referencing the same name that was used when creating the Sass bundle." />
+<meta property="og:description" content="Sass layers provide a way to package Sass variables, rules, functions, and
+mixins in a structured and composable way that follows best Sass practices.
+Most importantly, when multiple sass_layer() are combined into a
+sass_bundle(), variable defaults for later layers are placed before
+earlier layers, effectively 'new' defaults through all the 'old' defaults." />
 <meta property="og:image" content="https://rstudio.github.io/sass/logo.svg" />
 
 
@@ -92,7 +90,7 @@ by referencing the same name that was used when creating the Sass bundle." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9002</span>
       </span>
     </div>
 
@@ -140,21 +138,21 @@ by referencing the same name that was used when creating the Sass bundle." />
     </div>
 
     <div class="ref-description">
-    <p>Sass layers are a way to group a set of related Sass variable definitions,
-function/mixin declarations, and CSS rules into a single object. Use
-<code>sass_layer()</code> to create these objects, and <code>sass_bundle()</code> to combine
-two or more layers or bundles objects into a Sass bundle; this ability to be merged is
-the main benefit of using Sass layers versus lower-level forms of sass input.
-At a later time, Sass layers may be removed from Sass bundles
-by referencing the same name that was used when creating the Sass bundle.</p>
+    <p>Sass layers provide a way to package Sass variables, rules, functions, and
+mixins in a structured and composable way that follows best Sass practices.
+Most importantly, when multiple <code>sass_layer()</code> are combined into a
+<code>sass_bundle()</code>, variable <code>defaults</code> for later layers are placed <em>before</em>
+earlier layers, effectively 'new' defaults through all the 'old' defaults.</p>
     </div>
 
     <pre class="usage"><span class='fu'>sass_layer</span><span class='op'>(</span>
+  functions <span class='op'>=</span> <span class='cn'>NULL</span>,
   defaults <span class='op'>=</span> <span class='cn'>NULL</span>,
-  declarations <span class='op'>=</span> <span class='cn'>NULL</span>,
+  mixins <span class='op'>=</span> <span class='cn'>NULL</span>,
   rules <span class='op'>=</span> <span class='cn'>NULL</span>,
   html_deps <span class='op'>=</span> <span class='cn'>NULL</span>,
   file_attachments <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>)</span>,
+  declarations <span class='op'>=</span> <span class='cn'>NULL</span>,
   tags <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span>
 
@@ -168,30 +166,33 @@ by referencing the same name that was used when creating the Sass bundle.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>functions</th>
+      <td><p><code><a href='as_sass.html'>as_sass()</a></code> <code>input</code> intended for <a href='https://rstudio.github.io/sass/articles/sass.html#functions-1'>Sass functions</a>.
+Functions are placed before <code>defaults</code> so that variable definitions may make
+use of functions.</p></td>
+    </tr>
+    <tr>
       <th>defaults</th>
-      <td><p>A suitable <code><a href='as_sass.html'>as_sass()</a></code> <code>input</code>. Intended for declaring
-variables with <code>!default</code>. When layers are combined, defaults are merged in
-reverse order; that is, <code>sass_bundle(layer1, layer2)</code> will include
+      <td><p><code><a href='as_sass.html'>as_sass()</a></code> <code>input</code> intended for <a href='https://rstudio.github.io/sass/articles/sass.html#variables-1'>variable defaults</a>.
+These variable defaults after placed after <code>functions</code> but before <code>mixins</code>.
+When multiple layers are combined in a <code>sass_bundle()</code>, defaults are merged
+in reverse order; that is, <code>sass_bundle(layer1, layer2)</code> will include
 <code>layer2$defaults</code> before <code>layer1$defaults</code>.</p></td>
     </tr>
     <tr>
-      <th>declarations</th>
-      <td><p>A suitable <code><a href='as_sass.html'>as_sass()</a></code> <code>input</code>.  Intended for
-function and mixin declarations, and variable declarations without
-<code>!default</code>; not intended for actual CSS rules. These will be merged in
-forward order; that is, <code>sass_bundle(layer1, layer2)</code> will include
-<code>layer1$declarations</code> before <code>layer2$declarations</code>.</p></td>
+      <th>mixins</th>
+      <td><p><code><a href='as_sass.html'>as_sass()</a></code> <code>input</code> intended for <a href='https://rstudio.github.io/sass/articles/sass.html#mixins-1'>Sass mixins</a>. Mixins
+are placed after <code>defaults</code>, but before <code>rules</code>.</p></td>
     </tr>
     <tr>
       <th>rules</th>
-      <td><p>A suitable <code><a href='as_sass.html'>as_sass()</a></code> <code>input</code>. Intended for actual CSS
-rules. These will be merged in forward order; that is,
-<code>sass_bundle(layer1, layer2)</code> will include <code>layer1$rules</code> before
-<code>layer2$rules</code>.</p></td>
+      <td><p><code><a href='as_sass.html'>as_sass()</a></code> <code>input</code> intended for <a href='https://sass-lang.com/documentation/style-rules'>Sass rules</a>. Rules are placed last
+(i.e., after <code>functions</code>, <code>defaults</code>, and <code>mixins</code>).</p></td>
     </tr>
     <tr>
       <th>html_deps</th>
-      <td><p>An HTML dependency (or a list of them).</p></td>
+      <td><p>An HTML dependency (or a list of them). This dependency
+gets attached to the return value of <code><a href='sass.html'>sass()</a></code>/<code><a href='as_sass.html'>as_sass()</a></code>.</p></td>
     </tr>
     <tr>
       <th>file_attachments</th>
@@ -204,6 +205,10 @@ time, each value will be copied to the relative path indicated by its name.
 into the destination directory; the directory itself will not be copied.)
 You can also omit the name, in which case that file or directory will be
 copied directly into the output directory.</p></td>
+    </tr>
+    <tr>
+      <th>declarations</th>
+      <td><p>Deprecated, use <code>functions</code> or <code>mixins</code> instead.</p></td>
     </tr>
     <tr>
       <th>tags</th>
@@ -248,7 +253,7 @@ calling <code>sass_layer(rules = ...)</code>.</p></td>
 <span class='va'>green</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"green !default"</span><span class='op'>)</span>
 
 <span class='co'># a sass_layer() by itself is not very useful, it just defines some</span>
-<span class='co'># SASS to place before (defaults) and after (declarations, rules)</span>
+<span class='co'># SASS to place before (defaults) and after (rules)</span>
 <span class='va'>core</span> <span class='op'>&lt;-</span> <span class='fu'>sass_layer</span><span class='op'>(</span>defaults <span class='op'>=</span> <span class='va'>blue</span>, rules <span class='op'>=</span> <span class='st'>"body { color: $color; }"</span><span class='op'>)</span>
 <span class='va'>core</span>
 </div><div class='output co'>#&gt; /* Sass Bundle */
@@ -277,11 +282,11 @@ calling <code>sass_layer(rules = ...)</code>.</p></td>
 #&gt; </div><div class='input'><span class='fu'><a href='sass.html'>sass</a></span><span class='op'>(</span><span class='fu'>sass_bundle</span><span class='op'>(</span><span class='va'>core</span>, <span class='va'>red_layer</span>, <span class='fu'>sass_layer</span><span class='op'>(</span><span class='va'>green</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; /* CSS */
 #&gt; body {
-#&gt;   color: green;
+#&gt;   color: red;
 #&gt; }
 #&gt; 
 #&gt; :root {
-#&gt;   --color: green;
+#&gt;   --color: red;
 #&gt; }
 #&gt; </div><div class='input'>
 <span class='co'># Example of merging layers and removing a layer</span>
@@ -289,8 +294,8 @@ calling <code>sass_layer(rules = ...)</code>.</p></td>
 <span class='va'>core_layers</span> <span class='op'>&lt;-</span> <span class='fu'>sass_bundle</span><span class='op'>(</span><span class='va'>core</span>, red <span class='op'>=</span> <span class='va'>red_layer</span>, green <span class='op'>=</span> <span class='fu'>sass_layer</span><span class='op'>(</span><span class='va'>green</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>core_layers</span> <span class='co'># pretty printed for console</span>
 </div><div class='output co'>#&gt; /* Sass Bundle: red, green */
-#&gt; $color: green !default;
 #&gt; $color: red !default;
+#&gt; $color: green !default;
 #&gt; $color: blue !default;
 #&gt; body { color: $color; }
 #&gt; :root{ --color: #{$color}; }
@@ -321,7 +326,7 @@ calling <code>sass_layer(rules = ...)</code>.</p></td>
 
 <span class='va'>output_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span>fileext <span class='op'>=</span> <span class='st'>".css"</span><span class='op'>)</span>
 <span class='fu'><a href='sass.html'>sass</a></span><span class='op'>(</span><span class='va'>layer</span>, output <span class='op'>=</span> <span class='va'>output_path</span>, write_attachments <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpOhxn5z/filedce460e157e.css"</div></pre>
+</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpu8Pffr/filed5e2ad4dac1.css"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
