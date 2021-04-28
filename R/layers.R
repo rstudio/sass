@@ -132,7 +132,7 @@ sass_layer_file <- function(file) {
   pattern_key <- "scss:(functions|defaults|rules|mixins)"
   pattern <- paste0("^/\\*--[ \\t]*", pattern_key, "[ \\t]*--\\*/$")
   idx <- grep(pattern, src)
-  if (!any(idx)) {
+  if (length(idx) == 0) {
     stop("`file` must contain special comments of the form `/*-- scss:(functions|defaults|rules|mixins) --*/`")
   }
   types <- extract_group(src[idx], pattern_key)
