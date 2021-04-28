@@ -8,7 +8,7 @@ red <- list(color = "red !default")
 green <- list(color = "green !default")
 core <- sass_layer(
   defaults = blue,
-  declarations = "@function my_invert($color, $amount: 100%) {
+  functions = "@function my_invert($color, $amount: 100%) {
     $inverse: change-color($color, $hue: hue($color) + 180);
     @return mix($inverse, $color, $amount);
   }",

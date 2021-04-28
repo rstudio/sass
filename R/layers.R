@@ -3,34 +3,30 @@ NULL
 
 #' Bundling Sass layers
 #'
-#' Sass layers are a way to group a set of related Sass variable definitions,
-#' function/mixin declarations, and CSS rules into a single object. Use
-#' `sass_layer()` to create these objects, and `sass_bundle()` to combine
-#' two or more layers or bundles objects into a Sass bundle; this ability to be merged is
-#' the main benefit of using Sass layers versus lower-level forms of sass input.
-#' At a later time, Sass layers may be removed from Sass bundles
-#' by referencing the same name that was used when creating the Sass bundle.
+#' Sass layers provide a way to package Sass variables, rules, functions, and
+#' mixins in a structured and composable way that follows best Sass practices.
+#' Most importantly, when multiple `sass_layer()` are combined into a
+#' `sass_bundle()`, variable `defaults` for later layers are placed _before_
+#' earlier layers, effectively 'new' defaults through all the 'old' defaults.
 #'
-#' @md
-#' @param ... A collection of `sass_layer()`s and/or objects that [sass::as_sass()]
-#'   understands. Arguments should be provided in reverse priority order:
-#'   defaults, declarations, and rules in later layers will take precedence over
-#'   those of previous layers. Non-layer values will be converted to layers by
-#'   calling `sass_layer(rules = ...)`.
-#' @param defaults A suitable [sass::as_sass()] `input`. Intended for declaring
-#'   variables with `!default`. When layers are combined, defaults are merged in
-#'   reverse order; that is, `sass_bundle(layer1, layer2)` will include
+#' @param functions [sass::as_sass()] `input` intended for [Sass
+#'   functions](https://rstudio.github.io/sass/articles/sass.html#functions-1).
+#'   Functions are placed before `defaults` so that variable definitions may make
+#'   use of functions.
+#' @param defaults [sass::as_sass()] `input` intended for [variable
+#'   defaults](https://rstudio.github.io/sass/articles/sass.html#variables-1).
+#'   These variable defaults after placed after `functions` but before `mixins`.
+#'   When multiple layers are combined in a `sass_bundle()`, defaults are merged
+#'   in reverse order; that is, `sass_bundle(layer1, layer2)` will include
 #'   `layer2$defaults` before `layer1$defaults`.
-#' @param declarations A suitable [sass::as_sass()] `input`.  Intended for
-#'   function and mixin declarations, and variable declarations without
-#'   `!default`; not intended for actual CSS rules. These will be merged in
-#'   forward order; that is, `sass_bundle(layer1, layer2)` will include
-#'   `layer1$declarations` before `layer2$declarations`.
-#' @param rules A suitable [sass::as_sass()] `input`. Intended for actual CSS
-#'   rules. These will be merged in forward order; that is,
-#'   `sass_bundle(layer1, layer2)` will include `layer1$rules` before
-#'   `layer2$rules`.
-#' @param html_deps An HTML dependency (or a list of them).
+#' @param mixins [sass::as_sass()] `input` intended for [Sass
+#'   mixins](https://rstudio.github.io/sass/articles/sass.html#mixins-1). Mixins
+#'   are placed after `defaults`, but before `rules`.
+#' @param rules [sass::as_sass()] `input` intended for [Sass
+#'   rules](https://sass-lang.com/documentation/style-rules). Rules are placed last
+#'   (i.e., after `functions`, `defaults`, and `mixins`).
+#' @param html_deps An HTML dependency (or a list of them). This dependency
+#'   gets attached to the return value of [sass()]/[as_sass()].
 #' @param file_attachments A named character vector, representing file assets
 #'   that are referenced (using relative paths) from the sass in this layer. The
 #'   vector names should be a relative path, and the corresponding vector values
@@ -40,15 +36,17 @@ NULL
 #'   into the destination directory; the directory itself will not be copied.)
 #'   You can also omit the name, in which case that file or directory will be
 #'   copied directly into the output directory.
+#' @param declarations Deprecated, use `functions` or `mixins` instead.
 #' @param tags Deprecated. Preserve meta information using a key in `sass_bundle(KEY = val)`.
 #'   preserve simple metadata as layers are merged.
+#' @md
 #' @examples
 #' blue <- list(color = "blue !default")
 #' red <- list(color = "red !default")
 #' green <- list(color = "green !default")
 #'
 #' # a sass_layer() by itself is not very useful, it just defines some
-#' # SASS to place before (defaults) and after (declarations, rules)
+#' # SASS to place before (defaults) and after (rules)
 #' core <- sass_layer(defaults = blue, rules = "body { color: $color; }")
 #' core
 #' sass(core)
@@ -90,13 +88,21 @@ NULL
 #' @describeIn sass_layer Compose the parts of a single Sass layer. Object returned is a `sass_bundle()` with a single Sass layer
 #' @export
 sass_layer <- function(
+  functions = NULL,
   defaults = NULL,
-  declarations = NULL,
+  mixins = NULL,
   rules = NULL,
   html_deps = NULL,
   file_attachments = character(0),
+  declarations = NULL,
   tags = NULL
 ) {
+
+  # In a future release cycle (once bslib has been updated to not use
+  # declarations), then consider throwing this deprecation message
+  #if (!is.null(declarations)) {
+  #  .Deprecated(msg="`declarations` is deprecated. Please use `functions` or `mixins instead.`")
+  #}
 
   if (!missing(tags)) {
     .Deprecated(msg="`sass_layer(tags)` is deprecated. Please use a named layer in a `sass_bundle(NAME = layer)`")
@@ -105,9 +111,11 @@ sass_layer <- function(
   # return a size 1 sass_bundle()
   as_sass_bundle(
     sass_layer_struct(
+      functions = functions,
       defaults = defaults,
-      declarations = declarations,
+      mixins = mixins,
       rules = rules,
+      declarations = declarations,
       html_deps = html_deps,
       file_attachments = file_attachments
     )
@@ -118,16 +126,20 @@ sass_layer <- function(
 #' @return object of class `sass_layer`
 #' @noRd
 sass_layer_struct <- function(
+  functions = NULL,
   defaults = NULL,
-  declarations = NULL,
+  mixins = NULL,
   rules = NULL,
+  declarations = NULL,
   html_deps = NULL,
   file_attachments = character(0)
 ) {
 
+  validate_layer_param(functions, "functions")
   validate_layer_param(defaults, "defaults")
-  validate_layer_param(declarations, "declarations")
+  validate_layer_param(mixins, "mixins")
   validate_layer_param(rules, "rules")
+  validate_layer_param(declarations, "declarations")
 
   validate_attachments(file_attachments)
 
@@ -145,9 +157,11 @@ sass_layer_struct <- function(
   }
 
   layer <- list(
+    functions = functions,
     defaults = defaults,
-    declarations = declarations,
+    mixins = mixins,
     rules = rules,
+    declarations = declarations,
     html_deps = html_deps,
     file_attachments = file_attachments
   )
@@ -246,6 +260,11 @@ sass_bundle_struct <- function(layers = list()) {
 }
 
 #' @describeIn sass_layer Collect `sass_bundle()` and/or `sass_layer()` objects. Unnamed Sass bundles will be concatenated together, preserving their internal name structures. Named Sass bundles will be condensed into a single Sass layer for easier removal from the returned Sass bundle.
+#' @param ... A collection of `sass_layer()`s and/or objects that [sass::as_sass()]
+#'   understands. Arguments should be provided in reverse priority order:
+#'   defaults, declarations, and rules in later layers will take precedence over
+#'   those of previous layers. Non-layer values will be converted to layers by
+#'   calling `sass_layer(rules = ...)`.
 #' @export
 sass_bundle <- function(...) {
   layers <- dropNulls(list2(...))
@@ -333,9 +352,11 @@ as_sass_layer <- function(x) {
 }
 sass_layers_join <- function(layer1, layer2) {
   sass_layer_struct(
+    functions = join_non_null_values(layer1$functions, layer2$functions),
     defaults = join_non_null_values(layer2$defaults, layer1$defaults),
-    declarations = join_non_null_values(layer1$declarations, layer2$declarations),
+    mixins = join_non_null_values(layer1$mixins, layer2$mixins),
     rules = join_non_null_values(layer1$rules, layer2$rules),
+    declarations = join_non_null_values(layer1$declarations, layer2$declarations),
     html_deps = c(layer1$html_deps, layer2$html_deps),
     file_attachments = join_attachments(layer1$file_attachments, layer2$file_attachments)
   )

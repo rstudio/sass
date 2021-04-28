@@ -76,7 +76,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-### Variables
+### Variables {#variables}
 
 [Sass variables](https://sass-lang.com/guide#topic-2) are a great mechanism for simplifying and exposing CSS logic to users. To create a variable, assign a value (likely a CSS [property value](https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics)) to a name, then refer to it by name in downstream Sass code. In this minimal example, we create a `body-bg` variable then use it to generate a single [style rule](https://sass-lang.com/documentation/style-rules), but as we'll see later, variables can also be used inside of other arbitrary Sass code (e.g., functions, mixins, etc).
 
@@ -197,7 +197,37 @@ body {
 }
 ```
 
-This works because `sass_file()` uses `sass_import()` to generate an `@import` at-rule. If you visit the [docs for `@import`](https://sass-lang.com/documentation/at-rules/import), you'll notice there's more you can do that import local `.scss`, like import local or remote `.css` files, import font files, and more.
+This works because `sass_file()` uses `sass_import()` to generate an `@import` at-rule. If you visit the [docs for `@import`](https://sass-lang.com/documentation/at-rules/import), you'll notice there's more you can do that import local `.scss`, like import local or remote `.css` files, import font files, and more. Note also that `{sass}` also provides tools that make importing of local font files easier -- see `font_google()` to learn more.
+
+## Font imports {#file-import}
+
+Importing font file(s) directly in Sass/CSS/HTML can be a headache to implement. This is especially true if you want to serve font files so that a custom font renders on any client machine, even if the client is without an internet connection. To make this easier, `{sass}` provides a `font_google()` which can be used to download, cache, import, and serve the relevant font files all at once.
+
+```r
+library(htmltools)
+
+my_font <- list("my-font" = font_google("Pacifico"))
+css <- sass(
+  list(
+    my_font,
+    list("body {font-family: $my-font}")
+  )
+)
+
+shinyApp(
+  fluidPage(
+    "Hello",
+    tags$style(css)
+  ), 
+  function(...) {}
+)
+```
+
+```{r, echo = FALSE, out.width='30%'}
+knitr::include_graphics('hello-pacifico.png')
+```
+
+To import non-Google fonts, use either `font_link()` or `font_face()`. The former is for importing fonts via a remote URL whereas the former could be use to import any font locally (or remotely).
 
 ### Mixins {#mixins}
 
@@ -212,15 +242,15 @@ This vignette intentionally doesn't try to re-invent the existing and wonderful 
 
 ## Composable sass {#layering}
 
-To make Sass code more composable with other Sass code (e.g., allowing others to change your variable defaults or import a function or mixin you've defined), consider partitioning your Sass code into a `sass::sass_layer()`. The main idea is to split your Sass into 3 parts: `defaults` (i.e. variable defaults), `declarations` (i.e., [functions](#functions), [mixins](#mixins), etc), and `rules` (i.e., styling rules).
+To make Sass code more composable with other Sass code (e.g., allowing others to change your variable defaults or import a function or mixin you've defined), consider partitioning your Sass code into a `sass::sass_layer()`. The main idea is to split your Sass into 4 parts: [`functions`](#functions), `defaults` (i.e. [variable defaults](Note also that `{sass}` also provides tools that make importing of local font files easier -- see `font_google()` to learn more.)), [`mixins`](#mixins), and `rules` (i.e., styling rules).
 
 ```r
 layer1 <- sass_layer(
+  functions = sass_file("color-contrast.scss"),
   defaults = list("body-bg" = "black !default"),
-  declarations = sass_file("color-contrast.scss"),
   rules = "body{background-color: $body-bg; color: color-contrast($body-bg)}"
 )
-sass(layer1)
+as_sass(layer1)
 ```
 
 ```css
@@ -231,12 +261,10 @@ body {
 }
 ```
 
-This allows downstream `sass_layer()`s to be `sass_bundle()`d into a single layer, where those downstream layers are granted higher priority. More specifically, this means:
+This allows downstream `sass_layer()`s to be `sass_bundle()`d into a single layer, where `defaults` in downstream layers are granted higher priority. More specifically, this means:
 
 * `defaults` for `layer2` are placed _before_ `defaults` for `layer1`.
   * Allowing downstream Sass to override variable defaults in upstream Sass.
-* `declarations` for `layer2` are placed _after_ `declarations` for `layer1`.
-  * Allowing downstream Sass to use functions and mixins defined in upstream Sass.
 * `rules` for `layer2` are placed _after_ `rules` for `layer1`.
   * Allows downstream rules to take precedence over upstream rules ([precedence](https://css-tricks.com/precedence-css-order-css-matters/) matters when there are multiple rules with the same level of [specificity](https://css-tricks.com/specifics-on-css-specificity/)).
 
