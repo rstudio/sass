@@ -98,9 +98,11 @@ sass_layer <- function(
   tags = NULL
 ) {
 
-  if (!is.null(declarations)) {
-    .Deprecated(msg="`declarations` is deprecated. Please use `functions` or `mixins instead.`")
-  }
+  # In a future release cycle (once bslib has been updated to not use
+  # declarations), then consider throwing this deprecation message
+  #if (!is.null(declarations)) {
+  #  .Deprecated(msg="`declarations` is deprecated. Please use `functions` or `mixins instead.`")
+  #}
 
   if (!missing(tags)) {
     .Deprecated(msg="`sass_layer(tags)` is deprecated. Please use a named layer in a `sass_bundle(NAME = layer)`")
