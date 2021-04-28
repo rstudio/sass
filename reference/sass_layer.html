@@ -156,6 +156,8 @@ earlier layers, effectively 'new' defaults through all the 'old' defaults.</p>
   tags <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span>
 
+<span class='fu'>sass_layer_file</span><span class='op'>(</span><span class='va'>file</span><span class='op'>)</span>
+
 <span class='fu'>sass_bundle</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
 
 <span class='fu'>sass_bundle_remove</span><span class='op'>(</span><span class='va'>bundle</span>, <span class='va'>name</span><span class='op'>)</span>
@@ -216,6 +218,10 @@ copied directly into the output directory.</p></td>
 preserve simple metadata as layers are merged.</p></td>
     </tr>
     <tr>
+      <th>file</th>
+      <td><p>file path to a <code>.scss</code> file.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>A collection of <code>sass_layer()</code>s and/or objects that <code><a href='as_sass.html'>as_sass()</a></code>
 understands. Arguments should be provided in reverse priority order:
@@ -242,6 +248,7 @@ calling <code>sass_layer(rules = ...)</code>.</p></td>
     
 <ul>
 <li><p><code>sass_layer</code>: Compose the parts of a single Sass layer. Object returned is a <code>sass_bundle()</code> with a single Sass layer</p></li>
+<li><p><code>sass_layer_file</code>: Read in a <code>.scss</code> file with parse special <code>/*-- scss:(functions|defaults|rules|mixins) --*/</code> comments as relevant sections of a <code>sass_layer()</code>.</p></li>
 <li><p><code>sass_bundle</code>: Collect <code>sass_bundle()</code> and/or <code>sass_layer()</code> objects. Unnamed Sass bundles will be concatenated together, preserving their internal name structures. Named Sass bundles will be condensed into a single Sass layer for easier removal from the returned Sass bundle.</p></li>
 <li><p><code>sass_bundle_remove</code>: Remove a whole <code>sass_layer()</code> from a <code>sass_bundle()</code> object.</p></li>
 <li><p><code>is_sass_bundle</code>: Check if <code>x</code> is a Sass bundle object</p></li>
@@ -326,7 +333,7 @@ calling <code>sass_layer(rules = ...)</code>.</p></td>
 
 <span class='va'>output_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span>fileext <span class='op'>=</span> <span class='st'>".css"</span><span class='op'>)</span>
 <span class='fu'><a href='sass.html'>sass</a></span><span class='op'>(</span><span class='va'>layer</span>, output <span class='op'>=</span> <span class='va'>output_path</span>, write_attachments <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpu8Pffr/filed5e2ad4dac1.css"</div></pre>
+</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpByR9z8/filecb83312cb1c.css"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
