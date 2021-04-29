@@ -79,44 +79,23 @@ sass_cache_set_dir <- function(dir, cache) {
   invisible(cache)
 }
 
-#' Get default sass cache object for the current context
+#' Retrieve the default file cache
 #'
 #' @description
 #'
-#' Get the default sass cache object, for the current context. The context
-#' depends on factors described below.
+#' When caching is enabled, this function returns a [sass_file_cache()] object
+#' that [sass()]'s `cache` argument uses (by default) for caching Sass
+#' compilation. When caching is disabled (either by setting the `sass.cache`
+#' option to `FALSE`, `NULL`, or via [shiny::devmode()]), this function returns
+#' `NULL` (effectively telling [sass()] to not `cache` by default).
 #'
-#' `sass_cache_get()` first checks the `sass.cache` option. If it is set to
-#' `NULL` or `FALSE`, then this function returns `NULL`. If it has been set to a string,
-#' it is treated as a directory name, and this function returns a
-#' `sass_file_cache()` object using that directory. If the option has been set
-#' to a `sass_file_cache()` object, then it will return that object.
+#' @details
 #'
-#' In most cases, this function uses the user's cache directory, by calling
-#' `tools::R_user_dir("sass", which = "cache")` (for R 4.0 and above) or
-#' `rappdirs::user_cache_dir("R-sass")` (for older versions of R).
-#'
-#' If this function is called from a Shiny application, it will also look for a
-#' subdirectory named `app_cache/`. If it exists, it will use a directory named
-#' `app_cache/sass/` to store the cache.
-#'
-#' When running a Shiny application in a typical R session, it will not create
-#' the `app_cache/` subdirectory, but it will use it if present. This scopes the
-#' cache to the application.
-#'
-#' With Shiny applications hosted on Shiny Server and Connect, it _will_ create
-#' a `app_cache/sass/` subdirectory, so that the cache is scoped to the
-#' application and will not interfere with another application's cache.
-#'
-#' @section Shiny Developer Mode:
-#'
-# TODO change shiny devmode link to a roxygen link once shiny is released
-# Would need a shiny version >= 1.5.0.9006
-#' If Shiny Developer Mode is enabled (by setting `options(shiny.devmode = TRUE)` or calling `shiny::devmode(TRUE)`,
-#' the default global option value for `sass.cache` is updated to `FALSE` instead
-#' of `TRUE`, similar to `getOption("sass.cache", FALSE)`.  This setting allows
-#' developers to make sure what is being returned from [sass()] is not an incorrect
-#' cache result.
+#' When caching is enabled, then this function returns a `sass_file_cache()`
+#' object that (by default) uses [sass_cache_context_dir()] for its directory.
+#' The directory can also be customized by providing the `sass.cache` option
+#' with either a filepath (as a string) or a full-blown `sass_file_cache()`
+#' object.
 #'
 #' @seealso [sass_cache_get_dir()], [sass()]
 #'
@@ -151,6 +130,24 @@ sass_cache_get <- function() {
 }
 
 #' Return the cache directory for the current context.
+#'
+#' @details
+#'
+#' In most cases, this function returns the user's cache directory, by calling
+#' `tools::R_user_dir("sass", which = "cache")` (for R 4.0 and above) or
+#' `rappdirs::user_cache_dir("R-sass")` (for older versions of R).
+#'
+#' If this function is called from a Shiny application, it will also look for a
+#' subdirectory named `app_cache/`. If it exists, it will use a directory named
+#' `app_cache/sass/` to store the cache.
+#'
+#' When running a Shiny application in a typical R session, it will not create
+#' the `app_cache/` subdirectory, but it will use it if present. This scopes the
+#' cache to the application.
+#'
+#' With Shiny applications hosted on Shiny Server and Connect, it _will_ create
+#' a `app_cache/sass/` subdirectory, so that the cache is scoped to the
+#' application and will not interfere with another application's cache.
 #'
 #' @keywords internal
 #' @export

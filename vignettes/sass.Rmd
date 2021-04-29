@@ -368,7 +368,7 @@ Or used with `sass_cache_set_dir()` to configure the file cache globally:
 sass_cache_set_dir(getwd(), sass_file_cache(getwd(), max_size = 100 * 1024^2))
 ```
 
-Note that the location of the file cache defaults to `sass_cache_context_dir()`, which depends on the context is which it's running. When inside a Shiny app, the cache location is relative to the app's directory so the cache can persist and be shared across R processes. Otherwise, the context directory is a OS and package specific caching directory.
+Note that the location of the file cache defaults to `sass_cache_context_dir()`, which depends on the context in which it's running. When inside a Shiny app, the cache location is relative to the app's directory so the cache can persist and be shared across R processes. Otherwise, the context directory is a OS and package specific caching directory.
 
 ## In shiny {#shiny}
 
