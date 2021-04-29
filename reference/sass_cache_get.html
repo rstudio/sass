@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get default sass cache object for the current context — sass_cache_get • sass</title>
+<title>Retrieve the default file cache — sass_cache_get • sass</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,26 +52,12 @@
 
 
 
-<meta property="og:title" content="Get default sass cache object for the current context — sass_cache_get" />
-<meta property="og:description" content="Get the default sass cache object, for the current context. The context
-depends on factors described below.
-sass_cache_get() first checks the sass.cache option. If it is set to
-NULL or FALSE, then this function returns NULL. If it has been set to a string,
-it is treated as a directory name, and this function returns a
-sass_file_cache() object using that directory. If the option has been set
-to a sass_file_cache() object, then it will return that object.
-In most cases, this function uses the user's cache directory, by calling
-tools::R_user_dir(&quot;sass&quot;, which = &quot;cache&quot;) (for R 4.0 and above) or
-rappdirs::user_cache_dir(&quot;R-sass&quot;) (for older versions of R).
-If this function is called from a Shiny application, it will also look for a
-subdirectory named app_cache/. If it exists, it will use a directory named
-app_cache/sass/ to store the cache.
-When running a Shiny application in a typical R session, it will not create
-the app_cache/ subdirectory, but it will use it if present. This scopes the
-cache to the application.
-With Shiny applications hosted on Shiny Server and Connect, it will create
-a app_cache/sass/ subdirectory, so that the cache is scoped to the
-application and will not interfere with another application's cache." />
+<meta property="og:title" content="Retrieve the default file cache — sass_cache_get" />
+<meta property="og:description" content="When caching is enabled, this function returns a sass_file_cache() object
+that sass()'s cache argument uses (by default) for caching Sass
+compilation. When caching is disabled (either by setting the sass.cache
+option to FALSE, NULL, or via shiny::devmode()), this function returns
+NULL (effectively telling sass() to not cache by default)." />
 <meta property="og:image" content="https://rstudio.github.io/sass/logo.svg" />
 
 
@@ -146,46 +132,29 @@ application and will not interfere with another application's cache." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get default sass cache object for the current context</h1>
+    <h1>Retrieve the default file cache</h1>
     <small class="dont-index">Source: <a href='https://github.com/rstudio/sass/blob/master/R/sass_cache.R'><code>R/sass_cache.R</code></a></small>
     <div class="hidden name"><code>sass_cache_get.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get the default sass cache object, for the current context. The context
-depends on factors described below.</p>
-<p><code>sass_cache_get()</code> first checks the <code>sass.cache</code> option. If it is set to
-<code>NULL</code> or <code>FALSE</code>, then this function returns <code>NULL</code>. If it has been set to a string,
-it is treated as a directory name, and this function returns a
-<code><a href='sass_file_cache.html'>sass_file_cache()</a></code> object using that directory. If the option has been set
-to a <code><a href='sass_file_cache.html'>sass_file_cache()</a></code> object, then it will return that object.</p>
-<p>In most cases, this function uses the user's cache directory, by calling
-<code><a href='https://rdrr.io/r/tools/userdir.html'>tools::R_user_dir("sass", which = "cache")</a></code> (for R 4.0 and above) or
-<code><a href='https://rappdirs.r-lib.org/reference/user_cache_dir.html'>rappdirs::user_cache_dir("R-sass")</a></code> (for older versions of R).</p>
-<p>If this function is called from a Shiny application, it will also look for a
-subdirectory named <code>app_cache/</code>. If it exists, it will use a directory named
-<code>app_cache/sass/</code> to store the cache.</p>
-<p>When running a Shiny application in a typical R session, it will not create
-the <code>app_cache/</code> subdirectory, but it will use it if present. This scopes the
-cache to the application.</p>
-<p>With Shiny applications hosted on Shiny Server and Connect, it <em>will</em> create
-a <code>app_cache/sass/</code> subdirectory, so that the cache is scoped to the
-application and will not interfere with another application's cache.</p>
+    <p>When caching is enabled, this function returns a <code><a href='sass_file_cache.html'>sass_file_cache()</a></code> object
+that <code><a href='sass.html'>sass()</a></code>'s <code>cache</code> argument uses (by default) for caching Sass
+compilation. When caching is disabled (either by setting the <code>sass.cache</code>
+option to <code>FALSE</code>, <code>NULL</code>, or via <code><a href='https://rdrr.io/pkg/shiny/man/devmode.html'>shiny::devmode()</a></code>), this function returns
+<code>NULL</code> (effectively telling <code><a href='sass.html'>sass()</a></code> to not <code>cache</code> by default).</p>
     </div>
 
     <pre class="usage"><span class='fu'>sass_cache_get</span><span class='op'>(</span><span class='op'>)</span></pre>
 
 
-    <h2 class="hasAnchor" id="shiny-developer-mode"><a class="anchor" href="#shiny-developer-mode"></a>Shiny Developer Mode</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    
-
-
-<p>If Shiny Developer Mode is enabled (by setting <code><a href='https://rdrr.io/r/base/options.html'>options(shiny.devmode = TRUE)</a></code> or calling <code><a href='https://rdrr.io/pkg/shiny/man/devmode.html'>shiny::devmode(TRUE)</a></code>,
-the default global option value for <code>sass.cache</code> is updated to <code>FALSE</code> instead
-of <code>TRUE</code>, similar to <code><a href='https://rdrr.io/r/base/options.html'>getOption("sass.cache", FALSE)</a></code>.  This setting allows
-developers to make sure what is being returned from <code><a href='sass.html'>sass()</a></code> is not an incorrect
-cache result.</p>
+    <p>When caching is enabled, then this function returns a <code><a href='sass_file_cache.html'>sass_file_cache()</a></code>
+object that (by default) uses <code><a href='sass_cache_context_dir.html'>sass_cache_context_dir()</a></code> for its directory.
+The directory can also be customized by providing the <code>sass.cache</code> option
+with either a filepath (as a string) or a full-blown <code><a href='sass_file_cache.html'>sass_file_cache()</a></code>
+object.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='sass_cache_get_dir.html'>sass_cache_get_dir()</a></code>, <code><a href='sass.html'>sass()</a></code></p></div>

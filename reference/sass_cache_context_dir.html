@@ -140,6 +140,20 @@
     <pre class="usage"><span class='fu'>sass_cache_context_dir</span><span class='op'>(</span><span class='op'>)</span></pre>
 
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>In most cases, this function returns the user's cache directory, by calling
+<code><a href='https://rdrr.io/r/tools/userdir.html'>tools::R_user_dir("sass", which = "cache")</a></code> (for R 4.0 and above) or
+<code><a href='https://rappdirs.r-lib.org/reference/user_cache_dir.html'>rappdirs::user_cache_dir("R-sass")</a></code> (for older versions of R).</p>
+<p>If this function is called from a Shiny application, it will also look for a
+subdirectory named <code>app_cache/</code>. If it exists, it will use a directory named
+<code>app_cache/sass/</code> to store the cache.</p>
+<p>When running a Shiny application in a typical R session, it will not create
+the <code>app_cache/</code> subdirectory, but it will use it if present. This scopes the
+cache to the application.</p>
+<p>With Shiny applications hosted on Shiny Server and Connect, it <em>will</em> create
+a <code>app_cache/sass/</code> subdirectory, so that the cache is scoped to the
+application and will not interfere with another application's cache.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

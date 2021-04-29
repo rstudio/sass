@@ -260,7 +260,7 @@ pre.css {
 <div id="layering" class="section level2">
 <h2 class="hasAnchor">
 <a href="#layering" class="anchor"></a>Composable sass</h2>
-<p>To make Sass code more composable with other Sass code (e.g., allowing others to change your variable defaults or import a function or mixin you’ve defined), consider partitioning your Sass code into a <code><a href="../reference/sass_layer.html">sass::sass_layer()</a></code>. The main idea is to split your Sass into 4 parts: <a href="#functions"><code>functions</code></a>, <code>defaults</code> (i.e. <a href="Note%20also%20that%20%60%7Bsass%7D%60%20also%20provides%20tools%20that%20make%20importing%20of%20local%20font%20files%20easier%20--%20see%20%60font_google()%60%20to%20learn%20more.">variable defaults</a>), <a href="#mixins"><code>mixins</code></a>, and <code>rules</code> (i.e., styling rules).</p>
+<p>To make Sass code more composable with other Sass code (e.g., allowing others to change your variable defaults or import a function or mixin you’ve defined), consider partitioning your Sass code into a <code><a href="../reference/sass_layer.html">sass::sass_layer()</a></code>. The main idea is to split your Sass into 4 parts: <a href="#functions"><code>functions</code></a>, <code>defaults</code> (i.e. <a href="#variables">variable defaults</a>), <a href="#mixins"><code>mixins</code></a>, and <code>rules</code> (i.e., styling rules).</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">layer1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sass_layer.html">sass_layer</a></span><span class="op">(</span>
   functions <span class="op">=</span> <span class="fu"><a href="../reference/sass_import.html">sass_file</a></span><span class="op">(</span><span class="st">"color-contrast.scss"</span><span class="op">)</span>,
@@ -357,13 +357,22 @@ pre.css {
 <div id="caching" class="section level3">
 <h3 class="hasAnchor">
 <a href="#caching" class="anchor"></a>Caching</h3>
-<p>Sometimes calling <code><a href="../reference/sass.html">sass()</a></code> can be computationally expensive, in which case, it can be useful to leverage its caching capability. Caching is automatically enabled in non-interactive sessions, but you can set the <code>sass.cache</code> option to <code>TRUE</code> to enable it universally, and/or use <code><a href="../reference/sass_cache_options.html">sass_cache_options(cache = TRUE)</a></code> to enable for specific calls to <code><a href="../reference/sass.html">sass()</a></code>. See <code><a href="../reference/sass_cache_options.html">sass_cache_options()</a></code> for more details about how caching works.</p>
+<p>Sometimes calling <code><a href="../reference/sass.html">sass()</a></code> can be computationally expensive, in which case, it can be useful to leverage its caching capability. Caching is enabled by default, unless Shiny’s Developer Mode (<code><a href="https://rdrr.io/pkg/shiny/man/devmode.html">shiny::devmode()</a></code>) is enabled. To explicitly enable (disable), set <code><a href="https://rdrr.io/r/base/options.html">options(sass.cache = )</a></code> to <code>TRUE</code> (or <code>FALSE</code>):</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>sass.cache <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span>
-  <span class="fu"><a href="../reference/sass_import.html">sass_file</a></span><span class="op">(</span><span class="st">"my-style.scss"</span><span class="op">)</span>,
-  cache_options <span class="op">=</span> <span class="fu"><a href="../reference/sass_cache_options.html">sass_cache_options</a></span><span class="op">(</span>cache <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_options.html">with_options</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>sass.cache <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
+  <span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span><span class="fu"><a href="../reference/sass_import.html">sass_file</a></span><span class="op">(</span><span class="st">"my-style.scss"</span><span class="op">)</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
+<p>You can also configure the location, size, and age of file caching via <code><a href="../reference/sass_file_cache.html">sass_file_cache()</a></code>, which can be passed directly to a <code><a href="../reference/sass.html">sass()</a></code> call:</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span>
+  <span class="fu"><a href="../reference/sass_import.html">sass_file</a></span><span class="op">(</span><span class="st">"my-style.scss"</span><span class="op">)</span>,
+  cache <span class="op">=</span> <span class="fu"><a href="../reference/sass_file_cache.html">sass_file_cache</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span>, max_size <span class="op">=</span> <span class="fl">100</span> <span class="op">*</span> <span class="fl">1024</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>
+<span class="op">)</span></code></pre></div>
+<p>Or used with <code><a href="../reference/sass_cache_get_dir.html">sass_cache_set_dir()</a></code> to configure the file cache globally:</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/sass_cache_get_dir.html">sass_cache_set_dir</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="../reference/sass_file_cache.html">sass_file_cache</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span>, max_size <span class="op">=</span> <span class="fl">100</span> <span class="op">*</span> <span class="fl">1024</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>Note that the location of the file cache defaults to <code><a href="../reference/sass_cache_context_dir.html">sass_cache_context_dir()</a></code>, which depends on the context in which it’s running. When inside a Shiny app, the cache location is relative to the app’s directory so the cache can persist and be shared across R processes. Otherwise, the context directory is a OS and package specific caching directory.</p>
 </div>
 </div>
 <div id="shiny" class="section level2">
@@ -374,18 +383,18 @@ pre.css {
 <h3 class="hasAnchor">
 <a href="#shiny-string" class="anchor"></a>As a string</h3>
 <p>The character string that <code><a href="../reference/sass.html">sass()</a></code> returns is already marked as <code><a href="https://rdrr.io/pkg/htmltools/man/HTML.html">HTML()</a></code><a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>, so to include it in your <strong>shiny</strong> app, wrap it in a <code>&lt;style&gt;</code> tag. It’s not necessary to place this tag in the <code>&lt;head&gt;</code> of the document, but it’s good practice:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">library</span>(shiny)</span>
-<span id="cb25-2"><a href="#cb25-2"></a>css &lt;-<span class="st"> </span><span class="kw">sass</span>(<span class="kw">sass_file</span>(<span class="st">"my-style.scss"</span>))</span>
-<span id="cb25-3"><a href="#cb25-3"></a><span class="kw">fluidPage</span>(</span>
-<span id="cb25-4"><a href="#cb25-4"></a>  tags<span class="op">$</span><span class="kw">head</span>(tags<span class="op">$</span><span class="kw">style</span>(css),</span>
-<span id="cb25-5"><a href="#cb25-5"></a>  ...</span>
-<span id="cb25-6"><a href="#cb25-6"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw">library</span>(shiny)</span>
+<span id="cb27-2"><a href="#cb27-2"></a>css &lt;-<span class="st"> </span><span class="kw">sass</span>(<span class="kw">sass_file</span>(<span class="st">"my-style.scss"</span>))</span>
+<span id="cb27-3"><a href="#cb27-3"></a><span class="kw">fluidPage</span>(</span>
+<span id="cb27-4"><a href="#cb27-4"></a>  tags<span class="op">$</span><span class="kw">head</span>(tags<span class="op">$</span><span class="kw">style</span>(css),</span>
+<span id="cb27-5"><a href="#cb27-5"></a>  ...</span>
+<span id="cb27-6"><a href="#cb27-6"></a>)</span></code></pre></div>
 </div>
 <div id="shiny-file" class="section level3">
 <h3 class="hasAnchor">
 <a href="#shiny-file" class="anchor"></a>As a file</h3>
 <p>To write CSS to a file, give a suitable file path to <code><a href="../reference/sass.html">sass()</a></code>’s <code>output</code> argument. Here we write to a specially named <code>www/</code> subdirectory so that <strong>shiny</strong> will automatically make those file(s) available to the web app.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/">shiny</a></span><span class="op">)</span>
 <span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span>
   <span class="fu"><a href="../reference/sass_import.html">sass_file</a></span><span class="op">(</span><span class="st">"my-style.scss"</span><span class="op">)</span>,
@@ -403,7 +412,7 @@ pre.css {
 <a href="#shiny-dynamic" class="anchor"></a>As a dynamic input</h3>
 <p>Sometimes it’s useful to allow users of your <strong>shiny</strong> app to be able to influence your app’s styling via <strong>shiny</strong> input(s). One way this can be done is via <a href="https://shiny.rstudio.com/articles/dynamic-ui.html">dynamic UI</a>, where you use <code><a href="https://rdrr.io/pkg/shiny/man/renderUI.html">renderUI()</a></code>/<code><a href="https://rdrr.io/pkg/shiny/man/htmlOutput.html">uiOutput()</a></code> to dynamically insert <a href="#shiny-string">CSS as an HTML string</a> whenever a relevant input changes. Be aware, however, that whenever you allow dynamic user input to generate <code><a href="https://rdrr.io/pkg/htmltools/man/HTML.html">HTML()</a></code>, you’re leaving yourself open to security vulnerabilites; so try to avoid it, and <em>never</em> allow clients to enter free form <code><a href="https://rdrr.io/pkg/shiny/man/textInput.html">textInput()</a></code> without any sort of sanitation of the user input.</p>
 <p>Consider this basic example of using a <code>colourInput()</code> widget (from the <strong>colourpicker</strong> package) to choose the body’s background color, which triggers a call to <code><a href="../reference/sass.html">sass()</a></code>:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/">shiny</a></span><span class="op">)</span>
 
 <span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span><span class="op">(</span>
