@@ -174,6 +174,10 @@ sass <- function(
   # If caching is active, compute the hash key
   cache_key <- if (!is.null(cache)) {
     sass_hash(list(
+      # Don't include htmlDependency()s in cache key since they:
+      # 1. Are always attached to the return value of sass()
+      # 2. Generally won't invalidate Sass->CSS compilation
+      # 3. May include a temp directory
       discard_dependencies(input),
       options, cache_key_extra,
       # Detect if any attachments have changed
