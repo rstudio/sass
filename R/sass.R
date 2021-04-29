@@ -174,7 +174,7 @@ sass <- function(
   # If caching is active, compute the hash key
   cache_key <- if (!is.null(cache)) {
     sass_hash(list(
-      sass_input, options, cache_key_extra,
+      input, options, cache_key_extra,
       # Detect if any attachments have changed
       if (is_sass_layer(layer) && !is.null(layer$file_attachments)) get_file_mtimes(layer$file_attachments)
     ))
