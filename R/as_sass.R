@@ -81,6 +81,22 @@ find_dependencies <- function(x) {
   c(childDeps, deps)
 }
 
+discard_dependencies <- function(x) {
+  if (is_sass_bundle_like(x))  {
+    x <- as_sass_layer(x)
+    x$html_deps <- NULL
+  } else if (is_font_collection(x)) {
+    x$html_deps <- NULL
+  } else {
+    htmlDependencies(x) <- NULL
+  }
+  if (is.list(x)) {
+    lapply(x, discard_dependencies)
+  } else {
+    x
+  }
+}
+
 as_sass_ <- function(input) {
   UseMethod("as_sass_")
 }
