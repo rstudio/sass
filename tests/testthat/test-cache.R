@@ -44,7 +44,7 @@ test_that("writes to cache", {
     expect_css(eval(input_code), css)
     # Did a cache entry get added?
     expect_equal(cache$size(), 1)
-    # Compile gain, now with an output file
+    # Compile again, now with an output file
     out_file <- tempfile(fileext = ".css")
     expect_css(eval(input_code), css, output = out_file)
     # If there was a cache hit, the size should be the same
