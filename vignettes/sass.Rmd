@@ -242,7 +242,7 @@ This vignette intentionally doesn't try to re-invent the existing and wonderful 
 
 ## Composable sass {#layering}
 
-To make Sass code more composable with other Sass code (e.g., allowing others to change your variable defaults or import a function or mixin you've defined), consider partitioning your Sass code into a `sass::sass_layer()`. The main idea is to split your Sass into 4 parts: [`functions`](#functions), `defaults` (i.e. [variable defaults](Note also that `{sass}` also provides tools that make importing of local font files easier -- see `font_google()` to learn more.)), [`mixins`](#mixins), and `rules` (i.e., styling rules).
+To make Sass code more composable with other Sass code (e.g., allowing others to change your variable defaults or import a function or mixin you've defined), consider partitioning your Sass code into a `sass::sass_layer()`. The main idea is to split your Sass into 4 parts: [`functions`](#functions), `defaults` (i.e. [variable defaults](#variables)), [`mixins`](#mixins), and `rules` (i.e., styling rules).
 
 ```r
 layer1 <- sass_layer(
@@ -344,15 +344,31 @@ sass(
 
 ### Caching {#caching}
 
-Sometimes calling `sass()` can be computationally expensive, in which case, it can be useful to leverage its caching capability. Caching is automatically enabled in non-interactive sessions, but you can set the `sass.cache` option to `TRUE` to enable it universally, and/or use `sass_cache_options(cache = TRUE)` to enable for specific calls to `sass()`. See `sass_cache_options()` for more details about how caching works.
+Sometimes calling `sass()` can be computationally expensive, in which case, it can be useful to leverage its caching capability. Caching is enabled by default, unless Shiny's Developer Mode (`shiny::devmode()`) is enabled. To explicitly enable (disable), set `options(sass.cache = )` to `TRUE` (or `FALSE`):
 
 ```r
-options(sass.cache = TRUE)
-sass(
-  sass_file("my-style.scss"),
-  cache_options = sass_cache_options(cache = TRUE)
+withr::with_options(
+  list(sass.cache = TRUE),
+  sass(sass_file("my-style.scss"))
 )
 ```
+
+You can also configure the location, size, and age of file caching via `sass_file_cache()`, which can be passed directly to a `sass()` call:
+
+```r
+sass(
+  sass_file("my-style.scss"),
+  cache = sass_file_cache(getwd(), max_size = 100 * 1024^2)
+)
+```
+
+Or used with `sass_cache_set_dir()` to configure the file cache globally:
+
+```r
+sass_cache_set_dir(getwd(), sass_file_cache(getwd(), max_size = 100 * 1024^2))
+```
+
+Note that the location of the file cache defaults to `sass_cache_context_dir()`, which depends on the context in which it's running. When inside a Shiny app, the cache location is relative to the app's directory so the cache can persist and be shared across R processes. Otherwise, the context directory is a OS and package specific caching directory.
 
 ## In shiny {#shiny}
 

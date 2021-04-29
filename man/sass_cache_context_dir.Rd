@@ -9,4 +9,21 @@ sass_cache_context_dir()
 \description{
 Return the cache directory for the current context.
 }
+\details{
+In most cases, this function returns the user's cache directory, by calling
+\code{tools::R_user_dir("sass", which = "cache")} (for R 4.0 and above) or
+\code{rappdirs::user_cache_dir("R-sass")} (for older versions of R).
+
+If this function is called from a Shiny application, it will also look for a
+subdirectory named \verb{app_cache/}. If it exists, it will use a directory named
+\verb{app_cache/sass/} to store the cache.
+
+When running a Shiny application in a typical R session, it will not create
+the \verb{app_cache/} subdirectory, but it will use it if present. This scopes the
+cache to the application.
+
+With Shiny applications hosted on Shiny Server and Connect, it \emph{will} create
+a \verb{app_cache/sass/} subdirectory, so that the cache is scoped to the
+application and will not interfere with another application's cache.
+}
 \keyword{internal}
