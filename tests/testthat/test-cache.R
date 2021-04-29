@@ -26,10 +26,7 @@ test_that("reads from and writes to cache", {
   expect_equal(sass_cache_get()$size(), 1)
 
   # Modifying the file busts the cache (even it if has the same contents)
-  writeLines(
-    readLines("test-unicode-var-input.scss"),
-    "test-unicode-var-input.scss"
-  )
+  Sys.setFileTime("test-unicode-var-input.scss", Sys.time() + 5)
   css <- sass(sass_file("test-unicode-var-input.scss"))
   expect_equal(as.character(css), expected)
   expect_equal(sass_cache_get()$size(), 2)
