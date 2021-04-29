@@ -37,17 +37,22 @@ test_that("writes to cache", {
   expect_cached <- function(input, css) {
     local_temp_cache()
     cache <- sass_cache_get()
-    # Did we get the right result?
-    expect_css(input, css)
+    # Allow input to be an expression, like layer(), that can generate
+    # different input everytime it gets evaluated
+    input_code <- substitute(input)
+    # Did we get the right CSS result?
+    expect_css(eval(input_code), css)
     # Did a cache entry get added?
     expect_equal(cache$size(), 1)
-    # Again, now with an output file
+    # Compile gain, now with an output file
     out_file <- tempfile(fileext = ".css")
-    expect_css(input, css, output = out_file)
+    expect_css(eval(input_code), css, output = out_file)
+    # If there was a cache hit, the size should be the same
+    expect_equal(cache$size(), 1)
     # Now manipulate the cache directly to make sure it is actually being read
     # from. We'll change the value in the cache and see if sass() reads from it.
     cache$set_content(cache$keys(), "foo")
-    expect_css(input, "foo")
+    expect_css(eval(input_code), "foo")
   }
 
   expect_cached(
