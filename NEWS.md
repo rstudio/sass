@@ -14,6 +14,10 @@
 
 * `output_template()` gains a `path` argument to change the root directory where output file will be written. (#76)
 
+## Bug fixes
+
+* Closed #84: Fixed an issue with `sass_file()` being cached even if the contents of the file had changed (this regression was introduced by the 0.3.0 release). (#85)
+
 # sass 0.3.1
 
 This small patch release changes `sass::sass_cache_context_dir()` to use `tools::R_user_dir()` over `rappdirs::user_cache_dir()` (when relevant, as requested by CRAN). (#70)
