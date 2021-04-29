@@ -242,7 +242,7 @@ This vignette intentionally doesn't try to re-invent the existing and wonderful 
 
 ## Composable sass {#layering}
 
-To make Sass code more composable with other Sass code (e.g., allowing others to change your variable defaults or import a function or mixin you've defined), consider partitioning your Sass code into a `sass::sass_layer()`. The main idea is to split your Sass into 4 parts: [`functions`](#functions), `defaults` (i.e. [variable defaults](Note also that `{sass}` also provides tools that make importing of local font files easier -- see `font_google()` to learn more.)), [`mixins`](#mixins), and `rules` (i.e., styling rules).
+To make Sass code more composable with other Sass code (e.g., allowing others to change your variable defaults or import a function or mixin you've defined), consider partitioning your Sass code into a `sass::sass_layer()`. The main idea is to split your Sass into 4 parts: [`functions`](#functions), `defaults` (i.e. [variable defaults](#variables)), [`mixins`](#mixins), and `rules` (i.e., styling rules).
 
 ```r
 layer1 <- sass_layer(
