@@ -139,11 +139,11 @@ sass_options_get <- function(...) {
     list()
   }
 
-  args <- utils::modifyList(
+  args <- modifyList(
     args, getOption("sass.options", default = list())
   )
 
-  args <- utils::modifyList(
+  args <- modifyList(
     args, verify_sass_options_args(...)
   )
 
@@ -154,7 +154,7 @@ sass_options_get <- function(...) {
 #' @param ... arguments to `sass_options()`. If `NULL`, global options will be cleared.
 #' @export
 sass_options_set <- function(...) {
-  if (length(rlang::list2(...)) == 1 && is.null(`..1`)) {
+  if (length(list2(...)) == 1 && is.null(`..1`)) {
     options(sass.options = NULL)
   } else {
     options(sass.options = verify_sass_options_args(...))
@@ -162,8 +162,8 @@ sass_options_set <- function(...) {
 }
 
 verify_sass_options_args <- function(...) {
-  args <- rlang::list2(...)
-  nms <- rlang::names2(args)
+  args <- list2(...)
+  nms <- names2(args)
   if (any(nms == "")) {
     stop("All arguments to `sass_options_set()` must be named.")
   }
