@@ -25,7 +25,7 @@ sass_options(
 
 sass_options_get(...)
 
-sass_options_set(...)
+sass_options_set(x)
 }
 \arguments{
 \item{precision}{Number of decimal places.}
@@ -72,16 +72,20 @@ information.}
 \item{omit_source_map_url}{Disable the inclusion of source map information in
 the output file. Note: must specify \code{output_path} when \code{TRUE}.}
 
-\item{...}{arguments to \code{\link[=sass_options]{sass_options()}}.}
+\item{...}{arguments to \code{\link[=sass_options]{sass_options()}}. If specified, these options will take priority over any options set globally (or via \code{shiny::devmode()})}
+
+\item{x}{either a \code{sass_options()} object or \code{NULL} (to 'clear' the options globally).}
 }
 \value{
 List of Sass compiler options to be used with
 \code{\link[=sass]{sass()}}.
 }
 \description{
-Set compiler \code{options} for \code{\link[=sass]{sass()}}. To customize options,
-either provide \code{sass_options()} directly to a \code{\link[=sass]{sass()}} call
-or set options globally via \code{sass_options_set()}. Note that when reading global options with \code{sass_options_get()},
+Set compiler \code{options} for \code{\link[=sass]{sass()}}. To customize options, either provide
+\code{sass_options()} directly to a \code{\link[=sass]{sass()}} call or set options globally via
+\code{sass_options_set()}. When \code{shiny::devmode()} is enabled,
+\code{sass_options_get()} defaults \code{source_map_embed} and \code{source_map_contents} to
+\code{TRUE}.
 }
 \examples{
 sass(

@@ -1,9 +1,10 @@
 #' Compiler Options for Sass
 #'
-#' Set compiler `options` for [sass()]. To customize options,
-#' either provide `sass_options()` directly to a [sass()] call
-#' or set options globally via `sass_options_set()`. Note that when reading global options with `sass_options_get()`,
-#'
+#' Set compiler `options` for [sass()]. To customize options, either provide
+#' `sass_options()` directly to a [sass()] call or set options globally via
+#' `sass_options_set()`. When `shiny::devmode()` is enabled,
+#' `sass_options_get()` defaults `source_map_embed` and `source_map_contents` to
+#' `TRUE`.
 #'
 #' @param precision Number of decimal places.
 #' @param output_style Bracketing and formatting style of the CSS output.
@@ -127,7 +128,7 @@ sass_options <- function(
 }
 
 #' @rdname sass_options
-#' @param ... arguments to [sass_options()].
+#' @param ... arguments to [sass_options()]. If specified, these options will take priority over any options set globally (or via `shiny::devmode()`)
 #' @importFrom utils modifyList
 #' @export
 sass_options_get <- function(...) {
@@ -143,13 +144,17 @@ sass_options_get <- function(...) {
 
   opts <- rlang::list2(...)
   local_opts <- do.call(sass_options, opts)
-  local_opts <- local_opts[names(opts)]
 
-  utils::modifyList(global_opts, local_opts)
+  utils::modifyList(global_opts, local_opts[names(opts)])
 }
 
 #' @rdname sass_options
+#' @param x either a `sass_options()` object or `NULL` (to 'clear' the options globally).
 #' @export
-sass_options_set <- function(...) {
-  options(sass.options = sass_options(...))
+sass_options_set <- function(x) {
+  # allow options to be cleared via sass_options_set(NULL)
+  if (!is.null(x) && !inherits(x, "sass_options")) {
+    stop("`x` must be a `sass_options()` object.")
+  }
+  options(sass.options = x)
 }
