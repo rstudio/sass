@@ -6,7 +6,7 @@
 \usage{
 sass(
   input = NULL,
-  options = sass_options(),
+  options = sass_options_get(),
   output = NULL,
   write_attachments = NA,
   cache = sass_cache_get(),
@@ -14,12 +14,15 @@ sass(
 )
 }
 \arguments{
-\item{input}{Accepts raw Sass, a named list of variables, a list of raw Sass
-and/or named variables, or a \code{\link[=sass_layer]{sass_layer()}} object. See \code{\link[=as_sass]{as_sass()}} and
-\code{\link[=sass_import]{sass_import()}} / \code{\link[=sass_file]{sass_file()}} for more details.}
+\item{input}{Any of the following:
+\itemize{
+\item A character vector containing Sass code.
+\item A named list containing variable names and values.
+\item A \code{\link[=sass_file]{sass_file()}}, \code{\link[=sass_layer]{sass_layer()}}, and/or \code{\link[=sass_bundle]{sass_bundle()}}.
+\item A \code{\link[=list]{list()}} containing any of the above.
+}}
 
-\item{options}{Compiler options for Sass. Please specify options using
-\code{\link[=sass_options]{sass_options()}}.}
+\item{options}{Compiler \code{\link[=sass_options]{sass_options()}}.}
 
 \item{output}{Specifies path to output file for compiled CSS. May be a
 character string or \code{\link[=output_template]{output_template()}}}
@@ -82,7 +85,7 @@ If a file that is included using \code{\link[=sass_file]{sass_file()}} changes o
 last-modified time changes), its previous cache entries will effectively be
 invalidated (not removed from disk, but they'll no longer be matched).
 However, if a file imported using \code{\link[=sass_file]{sass_file()}} itself imports other sass
-files using \code{@import}, changes to those files are invisible to the
+files using \verb{@import}, changes to those files are invisible to the
 cache and you can end up with stale results. To avoid this problem when
 developing sass code, it's best to disable caching with
 \code{options(sass.cache=FALSE)}.

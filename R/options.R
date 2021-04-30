@@ -1,26 +1,28 @@
 #' Compiler Options for Sass
 #'
-#' Set compiler options for Sass. Used with \code{\link{sass}}.
+#' Set compiler `options` for [sass()]. To customize options,
+#' either provide `sass_options()` directly to a [sass()] call
+#' or set options globally via `sass_options_set()`. Note that when reading global options with `sass_options_get()`,
 #'
 #'
 #' @param precision Number of decimal places.
 #' @param output_style Bracketing and formatting style of the CSS output.
-#'   Possible styles: \code{"nested"}, \code{"expanded"}, \code{"compact"}, and
-#'   \code{"compressed"}.
+#'   Possible styles: `"nested"`, `"expanded"`, `"compact"`, and
+#'   `"compressed"`.
 #' @param indented_syntax Enables the compiler to parse Sass Indented Syntax in
 #'   strings. Note that the compiler automatically overrides this option to
-#'   \code{TRUE} or \code{FALSE} for files with .sass and .scss file extensions
+#'   `TRUE` or `FALSE` for files with .sass and .scss file extensions
 #'   respectively.
-#' @param indent_type Specifies the indent type as \code{"space"} or
-#'   \code{"tab"}.
+#' @param indent_type Specifies the indent type as `"space"` or
+#'   `"tab"`.
 #' @param indent_width Number of tabs or spaces used for indentation. Maximum
 #'   10.
-#' @param include_path Vector of paths used to resolve \code{@import}. Multiple
+#' @param include_path Vector of paths used to resolve `@import`. Multiple
 #'   paths are possible using a character vector of paths.
 #' @param source_comments Annotates CSS output with line and file comments from
 #'   Sass file for debugging.
 #' @param linefeed Specifies how new lines should be delimited. Possible values:
-#'   \code{"lf"}, \code{"cr"}, \code{"lfcr"}, and \code{"crlf"}.
+#'   `"lf"`, `"cr"`, `"lfcr"`, and `"crlf"`.
 #' @param output_path Specifies the location of the output file. Note: this
 #'   option will not write the file on disk. It is only for internal reference
 #'   with the source map.
@@ -32,10 +34,10 @@
 #' @param source_map_contents Includes the contents in the source map
 #'   information.
 #' @param omit_source_map_url Disable the inclusion of source map information in
-#'   the output file. Note: must specify \code{output_path} when \code{TRUE}.
+#'   the output file. Note: must specify `output_path` when `TRUE`.
 #'
 #' @return List of Sass compiler options to be used with
-#'   \code{\link{sass}}.
+#'   [sass()].
 #'
 #' @examples
 #' sass(
@@ -122,4 +124,32 @@ sass_options <- function(
 
   class(ret) <- c("sass_options", class(ret))
   ret
+}
+
+#' @rdname sass_options
+#' @param ... arguments to [sass_options()].
+#' @importFrom utils modifyList
+#' @export
+sass_options_get <- function(...) {
+
+  global_opts <- get_shiny_devmode_option(
+    "sass.options",
+    default = sass_options(),
+    devmode_default = sass_options(
+      source_map_embed = TRUE,
+      source_map_contents = TRUE
+    )
+  )
+
+  opts <- rlang::list2(...)
+  local_opts <- do.call(sass_options, opts)
+  local_opts <- local_opts[names(opts)]
+
+  utils::modifyList(global_opts, local_opts)
+}
+
+#' @rdname sass_options
+#' @export
+sass_options_set <- function(...) {
+  options(sass.options = sass_options(...))
 }

@@ -1,22 +1,16 @@
-#' List to Sass converter
+#' Convert an R object into Sass code
 #'
 #' Converts multiple types of inputs to a single Sass input string for
-#' \code{\link{sass}}.
+#' [sass()].
 #'
-#' Note that the LibSass compiler expects .sass files to use the Sass Indented
-#' Syntax.
+#' @param input Any of the following:
+#'   * A character vector containing Sass code.
+#'   * A named list containing variable names and values.
+#'   * A [sass_file()], [sass_layer()], and/or [sass_bundle()].
+#'   * A [list()] containing any of the above.
 #'
-#' @param input Either a
-#' \itemize{
-#'   \item raw Sass string
-#'   \item named list containing variable names and values
-#'   \item Sass-like file name.
-#'
-#' }
-#' @seealso Visit
-#'   \url{https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import}
-#'   for more details.
-#' @return a single character value to be supplied to \code{\link{sass}}
+#' @references <https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import>
+#' @return a single character value to be supplied to [sass()].
 #' @export
 #' @examples
 #' # Example of regular Sass input
@@ -183,11 +177,14 @@ as_sass_.character <- function(input) {
 #' Sass Import
 #'
 #' Create an import statement to be used within your Sass file. See
-#' \url{https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import} for
+#' <https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import> for
 #' more details.
 #'
-#' \code{sass_file} adds extra checks to make sure an appropriate file path
+#' `sass_file()` adds extra checks to make sure an appropriate file path
 #' exists given the input value.
+#'
+#' Note that the LibSass compiler expects .sass files to use the Sass Indented
+#' Syntax.
 #'
 #' @param input Character string to be placed in an import statement.
 #' @param quote Logical that determines if a double quote is added to the import

@@ -2,6 +2,8 @@
 % Please edit documentation in R/options.R
 \name{sass_options}
 \alias{sass_options}
+\alias{sass_options_get}
+\alias{sass_options_set}
 \title{Compiler Options for Sass}
 \usage{
 sass_options(
@@ -20,6 +22,10 @@ sass_options(
   source_map_contents = FALSE,
   omit_source_map_url = FALSE
 )
+
+sass_options_get(...)
+
+sass_options_set(...)
 }
 \arguments{
 \item{precision}{Number of decimal places.}
@@ -33,7 +39,7 @@ strings. Note that the compiler automatically overrides this option to
 \code{TRUE} or \code{FALSE} for files with .sass and .scss file extensions
 respectively.}
 
-\item{include_path}{Vector of paths used to resolve \code{@import}. Multiple
+\item{include_path}{Vector of paths used to resolve \verb{@import}. Multiple
 paths are possible using a character vector of paths.}
 
 \item{source_comments}{Annotates CSS output with line and file comments from
@@ -65,13 +71,17 @@ information.}
 
 \item{omit_source_map_url}{Disable the inclusion of source map information in
 the output file. Note: must specify \code{output_path} when \code{TRUE}.}
+
+\item{...}{arguments to \code{\link[=sass_options]{sass_options()}}.}
 }
 \value{
 List of Sass compiler options to be used with
-\code{\link{sass}}.
+\code{\link[=sass]{sass()}}.
 }
 \description{
-Set compiler options for Sass. Used with \code{\link{sass}}.
+Set compiler \code{options} for \code{\link[=sass]{sass()}}. To customize options,
+either provide \code{sass_options()} directly to a \code{\link[=sass]{sass()}} call
+or set options globally via \code{sass_options_set()}. Note that when reading global options with \code{sass_options_get()},
 }
 \examples{
 sass(

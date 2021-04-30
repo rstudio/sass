@@ -7,7 +7,7 @@
 sass_partial(
   rules,
   bundle,
-  options = sass_options(),
+  options = sass_options_get(),
   output = NULL,
   write_attachments = NA,
   cache = sass_cache_get(),
@@ -20,8 +20,7 @@ from \code{layer}.}
 
 \item{bundle}{A \code{\link[=sass_bundle]{sass_bundle()}} or \code{\link[=sass_layer]{sass_layer()}} object.}
 
-\item{options}{Compiler options for Sass. Please specify options using
-\code{\link[=sass_options]{sass_options()}}.}
+\item{options}{Compiler \code{\link[=sass_options]{sass_options()}}.}
 
 \item{output}{Specifies path to output file for compiled CSS. May be a
 character string or \code{\link[=output_template]{output_template()}}}

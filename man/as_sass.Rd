@@ -2,29 +2,25 @@
 % Please edit documentation in R/as_sass.R
 \name{as_sass}
 \alias{as_sass}
-\title{List to Sass converter}
+\title{Convert an R object into Sass code}
 \usage{
 as_sass(input)
 }
 \arguments{
-\item{input}{Either a
+\item{input}{Any of the following:
 \itemize{
-\item raw Sass string
-\item named list containing variable names and values
-\item Sass-like file name.
-
+\item A character vector containing Sass code.
+\item A named list containing variable names and values.
+\item A \code{\link[=sass_file]{sass_file()}}, \code{\link[=sass_layer]{sass_layer()}}, and/or \code{\link[=sass_bundle]{sass_bundle()}}.
+\item A \code{\link[=list]{list()}} containing any of the above.
 }}
 }
 \value{
-a single character value to be supplied to \code{\link{sass}}
+a single character value to be supplied to \code{\link[=sass]{sass()}}.
 }
 \description{
 Converts multiple types of inputs to a single Sass input string for
-\code{\link{sass}}.
-}
-\details{
-Note that the LibSass compiler expects .sass files to use the Sass Indented
-Syntax.
+\code{\link[=sass]{sass()}}.
 }
 \examples{
 # Example of regular Sass input
@@ -60,8 +56,6 @@ input
 sass(input)
 }
 }
-\seealso{
-Visit
+\references{
 \url{https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import}
-for more details.
 }

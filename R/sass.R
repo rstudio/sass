@@ -34,7 +34,7 @@
 #'   last-modified time changes), its previous cache entries will effectively be
 #'   invalidated (not removed from disk, but they'll no longer be matched).
 #'   However, if a file imported using [sass_file()] itself imports other sass
-#'   files using \code{@import}, changes to those files are invisible to the
+#'   files using `@import`, changes to those files are invisible to the
 #'   cache and you can end up with stale results. To avoid this problem when
 #'   developing sass code, it's best to disable caching with
 #'   `options(sass.cache=FALSE)`.
@@ -47,11 +47,8 @@
 #'   To clear the default cache, call `sass_cache_get()$reset()`.
 #'
 #'
-#' @param input Accepts raw Sass, a named list of variables, a list of raw Sass
-#'   and/or named variables, or a [sass_layer()] object. See [as_sass()] and
-#'   [sass_import()] / [sass_file()] for more details.
-#' @param options Compiler options for Sass. Please specify options using
-#'   [sass_options()].
+#' @inheritParams as_sass
+#' @param options Compiler [sass_options()].
 #' @param output Specifies path to output file for compiled CSS. May be a
 #'   character string or [output_template()]
 #' @param write_attachments If the input contains [sass_layer()] objects that
@@ -140,7 +137,7 @@
 #' }
 sass <- function(
   input = NULL,
-  options = sass_options(),
+  options = sass_options_get(),
   output = NULL,
   write_attachments = NA,
   cache = sass_cache_get(),
@@ -275,7 +272,7 @@ sass <- function(
 sass_partial <- function(
   rules,
   bundle,
-  options = sass_options(),
+  options = sass_options_get(),
   output = NULL,
   write_attachments = NA,
   cache = sass_cache_get(),
