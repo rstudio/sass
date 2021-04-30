@@ -48,14 +48,15 @@ test_that("wrong type fails", {
 })
 
 test_that("Global options work", {
+  on.exit(sass_options_set(NULL), add = TRUE)
+
+  expect_identical(sass_options_get(), sass_options())
+
+  sass_options_set(precision = 10)
   expect_identical(
     sass_options_get(),
-    sass_options()
+    sass_options(precision = 10)
   )
-
-  opts <- sass_options(precision = 10)
-  sass_options_set(opts)
-  expect_identical(sass_options_get(), opts)
 
   sass_options_set(NULL)
   expect_identical(sass_options_get(), sass_options())

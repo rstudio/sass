@@ -133,28 +133,53 @@ sass_options <- function(
 #' @export
 sass_options_get <- function(...) {
 
-  global_opts <- get_shiny_devmode_option(
-    "sass.options",
-    default = sass_options(),
-    devmode_default = sass_options(
-      source_map_embed = TRUE,
-      source_map_contents = TRUE
-    )
+  args <- if (in_devmode()) {
+    list(source_map_embed = TRUE, source_map_contents = TRUE)
+  } else {
+    list()
+  }
+
+  args <- utils::modifyList(
+    args, getOption("sass.options", default = list())
   )
 
-  opts <- rlang::list2(...)
-  local_opts <- do.call(sass_options, opts)
+  args <- utils::modifyList(
+    args, verify_sass_options_args(...)
+  )
 
-  utils::modifyList(global_opts, local_opts[names(opts)])
+  do.call(sass_options, args)
 }
 
 #' @rdname sass_options
-#' @param x either a `sass_options()` object or `NULL` (to 'clear' the options globally).
+#' @param ... arguments to `sass_options()`. If `NULL`, global options will be cleared.
 #' @export
-sass_options_set <- function(x) {
-  # allow options to be cleared via sass_options_set(NULL)
-  if (!is.null(x) && !inherits(x, "sass_options")) {
-    stop("`x` must be a `sass_options()` object.")
+sass_options_set <- function(...) {
+  if (length(rlang::list2(...)) == 1 && is.null(`..1`)) {
+    options(sass.options = NULL)
+  } else {
+    options(sass.options = verify_sass_options_args(...))
   }
-  options(sass.options = x)
+}
+
+verify_sass_options_args <- function(...) {
+  args <- rlang::list2(...)
+  nms <- rlang::names2(args)
+  if (any(nms == "")) {
+    stop("All arguments to `sass_options_set()` must be named.")
+  }
+  opts <- names(formals(sass_options))
+  bad_nms <- setdiff(nms, opts)
+  if (length(bad_nms)) {
+    stop(
+      "The following arguments are not supported by `sass_options()`:",
+      paste(bad_nms, collapse = ", ")
+    )
+  }
+  args
+}
+
+# shiny:::in_devmode
+in_devmode <- function() {
+  isTRUE(getOption("shiny.devmode", FALSE)) &&
+    !identical(Sys.getenv("TESTTHAT"), "true")
 }
