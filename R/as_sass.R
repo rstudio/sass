@@ -87,6 +87,8 @@ discard_dependencies <- function(x) {
     x$html_deps <- NULL
   } else if (is_font_collection(x)) {
     x$html_deps <- NULL
+  } else if (inherits(x, "html_dependency")) {
+    x <- NULL
   } else {
     htmlDependencies(x) <- NULL
   }
