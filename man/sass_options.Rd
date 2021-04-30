@@ -25,7 +25,7 @@ sass_options(
 
 sass_options_get(...)
 
-sass_options_set(x)
+sass_options_set(...)
 }
 \arguments{
 \item{precision}{Number of decimal places.}
@@ -72,9 +72,7 @@ information.}
 \item{omit_source_map_url}{Disable the inclusion of source map information in
 the output file. Note: must specify \code{output_path} when \code{TRUE}.}
 
-\item{...}{arguments to \code{\link[=sass_options]{sass_options()}}. If specified, these options will take priority over any options set globally (or via \code{shiny::devmode()})}
-
-\item{x}{either a \code{sass_options()} object or \code{NULL} (to 'clear' the options globally).}
+\item{...}{arguments to \code{sass_options()}. If \code{NULL}, global options will be cleared.}
 }
 \value{
 List of Sass compiler options to be used with
