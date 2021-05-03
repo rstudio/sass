@@ -12,6 +12,8 @@
 
 * A new `sass_layer_file()` function was added to read in a `.scss` file as a `sass_layer()`. Special comments of the form `/*-- scss:(functions|defaults|rules|mixins) --*/` can be used to place certain sections of the file into `functions`, `defaults`, `rules`, and `mixins`. The primary motivation for this is to allow [quarto's theme file format](https://github.com/quarto-dev/quarto-cli/blob/main/design/quarto-themes.md) to also be used Shiny and R Markdown. (#81)
 
+* Closed #87: Added new `sass_options_get()` and `sass_options_set()` for setting and reading `sass_options()` globally (`sass()`'s `options` argument now defaults to `sass_options_get()` instead of `sass_options()`). In addition, when `shiny::devmode()` is enabled, Sass source maps are included by default. (#88) 
+
 * `output_template()` gains a `path` argument to change the root directory where output file will be written. (#76)
 
 ## Bug fixes

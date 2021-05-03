@@ -24,8 +24,11 @@ Create an import statement to be used within your Sass file. See
 more details.
 }
 \details{
-\code{sass_file} adds extra checks to make sure an appropriate file path
+\code{sass_file()} adds extra checks to make sure an appropriate file path
 exists given the input value.
+
+Note that the LibSass compiler expects .sass files to use the Sass Indented
+Syntax.
 }
 \examples{
 sass_import("foo")

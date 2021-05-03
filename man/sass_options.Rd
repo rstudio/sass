@@ -2,6 +2,8 @@
 % Please edit documentation in R/options.R
 \name{sass_options}
 \alias{sass_options}
+\alias{sass_options_get}
+\alias{sass_options_set}
 \title{Compiler Options for Sass}
 \usage{
 sass_options(
@@ -20,6 +22,10 @@ sass_options(
   source_map_contents = FALSE,
   omit_source_map_url = FALSE
 )
+
+sass_options_get(...)
+
+sass_options_set(...)
 }
 \arguments{
 \item{precision}{Number of decimal places.}
@@ -33,7 +39,7 @@ strings. Note that the compiler automatically overrides this option to
 \code{TRUE} or \code{FALSE} for files with .sass and .scss file extensions
 respectively.}
 
-\item{include_path}{Vector of paths used to resolve \code{@import}. Multiple
+\item{include_path}{Vector of paths used to resolve \verb{@import}. Multiple
 paths are possible using a character vector of paths.}
 
 \item{source_comments}{Annotates CSS output with line and file comments from
@@ -65,18 +71,42 @@ information.}
 
 \item{omit_source_map_url}{Disable the inclusion of source map information in
 the output file. Note: must specify \code{output_path} when \code{TRUE}.}
+
+\item{...}{arguments to \code{\link[=sass_options]{sass_options()}}. For \code{sass_options_set()}, the
+following values are also acceptable:
+\itemize{
+\item \code{NULL}, clearing the global options.
+\item Return value of \code{sass_options_get()}.
+\item Return value of \code{sass_options_set()}.
+}}
 }
 \value{
-List of Sass compiler options to be used with
-\code{\link{sass}}.
+List of Sass compiler options to be used with \code{\link[=sass]{sass()}}. For
+\code{sass_options_set()}, any previously set global options are returned.
 }
 \description{
-Set compiler options for Sass. Used with \code{\link{sass}}.
+Specify compiler \code{options} for \code{\link[=sass]{sass()}}. To customize options, either provide
+\code{sass_options()} directly to a \code{\link[=sass]{sass()}} call or set options globally via
+\code{sass_options_set()}. When \code{shiny::devmode()} is enabled,
+\code{sass_options_get()} defaults \code{source_map_embed} and \code{source_map_contents} to
+\code{TRUE}.
 }
 \examples{
-sass(
-  "foo { margin: 122px * .3; }",
-  options = sass_options(output_style = "compact")
-)
+
+x <- "foo { margin: 122px * .001; }"
+sass(x)
+
+# Provide options directly to sass()
+sass(x, options = sass_options(precision = 1, output_style = "compact"))
+
+# Or set some option(s) globally
+old_options <- sass_options_set(precision = 1)
+sass(x)
+
+# Specify local options  while also respecting global options
+sass(x, options = sass_options_get(output_style = "compact"))
+
+# Restore original state
+sass_options_set(old_options)
 
 }
