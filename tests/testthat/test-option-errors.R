@@ -52,18 +52,30 @@ test_that("Global options work", {
 
   expect_identical(sass_options_get(), sass_options())
 
-  sass_options_set(precision = 10)
-  expect_identical(
+  old_options <- sass_options_set(precision = 10)
+  expect_equal(
     sass_options_get(),
-    sass_options(precision = 10)
+    sass_options(precision = 10),
+    ignore_attr = TRUE
   )
 
-  sass_options_set(NULL)
+  expect_equal(
+    sass_options_get(precision = 11),
+    sass_options(precision = 11),
+    ignore_attr = TRUE
+  )
+
+  sass_options_set(old_options)
   expect_identical(sass_options_get(), sass_options())
 
-  expect_identical(
-    sass_options_get(precision = 11),
-    sass_options(precision = 11)
+  sass_options_set(precision = 12)
+  opts <- sass_options_get()
+  sass_options_set(precision = 13)
+  sass_options_set(opts)
+  expect_equal(
+    sass_options_get(),
+    sass_options(precision = 12),
+    ignore_attr = TRUE
   )
 
   expect_error(
@@ -74,4 +86,8 @@ test_that("Global options work", {
     sass_options_get(foo = "bar"),
     "foo"
   )
+})
+
+test_that("Global options work 2", {
+  expect_identical(sass_options_get(), sass_options())
 })

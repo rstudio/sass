@@ -1,6 +1,6 @@
 #' Compiler Options for Sass
 #'
-#' Set compiler `options` for [sass()]. To customize options, either provide
+#' Specify compiler `options` for [sass()]. To customize options, either provide
 #' `sass_options()` directly to a [sass()] call or set options globally via
 #' `sass_options_set()`. When `shiny::devmode()` is enabled,
 #' `sass_options_get()` defaults `source_map_embed` and `source_map_contents` to
@@ -37,14 +37,26 @@
 #' @param omit_source_map_url Disable the inclusion of source map information in
 #'   the output file. Note: must specify `output_path` when `TRUE`.
 #'
-#' @return List of Sass compiler options to be used with
-#'   [sass()].
+#' @return List of Sass compiler options to be used with [sass()]. For
+#'   `sass_options_set()`, any previously set global options are returned.
 #'
 #' @examples
-#' sass(
-#'   "foo { margin: 122px * .3; }",
-#'   options = sass_options(output_style = "compact")
-#' )
+#'
+#' x <- "foo { margin: 122px * .001; }"
+#' sass(x)
+#'
+#' # Provide options directly to sass()
+#' sass(x, options = sass_options(precision = 1, output_style = "compact"))
+#'
+#' # Or set some option(s) globally
+#' old_options <- sass_options_set(precision = 1)
+#' sass(x)
+#'
+#' # Specify local options  while also respecting global options
+#' sass(x, options = sass_options_get(output_style = "compact"))
+#'
+#' # Restore original state
+#' sass_options_set(old_options)
 #'
 #' @export
 sass_options <- function(
@@ -128,7 +140,11 @@ sass_options <- function(
 }
 
 #' @rdname sass_options
-#' @param ... arguments to [sass_options()]. If specified, these options will take priority over any options set globally (or via `shiny::devmode()`)
+#' @param ... arguments to [sass_options()]. For `sass_options_set()`, the
+#'   following values are also acceptable:
+#'   * `NULL`, clearing the global options.
+#'   * Return value of `sass_options_get()`.
+#'   * Return value of `sass_options_set()`.
 #' @importFrom utils modifyList
 #' @export
 sass_options_get <- function(...) {
@@ -139,40 +155,60 @@ sass_options_get <- function(...) {
     list()
   }
 
-  args <- modifyList(
-    args, getOption("sass.options", default = list())
-  )
+  global <- getOption("sass.options", default = list())
+  args <- modifyList(args, global)
 
-  args <- modifyList(
-    args, verify_sass_options_args(...)
-  )
+  local <- verify_sass_options_args(..., .caller = "sass_options_get()")
+  args <- modifyList(args, local)
 
-  do.call(sass_options, args)
+  opts <- do.call(sass_options, args)
+  if (length(global)) {
+    attr(opts, "sass_options_global") <- global
+  }
+  opts
 }
 
 #' @rdname sass_options
-#' @param ... arguments to `sass_options()`. If `NULL`, global options will be cleared.
 #' @export
 sass_options_set <- function(...) {
-  if (length(list2(...)) == 1 && is.null(`..1`)) {
-    options(sass.options = NULL)
-  } else {
-    options(sass.options = verify_sass_options_args(...))
+  opts <- list2(...)
+  if (length(opts) == 0) {
+    stop("`...` must be non-empty.")
   }
+
+  if (length(opts) == 1) {
+    # sass_options_set(NULL) clears global state
+    if (is.null(`..1`)) {
+      return(options(sass.options = NULL))
+    }
+    # sass_options_set(sass_options_get()) restores state
+    g_opts <- attr(`..1`, "sass_options_global")
+    if (length(g_opts) > 0) {
+      return(options(sass.options = g_opts))
+    }
+    # foo <- sass_options_set(foo = "bar"); sass_options_set(foo) restores state
+    if (identical(names(opts[[1]]), "sass.options")) {
+      return(options(sass.options = opts[[1]]$sass.options))
+    }
+  }
+
+  args <- verify_sass_options_args(..., .caller = "sass_options_set()")
+  options(sass.options = args)
 }
 
-verify_sass_options_args <- function(...) {
+verify_sass_options_args <- function(..., .caller) {
   args <- list2(...)
   nms <- names2(args)
   if (any(nms == "")) {
-    stop("All arguments to `sass_options_set()` must be named.")
+    stop("All arguments to `", .caller, "` must be named.", call. = FALSE)
   }
   opts <- names(formals(sass_options))
   bad_nms <- setdiff(nms, opts)
   if (length(bad_nms)) {
     stop(
-      "The following arguments are not supported by `sass_options()`:",
-      paste(bad_nms, collapse = ", ")
+      "The following arguments are not supported by `sass_options()`: ",
+      paste(bad_nms, collapse = ", "),
+      call. = FALSE
     )
   }
   args
