@@ -86,7 +86,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9003</span>
       </span>
     </div>
 
@@ -139,7 +139,7 @@
 
     <pre class="usage"><span class='fu'>sass</span><span class='op'>(</span>
   input <span class='op'>=</span> <span class='cn'>NULL</span>,
-  options <span class='op'>=</span> <span class='fu'><a href='sass_options.html'>sass_options</a></span><span class='op'>(</span><span class='op'>)</span>,
+  options <span class='op'>=</span> <span class='fu'><a href='sass_options.html'>sass_options_get</a></span><span class='op'>(</span><span class='op'>)</span>,
   output <span class='op'>=</span> <span class='cn'>NULL</span>,
   write_attachments <span class='op'>=</span> <span class='cn'>NA</span>,
   cache <span class='op'>=</span> <span class='fu'><a href='sass_cache_get.html'>sass_cache_get</a></span><span class='op'>(</span><span class='op'>)</span>,
@@ -151,14 +151,16 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>input</th>
-      <td><p>Accepts raw Sass, a named list of variables, a list of raw Sass
-and/or named variables, or a <code><a href='sass_layer.html'>sass_layer()</a></code> object. See <code><a href='as_sass.html'>as_sass()</a></code> and
-<code><a href='sass_import.html'>sass_import()</a></code> / <code><a href='sass_import.html'>sass_file()</a></code> for more details.</p></td>
+      <td><p>Any of the following:</p><ul>
+<li><p>A character vector containing Sass code.</p></li>
+<li><p>A named list containing variable names and values.</p></li>
+<li><p>A <code><a href='sass_import.html'>sass_file()</a></code>, <code><a href='sass_layer.html'>sass_layer()</a></code>, and/or <code><a href='sass_layer.html'>sass_bundle()</a></code>.</p></li>
+<li><p>A <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code> containing any of the above.</p></li>
+</ul></td>
     </tr>
     <tr>
       <th>options</th>
-      <td><p>Compiler options for Sass. Please specify options using
-<code><a href='sass_options.html'>sass_options()</a></code>.</p></td>
+      <td><p>Compiler <code><a href='sass_options.html'>sass_options()</a></code>.</p></td>
     </tr>
     <tr>
       <th>output</th>

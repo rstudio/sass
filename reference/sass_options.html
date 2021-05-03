@@ -53,7 +53,11 @@
 
 
 <meta property="og:title" content="Compiler Options for Sass — sass_options" />
-<meta property="og:description" content="Set compiler options for Sass. Used with sass." />
+<meta property="og:description" content="Specify compiler options for sass(). To customize options, either provide
+sass_options() directly to a sass() call or set options globally via
+sass_options_set(). When shiny::devmode() is enabled,
+sass_options_get() defaults source_map_embed and source_map_contents to
+TRUE." />
 <meta property="og:image" content="https://rstudio.github.io/sass/logo.svg" />
 
 
@@ -86,7 +90,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9003</span>
       </span>
     </div>
 
@@ -134,7 +138,11 @@
     </div>
 
     <div class="ref-description">
-    <p>Set compiler options for Sass. Used with <code><a href='sass.html'>sass</a></code>.</p>
+    <p>Specify compiler <code>options</code> for <code><a href='sass.html'>sass()</a></code>. To customize options, either provide
+<code>sass_options()</code> directly to a <code><a href='sass.html'>sass()</a></code> call or set options globally via
+<code>sass_options_set()</code>. When <code><a href='https://rdrr.io/pkg/shiny/man/devmode.html'>shiny::devmode()</a></code> is enabled,
+<code>sass_options_get()</code> defaults <code>source_map_embed</code> and <code>source_map_contents</code> to
+<code>TRUE</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>sass_options</span><span class='op'>(</span>
@@ -152,7 +160,11 @@
   source_map_embed <span class='op'>=</span> <span class='cn'>FALSE</span>,
   source_map_contents <span class='op'>=</span> <span class='cn'>FALSE</span>,
   omit_source_map_url <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span>
+
+<span class='fu'>sass_options_get</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>sass_options_set</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -229,21 +241,52 @@ information.</p></td>
       <td><p>Disable the inclusion of source map information in
 the output file. Note: must specify <code>output_path</code> when <code>TRUE</code>.</p></td>
     </tr>
+    <tr>
+      <th>...</th>
+      <td><p>arguments to <code>sass_options()</code>. For <code>sass_options_set()</code>, the
+following values are also acceptable:</p><ul>
+<li><p><code>NULL</code>, clearing the global options.</p></li>
+<li><p>Return value of <code>sass_options_get()</code>.</p></li>
+<li><p>Return value of <code>sass_options_set()</code>.</p></li>
+</ul></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>List of Sass compiler options to be used with
-<code><a href='sass.html'>sass</a></code>.</p>
+    <p>List of Sass compiler options to be used with <code><a href='sass.html'>sass()</a></code>. For
+<code>sass_options_set()</code>, any previously set global options are returned.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='sass.html'>sass</a></span><span class='op'>(</span>
-  <span class='st'>"foo { margin: 122px * .3; }"</span>,
-  options <span class='op'>=</span> <span class='fu'>sass_options</span><span class='op'>(</span>output_style <span class='op'>=</span> <span class='st'>"compact"</span><span class='op'>)</span>
-<span class='op'>)</span>
+    <pre class="examples"><div class='input'>
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='st'>"foo { margin: 122px * .001; }"</span>
+<span class='fu'><a href='sass.html'>sass</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; /* CSS */
-#&gt; foo { margin: 36.6px; }
+#&gt; foo {
+#&gt;   margin: 0.122px;
+#&gt; }
 #&gt; </div><div class='input'>
+<span class='co'># Provide options directly to sass()</span>
+<span class='fu'><a href='sass.html'>sass</a></span><span class='op'>(</span><span class='va'>x</span>, options <span class='op'>=</span> <span class='fu'>sass_options</span><span class='op'>(</span>precision <span class='op'>=</span> <span class='fl'>1</span>, output_style <span class='op'>=</span> <span class='st'>"compact"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; /* CSS */
+#&gt; foo { margin: 0.1px; }
+#&gt; </div><div class='input'>
+<span class='co'># Or set some option(s) globally</span>
+<span class='va'>old_options</span> <span class='op'>&lt;-</span> <span class='fu'>sass_options_set</span><span class='op'>(</span>precision <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'><a href='sass.html'>sass</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; /* CSS */
+#&gt; foo {
+#&gt;   margin: 0.1px;
+#&gt; }
+#&gt; </div><div class='input'>
+<span class='co'># Specify local options  while also respecting global options</span>
+<span class='fu'><a href='sass.html'>sass</a></span><span class='op'>(</span><span class='va'>x</span>, options <span class='op'>=</span> <span class='fu'>sass_options_get</span><span class='op'>(</span>output_style <span class='op'>=</span> <span class='st'>"compact"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; /* CSS */
+#&gt; foo { margin: 0.1px; }
+#&gt; </div><div class='input'>
+<span class='co'># Restore original state</span>
+<span class='fu'>sass_options_set</span><span class='op'>(</span><span class='va'>old_options</span><span class='op'>)</span>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

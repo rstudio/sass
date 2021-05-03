@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>List to Sass converter — as_sass • sass</title>
+<title>Convert an R object into Sass code — as_sass • sass</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,9 +52,9 @@
 
 
 
-<meta property="og:title" content="List to Sass converter — as_sass" />
+<meta property="og:title" content="Convert an R object into Sass code — as_sass" />
 <meta property="og:description" content="Converts multiple types of inputs to a single Sass input string for
-sass." />
+sass()." />
 <meta property="og:image" content="https://rstudio.github.io/sass/logo.svg" />
 
 
@@ -87,7 +87,7 @@ sass." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9003</span>
       </span>
     </div>
 
@@ -129,14 +129,14 @@ sass." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>List to Sass converter</h1>
+    <h1>Convert an R object into Sass code</h1>
     <small class="dont-index">Source: <a href='https://github.com/rstudio/sass/blob/master/R/as_sass.R'><code>R/as_sass.R</code></a></small>
     <div class="hidden name"><code>as_sass.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Converts multiple types of inputs to a single Sass input string for
-<code><a href='sass.html'>sass</a></code>.</p>
+<code><a href='sass.html'>sass()</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>as_sass</span><span class='op'>(</span><span class='va'>input</span><span class='op'>)</span></pre>
@@ -146,26 +146,21 @@ sass." />
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>input</th>
-      <td><p>Either a</p><ul>
-<li><p>raw Sass string</p></li>
-<li><p>named list containing variable names and values</p></li>
-<li><p>Sass-like file name.</p></li>
+      <td><p>Any of the following:</p><ul>
+<li><p>A character vector containing Sass code.</p></li>
+<li><p>A named list containing variable names and values.</p></li>
+<li><p>A <code><a href='sass_import.html'>sass_file()</a></code>, <code><a href='sass_layer.html'>sass_layer()</a></code>, and/or <code><a href='sass_layer.html'>sass_bundle()</a></code>.</p></li>
+<li><p>A <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code> containing any of the above.</p></li>
 </ul></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a single character value to be supplied to <code><a href='sass.html'>sass</a></code></p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <p>a single character value to be supplied to <code><a href='sass.html'>sass()</a></code>.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Note that the LibSass compiler expects .sass files to use the Sass Indented
-Syntax.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Visit
-<a href='https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import'>https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import</a>
-for more details.</p></div>
+    <p><a href='https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import'>https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Example of regular Sass input</span>
@@ -201,7 +196,7 @@ for more details.</p></div>
 <span class='va'>input</span>
 </div><div class='output co'>#&gt; /* Sass */
 #&gt; $color: blue;
-#&gt; @import "/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpNsPnka/variablesdcf73b57943";
+#&gt; @import "/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpuPWgLJ/variablesc8915122c1d";
 #&gt; body { color: $color; }</div><div class='input'>
 <span class='co'># The final body color is red</span>
 <span class='fu'><a href='sass.html'>sass</a></span><span class='op'>(</span><span class='va'>input</span><span class='op'>)</span>

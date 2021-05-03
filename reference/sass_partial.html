@@ -89,7 +89,7 @@ entire theme -- just the CSS for the specific rules passed in." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9003</span>
       </span>
     </div>
 
@@ -146,7 +146,7 @@ entire theme -- just the CSS for the specific rules passed in.</p>
     <pre class="usage"><span class='fu'>sass_partial</span><span class='op'>(</span>
   <span class='va'>rules</span>,
   <span class='va'>bundle</span>,
-  options <span class='op'>=</span> <span class='fu'><a href='sass_options.html'>sass_options</a></span><span class='op'>(</span><span class='op'>)</span>,
+  options <span class='op'>=</span> <span class='fu'><a href='sass_options.html'>sass_options_get</a></span><span class='op'>(</span><span class='op'>)</span>,
   output <span class='op'>=</span> <span class='cn'>NULL</span>,
   write_attachments <span class='op'>=</span> <span class='cn'>NA</span>,
   cache <span class='op'>=</span> <span class='fu'><a href='sass_cache_get.html'>sass_cache_get</a></span><span class='op'>(</span><span class='op'>)</span>,
@@ -167,8 +167,7 @@ from <code>layer</code>.</p></td>
     </tr>
     <tr>
       <th>options</th>
-      <td><p>Compiler options for Sass. Please specify options using
-<code><a href='sass_options.html'>sass_options()</a></code>.</p></td>
+      <td><p>Compiler <code><a href='sass_options.html'>sass_options()</a></code>.</p></td>
     </tr>
     <tr>
       <th>output</th>
