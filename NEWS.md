@@ -1,10 +1,10 @@
-# sass 0.3.1.9000
+# sass 0.4.0
 
 ## Possibly breaking changes
 
-* `sass()` and `as_sass()` now always attach `htmlDependency()`(s) (found inside of their `input` argument) as an attribute on their return value. This mainly in support the new font importing feature (which relies on `sass()`/`as_sass()` being able to return `htmlDependency()`s), but this could be more generally useful for attaching HTML dependencies to Sass/CSS code. (#74)
-
 * `sass_layer()`'s argument order has changed to better accommodate for the addition of new `functions` and `mixins` arguments as well as deprecation of the `declarations` argument. This change reflects an update in our understanding of Sass best practice of placing function definitions before variables, so that variable definitions may leverage functions. (#80)
+
+* `sass()` and `as_sass()` now always attach `htmlDependency()`(s) (found inside of their `input` argument) as an attribute on their return value. This mainly in support the new font importing feature (which relies on `sass()`/`as_sass()` being able to return `htmlDependency()`s), but this could be more generally useful for attaching HTML dependencies to Sass/CSS code. (#74)
 
 ## New features
 
