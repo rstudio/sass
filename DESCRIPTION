@@ -36,7 +36,7 @@ Authors@R: c(
            comment = "utf8.h")
     )
 License: MIT + file LICENSE
-URL: https://github.com/rstudio/sass
+URL: https://rstudio.github.io/sass/, https://github.com/rstudio/sass
 BugReports: https://github.com/rstudio/sass/issues
 Encoding: UTF-8
 RoxygenNote: 7.1.1
