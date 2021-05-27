@@ -85,7 +85,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.9000</span>
       </span>
     </div>
 
@@ -131,16 +131,21 @@
       <small>Source: <a href='https://github.com/rstudio/sass/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="sass-0319000" class="section level1">
-<h1 class="page-header" data-toc-text="0.3.1.9000">
-<a href="#sass-0319000" class="anchor"></a>sass 0.3.1.9000<small> Unreleased </small>
+    <div id="sass-0409000" class="section level1">
+<h1 class="page-header" data-toc-text="0.4.0.9000">
+<a href="#sass-0409000" class="anchor"></a>sass 0.4.0.9000<small> Unreleased </small>
+</h1>
+</div>
+    <div id="sass-040" class="section level1">
+<h1 class="page-header" data-toc-text="0.4.0">
+<a href="#sass-040" class="anchor"></a>sass 0.4.0<small> 2021-05-12 </small>
 </h1>
 <div id="possibly-breaking-changes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#possibly-breaking-changes" class="anchor"></a>Possibly breaking changes</h2>
 <ul>
-<li><p><code><a href="../reference/sass.html">sass()</a></code> and <code><a href="../reference/as_sass.html">as_sass()</a></code> now always attach <code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html">htmlDependency()</a></code>(s) (found inside of their <code>input</code> argument) as an attribute on their return value. This mainly in support the new font importing feature (which relies on <code><a href="../reference/sass.html">sass()</a></code>/<code><a href="../reference/as_sass.html">as_sass()</a></code> being able to return <code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html">htmlDependency()</a></code>s), but this could be more generally useful for attaching HTML dependencies to Sass/CSS code. (<a href='https://github.com/rstudio/sass/issues/74'>#74</a>)</p></li>
 <li><p><code><a href="../reference/sass_layer.html">sass_layer()</a></code>’s argument order has changed to better accommodate for the addition of new <code>functions</code> and <code>mixins</code> arguments as well as deprecation of the <code>declarations</code> argument. This change reflects an update in our understanding of Sass best practice of placing function definitions before variables, so that variable definitions may leverage functions. (<a href='https://github.com/rstudio/sass/issues/80'>#80</a>)</p></li>
+<li><p><code><a href="../reference/sass.html">sass()</a></code> and <code><a href="../reference/as_sass.html">as_sass()</a></code> now always attach <code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html">htmlDependency()</a></code>(s) (found inside of their <code>input</code> argument) as an attribute on their return value. This mainly in support the new font importing feature (which relies on <code><a href="../reference/sass.html">sass()</a></code>/<code><a href="../reference/as_sass.html">as_sass()</a></code> being able to return <code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html">htmlDependency()</a></code>s), but this could be more generally useful for attaching HTML dependencies to Sass/CSS code. (<a href='https://github.com/rstudio/sass/issues/74'>#74</a>)</p></li>
 </ul>
 </div>
 <div id="new-features" class="section level2">

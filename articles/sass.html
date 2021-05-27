@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.9000</span>
       </span>
     </div>
 
@@ -85,7 +85,7 @@
       <h1 data-toc-skip>Overview of the sass R package</h1>
                         <h4 class="author">Carson Sievert</h4>
             
-            <h4 class="date">2021-05-03</h4>
+            <h4 class="date">2021-05-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/rstudio/sass/blob/master/vignettes/sass.Rmd"><code>vignettes/sass.Rmd</code></a></small>
       <div class="hidden name"><code>sass.Rmd</code></div>
@@ -144,7 +144,7 @@ pre.css {
 <a href="#variables" class="anchor"></a>Variables</h3>
 <p><a href="https://sass-lang.com/guide#topic-2">Sass variables</a> are a great mechanism for simplifying and exposing CSS logic to users. To create a variable, assign a value (likely a CSS <a href="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics">property value</a>) to a name, then refer to it by name in downstream Sass code. In this minimal example, we create a <code>body-bg</code> variable then use it to generate a single <a href="https://sass-lang.com/documentation/style-rules">style rule</a>, but as we’ll see later, variables can also be used inside of other arbitrary Sass code (e.g., functions, mixins, etc).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/sass">sass</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/sass/">sass</a></span><span class="op">)</span>
 <span class="va">variable</span> <span class="op">&lt;-</span> <span class="st">"$body-bg: red;"</span>
 <span class="va">rule</span> <span class="op">&lt;-</span> <span class="st">"body { background-color: $body-bg; }"</span>
 <span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span>input <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">variable</span>, <span class="va">rule</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -218,13 +218,13 @@ pre.css {
 <span id="cb14-2"><a href="#cb14-2"></a>body {</span>
 <span id="cb14-3"><a href="#cb14-3"></a>  <span class="kw">background-color</span>: <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0.8</span><span class="fu">)</span><span class="op">;</span></span>
 <span id="cb14-4"><a href="#cb14-4"></a>}</span></code></pre></div>
-<p>This works because <code><a href="../reference/sass_import.html">sass_file()</a></code> uses <code><a href="../reference/sass_import.html">sass_import()</a></code> to generate an <code>@import</code> at-rule. If you visit the <a href="https://sass-lang.com/documentation/at-rules/import">docs for <code>@import</code></a>, you’ll notice there’s more you can do that import local <code>.scss</code>, like import local or remote <code>.css</code> files, import font files, and more. Note also that <a href="https://github.com/rstudio/sass">sass</a> also provides tools that make importing of local font files easier – see <code><a href="../reference/font_google.html">font_google()</a></code> to learn more.</p>
+<p>This works because <code><a href="../reference/sass_import.html">sass_file()</a></code> uses <code><a href="../reference/sass_import.html">sass_import()</a></code> to generate an <code>@import</code> at-rule. If you visit the <a href="https://sass-lang.com/documentation/at-rules/import">docs for <code>@import</code></a>, you’ll notice there’s more you can do that import local <code>.scss</code>, like import local or remote <code>.css</code> files, import font files, and more. Note also that <a href="https://rstudio.github.io/sass/">sass</a> also provides tools that make importing of local font files easier – see <code><a href="../reference/font_google.html">font_google()</a></code> to learn more.</p>
 </div>
 </div>
 <div id="file-import" class="section level2">
 <h2 class="hasAnchor">
 <a href="#file-import" class="anchor"></a>Font imports</h2>
-<p>Importing font file(s) directly in Sass/CSS/HTML can be a headache to implement. This is especially true if you want to serve font files so that a custom font renders on any client machine, even if the client is without an internet connection. To make this easier, <a href="https://github.com/rstudio/sass">sass</a> provides a <code><a href="../reference/font_google.html">font_google()</a></code> which can be used to download, cache, import, and serve the relevant font files all at once.</p>
+<p>Importing font file(s) directly in Sass/CSS/HTML can be a headache to implement. This is especially true if you want to serve font files so that a custom font renders on any client machine, even if the client is without an internet connection. To make this easier, <a href="https://rstudio.github.io/sass/">sass</a> provides a <code><a href="../reference/font_google.html">font_google()</a></code> which can be used to download, cache, import, and serve the relevant font files all at once.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/htmltools">htmltools</a></span><span class="op">)</span>
 
@@ -344,7 +344,7 @@ pre.css {
 <div id="source-maps" class="section level3">
 <h3 class="hasAnchor">
 <a href="#source-maps" class="anchor"></a>Source maps</h3>
-<p>When compressing the CSS output, it can be useful to include a <a href="https://www.richfinelli.com/what-is-a-css-source-maps/">source map</a> so that it’s easier to inspect the CSS from the website. The easiest way to include a source map is to set <code>source_map_embed = TRUE</code>:</p>
+<p>When compressing the CSS output, it can be useful to include a <a href="http://www.richfinelli.com/what-is-a-css-source-maps/">source map</a> so that it’s easier to inspect the CSS from the website. The easiest way to include a source map is to set <code>source_map_embed = TRUE</code>:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span>
   <span class="fu"><a href="../reference/sass_import.html">sass_file</a></span><span class="op">(</span><span class="st">"my-style.scss"</span><span class="op">)</span>,
