@@ -3,7 +3,8 @@
 
 # sass <a href='https://rstudio.github.io/sass/'><img src='man/figures/logo.svg' align="right" height="139" /></a>
 
-[![R build status](https://github.com/rstudio/sass/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/sass/actions)
+[![R build
+status](https://github.com/rstudio/sass/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/sass/actions)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/sass)](https://cran.r-project.org/package=sass)
 
 <style>
@@ -34,7 +35,7 @@ The `sass` R package provides bindings to
 [LibSass](https://github.com/sass/libsass), a fast
 [Sass](https://sass-lang.com/) compiler written in C++. Sass is a mature
 and stable CSS extension language that makes styling modern websites
-less complex and more composible.
+less complex and more composable.
 
 ### Installation
 
@@ -72,11 +73,10 @@ sass(input = "
 ")
 ```
 
-``` css
-foo {
+<style>foo {
   margin: 16.5%;
 }
-```
+</style>
 
 ### Learn more
 
