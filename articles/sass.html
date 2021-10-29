@@ -79,13 +79,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="sass_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Overview of the sass R package</h1>
                         <h4 class="author">Carson Sievert</h4>
             
-            <h4 class="date">2021-10-28</h4>
+            <h4 class="date">2021-10-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/rstudio/sass/blob/master/vignettes/sass.Rmd"><code>vignettes/sass.Rmd</code></a></small>
       <div class="hidden name"><code>sass.Rmd</code></div>
@@ -119,20 +119,20 @@ pre.css {
 <h2 class="hasAnchor">
 <a href="#why" class="anchor"></a>Why Sass?</h2>
 <p><a href="https://sass-lang.com/">Sass</a> is the most widely used, feature rich, and stable CSS extension language available. It has become an essential tool in modern web development because of its ability to <em>reduce complexity</em> and <em>increase composability</em> when styling a website. For a basic example, suppose you want to use the same color for multiple styling rules in your website (e.g., hyperlinks and buttons). With CSS, you’d have to repeat that color every time it is used in styling rule, so in a large project, changing at a later point can be tedious and error-prone.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode css"><code class="sourceCode css"><a class="sourceLine" id="cb1-1" title="1">a {</a>
-<a class="sourceLine" id="cb1-2" title="2">  <span class="kw">color</span>: <span class="cn">salmon</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb1-3" title="3">}</a>
-<a class="sourceLine" id="cb1-4" title="4">button {</a>
-<a class="sourceLine" id="cb1-5" title="5">  <span class="kw">background-color</span>: <span class="cn">salmon</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb1-6" title="6">}</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb1-1"><a href="#cb1-1"></a>a {</span>
+<span id="cb1-2"><a href="#cb1-2"></a>  <span class="kw">color</span>: <span class="cn">salmon</span><span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>}</span>
+<span id="cb1-4"><a href="#cb1-4"></a>button {</span>
+<span id="cb1-5"><a href="#cb1-5"></a>  <span class="kw">background-color</span>: <span class="cn">salmon</span><span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a>}</span></code></pre></div>
 <p>With Sass, you could store this color in a Sass variable and use it in the styling rules to produce the same CSS, resulting in a single entry point for the color’s value. This simple Sass tool can make CSS styling a lot easier to reason about, making styles a lot easier to customize and maintain.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode css"><code class="sourceCode css"><a class="sourceLine" id="cb2-1" title="1">$main-color<span class="in">: salmon</span>;</a>
-<a class="sourceLine" id="cb2-2" title="2">a {</a>
-<a class="sourceLine" id="cb2-3" title="3">  <span class="kw">color</span>: $main-color<span class="op">;</span></a>
-<a class="sourceLine" id="cb2-4" title="4">}</a>
-<a class="sourceLine" id="cb2-5" title="5">button {</a>
-<a class="sourceLine" id="cb2-6" title="6">  <span class="kw">background-color</span>: $main-color<span class="op">;</span></a>
-<a class="sourceLine" id="cb2-7" title="7">}</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb2-1"><a href="#cb2-1"></a>$main-color<span class="in">: salmon</span>;</span>
+<span id="cb2-2"><a href="#cb2-2"></a>a {</span>
+<span id="cb2-3"><a href="#cb2-3"></a>  <span class="kw">color</span>: $main-color<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>}</span>
+<span id="cb2-5"><a href="#cb2-5"></a>button {</span>
+<span id="cb2-6"><a href="#cb2-6"></a>  <span class="kw">background-color</span>: $main-color<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a>}</span></code></pre></div>
 <p>Sass variables are not the only Sass tool useful for reducing complexity. For Sass and <strong>sass</strong> newcomers, this vignette first covers how to use basic Sass tools like <a href="#variables">variables</a>, <a href="#mixins">mixins</a>, and <a href="#functions">functions</a> in the <strong>sass</strong> R package. After the basics, you’ll also learn how to write <a href="#layering">composable <strong>sass</strong></a> that allows users to easily override your styling defaults and developers to <a href="#includes">include</a> your Sass in their styling projects. You’ll also learn how to control the CSS output (e.g., <a href="#compression">compress</a> and <a href="#caching">cache</a> it), and how to use it in <a href="#shiny"><strong>shiny</strong></a> &amp; <a href="#rmarkdown"><strong>rmarkdown</strong></a>.</p>
 <p>By mastering these concepts, you’ll not only be able to leverage the advantages of using Sass over CSS, but you’ll also have the basis needed to develop R interfaces to Sass projects that allow users to easily customize your styling templates <em>without any knowledge of Sass/CSS</em>. For an example, see the <a href="https://github.com/rstudio/bslib"><strong>bslib</strong> R package</a>, which provides a interface to <a href="https://getbootstrap.com/docs/4.0/getting-started/theming/">Bootstrap Sass</a> through easy-to-use functions like <code>bs_theme_add_variables()</code>.</p>
 </div>
@@ -148,19 +148,19 @@ pre.css {
 <span class="va">variable</span> <span class="op">&lt;-</span> <span class="st">"$body-bg: red;"</span>
 <span class="va">rule</span> <span class="op">&lt;-</span> <span class="st">"body { background-color: $body-bg; }"</span>
 <span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span>input <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">variable</span>, <span class="va">rule</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode css"><code class="sourceCode css"><a class="sourceLine" id="cb4-1" title="1"><span class="co">/* CSS */</span></a>
-<a class="sourceLine" id="cb4-2" title="2">body { </a>
-<a class="sourceLine" id="cb4-3" title="3">  <span class="kw">background-color</span>: <span class="cn">red</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb4-4" title="4">}</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">/* CSS */</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>body { </span>
+<span id="cb4-3"><a href="#cb4-3"></a>  <span class="kw">background-color</span>: <span class="cn">red</span><span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>}</span></code></pre></div>
 <p>A more convenient and readable way to create Sass variables in R is to use a named <code><a href="https://rdrr.io/r/base/list.html">list()</a></code>. Also, it’s a good idea to add the <code>!default</code> flag after the value since it provides users of your Sass an opportunity to set their own value. We’ll learn more about defaults in <a href="#layering">layering</a>, but for now, just note that the <code>!default</code> flag says use this value only if that variable isn’t already defined:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">user_default</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"body-bg"</span> <span class="op">=</span> <span class="st">"blue !default"</span><span class="op">)</span>
 <span class="va">default</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"body-bg"</span> <span class="op">=</span> <span class="st">"red !default"</span><span class="op">)</span>
 <span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span>input <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">user_default</span>, <span class="va">default</span>, <span class="va">rule</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode css"><code class="sourceCode css"><a class="sourceLine" id="cb6-1" title="1"><span class="co">/* CSS */</span></a>
-<a class="sourceLine" id="cb6-2" title="2">body { </a>
-<a class="sourceLine" id="cb6-3" title="3">  <span class="kw">background-color</span>: <span class="cn">blue</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb6-4" title="4">}</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb6-1"><a href="#cb6-1"></a><span class="co">/* CSS */</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>body { </span>
+<span id="cb6-3"><a href="#cb6-3"></a>  <span class="kw">background-color</span>: <span class="cn">blue</span><span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a>}</span></code></pre></div>
 </div>
 <div id="functions" class="section level3">
 <h3 class="hasAnchor">
@@ -169,24 +169,24 @@ pre.css {
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">variable</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"body-bg"</span> <span class="op">=</span> <span class="st">"rgba(black, 0.8)"</span><span class="op">)</span>
 <span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span>input <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">variable</span>, <span class="va">rule</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode css"><code class="sourceCode css"><a class="sourceLine" id="cb8-1" title="1"><span class="co">/* CSS */</span></a>
-<a class="sourceLine" id="cb8-2" title="2">body {</a>
-<a class="sourceLine" id="cb8-3" title="3">  <span class="kw">background-color</span>: <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0.8</span><span class="fu">)</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb8-4" title="4">}</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">/* CSS */</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>body {</span>
+<span id="cb8-3"><a href="#cb8-3"></a>  <span class="kw">background-color</span>: <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0.8</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a>}</span></code></pre></div>
 <p>Sass also provides the ability to define your own functions through the <a href="https://sass-lang.com/documentation/at-rules/function"><code>@function</code> at-rule</a>. Like functions in most languages, there are four main components to a function definition: (1) the function <code>name</code>, (2) the function argument/inputs (e.g., <code>arg1</code>, <code>arg2</code>), (3) the function body which contains statements (i.e., <code>statement1</code>, <code>statement2</code>, etc.), and finally (4) a return <code>value</code>.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="op">@</span>function <span class="kw">name</span>(arg1, arg2) {</a>
-<a class="sourceLine" id="cb9-2" title="2">  statement1;</a>
-<a class="sourceLine" id="cb9-3" title="3">  statement2;</a>
-<a class="sourceLine" id="cb9-4" title="4">  <span class="op">@</span>return value;</a>
-<a class="sourceLine" id="cb9-5" title="5">}</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="op">@</span>function <span class="kw">name</span>(arg1, arg2) {</span>
+<span id="cb9-2"><a href="#cb9-2"></a>  statement1;</span>
+<span id="cb9-3"><a href="#cb9-3"></a>  statement2;</span>
+<span id="cb9-4"><a href="#cb9-4"></a>  <span class="op">@</span>return value;</span>
+<span id="cb9-5"><a href="#cb9-5"></a>}</span></code></pre></div>
 <p><br></p>
 <p>For an example of where creating your function becomes useful, consider this <code>color-contrast()</code> function, inspired by <a href="https://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color/3943023#3943023">this SO answer</a> to a common problem that arises when allowing users control over background color of something (e.g., the document body). We’d like to strive for styling rules that are smart enough to overlay white text on a dark colored background and black text on a light colored background. <code>color-contrast()</code> helps us achieve this since, given a dark color, it returns white; and given a light color, it returns black.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="op">@</span>function color<span class="op">-</span><span class="kw">contrast</span>(<span class="op">$</span>color) {</a>
-<a class="sourceLine" id="cb10-2" title="2">  <span class="op">@</span>return <span class="cf">if</span>(</a>
-<a class="sourceLine" id="cb10-3" title="3">    <span class="kw">red</span>(<span class="op">$</span>color) <span class="op">*</span><span class="st"> </span><span class="fl">0.299</span> <span class="op">+</span><span class="st"> </span><span class="kw">green</span>(<span class="op">$</span>color) <span class="op">*</span><span class="st"> </span><span class="fl">0.587</span> <span class="op">+</span><span class="st"> </span><span class="kw">blue</span>(<span class="op">$</span>color) <span class="op">*</span><span class="st"> </span><span class="fl">0.114</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">186</span>,</a>
-<a class="sourceLine" id="cb10-4" title="4">    black, white</a>
-<a class="sourceLine" id="cb10-5" title="5">  );</a>
-<a class="sourceLine" id="cb10-6" title="6">}</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="op">@</span>function color<span class="op">-</span><span class="kw">contrast</span>(<span class="op">$</span>color) {</span>
+<span id="cb10-2"><a href="#cb10-2"></a>  <span class="op">@</span>return <span class="cf">if</span>(</span>
+<span id="cb10-3"><a href="#cb10-3"></a>    <span class="kw">red</span>(<span class="op">$</span>color) <span class="op">*</span><span class="st"> </span><span class="fl">0.299</span> <span class="op">+</span><span class="st"> </span><span class="kw">green</span>(<span class="op">$</span>color) <span class="op">*</span><span class="st"> </span><span class="fl">0.587</span> <span class="op">+</span><span class="st"> </span><span class="kw">blue</span>(<span class="op">$</span>color) <span class="op">*</span><span class="st"> </span><span class="fl">0.114</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">186</span>,</span>
+<span id="cb10-4"><a href="#cb10-4"></a>    black, white</span>
+<span id="cb10-5"><a href="#cb10-5"></a>  );</span>
+<span id="cb10-6"><a href="#cb10-6"></a>}</span></code></pre></div>
 <p><br></p>
 <p>By saving this function to a file named <code>color-contrast.scss</code>, it can then be <a href="#imports">imported</a> and used in the following way. For a live example of this in action, consider <a href="https://gallery.shinyapps.io/sass-font/">this Shiny app</a> which allows the user to interactively choose a background color and the title’s font color automatically updates to an appropriate color contrast. <a href="#shiny-dynamic">See here</a> for more on allowing <strong>shiny</strong> users to influence styling on the page using <strong>sass</strong>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -200,11 +200,11 @@ pre.css {
     }"</span>
   <span class="op">)</span>
 <span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode css"><code class="sourceCode css"><a class="sourceLine" id="cb12-1" title="1"><span class="co">/* CSS */</span></a>
-<a class="sourceLine" id="cb12-2" title="2">body {</a>
-<a class="sourceLine" id="cb12-3" title="3">  <span class="kw">background-color</span>: <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0.8</span><span class="fu">)</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb12-4" title="4">  <span class="kw">color</span>: <span class="cn">white</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb12-5" title="5">}</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb12-1"><a href="#cb12-1"></a><span class="co">/* CSS */</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>body {</span>
+<span id="cb12-3"><a href="#cb12-3"></a>  <span class="kw">background-color</span>: <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0.8</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a>  <span class="kw">color</span>: <span class="cn">white</span><span class="op">;</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a>}</span></code></pre></div>
 <p><strong>NOTE</strong>: <code><a href="https://rstudio.github.io/bslib/reference/bs_theme.html">bslib::bs_theme()</a></code> provides it’s own, more sophisticated, version of <code>color-contrast()</code> that you can use like so: <code><a href="../reference/sass_partial.html">sass::sass_partial("body{color: color-contrast($body-bg)}", bs_theme())</a></code></p>
 </div>
 <div id="imports" class="section level3">
@@ -214,10 +214,10 @@ pre.css {
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span><span class="fu"><a href="../reference/sass_import.html">sass_file</a></span><span class="op">(</span><span class="st">"my-style.scss"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="my-style.png" width="50%" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode css"><code class="sourceCode css"><a class="sourceLine" id="cb14-1" title="1"><span class="co">/* CSS */</span></a>
-<a class="sourceLine" id="cb14-2" title="2">body {</a>
-<a class="sourceLine" id="cb14-3" title="3">  <span class="kw">background-color</span>: <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0.8</span><span class="fu">)</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb14-4" title="4">}</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb14-1"><a href="#cb14-1"></a><span class="co">/* CSS */</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a>body {</span>
+<span id="cb14-3"><a href="#cb14-3"></a>  <span class="kw">background-color</span>: <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0.8</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a>}</span></code></pre></div>
 <p>This works because <code><a href="../reference/sass_import.html">sass_file()</a></code> uses <code><a href="../reference/sass_import.html">sass_import()</a></code> to generate an <code>@import</code> at-rule. If you visit the <a href="https://sass-lang.com/documentation/at-rules/import">docs for <code>@import</code></a>, you’ll notice there’s more you can do that import local <code>.scss</code>, like import local or remote <code>.css</code> files, import font files, and more. Note also that <a href="https://rstudio.github.io/sass/">sass</a> also provides tools that make importing of local font files easier – see <code><a href="../reference/font_google.html">font_google()</a></code> to learn more.</p>
 </div>
 </div>
@@ -268,11 +268,11 @@ pre.css {
   rules <span class="op">=</span> <span class="st">"body{background-color: $body-bg; color: color-contrast($body-bg)}"</span>
 <span class="op">)</span>
 <span class="fu"><a href="../reference/as_sass.html">as_sass</a></span><span class="op">(</span><span class="va">layer1</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb17"><pre class="sourceCode css"><code class="sourceCode css"><a class="sourceLine" id="cb17-1" title="1"><span class="co">/* CSS */</span></a>
-<a class="sourceLine" id="cb17-2" title="2">body {</a>
-<a class="sourceLine" id="cb17-3" title="3">  <span class="kw">background-color</span>: <span class="cn">black</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb17-4" title="4">  <span class="kw">color</span>: <span class="cn">white</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb17-5" title="5">}</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb17-1"><a href="#cb17-1"></a><span class="co">/* CSS */</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a>body {</span>
+<span id="cb17-3"><a href="#cb17-3"></a>  <span class="kw">background-color</span>: <span class="cn">black</span><span class="op">;</span></span>
+<span id="cb17-4"><a href="#cb17-4"></a>  <span class="kw">color</span>: <span class="cn">white</span><span class="op">;</span></span>
+<span id="cb17-5"><a href="#cb17-5"></a>}</span></code></pre></div>
 <p>This allows downstream <code><a href="../reference/sass_layer.html">sass_layer()</a></code>s to be <code><a href="../reference/sass_layer.html">sass_bundle()</a></code>d into a single layer, where <code>defaults</code> in downstream layers are granted higher priority. More specifically, this means:</p>
 <ul>
 <li>
@@ -293,11 +293,11 @@ pre.css {
   defaults <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"body-bg"</span> <span class="op">=</span> <span class="st">"white !default"</span><span class="op">)</span>
 <span class="op">)</span>
 <span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span><span class="fu"><a href="../reference/sass_layer.html">sass_bundle</a></span><span class="op">(</span><span class="va">layer1</span>, <span class="va">layer2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode css"><code class="sourceCode css"><a class="sourceLine" id="cb19-1" title="1"><span class="co">/* CSS */</span></a>
-<a class="sourceLine" id="cb19-2" title="2">body {</a>
-<a class="sourceLine" id="cb19-3" title="3">  <span class="kw">background-color</span>: <span class="cn">white</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb19-4" title="4">  <span class="kw">color</span>: <span class="cn">black</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb19-5" title="5">}</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb19-1"><a href="#cb19-1"></a><span class="co">/* CSS */</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a>body {</span>
+<span id="cb19-3"><a href="#cb19-3"></a>  <span class="kw">background-color</span>: <span class="cn">white</span><span class="op">;</span></span>
+<span id="cb19-4"><a href="#cb19-4"></a>  <span class="kw">color</span>: <span class="cn">black</span><span class="op">;</span></span>
+<span id="cb19-5"><a href="#cb19-5"></a>}</span></code></pre></div>
 <div id="imports-relative" class="section level3">
 <h3 class="hasAnchor">
 <a href="#imports-relative" class="anchor"></a>Resolving relative imports</h3>
@@ -383,12 +383,12 @@ pre.css {
 <h3 class="hasAnchor">
 <a href="#shiny-string" class="anchor"></a>As a string</h3>
 <p>The character string that <code><a href="../reference/sass.html">sass()</a></code> returns is already marked as <code><a href="https://rdrr.io/pkg/htmltools/man/HTML.html">HTML()</a></code><a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>, so to include it in your <strong>shiny</strong> app, wrap it in a <code>&lt;style&gt;</code> tag. It’s not necessary to place this tag in the <code>&lt;head&gt;</code> of the document, but it’s good practice:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">library</span>(shiny)</a>
-<a class="sourceLine" id="cb27-2" title="2">css &lt;-<span class="st"> </span><span class="kw">sass</span>(<span class="kw">sass_file</span>(<span class="st">"my-style.scss"</span>))</a>
-<a class="sourceLine" id="cb27-3" title="3"><span class="kw">fluidPage</span>(</a>
-<a class="sourceLine" id="cb27-4" title="4">  tags<span class="op">$</span><span class="kw">head</span>(tags<span class="op">$</span><span class="kw">style</span>(css),</a>
-<a class="sourceLine" id="cb27-5" title="5">  ...</a>
-<a class="sourceLine" id="cb27-6" title="6">)</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw">library</span>(shiny)</span>
+<span id="cb27-2"><a href="#cb27-2"></a>css &lt;-<span class="st"> </span><span class="kw">sass</span>(<span class="kw">sass_file</span>(<span class="st">"my-style.scss"</span>))</span>
+<span id="cb27-3"><a href="#cb27-3"></a><span class="kw">fluidPage</span>(</span>
+<span id="cb27-4"><a href="#cb27-4"></a>  tags<span class="op">$</span><span class="kw">head</span>(tags<span class="op">$</span><span class="kw">style</span>(css),</span>
+<span id="cb27-5"><a href="#cb27-5"></a>  ...</span>
+<span id="cb27-6"><a href="#cb27-6"></a>)</span></code></pre></div>
 </div>
 <div id="shiny-file" class="section level3">
 <h3 class="hasAnchor">
@@ -481,8 +481,8 @@ sass(sass_file("my-style.scss"))
 <div class="footnotes">
 <hr>
 <ol>
-<li id="fn1"><p>Oh, by the way, the value of a variable may be an expression.<a href="#fnref1" class="footnote-back">↩</a></p></li>
-<li id="fn2"><p>Including <a href="#shiny-dynamic">dynamic user input</a> directly as <code><a href="https://rdrr.io/pkg/htmltools/man/HTML.html">HTML()</a></code>, especially with free form inputs like <code><a href="https://rdrr.io/pkg/shiny/man/textInput.html">textInput()</a></code>, is a security vulnerability. Avoid it if you can.<a href="#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p>Oh, by the way, the value of a variable may be an expression.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>Including <a href="#shiny-dynamic">dynamic user input</a> directly as <code><a href="https://rdrr.io/pkg/htmltools/man/HTML.html">HTML()</a></code>, especially with free form inputs like <code><a href="https://rdrr.io/pkg/shiny/man/textInput.html">textInput()</a></code>, is a security vulnerability. Avoid it if you can.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
   </div>
