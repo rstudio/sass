@@ -397,29 +397,16 @@ join_attachments <- function(attach1, attach2) {
 }
 
 
-# Given the `input` to `sass()`, returns either NULL or a single sass_layer
-# that merges any sass_bundle found in the input
-# returns a single `sass_layer()` / `NULL`
-extract_layer <- function(input) {
-  if (is_sass_layer(input)) {
-    return(input)
+extract_file_attachments <- function(x) {
+  if (is_sass_bundle_like(x)) {
+    return(as_sass_layer(x)$file_attachments)
   }
-  if (is_sass_bundle(input)) {
-    return(as_sass_layer(input))
-  }
-  if (!identical(class(input), "list")) {
+  if (!is.list(x)) {
     return(NULL)
   }
-
-  layers <- lapply(input, function(x) extract_layer(x))
-  layers <- dropNulls(layers)
-  if (length(layers) == 0) {
-    return(NULL)
-  }
-  # convert to a sass layer object
-  as_sass_layer(
-    # merge all sass layers
-    sass_bundle(!!!layers)
+  unlist(
+    lapply(x, extract_file_attachments),
+    recursive = FALSE, use.names = TRUE
   )
 }
 

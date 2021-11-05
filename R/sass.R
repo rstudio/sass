@@ -164,9 +164,9 @@ sass <- function(
   }
 
   css <- NULL
-  layer <- extract_layer(input)
   sass_input <- as_sass(input)
   html_deps <- htmlDependencies(sass_input)
+  file_attachments <- extract_file_attachments(input)
 
   # If caching is active, compute the hash key
   cache_key <- if (!is.null(cache)) {
@@ -177,8 +177,7 @@ sass <- function(
       # 3. May include a temp directory
       discard_dependencies(input),
       options, cache_key_extra,
-      # Detect if any attachments have changed
-      if (is_sass_layer(layer) && !is.null(layer$file_attachments)) get_file_mtimes(layer$file_attachments)
+      get_file_mtimes(file_attachments)
     ))
   }
 
@@ -186,8 +185,12 @@ sass <- function(
   if (is.function(output)) {
     output <- output(options, cache_key)
   }
-  if (!is.null(output) && !dir.exists(fs::path_dir(output))) {
-    stop("The output directory '", fs::path_dir(output), "' does not exist")
+
+  # Find the output directory
+  outdir <- NULL
+  if (!is.null(output)) {
+    outdir <- fs::path_dir(output)
+    if (!dir.exists(outdir)) stop("The output directory '", outdir, "' does not exist")
   }
 
   if (!is.null(cache)) {
@@ -201,10 +204,13 @@ sass <- function(
     } else {
       cache_hit <- cache$get_file(cache_key, outfile = output)
       if (cache_hit) {
-        if (isTRUE(write_attachments == FALSE)) {
-          return(attachDependencies(output, html_deps))
-        }
-        maybe_write_attachments(layer, output, write_attachments)
+        # Skip writing of attachments if the output directory hasn't changed
+        # since the
+        outdir_old <- cache$get_content(paste0(cache_key, "sassoutdir"))
+        maybe_write_attachments(
+          file_attachments, outdir,
+          write_attachments && !identical(outdir, outdir_old)
+        )
         return(attachDependencies(output, html_deps))
       }
     }
@@ -219,6 +225,11 @@ sass <- function(
       # tried to get it, but does exist when we try to write it here), but
       # that's OK -- it should have the same content.
       cache$set_content(cache_key, css)
+      # If we're writing attachments, keep a reference to the output
+      # directory, so that we can potentially skip that work in the future
+      if (isTRUE(write_attachments)) {
+        cache$set_content(paste0(cache_key, "sassoutdir"), outdir)
+      }
     }
 
   } else {
@@ -231,7 +242,7 @@ sass <- function(
 
   if (!is.null(output)) {
     write_utf8(css, output)
-    maybe_write_attachments(layer, output, write_attachments)
+    maybe_write_attachments(file_attachments, outdir, write_attachments)
     return(
       attachDependencies(output, html_deps)
     )
@@ -332,16 +343,13 @@ output_template <- function(basename = "sass", dirname = basename, fileext = NUL
   }
 }
 
-maybe_write_attachments <- function(layer, output, write_attachments) {
-  if (!(is_sass_layer(layer) && length(layer$file_attachments))) {
+maybe_write_attachments <- function(file_attachments, outdir, write_attachments) {
+  if (length(file_attachments) == 0) {
     return()
   }
 
   if (isTRUE(write_attachments)) {
-    write_file_attachments(
-      layer$file_attachments,
-      fs::path_dir(output)
-    )
+    write_file_attachments(file_attachments, outdir)
     return()
   }
 

@@ -38,6 +38,8 @@ read_utf8 <- function(file) {
 # contain the mtimes of the directories themselves. Also, any files that were
 # passed in but don't exist will not be present in the returned data frame.
 get_file_mtimes <- function(files) {
+  if (length(files) == 0) return(NULL)
+
   info <- file.info(files, extra_cols = FALSE)
 
   dirs <- files[info$isdir & !is.na(info$isdir)]
