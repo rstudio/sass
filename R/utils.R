@@ -1,3 +1,6 @@
+# @staticimports pkg:staticimports
+#  is_installed
+
 write_utf8 <- function(text, ...) {
   writeBin(charToRaw(enc2utf8(text)), ...)
 }
@@ -52,11 +55,6 @@ get_file_mtimes <- function(files) {
     mtime = all_info$mtime,
     stringsAsFactors = FALSE
   )
-}
-
-# Checks whether a package is installed
-is_installed <- function(package) {
-  nzchar(system.file(package = package))
 }
 
 
@@ -131,14 +129,6 @@ is_string <- function(x) {
 
 trim_ws <- function(x) {
   sub("^\\s*", "", sub("\\s*$", "", x))
-}
-
-is_available <- function(package, version = NULL) {
-  installed <- nzchar(system.file(package = package))
-  if (is.null(version)) {
-    return(installed)
-  }
-  installed && isTRUE(utils::packageVersion(package) >= version)
 }
 
 has_any_name_recursive <- function(x) {

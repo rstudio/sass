@@ -342,14 +342,10 @@ sass_bundle_remove <- function(bundle, name) {
 }
 
 
-
-
 # sass_layer Check if `x` is a Sass layer object
 is_sass_layer <- function(x) {
   inherits(x, "sass_layer")
 }
-
-
 
 #' @describeIn sass_layer Check if `x` is a Sass bundle object
 #' @param x object to inspect
@@ -357,7 +353,6 @@ is_sass_layer <- function(x) {
 is_sass_bundle <- function(x) {
   inherits(x, "sass_bundle")
 }
-
 
 
 #' Sass Bundle to Single Sass Layer
