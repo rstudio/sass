@@ -3,7 +3,7 @@
 # Imported from pkg:staticimports
 # ======================================================================
 
-fastPackageVersion <- function(pkg) {
+get_package_version <- function(pkg) {
   ns <- .getNamespace(pkg)
   if (is.null(ns)) {
     utils::packageVersion(pkg)
@@ -12,10 +12,10 @@ fastPackageVersion <- function(pkg) {
   }
 }
 
-is_installed <- function(package, version = NULL) {
-  installed <- requireNamespace(package, quietly = TRUE)
+is_installed <- function(pkg, version = NULL) {
+  installed <- isNamespaceLoaded(pkg) || nzchar(system.file(package = pkg))
   if (is.null(version)) {
     return(installed)
   }
-  installed && isTRUE(fastPackageVersion(package) >= version)
+  installed && isTRUE(get_package_version(pkg) >= version)
 }

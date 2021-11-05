@@ -1,5 +1,5 @@
 # @staticimports pkg:staticimports
-#  is_installed
+#  is_installed get_package_version
 
 write_utf8 <- function(text, ...) {
   writeBin(charToRaw(enc2utf8(text)), ...)
