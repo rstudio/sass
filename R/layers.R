@@ -157,27 +157,28 @@ sass_layer_struct <- function(
   rules = NULL,
   declarations = NULL,
   html_deps = NULL,
-  file_attachments = character(0)
+  file_attachments = character(0),
+  validate = TRUE
 ) {
 
-  validate_layer_param(functions, "functions")
-  validate_layer_param(defaults, "defaults")
-  validate_layer_param(mixins, "mixins")
-  validate_layer_param(rules, "rules")
-  validate_layer_param(declarations, "declarations")
+  if (validate) {
+    validate_layer_param(functions, "functions")
+    validate_layer_param(defaults, "defaults")
+    validate_layer_param(mixins, "mixins")
+    validate_layer_param(rules, "rules")
+    validate_layer_param(declarations, "declarations")
 
-  validate_attachments(file_attachments)
-
-  if (!is.null(html_deps)) {
-    if (is_dependency_maybe(html_deps)) {
-      html_deps <- list(html_deps)
-    }
-    if (!is.list(html_deps)) {
-      stop("`html_deps` must be a collection of htmlDependency() and/or tagFunction() objects")
-    }
-    is_dependency <- vapply(html_deps, is_dependency_maybe, logical(1))
-    if (any(!is_dependency)) {
-      stop("`html_deps` must be a collection of htmlDependency() and/or tagFunction() objects")
+    if (!is.null(html_deps)) {
+      if (is_dependency_maybe(html_deps)) {
+        html_deps <- list(html_deps)
+      }
+      if (!is.list(html_deps)) {
+        stop("`html_deps` must be a collection of htmlDependency() and/or tagFunction() objects")
+      }
+      is_dependency <- vapply(html_deps, is_dependency_maybe, logical(1))
+      if (any(!is_dependency)) {
+        stop("`html_deps` must be a collection of htmlDependency() and/or tagFunction() objects")
+      }
     }
   }
 
@@ -378,7 +379,8 @@ sass_layers_join <- function(layer1, layer2) {
     rules = join_non_null_values(layer1$rules, layer2$rules),
     declarations = join_non_null_values(layer1$declarations, layer2$declarations),
     html_deps = c(layer1$html_deps, layer2$html_deps),
-    file_attachments = join_attachments(layer1$file_attachments, layer2$file_attachments)
+    file_attachments = join_attachments(layer1$file_attachments, layer2$file_attachments),
+    validate = FALSE
   )
 }
 join_non_null_values <- function(x, y) {
