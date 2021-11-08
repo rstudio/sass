@@ -175,7 +175,9 @@ sass <- function(
       # 2. Generally won't invalidate Sass->CSS compilation
       # 3. May include a temp directory
       discard_dependencies(input),
-      options, cache_key_extra
+      options, cache_key_extra,
+
+      if (isTRUE(write_attachments)) get_file_mtimes(file_attachments)
     ))
   }
 
@@ -191,14 +193,6 @@ sass <- function(
     if (!dir.exists(outdir)) {
       stop("The output directory '", outdir, "' does not exist")
     }
-    # If writing file attachments, a cache hit also requires
-    # the same attachments have already been copied to this outdir
-    if (isTRUE(write_attachments) && !is.null(cache)) {
-      cache_key <- sass_hash(list(
-        cache_key, outdir, write_attachments,
-        get_file_mtimes(file_attachments)
-      ))
-    }
   }
 
   if (!is.null(cache)) {
@@ -210,7 +204,19 @@ sass <- function(
         cache_hit <- TRUE
       }
     } else {
-      cache_hit <- cache$get_file(cache_key, outfile = output)
+      key_file <- file.path(outdir, ".sass_cache_keys")
+      same_outdir <- file.exists(key_file) && isTRUE(cache_key %in% readLines(key_file, warn = FALSE))
+      if (file.exists(output) && same_outdir) {
+        # If we've already written results to this outdir, then we shouldn't
+        # need to do any copying
+        cache_hit <- TRUE
+      } else {
+        # However, if this is a new output location, we need to copy files
+        cache_hit <- cache$get_file(cache_key, outfile = output)
+        if (cache_hit) {
+          maybe_write_attachments(file_attachments, outdir, write_attachments)
+        }
+      }
       if (cache_hit) {
         return(attachDependencies(output, html_deps))
       }
@@ -220,6 +226,12 @@ sass <- function(
       # We had a cache miss, so write to disk now
       css <- compile_data(sass_input, options)
       Encoding(css) <- "UTF-8"
+
+      # Save a note in the output directory that we've already written
+      # all the necessary files to this location
+      if (!is.null(output)) {
+        cat(cache_key, file = file.path(outdir, ".sass_cache_keys"), append = TRUE)
+      }
 
       # In case this same code is running in two processes pointed at the same
       # cache dir, this could return FALSE (if the file didn't exist when we
