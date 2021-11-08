@@ -52,11 +52,7 @@ get_file_mtimes <- function(files) {
     files_in_dirs_info
   )
 
-  data.frame(
-    file = rownames(all_info),
-    mtime = all_info$mtime,
-    stringsAsFactors = FALSE
-  )
+  setNames(all_info$mtime, rownames(all_info))
 }
 
 
