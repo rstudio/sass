@@ -151,7 +151,6 @@ sass <- function(
     stop("sass(write_attachments=TRUE) cannot be used when output=NULL")
   }
 
-
   if (identical(cache, FALSE)) {
     cache <- NULL
   } else if (is.character(cache)) {
@@ -176,8 +175,7 @@ sass <- function(
       # 2. Generally won't invalidate Sass->CSS compilation
       # 3. May include a temp directory
       discard_dependencies(input),
-      options, cache_key_extra,
-      get_file_mtimes(file_attachments)
+      options, cache_key_extra
     ))
   }
 
@@ -186,11 +184,21 @@ sass <- function(
     output <- output(options, cache_key)
   }
 
-  # Find the output directory
+  # Check the output dir exists (if relevant)
   outdir <- NULL
   if (!is.null(output)) {
     outdir <- fs::path_dir(output)
-    if (!dir.exists(outdir)) stop("The output directory '", outdir, "' does not exist")
+    if (!dir.exists(outdir)) {
+      stop("The output directory '", outdir, "' does not exist")
+    }
+    # If writing file attachments, a cache hit also requires
+    # the same attachments have already been copied to this outdir
+    if (isTRUE(write_attachments) && !is.null(cache)) {
+      cache_key <- sass_hash(list(
+        cache_key, outdir, write_attachments,
+        get_file_mtimes(file_attachments)
+      ))
+    }
   }
 
   if (!is.null(cache)) {
@@ -204,13 +212,6 @@ sass <- function(
     } else {
       cache_hit <- cache$get_file(cache_key, outfile = output)
       if (cache_hit) {
-        # Skip writing of attachments if the output directory hasn't changed
-        # since the
-        outdir_old <- cache$get_content(paste0(cache_key, "sassoutdir"))
-        maybe_write_attachments(
-          file_attachments, outdir,
-          write_attachments && !identical(outdir, outdir_old)
-        )
         return(attachDependencies(output, html_deps))
       }
     }
@@ -225,11 +226,6 @@ sass <- function(
       # tried to get it, but does exist when we try to write it here), but
       # that's OK -- it should have the same content.
       cache$set_content(cache_key, css)
-      # If we're writing attachments, keep a reference to the output
-      # directory, so that we can potentially skip that work in the future
-      if (isTRUE(write_attachments)) {
-        cache$set_content(paste0(cache_key, "sassoutdir"), outdir)
-      }
     }
 
   } else {
