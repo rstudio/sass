@@ -40,19 +40,12 @@ read_utf8 <- function(file) {
 get_file_mtimes <- function(files) {
   if (length(files) == 0) return(NULL)
 
-  info <- file.info(files, extra_cols = FALSE)
-
-  dirs <- files[info$isdir & !is.na(info$isdir)]
-  files_in_dirs <- dir(dirs, full.names = TRUE, all.files = TRUE, recursive = TRUE, no.. = TRUE)
-  files_in_dirs_info <- file.info(files_in_dirs, extra_cols = FALSE)
-
-  all_info <- rbind(
-    # The (non-dir) files that were passed in directly
-    info[!info$isdir & !is.na(info$isdir), , drop = FALSE],
-    files_in_dirs_info
+  is_dir <- dir.exists(files)
+  all_files <- c(
+    files[!is_dir],
+    dir(files[is_dir], full.names = TRUE, all.files = TRUE, recursive = TRUE, no.. = TRUE)
   )
-
-  setNames(all_info$mtime, rownames(all_info))
+  setNames(file.mtime(all_files), all_files)
 }
 
 
