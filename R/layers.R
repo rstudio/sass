@@ -369,35 +369,26 @@ is_sass_bundle <- function(x) {
 as_sass_layer <- function(x) {
   if (is_sass_layer(x)) return(x)
   # sass_bundle(x) will auto upgrade to a sass bundle object
-  Reduce(function(y1, y2) { sass_layers_join(y1, y2) }, sass_bundle(x)$layers)
-}
-sass_layers_join <- function(layer1, layer2) {
+  layers <- setNames(sass_bundle(x)$layers, NULL)
   sass_layer_struct(
-    functions = join_non_null_values(layer1$functions, layer2$functions),
-    defaults = join_non_null_values(layer2$defaults, layer1$defaults),
-    mixins = join_non_null_values(layer1$mixins, layer2$mixins),
-    rules = join_non_null_values(layer1$rules, layer2$rules),
-    declarations = join_non_null_values(layer1$declarations, layer2$declarations),
-    html_deps = c(layer1$html_deps, layer2$html_deps),
-    file_attachments = join_attachments(layer1$file_attachments, layer2$file_attachments),
+    functions = pluck(layers, "functions"),
+    defaults = pluck(rev(layers), "defaults"),
+    mixins = pluck(layers, "mixins"),
+    rules = pluck(layers, "rules"),
+    declarations = pluck(layers, "declarations"),
+    html_deps = pluck(layers, "html_deps"),
+    file_attachments = pluck(layers, "file_attachments"),
     validate = FALSE
   )
 }
-join_non_null_values <- function(x, y) {
-  x_null <- is.null(x)
-  y_null <- is.null(y)
-  if (x_null && y_null) return(NULL)
-  if (x_null) return(y)
-  if (y_null) return(x)
-  list(x, y)
-}
-# attach2 takes precedence
-join_attachments <- function(attach1, attach2) {
-  # I thought about removing duplicates here, but it's hard to do so reliably
-  # because the paths can be files or directories.
-  c(attach1, attach2)
-}
 
+pluck <- function(x, y) {
+  res <- dropNulls(lapply(x, `[[`, y))
+  if (length(res) == 0) {
+    return(NULL)
+  }
+  unlist(res, recursive = FALSE, use.names = TRUE)
+}
 
 extract_file_attachments <- function(x) {
   if (is_sass_bundle_like(x)) {
