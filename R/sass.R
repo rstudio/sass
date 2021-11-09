@@ -204,18 +204,10 @@ sass <- function(
         cache_hit <- TRUE
       }
     } else {
-      key_file <- file.path(outdir, ".sass_cache_keys")
-      same_outdir <- file.exists(key_file) && isTRUE(cache_key %in% readLines(key_file, warn = FALSE))
-      if (file.exists(output) && same_outdir) {
-        # If we've already written results to this outdir, then we shouldn't
-        # need to do any copying
-        cache_hit <- TRUE
-      } else {
-        # However, if this is a new output location, we need to copy files
-        cache_hit <- cache$get_file(cache_key, outfile = output)
-        if (cache_hit) {
-          maybe_write_attachments(file_attachments, outdir, write_attachments)
-        }
+      if (cache$exists(cache_key)) {
+        key_file <- file.path(outdir, ".sass_cache_keys")
+        cache_hit <- file.exists(output) && file.exists(key_file) &&
+          isTRUE(cache_key %in% readLines(key_file, warn = FALSE))
       }
       if (cache_hit) {
         return(attachDependencies(output, html_deps))
