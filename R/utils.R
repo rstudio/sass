@@ -51,7 +51,7 @@ get_file_mtimes <- function(files) {
 
 # Returns TRUE if this is called while a Shiny app is running; FALSE otherwise.
 is_shiny_app <- function() {
-  "shiny" %in% loadedNamespaces() && shiny::isRunning()
+  isNamespaceLoaded("shiny") && shiny::isRunning()
 }
 
 # Is this app hosted? Returns TRUE for both Shiny Server and RStudio Connect.
