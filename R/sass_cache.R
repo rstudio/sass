@@ -29,6 +29,10 @@
 #' @keywords internal
 #' @export
 sass_cache_get_dir <- function(dir, create = FALSE) {
+  if (!is.null(.caches[[dir]])) {
+    return(.caches[[dir]])
+  }
+
   if (create) {
     # Create dir if needed
     if (!dir.exists(dir)) {
@@ -152,6 +156,11 @@ sass_cache_get <- function() {
 #' @keywords internal
 #' @export
 sass_cache_context_dir <- function() {
+  # Cache the context directory for 0.5sec
+  if (!is.null(.context_dir$dir) && (as.numeric(Sys.time()) - .context_dir$accessed) > 0.5) {
+    return(.context_dir$dir)
+  }
+
   tryCatch(
     {
       # The usual place we'll look. This may be superseded below.
@@ -193,8 +202,14 @@ sass_cache_context_dir <- function() {
       dir.create(cache_dir)
     }
   )
-  normalizePath(cache_dir)
+
+  cache_dir <- normalizePath(cache_dir)
+  .context_dir$dir <- cache_dir
+  .context_dir$accessed <- as.numeric(Sys.time())
+  cache_dir
 }
+
+.context_dir <- new.env(parent = emptyenv())
 
 
 #' Returns a hash of the object, including sass_file mtimes
