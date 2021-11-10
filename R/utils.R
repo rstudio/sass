@@ -33,10 +33,10 @@ read_utf8 <- function(file) {
 
 
 # `file` must be a character vector with files and directories. This will return
-# a data frame with the mtimes of all files that are passed in, as well as the
-# mtimes of files in the directories that are passed in. The data frame will not
-# contain the mtimes of the directories themselves. Also, any files that were
-# passed in but don't exist will not be present in the returned data frame.
+# a character vector with the mtimes of all files that are passed in, as well as
+# the mtimes of files in the directories that are passed in, but won't include
+# the mtimes of the directories. Also, any files that were passed in but don't
+# exist will not be present.
 get_file_mtimes <- function(files) {
   if (length(files) == 0) return(NULL)
 
@@ -45,7 +45,7 @@ get_file_mtimes <- function(files) {
     files[!is_dir],
     dir(files[is_dir], full.names = TRUE, all.files = TRUE, recursive = TRUE, no.. = TRUE)
   )
-  setNames(file.mtime(all_files), all_files)
+  setNames(vapply(all_files, file_mtime, numeric(1)), all_files)
 }
 
 
