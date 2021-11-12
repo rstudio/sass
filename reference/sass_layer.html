@@ -255,85 +255,93 @@ calling <code>sass_layer(rules = ...)</code>.</p></td>
 </ul>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>blue</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"blue !default"</span><span class='op'>)</span>
-<span class='va'>red</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"red !default"</span><span class='op'>)</span>
-<span class='va'>green</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"green !default"</span><span class='op'>)</span>
-
-<span class='co'># a sass_layer() by itself is not very useful, it just defines some</span>
-<span class='co'># SASS to place before (defaults) and after (rules)</span>
-<span class='va'>core</span> <span class='op'>&lt;-</span> <span class='fu'>sass_layer</span><span class='op'>(</span>defaults <span class='op'>=</span> <span class='va'>blue</span>, rules <span class='op'>=</span> <span class='st'>"body { color: $color; }"</span><span class='op'>)</span>
-<span class='va'>core</span>
-</div><div class='output co'>#&gt; /* Sass Bundle */
-#&gt; $color: blue !default;
-#&gt; body { color: $color; }
-#&gt; /* *** */</div><div class='input'><span class='fu'><a href='sass.html'>sass</a></span><span class='op'>(</span><span class='va'>core</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; /* CSS */
-#&gt; body {
-#&gt;   color: blue;
-#&gt; }
-#&gt; </div><div class='input'>
-<span class='co'># However, by stacking sass_layer()s, we have ability to place</span>
-<span class='co'># SASS both before and after some other sass (e.g., core)</span>
-<span class='co'># Here we place a red default _before_ the blue default and export the</span>
-<span class='co'># color SASS variable as a CSS variable _after_ the core</span>
-<span class='va'>red_layer</span> <span class='op'>&lt;-</span> <span class='fu'>sass_layer</span><span class='op'>(</span><span class='va'>red</span>, rules <span class='op'>=</span> <span class='st'>":root{ --color: #{$color}; }"</span><span class='op'>)</span>
-<span class='fu'><a href='sass.html'>sass</a></span><span class='op'>(</span><span class='fu'>sass_bundle</span><span class='op'>(</span><span class='va'>core</span>, <span class='va'>red_layer</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; /* CSS */
-#&gt; body {
-#&gt;   color: red;
-#&gt; }
-#&gt; 
-#&gt; :root {
-#&gt;   --color: red;
-#&gt; }
-#&gt; </div><div class='input'><span class='fu'><a href='sass.html'>sass</a></span><span class='op'>(</span><span class='fu'>sass_bundle</span><span class='op'>(</span><span class='va'>core</span>, <span class='va'>red_layer</span>, <span class='fu'>sass_layer</span><span class='op'>(</span><span class='va'>green</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; /* CSS */
-#&gt; body {
-#&gt;   color: red;
-#&gt; }
-#&gt; 
-#&gt; :root {
-#&gt;   --color: red;
-#&gt; }
-#&gt; </div><div class='input'>
-<span class='co'># Example of merging layers and removing a layer</span>
-<span class='co'># Remember to name the layers that are removable</span>
-<span class='va'>core_layers</span> <span class='op'>&lt;-</span> <span class='fu'>sass_bundle</span><span class='op'>(</span><span class='va'>core</span>, red <span class='op'>=</span> <span class='va'>red_layer</span>, green <span class='op'>=</span> <span class='fu'>sass_layer</span><span class='op'>(</span><span class='va'>green</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>core_layers</span> <span class='co'># pretty printed for console</span>
-</div><div class='output co'>#&gt; /* Sass Bundle: red, green */
-#&gt; $color: red !default;
-#&gt; $color: green !default;
-#&gt; $color: blue !default;
-#&gt; body { color: $color; }
-#&gt; :root{ --color: #{$color}; }
-#&gt; /* *** */</div><div class='input'><span class='va'>core_slim</span> <span class='op'>&lt;-</span> <span class='fu'>sass_bundle_remove</span><span class='op'>(</span><span class='va'>core_layers</span>, <span class='st'>"red"</span><span class='op'>)</span>
-<span class='fu'><a href='sass.html'>sass</a></span><span class='op'>(</span><span class='va'>core_slim</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; /* CSS */
-#&gt; body {
-#&gt;   color: green;
-#&gt; }
-#&gt; </div><div class='input'>
-
-<span class='co'># File attachment example: Create a checkboard pattern .png, then</span>
-<span class='co'># use it from a sass layer</span>
-
-<span class='va'>tmp_png</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span>fileext <span class='op'>=</span> <span class='st'>".png"</span><span class='op'>)</span>
-<span class='fu'>grDevices</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/grDevices/png.html'>png</a></span><span class='op'>(</span>filename <span class='op'>=</span> <span class='va'>tmp_png</span>, width <span class='op'>=</span> <span class='fl'>20</span>, height <span class='op'>=</span> <span class='fl'>20</span>,
-  bg <span class='op'>=</span> <span class='st'>"transparent"</span>, antialias <span class='op'>=</span> <span class='st'>"none"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span>mar <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep_len</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>4</span><span class='op'>)</span>, xaxs <span class='op'>=</span> <span class='st'>"i"</span>, yaxs <span class='op'>=</span> <span class='st'>"i"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/frame.html'>plot.new</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/rect.html'>rect</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0.5</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0.5</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.5</span>,<span class='fl'>1</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.5</span>,<span class='fl'>1</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"#00000044"</span>, border<span class='op'>=</span><span class='cn'>NA</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/grDevices/dev.html'>dev.off</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; agg_png 
-#&gt;       2 </div><div class='input'>
-<span class='va'>layer</span> <span class='op'>&lt;-</span> <span class='fu'>sass_layer</span><span class='op'>(</span>
-  rules <span class='op'>=</span> <span class='st'>".bg-check { background-image: url(images/demo_checkboard_bg.png) }"</span>,
-  file_attachments <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"images/demo_checkboard_bg.png"</span> <span class='op'>=</span> <span class='va'>tmp_png</span><span class='op'>)</span>
-<span class='op'>)</span>
-
-<span class='va'>output_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span>fileext <span class='op'>=</span> <span class='st'>".css"</span><span class='op'>)</span>
-<span class='fu'><a href='sass.html'>sass</a></span><span class='op'>(</span><span class='va'>layer</span>, output <span class='op'>=</span> <span class='va'>output_path</span>, write_attachments <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "/tmp/RtmpfZO6X2/file2fc75aaa256.css"</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>blue</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"blue !default"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>red</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"red !default"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>green</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"green !default"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># a sass_layer() by itself is not very useful, it just defines some</span></span>
+<span class='r-in'><span class='co'># SASS to place before (defaults) and after (rules)</span></span>
+<span class='r-in'><span class='va'>core</span> <span class='op'>&lt;-</span> <span class='fu'>sass_layer</span><span class='op'>(</span>defaults <span class='op'>=</span> <span class='va'>blue</span>, rules <span class='op'>=</span> <span class='st'>"body { color: $color; }"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>core</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> /* Sass Bundle */</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $color: blue !default;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> body { color: $color; }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> /* *** */</span>
+<span class='r-in'><span class='fu'><a href='sass.html'>sass</a></span><span class='op'>(</span><span class='va'>core</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> /* CSS */</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> body {</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   color: blue;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># However, by stacking sass_layer()s, we have ability to place</span></span>
+<span class='r-in'><span class='co'># SASS both before and after some other sass (e.g., core)</span></span>
+<span class='r-in'><span class='co'># Here we place a red default _before_ the blue default and export the</span></span>
+<span class='r-in'><span class='co'># color SASS variable as a CSS variable _after_ the core</span></span>
+<span class='r-in'><span class='va'>red_layer</span> <span class='op'>&lt;-</span> <span class='fu'>sass_layer</span><span class='op'>(</span><span class='va'>red</span>, rules <span class='op'>=</span> <span class='st'>":root{ --color: #{$color}; }"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='sass.html'>sass</a></span><span class='op'>(</span><span class='fu'>sass_bundle</span><span class='op'>(</span><span class='va'>core</span>, <span class='va'>red_layer</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> /* CSS */</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> body {</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   color: red;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> :root {</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   --color: red;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='fu'><a href='sass.html'>sass</a></span><span class='op'>(</span><span class='fu'>sass_bundle</span><span class='op'>(</span><span class='va'>core</span>, <span class='va'>red_layer</span>, <span class='fu'>sass_layer</span><span class='op'>(</span><span class='va'>green</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> /* CSS */</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> body {</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   color: red;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> :root {</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   --color: red;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Example of merging layers and removing a layer</span></span>
+<span class='r-in'><span class='co'># Remember to name the layers that are removable</span></span>
+<span class='r-in'><span class='va'>core_layers</span> <span class='op'>&lt;-</span> <span class='fu'>sass_bundle</span><span class='op'>(</span><span class='va'>core</span>, red <span class='op'>=</span> <span class='va'>red_layer</span>, green <span class='op'>=</span> <span class='fu'>sass_layer</span><span class='op'>(</span><span class='va'>green</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>core_layers</span> <span class='co'># pretty printed for console</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> /* Sass Bundle: red, green */</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $color: red !default;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $color: green !default;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $color: blue !default;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> body { color: $color; }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> :root{ --color: #{$color}; }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> /* *** */</span>
+<span class='r-in'><span class='va'>core_slim</span> <span class='op'>&lt;-</span> <span class='fu'>sass_bundle_remove</span><span class='op'>(</span><span class='va'>core_layers</span>, <span class='st'>"red"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='sass.html'>sass</a></span><span class='op'>(</span><span class='va'>core_slim</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> /* CSS */</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> body {</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   color: green;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># File attachment example: Create a checkboard pattern .png, then</span></span>
+<span class='r-in'><span class='co'># use it from a sass layer</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>tmp_png</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span>fileext <span class='op'>=</span> <span class='st'>".png"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>grDevices</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/grDevices/png.html'>png</a></span><span class='op'>(</span>filename <span class='op'>=</span> <span class='va'>tmp_png</span>, width <span class='op'>=</span> <span class='fl'>20</span>, height <span class='op'>=</span> <span class='fl'>20</span>,</span>
+<span class='r-in'>  bg <span class='op'>=</span> <span class='st'>"transparent"</span>, antialias <span class='op'>=</span> <span class='st'>"none"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span>mar <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep_len</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>4</span><span class='op'>)</span>, xaxs <span class='op'>=</span> <span class='st'>"i"</span>, yaxs <span class='op'>=</span> <span class='st'>"i"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/frame.html'>plot.new</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/rect.html'>rect</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0.5</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0.5</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.5</span>,<span class='fl'>1</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.5</span>,<span class='fl'>1</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"#00000044"</span>, border<span class='op'>=</span><span class='cn'>NA</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/grDevices/dev.html'>dev.off</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> agg_png </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       2 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>layer</span> <span class='op'>&lt;-</span> <span class='fu'>sass_layer</span><span class='op'>(</span></span>
+<span class='r-in'>  rules <span class='op'>=</span> <span class='st'>".bg-check { background-image: url(images/demo_checkboard_bg.png) }"</span>,</span>
+<span class='r-in'>  file_attachments <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"images/demo_checkboard_bg.png"</span> <span class='op'>=</span> <span class='va'>tmp_png</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>output_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span>fileext <span class='op'>=</span> <span class='st'>".css"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='sass.html'>sass</a></span><span class='op'>(</span><span class='va'>layer</span>, output <span class='op'>=</span> <span class='va'>output_path</span>, write_attachments <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/tmp/RtmpVc9f8e/file2e727c86f3d5.css"</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

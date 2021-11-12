@@ -215,7 +215,7 @@ slow performance of networked file systems can cause problems. If you need
 a high-performance shared cache, you can use one built on a database like
 Redis, SQLite, mySQL, or similar.</p>
 <p>When multiple processes share a cache directory, there are some potential
-race conditions. For example, if your code calls <code><a href='https://rdrr.io/r/base/exists.html'>exists(key)</a></code> to check if
+race conditions. For example, if your code calls <code>exists(key)</code> to check if
 an object is in the cache, and then call <code>get_file(key)</code>, the object may be
 removed from the cache in between those two calls, and <code>get_file(key)</code> will
 throw an error. Instead of calling the two functions, it is better to

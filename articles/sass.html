@@ -85,7 +85,7 @@
       <h1 data-toc-skip>Overview of the sass R package</h1>
                         <h4 class="author">Carson Sievert</h4>
             
-            <h4 class="date">2021-10-29</h4>
+            <h4 class="date">2021-11-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/rstudio/sass/blob/master/vignettes/sass.Rmd"><code>vignettes/sass.Rmd</code></a></small>
       <div class="hidden name"><code>sass.Rmd</code></div>
@@ -205,7 +205,7 @@ pre.css {
 <span id="cb12-3"><a href="#cb12-3"></a>  <span class="kw">background-color</span>: <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0.8</span><span class="fu">)</span><span class="op">;</span></span>
 <span id="cb12-4"><a href="#cb12-4"></a>  <span class="kw">color</span>: <span class="cn">white</span><span class="op">;</span></span>
 <span id="cb12-5"><a href="#cb12-5"></a>}</span></code></pre></div>
-<p><strong>NOTE</strong>: <code><a href="https://rstudio.github.io/bslib/reference/bs_theme.html">bslib::bs_theme()</a></code> provides it’s own, more sophisticated, version of <code>color-contrast()</code> that you can use like so: <code><a href="../reference/sass_partial.html">sass::sass_partial("body{color: color-contrast($body-bg)}", bs_theme())</a></code></p>
+<p><strong>NOTE</strong>: <code><a href="https://rstudio.github.io/bslib/reference/bs_theme.html">bslib::bs_theme()</a></code> provides it’s own, more sophisticated, version of <code>color-contrast()</code> that you can use like so: <code>sass::sass_partial("body{color: color-contrast($body-bg)}", bs_theme())</code></p>
 </div>
 <div id="imports" class="section level3">
 <h3 class="hasAnchor">
@@ -357,7 +357,7 @@ pre.css {
 <div id="caching" class="section level3">
 <h3 class="hasAnchor">
 <a href="#caching" class="anchor"></a>Caching</h3>
-<p>Sometimes calling <code><a href="../reference/sass.html">sass()</a></code> can be computationally expensive, in which case, it can be useful to leverage its caching capability. Caching is enabled by default, unless Shiny’s Developer Mode (<code><a href="https://rdrr.io/pkg/shiny/man/devmode.html">shiny::devmode()</a></code>) is enabled. To explicitly enable (disable), set <code><a href="https://rdrr.io/r/base/options.html">options(sass.cache = )</a></code> to <code>TRUE</code> (or <code>FALSE</code>):</p>
+<p>Sometimes calling <code><a href="../reference/sass.html">sass()</a></code> can be computationally expensive, in which case, it can be useful to leverage its caching capability. Caching is enabled by default, unless Shiny’s Developer Mode (<code><a href="https://rdrr.io/pkg/shiny/man/devmode.html">shiny::devmode()</a></code>) is enabled. To explicitly enable (disable), set <code>options(sass.cache = )</code> to <code>TRUE</code> (or <code>FALSE</code>):</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_options.html">with_options</a></span><span class="op">(</span>
   <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>sass.cache <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
@@ -441,19 +441,19 @@ pre.css {
 <li>Font Color
 <ul>
 <li><a href="https://gallery.shinyapps.io/sass-font" class="uri">https://gallery.shinyapps.io/sass-font</a></li>
-<li><code><a href="https://rdrr.io/pkg/shiny/man/runApp.html">shiny::runApp(system.file("sass-font", package = "sass"))</a></code></li>
+<li><code>shiny::runApp(system.file("sass-font", package = "sass"))</code></li>
 </ul>
 </li>
 <li>Sizing
 <ul>
 <li><a href="https://gallery.shinyapps.io/sass-size" class="uri">https://gallery.shinyapps.io/sass-size</a></li>
-<li><code><a href="https://rdrr.io/pkg/shiny/man/runApp.html">shiny::runApp(system.file("sass-size", package = "sass"))</a></code></li>
+<li><code>shiny::runApp(system.file("sass-size", package = "sass"))</code></li>
 </ul>
 </li>
 <li>Themes
 <ul>
 <li><a href="https://gallery.shinyapps.io/sass-theme" class="uri">https://gallery.shinyapps.io/sass-theme</a></li>
-<li><code><a href="https://rdrr.io/pkg/shiny/man/runApp.html">shiny::runApp(system.file("sass-theme", package = "sass"))</a></code></li>
+<li><code>shiny::runApp(system.file("sass-theme", package = "sass"))</code></li>
 </ul>
 </li>
 </ul>

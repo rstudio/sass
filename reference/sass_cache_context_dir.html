@@ -143,8 +143,8 @@
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>In most cases, this function returns the user's cache directory, by calling
-<code><a href='https://rdrr.io/r/tools/userdir.html'>tools::R_user_dir("sass", which = "cache")</a></code> (for R 4.0 and above) or
-<code><a href='https://rappdirs.r-lib.org/reference/user_cache_dir.html'>rappdirs::user_cache_dir("R-sass")</a></code> (for older versions of R).</p>
+<code>tools::R_user_dir("sass", which = "cache")</code> (for R 4.0 and above) or
+<code>rappdirs::user_cache_dir("R-sass")</code> (for older versions of R).</p>
 <p>If this function is called from a Shiny application, it will also look for a
 subdirectory named <code>app_cache/</code>. If it exists, it will use a directory named
 <code>app_cache/sass/</code> to store the cache.</p>
