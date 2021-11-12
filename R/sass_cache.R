@@ -235,7 +235,7 @@ add_sass_file_mtime <- function(x) {
     # Add the file's mtime to the cache key. This will cause mtime changes to
     # bust the cache.
     input_path <- attr(x, "sass_file_path", exact = TRUE)
-    attr(x, "sass_timestamp") <- file_mtime(input_path)
+    attr(x, "sass_timestamp") <- file.mtime(input_path)
     x
   } else if (inherits(x, "list")) {
     lapply(x, add_sass_file_mtime)

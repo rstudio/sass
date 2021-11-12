@@ -126,7 +126,7 @@ test_that("cache key components", {
   key1 <- sass_hash(list(input, options))
   while (file.mtime(tmpfile) == old_mtime) {
     # Force timestamp to change
-    Sys.sleep(1)
+    Sys.sleep(0.1)
     file.remove(tmpfile)
     file.create(tmpfile)
   }
