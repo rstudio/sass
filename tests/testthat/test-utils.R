@@ -40,7 +40,7 @@ test_that("join_non_null_values combines null elements as expected", {
     rules = list(".rule-a {}", ".rule-c {}")
   )
 
-  expect_equal(as_sass_layer(obj), as_sass_layer(expected))
+  expect_equal(as_sass(obj), as_sass(expected))
   expect_snapshot(obj)
 })
 

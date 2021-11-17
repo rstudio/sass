@@ -366,7 +366,7 @@ font_dep_face <- function(x) {
   dir.create(src_dir)
   writeLines(x$css, file.path(src_dir, "font.css"))
   htmlDependency(
-    font_dep_name(x), packageVersion("sass"),
+    font_dep_name(x), get_package_version("sass"),
     src = src_dir,
     stylesheet = "font.css",
     all_files = FALSE
@@ -375,7 +375,7 @@ font_dep_face <- function(x) {
 
 font_dep_link <- function(x) {
   htmlDependency(
-    font_dep_name(x), packageVersion("sass"),
+    font_dep_name(x), get_package_version("sass"),
     head = format(tags$link(
       href = utils::URLencode(x$href),
       rel = "stylesheet"
@@ -454,7 +454,7 @@ font_dep_google_local <- function(x) {
   }
 
   htmltools::htmlDependency(
-    font_dep_name(x), packageVersion("sass"),
+    font_dep_name(x), get_package_version("sass"),
     src = dirname(css_file),
     stylesheet = basename(css_file),
     all_files = TRUE
@@ -483,7 +483,7 @@ extract_group <- function(x, pattern, which = 1) {
 #' @importFrom stats na.omit
 #' @importFrom utils download.file packageVersion
 download_file <- function(url, dest, headers = NULL, ...) {
-  if (is_available("curl")) {
+  if (is_installed("curl")) {
     if (!curl::has_internet()) {
       warning(
         "Looks like you don't have internet access, which is needed to ",

@@ -208,7 +208,7 @@ sass_cache_context_dir <- function() {
 #' @noRd
 sass_hash <- function(x) {
   rlang::hash(
-    add_sass_file_mtime(list(x, utils::packageVersion("sass")))
+    add_sass_file_mtime(list(x, get_package_version("sass")))
   )
 }
 

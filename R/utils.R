@@ -1,3 +1,6 @@
+# @staticimports pkg:staticimports
+#  is_installed get_package_version
+
 write_utf8 <- function(text, ...) {
   writeBin(charToRaw(enc2utf8(text)), ...)
 }
@@ -35,34 +38,20 @@ read_utf8 <- function(file) {
 # contain the mtimes of the directories themselves. Also, any files that were
 # passed in but don't exist will not be present in the returned data frame.
 get_file_mtimes <- function(files) {
-  info <- file.info(files, extra_cols = FALSE)
+  if (length(files) == 0) return(NULL)
 
-  dirs <- files[info$isdir & !is.na(info$isdir)]
-  files_in_dirs <- dir(dirs, full.names = TRUE, all.files = TRUE, recursive = TRUE, no.. = TRUE)
-  files_in_dirs_info <- file.info(files_in_dirs, extra_cols = FALSE)
-
-  all_info <- rbind(
-    # The (non-dir) files that were passed in directly
-    info[!info$isdir & !is.na(info$isdir), , drop = FALSE],
-    files_in_dirs_info
+  is_dir <- dir.exists(files)
+  all_files <- c(
+    files[!is_dir],
+    dir(files[is_dir], full.names = TRUE, all.files = TRUE, recursive = TRUE, no.. = TRUE)
   )
-
-  data.frame(
-    file = rownames(all_info),
-    mtime = all_info$mtime,
-    stringsAsFactors = FALSE
-  )
-}
-
-# Checks whether a package is installed
-is_installed <- function(package) {
-  nzchar(system.file(package = package))
+  rlang::set_names(file.mtime(all_files), all_files)
 }
 
 
 # Returns TRUE if this is called while a Shiny app is running; FALSE otherwise.
 is_shiny_app <- function() {
-  "shiny" %in% loadedNamespaces() && shiny::isRunning()
+  isNamespaceLoaded("shiny") && shiny::isRunning()
 }
 
 # Is this app hosted? Returns TRUE for both Shiny Server and RStudio Connect.
@@ -131,14 +120,6 @@ is_string <- function(x) {
 
 trim_ws <- function(x) {
   sub("^\\s*", "", sub("\\s*$", "", x))
-}
-
-is_available <- function(package, version = NULL) {
-  installed <- nzchar(system.file(package = package))
-  if (is.null(version)) {
-    return(installed)
-  }
-  installed && isTRUE(utils::packageVersion(package) >= version)
 }
 
 has_any_name_recursive <- function(x) {

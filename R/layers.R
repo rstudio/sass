@@ -157,27 +157,28 @@ sass_layer_struct <- function(
   rules = NULL,
   declarations = NULL,
   html_deps = NULL,
-  file_attachments = character(0)
+  file_attachments = character(0),
+  validate = TRUE
 ) {
 
-  validate_layer_param(functions, "functions")
-  validate_layer_param(defaults, "defaults")
-  validate_layer_param(mixins, "mixins")
-  validate_layer_param(rules, "rules")
-  validate_layer_param(declarations, "declarations")
+  if (validate) {
+    validate_layer_param(functions, "functions")
+    validate_layer_param(defaults, "defaults")
+    validate_layer_param(mixins, "mixins")
+    validate_layer_param(rules, "rules")
+    validate_layer_param(declarations, "declarations")
 
-  validate_attachments(file_attachments)
-
-  if (!is.null(html_deps)) {
-    if (is_dependency_maybe(html_deps)) {
-      html_deps <- list(html_deps)
-    }
-    if (!is.list(html_deps)) {
-      stop("`html_deps` must be a collection of htmlDependency() and/or tagFunction() objects")
-    }
-    is_dependency <- vapply(html_deps, is_dependency_maybe, logical(1))
-    if (any(!is_dependency)) {
-      stop("`html_deps` must be a collection of htmlDependency() and/or tagFunction() objects")
+    if (!is.null(html_deps)) {
+      if (is_dependency_maybe(html_deps)) {
+        html_deps <- list(html_deps)
+      }
+      if (!is.list(html_deps)) {
+        stop("`html_deps` must be a collection of htmlDependency() and/or tagFunction() objects")
+      }
+      is_dependency <- vapply(html_deps, is_dependency_maybe, logical(1))
+      if (any(!is_dependency)) {
+        stop("`html_deps` must be a collection of htmlDependency() and/or tagFunction() objects")
+      }
     }
   }
 
@@ -342,14 +343,10 @@ sass_bundle_remove <- function(bundle, name) {
 }
 
 
-
-
 # sass_layer Check if `x` is a Sass layer object
 is_sass_layer <- function(x) {
   inherits(x, "sass_layer")
 }
-
-
 
 #' @describeIn sass_layer Check if `x` is a Sass bundle object
 #' @param x object to inspect
@@ -357,7 +354,6 @@ is_sass_layer <- function(x) {
 is_sass_bundle <- function(x) {
   inherits(x, "sass_bundle")
 }
-
 
 
 #' Sass Bundle to Single Sass Layer
@@ -373,56 +369,37 @@ is_sass_bundle <- function(x) {
 as_sass_layer <- function(x) {
   if (is_sass_layer(x)) return(x)
   # sass_bundle(x) will auto upgrade to a sass bundle object
-  Reduce(function(y1, y2) { sass_layers_join(y1, y2) }, sass_bundle(x)$layers)
-}
-sass_layers_join <- function(layer1, layer2) {
+  layers <- rlang::set_names(sass_bundle(x)$layers, NULL)
   sass_layer_struct(
-    functions = join_non_null_values(layer1$functions, layer2$functions),
-    defaults = join_non_null_values(layer2$defaults, layer1$defaults),
-    mixins = join_non_null_values(layer1$mixins, layer2$mixins),
-    rules = join_non_null_values(layer1$rules, layer2$rules),
-    declarations = join_non_null_values(layer1$declarations, layer2$declarations),
-    html_deps = c(layer1$html_deps, layer2$html_deps),
-    file_attachments = join_attachments(layer1$file_attachments, layer2$file_attachments)
+    functions = pluck(layers, "functions"),
+    defaults = pluck(rev(layers), "defaults"),
+    mixins = pluck(layers, "mixins"),
+    rules = pluck(layers, "rules"),
+    declarations = pluck(layers, "declarations"),
+    html_deps = pluck(layers, "html_deps"),
+    file_attachments = pluck(layers, "file_attachments"),
+    validate = FALSE
   )
 }
-join_non_null_values <- function(x, y) {
-  ret <- dropNulls(list(x, y))
-  if (length(ret) == 0) return(NULL)
-  if (length(ret) == 1) return(ret[[1]])
-  ret
-}
-# attach2 takes precedence
-join_attachments <- function(attach1, attach2) {
-  # I thought about removing duplicates here, but it's hard to do so reliably
-  # because the paths can be files or directories.
-  c(attach1, attach2)
-}
 
-
-# Given the `input` to `sass()`, returns either NULL or a single sass_layer
-# that merges any sass_bundle found in the input
-# returns a single `sass_layer()` / `NULL`
-extract_layer <- function(input) {
-  if (is_sass_layer(input)) {
-    return(input)
-  }
-  if (is_sass_bundle(input)) {
-    return(as_sass_layer(input))
-  }
-  if (!identical(class(input), "list")) {
+pluck <- function(x, y) {
+  res <- dropNulls(lapply(x, `[[`, y))
+  if (length(res) == 0) {
     return(NULL)
   }
+  unlist(res, recursive = FALSE, use.names = TRUE)
+}
 
-  layers <- lapply(input, function(x) extract_layer(x))
-  layers <- dropNulls(layers)
-  if (length(layers) == 0) {
+extract_file_attachments <- function(x) {
+  if (is_sass_bundle_like(x)) {
+    return(as_sass_layer(x)$file_attachments)
+  }
+  if (!is.list(x)) {
     return(NULL)
   }
-  # convert to a sass layer object
-  as_sass_layer(
-    # merge all sass layers
-    sass_bundle(!!!layers)
+  unlist(
+    lapply(x, extract_file_attachments),
+    recursive = FALSE, use.names = TRUE
   )
 }
 

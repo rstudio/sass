@@ -151,7 +151,6 @@ sass <- function(
     stop("sass(write_attachments=TRUE) cannot be used when output=NULL")
   }
 
-
   if (identical(cache, FALSE)) {
     cache <- NULL
   } else if (is.character(cache)) {
@@ -164,9 +163,9 @@ sass <- function(
   }
 
   css <- NULL
-  layer <- extract_layer(input)
   sass_input <- as_sass(input)
   html_deps <- htmlDependencies(sass_input)
+  file_attachments <- extract_file_attachments(input)
 
   # If caching is active, compute the hash key
   cache_key <- if (!is.null(cache)) {
@@ -177,8 +176,8 @@ sass <- function(
       # 3. May include a temp directory
       discard_dependencies(input),
       options, cache_key_extra,
-      # Detect if any attachments have changed
-      if (is_sass_layer(layer) && !is.null(layer$file_attachments)) get_file_mtimes(layer$file_attachments)
+
+      if (isTRUE(write_attachments)) get_file_mtimes(file_attachments)
     ))
   }
 
@@ -186,8 +185,14 @@ sass <- function(
   if (is.function(output)) {
     output <- output(options, cache_key)
   }
-  if (!is.null(output) && !dir.exists(fs::path_dir(output))) {
-    stop("The output directory '", fs::path_dir(output), "' does not exist")
+
+  # Check the output dir exists (if relevant)
+  outdir <- NULL
+  if (!is.null(output)) {
+    outdir <- fs::path_dir(output)
+    if (!dir.exists(outdir)) {
+      stop("The output directory '", outdir, "' does not exist")
+    }
   }
 
   if (!is.null(cache)) {
@@ -199,12 +204,12 @@ sass <- function(
         cache_hit <- TRUE
       }
     } else {
-      cache_hit <- cache$get_file(cache_key, outfile = output)
+      if (cache$exists(cache_key)) {
+        key_file <- file.path(outdir, ".sass_cache_keys")
+        cache_hit <- file.exists(output) && file.exists(key_file) &&
+          isTRUE(cache_key %in% readLines(key_file, warn = FALSE))
+      }
       if (cache_hit) {
-        if (isTRUE(write_attachments == FALSE)) {
-          return(attachDependencies(output, html_deps))
-        }
-        maybe_write_attachments(layer, output, write_attachments)
         return(attachDependencies(output, html_deps))
       }
     }
@@ -213,6 +218,12 @@ sass <- function(
       # We had a cache miss, so write to disk now
       css <- compile_data(sass_input, options)
       Encoding(css) <- "UTF-8"
+
+      # Save a note in the output directory that we've already written
+      # all the necessary files to this location
+      if (!is.null(output)) {
+        cat(cache_key, file = file.path(outdir, ".sass_cache_keys"), append = TRUE)
+      }
 
       # In case this same code is running in two processes pointed at the same
       # cache dir, this could return FALSE (if the file didn't exist when we
@@ -231,7 +242,7 @@ sass <- function(
 
   if (!is.null(output)) {
     write_utf8(css, output)
-    maybe_write_attachments(layer, output, write_attachments)
+    maybe_write_attachments(file_attachments, outdir, write_attachments)
     return(
       attachDependencies(output, html_deps)
     )
@@ -332,16 +343,13 @@ output_template <- function(basename = "sass", dirname = basename, fileext = NUL
   }
 }
 
-maybe_write_attachments <- function(layer, output, write_attachments) {
-  if (!(is_sass_layer(layer) && length(layer$file_attachments))) {
+maybe_write_attachments <- function(file_attachments, outdir, write_attachments) {
+  if (length(file_attachments) == 0) {
     return()
   }
 
   if (isTRUE(write_attachments)) {
-    write_file_attachments(
-      layer$file_attachments,
-      fs::path_dir(output)
-    )
+    write_file_attachments(file_attachments, outdir)
     return()
   }
 

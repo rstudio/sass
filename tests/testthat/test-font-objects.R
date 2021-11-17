@@ -61,7 +61,8 @@ test_that("font_google(local = TRUE) basically works", {
     dir(src, pattern = "\\.css$", full.names = TRUE),
     name = "font-css",
     # Don't run on CRAN since the src is a hash that might get updated
-    cran = FALSE
+    cran = FALSE,
+    compare = compare_file_text
   )
   woff <- dir(src, pattern = "\\.woff$", full.names = TRUE)
   expect_true(length(woff) > 0)
