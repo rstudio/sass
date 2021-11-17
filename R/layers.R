@@ -369,7 +369,7 @@ is_sass_bundle <- function(x) {
 as_sass_layer <- function(x) {
   if (is_sass_layer(x)) return(x)
   # sass_bundle(x) will auto upgrade to a sass bundle object
-  layers <- setNames(sass_bundle(x)$layers, NULL)
+  layers <- rlang::set_names(sass_bundle(x)$layers, NULL)
   sass_layer_struct(
     functions = pluck(layers, "functions"),
     defaults = pluck(rev(layers), "defaults"),

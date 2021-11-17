@@ -45,7 +45,7 @@ get_file_mtimes <- function(files) {
     files[!is_dir],
     dir(files[is_dir], full.names = TRUE, all.files = TRUE, recursive = TRUE, no.. = TRUE)
   )
-  setNames(file.mtime(all_files), all_files)
+  rlang::set_names(file.mtime(all_files), all_files)
 }
 
 
