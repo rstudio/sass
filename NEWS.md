@@ -1,5 +1,8 @@
 # sass 0.4.0.9000
 
+## Improvements
+
+* Several speed improvements for `sass()` and `as_sass_layer()`, particularly when `sass(write_attachments = TRUE)` encounters a `cache` hit. (#98)
 
 # sass 0.4.0
 
