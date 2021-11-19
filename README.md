@@ -4,7 +4,7 @@
 # sass <a href='https://rstudio.github.io/sass/'><img src='man/figures/logo.svg' align="right" height="139" /></a>
 
 [![R build
-status](https://github.com/rstudio/sass/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/sass/actions)
+status](https://github.com/rstudio/sass/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rstudio/sass/actions)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/sass)](https://cran.r-project.org/package=sass)
 
 <style>
