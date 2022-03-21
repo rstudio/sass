@@ -2,21 +2,21 @@
   "index_name": "rstudio_sass",
   "start_urls": [
     {
-      "url": "https://rstudio.github.io/sass//index.html",
+      "url": "https://rstudio.github.io/sass/index.html",
       "selectors_key": "homepage",
       "tags": [
         "homepage"
       ]
     },
     {
-      "url": "https://rstudio.github.io/sass//reference",
+      "url": "https://rstudio.github.io/sass/reference",
       "selectors_key": "reference",
       "tags": [
         "reference"
       ]
     },
     {
-      "url": "https://rstudio.github.io/sass//articles",
+      "url": "https://rstudio.github.io/sass/articles",
       "selectors_key": "articles",
       "tags": [
         "articles"
@@ -30,7 +30,7 @@
     "/articles/index.html"
   ],
   "sitemap_urls": [
-    "https://rstudio.github.io/sass//sitemap.xml"
+    "https://rstudio.github.io/sass/sitemap.xml"
   ],
   "selectors": {
     "homepage": {

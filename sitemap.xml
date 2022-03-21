@@ -1,60 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://rstudio.github.io/sass//index.html</loc>
+    <loc>https://rstudio.github.io/sass/404.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/sass//reference/FileCache.html</loc>
+    <loc>https://rstudio.github.io/sass/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/sass//reference/as_sass.html</loc>
+    <loc>https://rstudio.github.io/sass/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/sass//reference/as_sass_layer.html</loc>
+    <loc>https://rstudio.github.io/sass/PULL_REQUEST_TEMPLATE.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/sass//reference/font_face.html</loc>
+    <loc>https://rstudio.github.io/sass/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/sass//reference/output_template.html</loc>
+    <loc>https://rstudio.github.io/sass/articles/sass.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/sass//reference/sass-deprecated.html</loc>
+    <loc>https://rstudio.github.io/sass/authors.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/sass//reference/sass.html</loc>
+    <loc>https://rstudio.github.io/sass/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/sass//reference/sass_cache_context_dir.html</loc>
+    <loc>https://rstudio.github.io/sass/news/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/sass//reference/sass_cache_get.html</loc>
+    <loc>https://rstudio.github.io/sass/reference/FileCache.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/sass//reference/sass_cache_get_dir.html</loc>
+    <loc>https://rstudio.github.io/sass/reference/as_sass.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/sass//reference/sass_cache_options.html</loc>
+    <loc>https://rstudio.github.io/sass/reference/as_sass_layer.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/sass//reference/sass_file_cache.html</loc>
+    <loc>https://rstudio.github.io/sass/reference/font_face.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/sass//reference/sass_import.html</loc>
+    <loc>https://rstudio.github.io/sass/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/sass//reference/sass_layer.html</loc>
+    <loc>https://rstudio.github.io/sass/reference/output_template.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/sass//reference/sass_options.html</loc>
+    <loc>https://rstudio.github.io/sass/reference/sass-deprecated.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/sass//reference/sass_partial.html</loc>
+    <loc>https://rstudio.github.io/sass/reference/sass.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/sass//reference/write_file_attachments.html</loc>
+    <loc>https://rstudio.github.io/sass/reference/sass_cache_context_dir.html</loc>
   </url>
   <url>
-    <loc>https://rstudio.github.io/sass//articles/sass.html</loc>
+    <loc>https://rstudio.github.io/sass/reference/sass_cache_get.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/sass/reference/sass_cache_get_dir.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/sass/reference/sass_cache_options.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/sass/reference/sass_file_cache.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/sass/reference/sass_import.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/sass/reference/sass_layer.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/sass/reference/sass_options.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/sass/reference/sass_partial.html</loc>
+  </url>
+  <url>
+    <loc>https://rstudio.github.io/sass/reference/write_file_attachments.html</loc>
   </url>
 </urlset>
