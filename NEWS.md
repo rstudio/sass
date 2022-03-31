@@ -4,6 +4,8 @@
 
 * Several speed improvements for `sass()` and `as_sass_layer()`, particularly when `sass(write_attachments = TRUE)` encounters a `cache` hit. (#98)
 * Removed compilation warnings with gcc-12. (#100)
+* Removed linking errors that occur when custom C++ flags are used to compile
+  (#94, #104).
 
 # sass 0.4.0
 
