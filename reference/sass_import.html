@@ -100,11 +100,11 @@ Syntax.</p>
 <span class="r-in"><span class="va">tmp_scss_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".scss"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="st">"$color: red; body{ color: $color; }"</span>, <span class="va">tmp_scss_file</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">sass_file</span><span class="op">(</span><span class="va">tmp_scss_file</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "@import \"/tmp/Rtmpyt6Ikw/file2aca600d5ce9.scss\";"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "@import \"/tmp/RtmpeSSN00/file2b552ff3372f.scss\";"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "sass_file" "character"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"sass_file_path")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmpyt6Ikw/file2aca600d5ce9.scss"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpeSSN00/file2b552ff3372f.scss"</span>
 <span class="r-in"><span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span><span class="fu">sass_file</span><span class="op">(</span><span class="va">tmp_scss_file</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> /* CSS */</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> body {</span>
