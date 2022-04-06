@@ -19,3 +19,7 @@ jobs:
     uses: rstudio/shiny-workflows/.github/workflows/routine.yaml@v1
   R-CMD-check:
     uses: rstudio/shiny-workflows/.github/workflows/R-CMD-check.yaml@v1
+    with:
+      # `{sass}` is not able to check on Windows R3.6 due to missing `SystemRequirements`
+      # If `false`, packages with a `src` folder will not test on Windows R3.6 using `rtools35`.
+      rtools-35: false
