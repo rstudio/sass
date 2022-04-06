@@ -355,7 +355,7 @@ quote_css_font_families <- function(x) {
 
 
 font_dep_name <- function(x) {
-  sub("\\s*", "_", trim_ws(x$family))
+  gsub("\\s+", "_", trim_ws(x$family))
 }
 
 #' @import htmltools
