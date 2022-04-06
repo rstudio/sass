@@ -66,6 +66,14 @@ test_that("font_google(local = TRUE) basically works", {
   )
   woff <- dir(src, pattern = "\\.woff$", full.names = TRUE)
   expect_true(length(woff) > 0)
+
+  # https://github.com/rstudio/bslib/issues/408
+  scss <- list(
+    list("my-font" = font_google("Crimson Pro")),
+    list("body {font-family: $my-font}")
+  )
+  tagz <- renderTags(tags$style(sass(scss)))
+  expect_equal(tagz$dependencies[[1]]$name, "Crimson_Pro")
 })
 
 expect_collection <- function(..., expected) {
