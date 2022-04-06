@@ -1,5 +1,8 @@
 # sass 0.4.1.9000
 
+## Bug fixes
+
+* `font_google()` no longer produces a directory name with a `_` prefix (which was causing the directory to be ignored when deployed to GitHub Pages). (#105, #106)
 
 # sass 0.4.1
 
