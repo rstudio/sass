@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.1.9000</span>
       </span>
     </div>
 
@@ -56,6 +56,9 @@
     </div>
 
     <div class="section level2">
+<h2 class="page-header" data-toc-text="0.4.1.9000" id="sass-0419000">sass 0.4.1.9000<a class="anchor" aria-label="anchor" href="#sass-0419000"></a></h2>
+</div>
+    <div class="section level2">
 <h2 class="page-header" data-toc-text="0.4.1" id="sass-041">sass 0.4.1<small>2022-03-23</small><a class="anchor" aria-label="anchor" href="#sass-041"></a></h2>
 <div class="section level3">
 <h3 id="improvements-0-4-1">Improvements<a class="anchor" aria-label="anchor" href="#improvements-0-4-1"></a></h3>
@@ -74,7 +77,7 @@
 <div class="section level3">
 <h3 id="new-features-0-4-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-4-0"></a></h3>
 <ul><li><p>Added new font importing helpers, namely <code><a href="../reference/font_face.html">font_google()</a></code>, <code><a href="../reference/font_face.html">font_link()</a></code>, <code><a href="../reference/font_face.html">font_face()</a></code>, and <code><a href="../reference/font_face.html">font_collection()</a></code> for intelligently importing web fonts files. They must be used inside a named list, for example: <code>list("font-variable" = font_google("Pacifico"))</code>. See <code><a href="../reference/font_face.html">help(font_face, package = "sass")</a></code> for more details and examples. (<a href="https://github.com/rstudio/sass/issues/74" class="external-link">#74</a>)</p></li>
-<li><p>A new <code><a href="../reference/sass_layer.html">sass_layer_file()</a></code> function was added to read in a <code>.scss</code> file as a <code><a href="../reference/sass_layer.html">sass_layer()</a></code>. Special comments of the form <code>/*-- scss:(functions|defaults|rules|mixins) --*/</code> can be used to place certain sections of the file into <code>functions</code>, <code>defaults</code>, <code>rules</code>, and <code>mixins</code>. The primary motivation for this is to allow <a href="https://github.com/quarto-dev/quarto-cli/blob/main/design/quarto-themes.md" class="external-link">quarto’s theme file format</a> to also be used Shiny and R Markdown. (<a href="https://github.com/rstudio/sass/issues/81" class="external-link">#81</a>)</p></li>
+<li><p>A new <code><a href="../reference/sass_layer.html">sass_layer_file()</a></code> function was added to read in a <code>.scss</code> file as a <code><a href="../reference/sass_layer.html">sass_layer()</a></code>. Special comments of the form <code>/*-- scss:(functions|defaults|rules|mixins) --*/</code> can be used to place certain sections of the file into <code>functions</code>, <code>defaults</code>, <code>rules</code>, and <code>mixins</code>. The primary motivation for this is to allow <a href="https://quarto.org/docs/output-formats/html-themes-more.html" class="external-link">quarto’s theme file format</a> to also be used Shiny and R Markdown. (<a href="https://github.com/rstudio/sass/issues/81" class="external-link">#81</a>)</p></li>
 <li><p>Closed <a href="https://github.com/rstudio/sass/issues/87" class="external-link">#87</a>: Added new <code><a href="../reference/sass_options.html">sass_options_get()</a></code> and <code><a href="../reference/sass_options.html">sass_options_set()</a></code> for setting and reading <code><a href="../reference/sass_options.html">sass_options()</a></code> globally (<code><a href="../reference/sass.html">sass()</a></code>’s <code>options</code> argument now defaults to <code><a href="../reference/sass_options.html">sass_options_get()</a></code> instead of <code><a href="../reference/sass_options.html">sass_options()</a></code>). In addition, when <code><a href="https://rdrr.io/pkg/shiny/man/devmode.html" class="external-link">shiny::devmode()</a></code> is enabled, Sass source maps are included by default. (<a href="https://github.com/rstudio/sass/issues/88" class="external-link">#88</a>)</p></li>
 <li><p><code><a href="../reference/output_template.html">output_template()</a></code> gains a <code>path</code> argument to change the root directory where output file will be written. (<a href="https://github.com/rstudio/sass/issues/76" class="external-link">#76</a>)</p></li>
 </ul></div>
