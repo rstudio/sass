@@ -60,6 +60,8 @@
 <div class="section level3">
 <h3 id="bug-fixes-0-4-1-9000">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-4-1-9000"></a></h3>
 <ul><li>
+<code><a href="../reference/sass.html">sass()</a></code> no longer encounters a false positive cache hit when <code><a href="../reference/sass_import.html">sass_file()</a></code> is used inside a <code><a href="../reference/sass_layer.html">sass_bundle()</a></code>. (<a href="https://github.com/rstudio/sass/issues/107" class="external-link">#107</a>, <a href="https://github.com/rstudio/sass/issues/108" class="external-link">#108</a>)</li>
+<li>
 <code><a href="../reference/font_face.html">font_google()</a></code> no longer produces a directory name with a <code>_</code> prefix (which was causing the directory to be ignored when deployed to GitHub Pages). (<a href="https://github.com/rstudio/sass/issues/105" class="external-link">#105</a>, <a href="https://github.com/rstudio/sass/issues/106" class="external-link">#106</a>)</li>
 </ul></div>
 </div>
