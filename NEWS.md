@@ -2,6 +2,7 @@
 
 ## Bug fixes
 
+* `sass()` no longer encounters a false positive cache hit when `sass_file()` is used inside a `sass_bundle()`. (#107, #108)
 * `font_google()` no longer produces a directory name with a `_` prefix (which was causing the directory to be ignored when deployed to GitHub Pages). (#105, #106)
 
 # sass 0.4.1

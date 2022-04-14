@@ -376,18 +376,21 @@ as_sass_layer <- function(x) {
     mixins = pluck(layers, "mixins"),
     rules = pluck(layers, "rules"),
     declarations = pluck(layers, "declarations"),
-    html_deps = pluck(layers, "html_deps"),
-    file_attachments = pluck(layers, "file_attachments"),
+    html_deps = pluck(layers, "html_deps", .unlist = TRUE),
+    file_attachments = pluck(layers, "file_attachments", .unlist = TRUE),
     validate = FALSE
   )
 }
 
-pluck <- function(x, y) {
+pluck <- function(x, y, .unlist = FALSE) {
   res <- dropNulls(lapply(x, `[[`, y))
   if (length(res) == 0) {
     return(NULL)
   }
-  unlist(res, recursive = FALSE, use.names = TRUE)
+  if (.unlist) {
+    res <- unlist(res, recursive = FALSE, use.names = TRUE)
+  }
+  res
 }
 
 extract_file_attachments <- function(x) {
