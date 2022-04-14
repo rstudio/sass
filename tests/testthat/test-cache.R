@@ -17,18 +17,19 @@ test_that("reads from and writes to cache", {
   local_temp_cache()
   expected <- read_utf8("test-unicode-var-expected.css")
 
-  css <- sass(sass_file("test-unicode-var-input.scss"))
-  expect_equal(as.character(css), expected)
+  # Wrap the sass_file up into a bundle to ensure it's attribute
+  # doesn't get dropped when the bundle is collapsed (into a layer) and compiled
+  input <- sass_bundle(sass_layer(rules = sass_file("test-unicode-var-input.scss")))
 
-  css <- sass(sass_file("test-unicode-var-input.scss"))
-  expect_equal(as.character(css), expected)
+  expect_equal(as.character(sass(input)), expected)
+
+  expect_equal(as.character(sass(input)), expected)
 
   expect_equal(sass_cache_get()$size(), 1)
 
   # Modifying the file busts the cache (even it if has the same contents)
   Sys.setFileTime("test-unicode-var-input.scss", Sys.time() + 5)
-  css <- sass(sass_file("test-unicode-var-input.scss"))
-  expect_equal(as.character(css), expected)
+  expect_equal(as.character(sass(input)), expected)
   expect_equal(sass_cache_get()$size(), 2)
 })
 
