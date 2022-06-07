@@ -1,4 +1,4 @@
-# sass 0.4.1.9000
+# sass 0.4.2
 
 ## Bug fixes
 
