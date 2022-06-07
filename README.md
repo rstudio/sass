@@ -82,7 +82,7 @@ sass(input = "
 
 See **sass**’s [overview
 vignette](https://rstudio.github.io/sass/articles/sass.html) as well as
-the official [Sass documentation](https://sass-lang.com/documentation).
+the official [Sass documentation](https://sass-lang.com/documentation/).
 
 ### Ask a question
 

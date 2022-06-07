@@ -105,27 +105,27 @@ already been deleted.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{FileCache$new()}}
-\item \href{#method-get_file}{\code{FileCache$get_file()}}
-\item \href{#method-get_content}{\code{FileCache$get_content()}}
-\item \href{#method-set_file}{\code{FileCache$set_file()}}
-\item \href{#method-set_content}{\code{FileCache$set_content()}}
-\item \href{#method-exists}{\code{FileCache$exists()}}
-\item \href{#method-keys}{\code{FileCache$keys()}}
-\item \href{#method-remove}{\code{FileCache$remove()}}
-\item \href{#method-reset}{\code{FileCache$reset()}}
-\item \href{#method-dir}{\code{FileCache$dir()}}
-\item \href{#method-prune}{\code{FileCache$prune()}}
-\item \href{#method-size}{\code{FileCache$size()}}
-\item \href{#method-destroy}{\code{FileCache$destroy()}}
-\item \href{#method-is_destroyed}{\code{FileCache$is_destroyed()}}
-\item \href{#method-finalize}{\code{FileCache$finalize()}}
-\item \href{#method-clone}{\code{FileCache$clone()}}
+\item \href{#method-FileCache-new}{\code{FileCache$new()}}
+\item \href{#method-FileCache-get_file}{\code{FileCache$get_file()}}
+\item \href{#method-FileCache-get_content}{\code{FileCache$get_content()}}
+\item \href{#method-FileCache-set_file}{\code{FileCache$set_file()}}
+\item \href{#method-FileCache-set_content}{\code{FileCache$set_content()}}
+\item \href{#method-FileCache-exists}{\code{FileCache$exists()}}
+\item \href{#method-FileCache-keys}{\code{FileCache$keys()}}
+\item \href{#method-FileCache-remove}{\code{FileCache$remove()}}
+\item \href{#method-FileCache-reset}{\code{FileCache$reset()}}
+\item \href{#method-FileCache-dir}{\code{FileCache$dir()}}
+\item \href{#method-FileCache-prune}{\code{FileCache$prune()}}
+\item \href{#method-FileCache-size}{\code{FileCache$size()}}
+\item \href{#method-FileCache-destroy}{\code{FileCache$destroy()}}
+\item \href{#method-FileCache-is_destroyed}{\code{FileCache$is_destroyed()}}
+\item \href{#method-FileCache-finalize}{\code{FileCache$finalize()}}
+\item \href{#method-FileCache-clone}{\code{FileCache$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-FileCache-new"></a>}}
+\if{latex}{\out{\hypertarget{method-FileCache-new}{}}}
 \subsection{Method \code{new()}}{
 Create a FileCache object.
 \subsection{Usage}{
@@ -172,8 +172,8 @@ information will be written. To log to the console, use \code{stdout()}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_file"></a>}}
-\if{latex}{\out{\hypertarget{method-get_file}{}}}
+\if{html}{\out{<a id="method-FileCache-get_file"></a>}}
+\if{latex}{\out{\hypertarget{method-FileCache-get_file}{}}}
 \subsection{Method \code{get_file()}}{
 Get the content associated with \code{key}, and save in a file
 named \code{outfile}.
@@ -199,8 +199,8 @@ overwritten?}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_content"></a>}}
-\if{latex}{\out{\hypertarget{method-get_content}{}}}
+\if{html}{\out{<a id="method-FileCache-get_content"></a>}}
+\if{latex}{\out{\hypertarget{method-FileCache-get_content}{}}}
 \subsection{Method \code{get_content()}}{
 Get the content associated with \code{key}, and return as either
 string or a raw vector.
@@ -225,8 +225,8 @@ A character or raw vector if the object is found in the cache,
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_file"></a>}}
-\if{latex}{\out{\hypertarget{method-set_file}{}}}
+\if{html}{\out{<a id="method-FileCache-set_file"></a>}}
+\if{latex}{\out{\hypertarget{method-FileCache-set_file}{}}}
 \subsection{Method \code{set_file()}}{
 Sets content associated with \code{key}, from a file named
 \code{infile}.
@@ -249,8 +249,8 @@ otherwise.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_content"></a>}}
-\if{latex}{\out{\hypertarget{method-set_content}{}}}
+\if{html}{\out{<a id="method-FileCache-set_content"></a>}}
+\if{latex}{\out{\hypertarget{method-FileCache-set_content}{}}}
 \subsection{Method \code{set_content()}}{
 Sets content associated with \code{key}, from a single-element
 vector.
@@ -275,8 +275,8 @@ otherwise.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-exists"></a>}}
-\if{latex}{\out{\hypertarget{method-exists}{}}}
+\if{html}{\out{<a id="method-FileCache-exists"></a>}}
+\if{latex}{\out{\hypertarget{method-FileCache-exists}{}}}
 \subsection{Method \code{exists()}}{
 Check if content associated with \code{key} exists in cache
 \subsection{Usage}{
@@ -295,8 +295,8 @@ Check if content associated with \code{key} exists in cache
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-keys"></a>}}
-\if{latex}{\out{\hypertarget{method-keys}{}}}
+\if{html}{\out{<a id="method-FileCache-keys"></a>}}
+\if{latex}{\out{\hypertarget{method-FileCache-keys}{}}}
 \subsection{Method \code{keys()}}{
 Get all keys
 \subsection{Usage}{
@@ -308,8 +308,8 @@ A character vector of all keys currently in the cache.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-remove"></a>}}
-\if{latex}{\out{\hypertarget{method-remove}{}}}
+\if{html}{\out{<a id="method-FileCache-remove"></a>}}
+\if{latex}{\out{\hypertarget{method-FileCache-remove}{}}}
 \subsection{Method \code{remove()}}{
 Remove an object
 \subsection{Usage}{
@@ -329,8 +329,8 @@ otherwise.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-reset"></a>}}
-\if{latex}{\out{\hypertarget{method-reset}{}}}
+\if{html}{\out{<a id="method-FileCache-reset"></a>}}
+\if{latex}{\out{\hypertarget{method-FileCache-reset}{}}}
 \subsection{Method \code{reset()}}{
 Clear all objects from the cache.
 \subsection{Usage}{
@@ -339,8 +339,8 @@ Clear all objects from the cache.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-dir"></a>}}
-\if{latex}{\out{\hypertarget{method-dir}{}}}
+\if{html}{\out{<a id="method-FileCache-dir"></a>}}
+\if{latex}{\out{\hypertarget{method-FileCache-dir}{}}}
 \subsection{Method \code{dir()}}{
 Returns the directory used for the cache.
 \subsection{Usage}{
@@ -349,8 +349,8 @@ Returns the directory used for the cache.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-prune"></a>}}
-\if{latex}{\out{\hypertarget{method-prune}{}}}
+\if{html}{\out{<a id="method-FileCache-prune"></a>}}
+\if{latex}{\out{\hypertarget{method-FileCache-prune}{}}}
 \subsection{Method \code{prune()}}{
 Prune the cache, using the parameters specified by
 \code{max_size},   \code{max_age}, \code{max_n}, and \code{evict}.
@@ -360,8 +360,8 @@ Prune the cache, using the parameters specified by
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-size"></a>}}
-\if{latex}{\out{\hypertarget{method-size}{}}}
+\if{html}{\out{<a id="method-FileCache-size"></a>}}
+\if{latex}{\out{\hypertarget{method-FileCache-size}{}}}
 \subsection{Method \code{size()}}{
 Return the number of items currently in the cache.
 \subsection{Usage}{
@@ -370,8 +370,8 @@ Return the number of items currently in the cache.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-destroy"></a>}}
-\if{latex}{\out{\hypertarget{method-destroy}{}}}
+\if{html}{\out{<a id="method-FileCache-destroy"></a>}}
+\if{latex}{\out{\hypertarget{method-FileCache-destroy}{}}}
 \subsection{Method \code{destroy()}}{
 Clears all objects in the cache, and removes the cache
 directory from disk.
@@ -381,8 +381,8 @@ directory from disk.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-is_destroyed"></a>}}
-\if{latex}{\out{\hypertarget{method-is_destroyed}{}}}
+\if{html}{\out{<a id="method-FileCache-is_destroyed"></a>}}
+\if{latex}{\out{\hypertarget{method-FileCache-is_destroyed}{}}}
 \subsection{Method \code{is_destroyed()}}{
 Reports whether the cache has been destroyed.
 \subsection{Usage}{
@@ -399,8 +399,8 @@ destroyed?}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-finalize"></a>}}
-\if{latex}{\out{\hypertarget{method-finalize}{}}}
+\if{html}{\out{<a id="method-FileCache-finalize"></a>}}
+\if{latex}{\out{\hypertarget{method-FileCache-finalize}{}}}
 \subsection{Method \code{finalize()}}{
 A finalizer for the cache.
 \subsection{Usage}{
@@ -409,8 +409,8 @@ A finalizer for the cache.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-FileCache-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-FileCache-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
