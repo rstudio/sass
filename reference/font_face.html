@@ -151,11 +151,8 @@ to the font files.</p>
     <div id="details">
     <h2>Details</h2>
     <p>These helpers <strong>must be used the named list approach to variable
-definitions</strong>, for example:</p><div class="sourceCode"><pre><code><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"font-variable"</span> <span class="op">=</span> <span class="fu"><a href="../reference/font_face.html">font_google</a></span><span class="op">(</span><span class="st">"Pacifico"</span><span class="op">)</span><span class="op">)</span>,
-  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"body{font-family: $font-variable}"</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
-
+definitions</strong>, for example:</p>
+<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
     </div>
     <div id="font-fallbacks">
     <h2>Font fallbacks</h2>
@@ -168,12 +165,8 @@ can render in any client browser, even when the client doesn't have internet
 access. However, when importing font files remotely (i.e., <code>font_google(..., local = FALSE)</code> or <code>font_link()</code>), it's a good idea to provide fallback
 font(s) in case the remote link isn't working (e.g., maybe the end user
 doesn't have an internet connection). To provide fallback fonts, use
-<code>font_collection()</code>, for example:</p><div class="sourceCode"><pre><code><span class="va">pacifico</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/font_face.html">font_google</a></span><span class="op">(</span><span class="st">"Pacifico"</span>, local <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu"><a href="../reference/as_sass.html">as_sass</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"font-variable"</span> <span class="op">=</span> <span class="fu"><a href="../reference/font_face.html">font_collection</a></span><span class="op">(</span><span class="va">pacifico</span>, <span class="st">"system-ui"</span><span class="op">)</span><span class="op">)</span>,
-  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"body{font-family: $font-variable}"</span><span class="op">)</span>
-<span class="op">)</span><span class="op">)</span></code></pre></div>
-
+<code>font_collection()</code>, for example:</p>
+<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
     </div>
     <div id="default-flags">
     <h2>Default flags</h2>
@@ -182,11 +175,8 @@ doesn't have an internet connection). To provide fallback fonts, use
 
 <p>These font helpers encourage best practice of adding a <code>!default</code> to Sass
 variable definitions, but the flag may be removed via <code>font_collection()</code> if
-desired.</p><div class="sourceCode"><pre><code><span class="fu"><a href="../reference/as_sass.html">as_sass</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"font-variable"</span> <span class="op">=</span> <span class="va">pacifico</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; $font-variable: Pacifico !default;</span>
-<span class="fu"><a href="../reference/as_sass.html">as_sass</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"font-variable"</span> <span class="op">=</span> <span class="fu"><a href="../reference/font_face.html">font_collection</a></span><span class="op">(</span><span class="va">pacifico</span>, default_flag <span class="op">=</span> <span class="cn">F</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; $font-variable: Pacifico;</span></code></pre></div>
-
+desired.</p>
+<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
     </div>
     <div id="serving-non-google-fonts-locally">
     <h2>Serving non-Google fonts locally</h2>

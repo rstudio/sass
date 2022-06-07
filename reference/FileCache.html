@@ -159,23 +159,23 @@ already been deleted.</p>
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 
-<ul><li><p><a href="#method-new"><code>FileCache$new()</code></a></p></li>
-<li><p><a href="#method-get_file"><code>FileCache$get_file()</code></a></p></li>
-<li><p><a href="#method-get_content"><code>FileCache$get_content()</code></a></p></li>
-<li><p><a href="#method-set_file"><code>FileCache$set_file()</code></a></p></li>
-<li><p><a href="#method-set_content"><code>FileCache$set_content()</code></a></p></li>
-<li><p><a href="#method-exists"><code>FileCache$exists()</code></a></p></li>
-<li><p><a href="#method-keys"><code>FileCache$keys()</code></a></p></li>
-<li><p><a href="#method-remove"><code>FileCache$remove()</code></a></p></li>
-<li><p><a href="#method-reset"><code>FileCache$reset()</code></a></p></li>
-<li><p><a href="#method-dir"><code>FileCache$dir()</code></a></p></li>
-<li><p><a href="#method-prune"><code>FileCache$prune()</code></a></p></li>
-<li><p><a href="#method-size"><code>FileCache$size()</code></a></p></li>
-<li><p><a href="#method-destroy"><code>FileCache$destroy()</code></a></p></li>
-<li><p><a href="#method-is_destroyed"><code>FileCache$is_destroyed()</code></a></p></li>
-<li><p><a href="#method-finalize"><code>FileCache$finalize()</code></a></p></li>
-<li><p><a href="#method-clone"><code>FileCache$clone()</code></a></p></li>
-</ul></div><p></p><hr><a id="method-new"></a><div class="section">
+<ul><li><p><a href="#method-FileCache-new"><code>FileCache$new()</code></a></p></li>
+<li><p><a href="#method-FileCache-get_file"><code>FileCache$get_file()</code></a></p></li>
+<li><p><a href="#method-FileCache-get_content"><code>FileCache$get_content()</code></a></p></li>
+<li><p><a href="#method-FileCache-set_file"><code>FileCache$set_file()</code></a></p></li>
+<li><p><a href="#method-FileCache-set_content"><code>FileCache$set_content()</code></a></p></li>
+<li><p><a href="#method-FileCache-exists"><code>FileCache$exists()</code></a></p></li>
+<li><p><a href="#method-FileCache-keys"><code>FileCache$keys()</code></a></p></li>
+<li><p><a href="#method-FileCache-remove"><code>FileCache$remove()</code></a></p></li>
+<li><p><a href="#method-FileCache-reset"><code>FileCache$reset()</code></a></p></li>
+<li><p><a href="#method-FileCache-dir"><code>FileCache$dir()</code></a></p></li>
+<li><p><a href="#method-FileCache-prune"><code>FileCache$prune()</code></a></p></li>
+<li><p><a href="#method-FileCache-size"><code>FileCache$size()</code></a></p></li>
+<li><p><a href="#method-FileCache-destroy"><code>FileCache$destroy()</code></a></p></li>
+<li><p><a href="#method-FileCache-is_destroyed"><code>FileCache$is_destroyed()</code></a></p></li>
+<li><p><a href="#method-FileCache-finalize"><code>FileCache$finalize()</code></a></p></li>
+<li><p><a href="#method-FileCache-clone"><code>FileCache$clone()</code></a></p></li>
+</ul></div><p></p><hr><a id="method-FileCache-new"></a><div class="section">
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
 <p>Create a FileCache object.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
@@ -234,7 +234,7 @@ information will be written. To log to the console, use <code><a href="https://r
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-get_file"></a><div class="section">
+</div><p></p><hr><a id="method-FileCache-get_file"></a><div class="section">
 <h3 id="method-get-file-">Method <code>get_file()</code><a class="anchor" aria-label="anchor" href="#method-get-file-"></a></h3>
 <p>Get the content associated with <code>key</code>, and save in a file
 named <code>outfile</code>.</p><div class="section">
@@ -265,7 +265,7 @@ overwritten?</p></dd>
 <code>FALSE</code> otherwise.</p>
 </div>
 
-</div><p></p><hr><a id="method-get_content"></a><div class="section">
+</div><p></p><hr><a id="method-FileCache-get_content"></a><div class="section">
 <h3 id="method-get-content-">Method <code>get_content()</code><a class="anchor" aria-label="anchor" href="#method-get-content-"></a></h3>
 <p>Get the content associated with <code>key</code>, and return as either
 string or a raw vector.</p><div class="section">
@@ -293,7 +293,7 @@ raw vector.</p></dd>
 <code>NULL</code> otherwise.</p>
 </div>
 
-</div><p></p><hr><a id="method-set_file"></a><div class="section">
+</div><p></p><hr><a id="method-FileCache-set_file"></a><div class="section">
 <h3 id="method-set-file-">Method <code>set_file()</code><a class="anchor" aria-label="anchor" href="#method-set-file-"></a></h3>
 <p>Sets content associated with <code>key</code>, from a file named
 <code>infile</code>.</p><div class="section">
@@ -319,7 +319,7 @@ raw vector.</p></dd>
 otherwise.</p>
 </div>
 
-</div><p></p><hr><a id="method-set_content"></a><div class="section">
+</div><p></p><hr><a id="method-FileCache-set_content"></a><div class="section">
 <h3 id="method-set-content-">Method <code>set_content()</code><a class="anchor" aria-label="anchor" href="#method-set-content-"></a></h3>
 <p>Sets content associated with <code>key</code>, from a single-element
 vector.</p><div class="section">
@@ -347,7 +347,7 @@ with <code>\\n</code> (consistent across platforms).</p></dd>
 otherwise.</p>
 </div>
 
-</div><p></p><hr><a id="method-exists"></a><div class="section">
+</div><p></p><hr><a id="method-FileCache-exists"></a><div class="section">
 <h3 id="method-exists-">Method <code><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists()</a></code><a class="anchor" aria-label="anchor" href="#method-exists-"></a></h3>
 <p>Check if content associated with <code>key</code> exists in cache</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
@@ -367,7 +367,7 @@ otherwise.</p>
 <p><code>TRUE</code> if the object is in the cache, <code>FALSE</code> otherwise.</p>
 </div>
 
-</div><p></p><hr><a id="method-keys"></a><div class="section">
+</div><p></p><hr><a id="method-FileCache-keys"></a><div class="section">
 <h3 id="method-keys-">Method <code>keys()</code><a class="anchor" aria-label="anchor" href="#method-keys-"></a></h3>
 <p>Get all keys</p><div class="section">
 <h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
@@ -379,7 +379,7 @@ otherwise.</p>
 <p>A character vector of all keys currently in the cache.</p>
 </div>
 
-</div><p></p><hr><a id="method-remove"></a><div class="section">
+</div><p></p><hr><a id="method-FileCache-remove"></a><div class="section">
 <h3 id="method-remove-">Method <code><a href="https://rdrr.io/r/base/rm.html" class="external-link">remove()</a></code><a class="anchor" aria-label="anchor" href="#method-remove-"></a></h3>
 <p>Remove an object</p><div class="section">
 <h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
@@ -400,7 +400,7 @@ otherwise.</p>
 otherwise.</p>
 </div>
 
-</div><p></p><hr><a id="method-reset"></a><div class="section">
+</div><p></p><hr><a id="method-FileCache-reset"></a><div class="section">
 <h3 id="method-reset-">Method <code>reset()</code><a class="anchor" aria-label="anchor" href="#method-reset-"></a></h3>
 <p>Clear all objects from the cache.</p><div class="section">
 <h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
@@ -408,7 +408,7 @@ otherwise.</p>
 </div>
 
 
-</div><p></p><hr><a id="method-dir"></a><div class="section">
+</div><p></p><hr><a id="method-FileCache-dir"></a><div class="section">
 <h3 id="method-dir-">Method <code><a href="https://rdrr.io/r/base/list.files.html" class="external-link">dir()</a></code><a class="anchor" aria-label="anchor" href="#method-dir-"></a></h3>
 <p>Returns the directory used for the cache.</p><div class="section">
 <h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
@@ -416,7 +416,7 @@ otherwise.</p>
 </div>
 
 
-</div><p></p><hr><a id="method-prune"></a><div class="section">
+</div><p></p><hr><a id="method-FileCache-prune"></a><div class="section">
 <h3 id="method-prune-">Method <code>prune()</code><a class="anchor" aria-label="anchor" href="#method-prune-"></a></h3>
 <p>Prune the cache, using the parameters specified by
 <code>max_size</code>,   <code>max_age</code>, <code>max_n</code>, and <code>evict</code>.</p><div class="section">
@@ -425,7 +425,7 @@ otherwise.</p>
 </div>
 
 
-</div><p></p><hr><a id="method-size"></a><div class="section">
+</div><p></p><hr><a id="method-FileCache-size"></a><div class="section">
 <h3 id="method-size-">Method <code>size()</code><a class="anchor" aria-label="anchor" href="#method-size-"></a></h3>
 <p>Return the number of items currently in the cache.</p><div class="section">
 <h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
@@ -433,7 +433,7 @@ otherwise.</p>
 </div>
 
 
-</div><p></p><hr><a id="method-destroy"></a><div class="section">
+</div><p></p><hr><a id="method-FileCache-destroy"></a><div class="section">
 <h3 id="method-destroy-">Method <code>destroy()</code><a class="anchor" aria-label="anchor" href="#method-destroy-"></a></h3>
 <p>Clears all objects in the cache, and removes the cache
 directory from disk.</p><div class="section">
@@ -442,7 +442,7 @@ directory from disk.</p><div class="section">
 </div>
 
 
-</div><p></p><hr><a id="method-is_destroyed"></a><div class="section">
+</div><p></p><hr><a id="method-FileCache-is_destroyed"></a><div class="section">
 <h3 id="method-is-destroyed-">Method <code>is_destroyed()</code><a class="anchor" aria-label="anchor" href="#method-is-destroyed-"></a></h3>
 <p>Reports whether the cache has been destroyed.</p><div class="section">
 <h4 id="usage-13">Usage<a class="anchor" aria-label="anchor" href="#usage-13"></a></h4>
@@ -459,7 +459,7 @@ destroyed?</p></dd>
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-finalize"></a><div class="section">
+</div><p></p><hr><a id="method-FileCache-finalize"></a><div class="section">
 <h3 id="method-finalize-">Method <code>finalize()</code><a class="anchor" aria-label="anchor" href="#method-finalize-"></a></h3>
 <p>A finalizer for the cache.</p><div class="section">
 <h4 id="usage-14">Usage<a class="anchor" aria-label="anchor" href="#usage-14"></a></h4>
@@ -467,7 +467,7 @@ destroyed?</p></dd>
 </div>
 
 
-</div><p></p><hr><a id="method-clone"></a><div class="section">
+</div><p></p><hr><a id="method-FileCache-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-15">Usage<a class="anchor" aria-label="anchor" href="#usage-15"></a></h4>
