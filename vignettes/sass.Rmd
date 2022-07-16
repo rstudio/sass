@@ -78,7 +78,7 @@ knitr::opts_chunk$set(
 
 ### Variables {#variables}
 
-[Sass variables](https://sass-lang.com/guide#topic-2) are a great mechanism for simplifying and exposing CSS logic to users. To create a variable, assign a value (likely a CSS [property value](https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics)) to a name, then refer to it by name in downstream Sass code. In this minimal example, we create a `body-bg` variable then use it to generate a single [style rule](https://sass-lang.com/documentation/style-rules), but as we'll see later, variables can also be used inside of other arbitrary Sass code (e.g., functions, mixins, etc).
+[Sass variables](https://sass-lang.com/guide#topic-2) are a great mechanism for simplifying and exposing CSS logic to users. To create a variable, assign a value (likely a CSS [property value](https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics)) to a name, then refer to it by name in downstream Sass code. In this minimal example, we create a `body-bg` variable then use it to generate a single [style rule](https://sass-lang.com/documentation//style-rules), but as we'll see later, variables can also be used inside of other arbitrary Sass code (e.g., functions, mixins, etc).
 
 ```r
 library(sass)
@@ -111,7 +111,7 @@ body {
 
 ### Functions {#functions}
 
-Sass comes with a variety of [built-in functions](https://sass-lang.com/documentation/modules) (i.e., you don't have to [import](#imports) anything to start using them) which are useful for working with CSS values ([colors](https://sass-lang.com/documentation/modules/color), [numbers](https://sass-lang.com/documentation/modules/math), [strings](https://sass-lang.com/documentation/modules/string), etc). These built-in functions are primarily useful modifying or combining CSS values in such a way that isn't possible with CSS. Here we use the `rgba()` to add alpha blending to `black` and assign the result to a variable.^[Oh, by the way, the value of a variable may be an expression.]
+Sass comes with a variety of [built-in functions](https://sass-lang.com/documentation//modules) (i.e., you don't have to [import](#imports) anything to start using them) which are useful for working with CSS values ([colors](https://sass-lang.com/documentation//modules/color), [numbers](https://sass-lang.com/documentation//modules/math), [strings](https://sass-lang.com/documentation//modules/string), etc). These built-in functions are primarily useful modifying or combining CSS values in such a way that isn't possible with CSS. Here we use the `rgba()` to add alpha blending to `black` and assign the result to a variable.^[Oh, by the way, the value of a variable may be an expression.]
 
 ```r
 variable <- list("body-bg" = "rgba(black, 0.8)")
@@ -125,7 +125,7 @@ body {
 }
 ```
 
-Sass also provides the ability to define your own functions through the [`@function` at-rule](https://sass-lang.com/documentation/at-rules/function). Like functions in most languages, there are four main components to a function definition: (1) the function `name`, (2) the function argument/inputs (e.g., `arg1`, `arg2`), (3) the function body which contains statements (i.e., `statement1`, `statement2`, etc.), and finally (4) a return `value`.
+Sass also provides the ability to define your own functions through the [`@function` at-rule](https://sass-lang.com/documentation//at-rules/function). Like functions in most languages, there are four main components to a function definition: (1) the function `name`, (2) the function argument/inputs (e.g., `arg1`, `arg2`), (3) the function body which contains statements (i.e., `statement1`, `statement2`, etc.), and finally (4) a return `value`.
 
 ```r
 @function name(arg1, arg2) {
@@ -180,7 +180,7 @@ body {
 
 ### Importing {#imports}
 
-In practice, you'll want to write your Sass code in `.scss` ([or `.sass`](https://sass-lang.com/documentation/syntax)) files (instead of inside R strings). That way you can leverage things like syntax highlighting in RStudio (or your favorite IDE) and make it easier for others to import your Sass into their workflow. For example, if I have `.scss` file in my working directory, say `my-style.scss`, I can compile it this way:
+In practice, you'll want to write your Sass code in `.scss` ([or `.sass`](https://sass-lang.com/documentation//syntax)) files (instead of inside R strings). That way you can leverage things like syntax highlighting in RStudio (or your favorite IDE) and make it easier for others to import your Sass into their workflow. For example, if I have `.scss` file in my working directory, say `my-style.scss`, I can compile it this way:
 
 ```r
 sass(sass_file("my-style.scss"))
@@ -197,7 +197,7 @@ body {
 }
 ```
 
-This works because `sass_file()` uses `sass_import()` to generate an `@import` at-rule. If you visit the [docs for `@import`](https://sass-lang.com/documentation/at-rules/import), you'll notice there's more you can do that import local `.scss`, like import local or remote `.css` files, import font files, and more. Note also that `{sass}` also provides tools that make importing of local font files easier -- see `font_google()` to learn more.
+This works because `sass_file()` uses `sass_import()` to generate an `@import` at-rule. If you visit the [docs for `@import`](https://sass-lang.com/documentation//at-rules/import), you'll notice there's more you can do that import local `.scss`, like import local or remote `.css` files, import font files, and more. Note also that `{sass}` also provides tools that make importing of local font files easier -- see `font_google()` to learn more.
 
 ## Font imports {#file-import}
 
@@ -231,14 +231,14 @@ To import non-Google fonts, use either `font_link()` or `font_face()`. The forme
 
 ### Mixins {#mixins}
 
-Similar to how functions are useful for encapsulating _computation_ in a reusable unit, [mixins](https://sass-lang.com/documentation/at-rules/mixin) are useful for doing the same with _styling rules_ (i.e., packaging them into a reusable unit).
-Technically speaking, mixins are similar to functions in that they require a `name`, may have arguments, as well as any number of statements. However, they differ in that they require the return value to be a [style rule](https://sass-lang.com/documentation/style-rules), and when called, need to be `@include`d in a larger style rule in order to generate any CSS.
+Similar to how functions are useful for encapsulating _computation_ in a reusable unit, [mixins](https://sass-lang.com/documentation//at-rules/mixin) are useful for doing the same with _styling rules_ (i.e., packaging them into a reusable unit).
+Technically speaking, mixins are similar to functions in that they require a `name`, may have arguments, as well as any number of statements. However, they differ in that they require the return value to be a [style rule](https://sass-lang.com/documentation//style-rules), and when called, need to be `@include`d in a larger style rule in order to generate any CSS.
 
-For some examples, please see the [Sass mixin documentation](https://sass-lang.com/documentation/at-rules/mixin).
+For some examples, please see the [Sass mixin documentation](https://sass-lang.com/documentation//at-rules/mixin).
 
 ### More basics
 
-This vignette intentionally doesn't try to re-invent the existing and wonderful [Sass documentation](https://sass-lang.com/documentation). There you'll find many more useful things as you start to write more Sass, such as [control flow](https://sass-lang.com/documentation/at-rules/control), [lists](https://sass-lang.com/documentation/values/lists), [maps](https://sass-lang.com/documentation/values/maps), [interpolation](https://sass-lang.com/documentation/interpolation), and more.
+This vignette intentionally doesn't try to re-invent the existing and wonderful [Sass documentation](https://sass-lang.com/documentation/). There you'll find many more useful things as you start to write more Sass, such as [control flow](https://sass-lang.com/documentation//at-rules/control), [lists](https://sass-lang.com/documentation//values/lists), [maps](https://sass-lang.com/documentation//values/maps), [interpolation](https://sass-lang.com/documentation//interpolation), and more.
 
 ## Composable sass {#layering}
 

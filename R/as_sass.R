@@ -9,7 +9,7 @@
 #'   * A [sass_file()], [sass_layer()], and/or [sass_bundle()].
 #'   * A [list()] containing any of the above.
 #'
-#' @references <https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import>
+#' @references <https://sass-lang.com/documentation/at-rules/import>
 #' @return a single character value to be supplied to [sass()].
 #' @export
 #' @examples
@@ -177,7 +177,7 @@ as_sass_.character <- function(input) {
 #' Sass Import
 #'
 #' Create an import statement to be used within your Sass file. See
-#' <https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import> for
+#' <https://sass-lang.com/documentation/at-rules/import> for
 #' more details.
 #'
 #' `sass_file()` adds extra checks to make sure an appropriate file path

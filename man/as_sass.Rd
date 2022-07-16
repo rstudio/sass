@@ -57,5 +57,5 @@ sass(input)
 }
 }
 \references{
-\url{https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import}
+\url{https://sass-lang.com/documentation/at-rules/import}
 }

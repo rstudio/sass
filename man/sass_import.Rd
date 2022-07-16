@@ -20,7 +20,7 @@ Fully defined Sass import string.
 }
 \description{
 Create an import statement to be used within your Sass file. See
-\url{https://sass-lang.com/documentation/file.SASS_REFERENCE.html#import} for
+\url{https://sass-lang.com/documentation/at-rules/import} for
 more details.
 }
 \details{

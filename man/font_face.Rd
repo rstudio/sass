@@ -99,11 +99,13 @@ Include font file(s) when defining a Sass variable that represents a CSS
 }
 \details{
 These helpers \strong{must be used the named list approach to variable
-definitions}, for example:\preformatted{list(
+definitions}, for example:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{list(
   list("font-variable" = font_google("Pacifico")),
   list("body\{font-family: $font-variable\}")
 )
-}
+}\if{html}{\out{</div>}}
 }
 \section{Font fallbacks}{
 
@@ -114,12 +116,14 @@ can render in any client browser, even when the client doesn't have internet
 access. However, when importing font files remotely (i.e., \code{font_google(..., local = FALSE)} or \code{font_link()}), it's a good idea to provide fallback
 font(s) in case the remote link isn't working (e.g., maybe the end user
 doesn't have an internet connection). To provide fallback fonts, use
-\code{\link[=font_collection]{font_collection()}}, for example:\preformatted{pacifico <- font_google("Pacifico", local = FALSE)
+\code{\link[=font_collection]{font_collection()}}, for example:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pacifico <- font_google("Pacifico", local = FALSE)
 as_sass(list(
   list("font-variable" = font_collection(pacifico, "system-ui")),
   list("body\{font-family: $font-variable\}")
 ))
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Default flags}{
@@ -127,11 +131,13 @@ as_sass(list(
 
 These font helpers encourage best practice of adding a \code{!default} to Sass
 variable definitions, but the flag may be removed via \code{font_collection()} if
-desired.\preformatted{as_sass(list("font-variable" = pacifico))
+desired.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{as_sass(list("font-variable" = pacifico))
 #> $font-variable: Pacifico !default;
 as_sass(list("font-variable" = font_collection(pacifico, default_flag = F)))
 #> $font-variable: Pacifico;
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{Serving non-Google fonts locally}{
