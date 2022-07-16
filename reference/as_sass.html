@@ -63,7 +63,7 @@ sass()."><meta property="og:image" content="https://rstudio.github.io/sass/logo.
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">as_sass</span><span class="op">(</span><span class="va">input</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">as_sass</span><span class="op">(</span><span class="va">input</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -74,10 +74,13 @@ sass()."><meta property="og:image" content="https://rstudio.github.io/sass/logo.
 <li><p>A <code><a href="sass_import.html">sass_file()</a></code>, <code><a href="sass_layer.html">sass_layer()</a></code>, and/or <code><a href="sass_layer.html">sass_bundle()</a></code>.</p></li>
 <li><p>A <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> containing any of the above.</p></li>
 </ul></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a single character value to be supplied to <code><a href="sass.html">sass()</a></code>.</p>
+    
+
+<p>a single character value to be supplied to <code><a href="sass.html">sass()</a></code>.</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -86,52 +89,52 @@ sass()."><meta property="og:image" content="https://rstudio.github.io/sass/logo.
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Example of regular Sass input</span></span>
-<span class="r-in"><span class="fu">as_sass</span><span class="op">(</span><span class="st">"body { color: \"blue\"; }"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Example of regular Sass input</span></span></span>
+<span class="r-in"><span><span class="fu">as_sass</span><span class="op">(</span><span class="st">"body { color: \"blue\"; }"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> /* Sass */</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> body { color: "blue"; }</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># There is support for adding variables</span></span>
-<span class="r-in"><span class="fu">as_sass</span><span class="op">(</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span>,</span>
-<span class="r-in">   <span class="st">"body { color: $color; }"</span></span>
-<span class="r-in">   <span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># There is support for adding variables</span></span></span>
+<span class="r-in"><span><span class="fu">as_sass</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   <span class="st">"body { color: $color; }"</span></span></span>
+<span class="r-in"><span>   <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> /* Sass */</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $color: blue;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> body { color: $color; }</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="co"># Add a file name</span></span>
-<span class="r-in"><span class="va">someFile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"variables"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Overwrite color to red</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/write.html" class="external-link">write</a></span><span class="op">(</span><span class="st">"$color: \"red\";"</span>, <span class="va">someFile</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">input</span> <span class="op">&lt;-</span></span>
-<span class="r-in">  <span class="fu">as_sass</span><span class="op">(</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span class="r-in">      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span>,</span>
-<span class="r-in">      <span class="fu"><a href="sass_import.html">sass_file</a></span><span class="op">(</span><span class="va">someFile</span><span class="op">)</span>,</span>
-<span class="r-in">      <span class="st">"body { color: $color; }"</span></span>
-<span class="r-in">      <span class="op">)</span></span>
-<span class="r-in">   <span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">input</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># Add a file name</span></span></span>
+<span class="r-in"><span><span class="va">someFile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"variables"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Overwrite color to red</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/write.html" class="external-link">write</a></span><span class="op">(</span><span class="st">"$color: \"red\";"</span>, <span class="va">someFile</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">input</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu">as_sass</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      <span class="fu"><a href="sass_import.html">sass_file</a></span><span class="op">(</span><span class="va">someFile</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      <span class="st">"body { color: $color; }"</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">input</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> /* Sass */</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $color: blue;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> @import "/tmp/RtmpYH11y9/variables28b5cd93271";</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> @import "/tmp/RtmpyzpZYE/variables2ba062734fa5";</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> body { color: $color; }</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># The final body color is red</span></span>
-<span class="r-in"><span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span><span class="va">input</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># The final body color is red</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span><span class="va">input</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> /* CSS */</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> body {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   color: "red";</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="co"># }</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -146,7 +149,7 @@ sass()."><meta property="og:image" content="https://rstudio.github.io/sass/logo.
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

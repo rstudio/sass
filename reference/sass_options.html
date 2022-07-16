@@ -69,122 +69,153 @@ TRUE."><meta property="og:image" content="https://rstudio.github.io/sass/logo.sv
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">sass_options</span><span class="op">(</span>
-  precision <span class="op">=</span> <span class="fl">5</span>,
-  output_style <span class="op">=</span> <span class="st">"expanded"</span>,
-  indented_syntax <span class="op">=</span> <span class="cn">FALSE</span>,
-  include_path <span class="op">=</span> <span class="st">""</span>,
-  source_comments <span class="op">=</span> <span class="cn">FALSE</span>,
-  indent_type <span class="op">=</span> <span class="st">"space"</span>,
-  indent_width <span class="op">=</span> <span class="fl">2</span>,
-  linefeed <span class="op">=</span> <span class="st">"lf"</span>,
-  output_path <span class="op">=</span> <span class="st">""</span>,
-  source_map_file <span class="op">=</span> <span class="st">""</span>,
-  source_map_root <span class="op">=</span> <span class="st">""</span>,
-  source_map_embed <span class="op">=</span> <span class="cn">FALSE</span>,
-  source_map_contents <span class="op">=</span> <span class="cn">FALSE</span>,
-  omit_source_map_url <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span>
-
-<span class="fu">sass_options_get</span><span class="op">(</span><span class="va">...</span><span class="op">)</span>
-
-<span class="fu">sass_options_set</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sass_options</span><span class="op">(</span></span>
+<span>  precision <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  output_style <span class="op">=</span> <span class="st">"expanded"</span>,</span>
+<span>  indented_syntax <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  include_path <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  source_comments <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  indent_type <span class="op">=</span> <span class="st">"space"</span>,</span>
+<span>  indent_width <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  linefeed <span class="op">=</span> <span class="st">"lf"</span>,</span>
+<span>  output_path <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  source_map_file <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  source_map_root <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  source_map_embed <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  source_map_contents <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  omit_source_map_url <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">sass_options_get</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">sass_options_set</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>precision</dt>
 <dd><p>Number of decimal places.</p></dd>
+
+
 <dt>output_style</dt>
 <dd><p>Bracketing and formatting style of the CSS output.
 Possible styles: <code>"nested"</code>, <code>"expanded"</code>, <code>"compact"</code>, and
 <code>"compressed"</code>.</p></dd>
+
+
 <dt>indented_syntax</dt>
 <dd><p>Enables the compiler to parse Sass Indented Syntax in
 strings. Note that the compiler automatically overrides this option to
 <code>TRUE</code> or <code>FALSE</code> for files with .sass and .scss file extensions
 respectively.</p></dd>
+
+
 <dt>include_path</dt>
 <dd><p>Vector of paths used to resolve <code>@import</code>. Multiple
 paths are possible using a character vector of paths.</p></dd>
+
+
 <dt>source_comments</dt>
 <dd><p>Annotates CSS output with line and file comments from
 Sass file for debugging.</p></dd>
+
+
 <dt>indent_type</dt>
 <dd><p>Specifies the indent type as <code>"space"</code> or
 <code>"tab"</code>.</p></dd>
+
+
 <dt>indent_width</dt>
 <dd><p>Number of tabs or spaces used for indentation. Maximum
 10.</p></dd>
+
+
 <dt>linefeed</dt>
 <dd><p>Specifies how new lines should be delimited. Possible values:
 <code>"lf"</code>, <code>"cr"</code>, <code>"lfcr"</code>, and <code>"crlf"</code>.</p></dd>
+
+
 <dt>output_path</dt>
 <dd><p>Specifies the location of the output file. Note: this
 option will not write the file on disk. It is only for internal reference
 with the source map.</p></dd>
+
+
 <dt>source_map_file</dt>
 <dd><p>Specifies the location for Sass to write the source
 map.</p></dd>
+
+
 <dt>source_map_root</dt>
 <dd><p>Value will be included as source root in the source
 map information.</p></dd>
+
+
 <dt>source_map_embed</dt>
 <dd><p>Embeds the source map as a data URI.</p></dd>
+
+
 <dt>source_map_contents</dt>
 <dd><p>Includes the contents in the source map
 information.</p></dd>
+
+
 <dt>omit_source_map_url</dt>
 <dd><p>Disable the inclusion of source map information in
 the output file. Note: must specify <code>output_path</code> when <code>TRUE</code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>arguments to <code>sass_options()</code>. For <code>sass_options_set()</code>, the
 following values are also acceptable:</p><ul><li><p><code>NULL</code>, clearing the global options.</p></li>
 <li><p>Return value of <code>sass_options_get()</code>.</p></li>
 <li><p>Return value of <code>sass_options_set()</code>.</p></li>
 </ul></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>List of Sass compiler options to be used with <code><a href="sass.html">sass()</a></code>. For
+    
+
+<p>List of Sass compiler options to be used with <code><a href="sass.html">sass()</a></code>. For
 <code>sass_options_set()</code>, any previously set global options are returned.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="st">"foo { margin: 122px * .001; }"</span></span>
-<span class="r-in"><span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="st">"foo { margin: 122px * .001; }"</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> /* CSS */</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> foo {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   margin: 0.122px;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Provide options directly to sass()</span></span>
-<span class="r-in"><span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span><span class="va">x</span>, options <span class="op">=</span> <span class="fu">sass_options</span><span class="op">(</span>precision <span class="op">=</span> <span class="fl">1</span>, output_style <span class="op">=</span> <span class="st">"compact"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Provide options directly to sass()</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span><span class="va">x</span>, options <span class="op">=</span> <span class="fu">sass_options</span><span class="op">(</span>precision <span class="op">=</span> <span class="fl">1</span>, output_style <span class="op">=</span> <span class="st">"compact"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> /* CSS */</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> foo { margin: 0.1px; }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Or set some option(s) globally</span></span>
-<span class="r-in"><span class="va">old_options</span> <span class="op">&lt;-</span> <span class="fu">sass_options_set</span><span class="op">(</span>precision <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Or set some option(s) globally</span></span></span>
+<span class="r-in"><span><span class="va">old_options</span> <span class="op">&lt;-</span> <span class="fu">sass_options_set</span><span class="op">(</span>precision <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> /* CSS */</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> foo {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   margin: 0.1px;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Specify local options  while also respecting global options</span></span>
-<span class="r-in"><span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span><span class="va">x</span>, options <span class="op">=</span> <span class="fu">sass_options_get</span><span class="op">(</span>output_style <span class="op">=</span> <span class="st">"compact"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Specify local options  while also respecting global options</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span><span class="va">x</span>, options <span class="op">=</span> <span class="fu">sass_options_get</span><span class="op">(</span>output_style <span class="op">=</span> <span class="st">"compact"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> /* CSS */</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> foo { margin: 0.1px; }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Restore original state</span></span>
-<span class="r-in"><span class="fu">sass_options_set</span><span class="op">(</span><span class="va">old_options</span><span class="op">)</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Restore original state</span></span></span>
+<span class="r-in"><span><span class="fu">sass_options_set</span><span class="op">(</span><span class="va">old_options</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -199,7 +230,7 @@ following values are also acceptable:</p><ul><li><p><code>NULL</code>, clearing 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

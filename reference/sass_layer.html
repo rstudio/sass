@@ -69,24 +69,24 @@ earlier layers, effectively 'new' defaults through all the 'old' defaults.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">sass_layer</span><span class="op">(</span>
-  functions <span class="op">=</span> <span class="cn">NULL</span>,
-  defaults <span class="op">=</span> <span class="cn">NULL</span>,
-  mixins <span class="op">=</span> <span class="cn">NULL</span>,
-  rules <span class="op">=</span> <span class="cn">NULL</span>,
-  html_deps <span class="op">=</span> <span class="cn">NULL</span>,
-  file_attachments <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>,
-  declarations <span class="op">=</span> <span class="cn">NULL</span>,
-  tags <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span>
-
-<span class="fu">sass_layer_file</span><span class="op">(</span><span class="va">file</span><span class="op">)</span>
-
-<span class="fu">sass_bundle</span><span class="op">(</span><span class="va">...</span><span class="op">)</span>
-
-<span class="fu">sass_bundle_remove</span><span class="op">(</span><span class="va">bundle</span>, <span class="va">name</span><span class="op">)</span>
-
-<span class="fu">is_sass_bundle</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sass_layer</span><span class="op">(</span></span>
+<span>  functions <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  defaults <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  mixins <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  rules <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  html_deps <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  file_attachments <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>,</span>
+<span>  declarations <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  tags <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">sass_layer_file</span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">sass_bundle</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">sass_bundle_remove</span><span class="op">(</span><span class="va">bundle</span>, <span class="va">name</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">is_sass_bundle</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -95,21 +95,31 @@ earlier layers, effectively 'new' defaults through all the 'old' defaults.</p>
 <dd><p><code><a href="as_sass.html">as_sass()</a></code> <code>input</code> intended for <a href="https://rstudio.github.io/sass/articles/sass.html#functions-1">Sass functions</a>.
 Functions are placed before <code>defaults</code> so that variable definitions may make
 use of functions.</p></dd>
+
+
 <dt>defaults</dt>
 <dd><p><code><a href="as_sass.html">as_sass()</a></code> <code>input</code> intended for <a href="https://rstudio.github.io/sass/articles/sass.html#variables-1">variable defaults</a>.
 These variable defaults after placed after <code>functions</code> but before <code>mixins</code>.
 When multiple layers are combined in a <code>sass_bundle()</code>, defaults are merged
 in reverse order; that is, <code>sass_bundle(layer1, layer2)</code> will include
 <code>layer2$defaults</code> before <code>layer1$defaults</code>.</p></dd>
+
+
 <dt>mixins</dt>
 <dd><p><code><a href="as_sass.html">as_sass()</a></code> <code>input</code> intended for <a href="https://rstudio.github.io/sass/articles/sass.html#mixins-1">Sass mixins</a>. Mixins
 are placed after <code>defaults</code>, but before <code>rules</code>.</p></dd>
+
+
 <dt>rules</dt>
 <dd><p><code><a href="as_sass.html">as_sass()</a></code> <code>input</code> intended for <a href="https://sass-lang.com/documentation/style-rules" class="external-link">Sass rules</a>. Rules are placed last
 (i.e., after <code>functions</code>, <code>defaults</code>, and <code>mixins</code>).</p></dd>
+
+
 <dt>html_deps</dt>
 <dd><p>An HTML dependency (or a list of them). This dependency
 gets attached to the return value of <code><a href="sass.html">sass()</a></code>/<code><a href="as_sass.html">as_sass()</a></code>.</p></dd>
+
+
 <dt>file_attachments</dt>
 <dd><p>A named character vector, representing file assets
 that are referenced (using relative paths) from the sass in this layer. The
@@ -120,25 +130,40 @@ time, each value will be copied to the relative path indicated by its name.
 into the destination directory; the directory itself will not be copied.)
 You can also omit the name, in which case that file or directory will be
 copied directly into the output directory.</p></dd>
+
+
 <dt>declarations</dt>
 <dd><p>Deprecated, use <code>functions</code> or <code>mixins</code> instead.</p></dd>
+
+
 <dt>tags</dt>
 <dd><p>Deprecated. Preserve meta information using a key in <code>sass_bundle(KEY = val)</code>.
 preserve simple metadata as layers are merged.</p></dd>
+
+
 <dt>file</dt>
 <dd><p>file path to a <code>.scss</code> file.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>A collection of <code>sass_layer()</code>s and/or objects that <code><a href="as_sass.html">as_sass()</a></code>
 understands. Arguments should be provided in reverse priority order:
 defaults, declarations, and rules in later layers will take precedence over
 those of previous layers. Non-layer values will be converted to layers by
 calling <code>sass_layer(rules = ...)</code>.</p></dd>
+
+
 <dt>bundle</dt>
 <dd><p>Output value from <code>sass_layer()</code> or <code>sass_bundle()</code></p></dd>
+
+
 <dt>name</dt>
 <dd><p>If a Sass layer name is contained in <code>name</code>, the matching Sass layer will be removed from the <code>bundle</code></p></dd>
+
+
 <dt>x</dt>
 <dd><p>object to inspect</p></dd>
+
 </dl></div>
     <div id="functions">
     <h2>Functions</h2>
@@ -152,31 +177,31 @@ calling <code>sass_layer(rules = ...)</code>.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">blue</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"blue !default"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">red</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"red !default"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">green</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"green !default"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># a sass_layer() by itself is not very useful, it just defines some</span></span>
-<span class="r-in"><span class="co"># SASS to place before (defaults) and after (rules)</span></span>
-<span class="r-in"><span class="va">core</span> <span class="op">&lt;-</span> <span class="fu">sass_layer</span><span class="op">(</span>defaults <span class="op">=</span> <span class="va">blue</span>, rules <span class="op">=</span> <span class="st">"body { color: $color; }"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">core</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">blue</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"blue !default"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">red</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"red !default"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">green</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"green !default"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># a sass_layer() by itself is not very useful, it just defines some</span></span></span>
+<span class="r-in"><span><span class="co"># SASS to place before (defaults) and after (rules)</span></span></span>
+<span class="r-in"><span><span class="va">core</span> <span class="op">&lt;-</span> <span class="fu">sass_layer</span><span class="op">(</span>defaults <span class="op">=</span> <span class="va">blue</span>, rules <span class="op">=</span> <span class="st">"body { color: $color; }"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">core</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> /* Sass Bundle */</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $color: blue !default;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> body { color: $color; }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> /* *** */</span>
-<span class="r-in"><span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span><span class="va">core</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span><span class="va">core</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> /* CSS */</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> body {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   color: blue;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># However, by stacking sass_layer()s, we have ability to place</span></span>
-<span class="r-in"><span class="co"># SASS both before and after some other sass (e.g., core)</span></span>
-<span class="r-in"><span class="co"># Here we place a red default _before_ the blue default and export the</span></span>
-<span class="r-in"><span class="co"># color SASS variable as a CSS variable _after_ the core</span></span>
-<span class="r-in"><span class="va">red_layer</span> <span class="op">&lt;-</span> <span class="fu">sass_layer</span><span class="op">(</span><span class="va">red</span>, rules <span class="op">=</span> <span class="st">":root{ --color: #{$color}; }"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span><span class="fu">sass_bundle</span><span class="op">(</span><span class="va">core</span>, <span class="va">red_layer</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># However, by stacking sass_layer()s, we have ability to place</span></span></span>
+<span class="r-in"><span><span class="co"># SASS both before and after some other sass (e.g., core)</span></span></span>
+<span class="r-in"><span><span class="co"># Here we place a red default _before_ the blue default and export the</span></span></span>
+<span class="r-in"><span><span class="co"># color SASS variable as a CSS variable _after_ the core</span></span></span>
+<span class="r-in"><span><span class="va">red_layer</span> <span class="op">&lt;-</span> <span class="fu">sass_layer</span><span class="op">(</span><span class="va">red</span>, rules <span class="op">=</span> <span class="st">":root{ --color: #{$color}; }"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span><span class="fu">sass_bundle</span><span class="op">(</span><span class="va">core</span>, <span class="va">red_layer</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> /* CSS */</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> body {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   color: red;</span>
@@ -186,7 +211,7 @@ calling <code>sass_layer(rules = ...)</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   --color: red;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span><span class="fu">sass_bundle</span><span class="op">(</span><span class="va">core</span>, <span class="va">red_layer</span>, <span class="fu">sass_layer</span><span class="op">(</span><span class="va">green</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span><span class="fu">sass_bundle</span><span class="op">(</span><span class="va">core</span>, <span class="va">red_layer</span>, <span class="fu">sass_layer</span><span class="op">(</span><span class="va">green</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> /* CSS */</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> body {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   color: red;</span>
@@ -196,11 +221,11 @@ calling <code>sass_layer(rules = ...)</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   --color: red;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Example of merging layers and removing a layer</span></span>
-<span class="r-in"><span class="co"># Remember to name the layers that are removable</span></span>
-<span class="r-in"><span class="va">core_layers</span> <span class="op">&lt;-</span> <span class="fu">sass_bundle</span><span class="op">(</span><span class="va">core</span>, red <span class="op">=</span> <span class="va">red_layer</span>, green <span class="op">=</span> <span class="fu">sass_layer</span><span class="op">(</span><span class="va">green</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">core_layers</span> <span class="co"># pretty printed for console</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example of merging layers and removing a layer</span></span></span>
+<span class="r-in"><span><span class="co"># Remember to name the layers that are removable</span></span></span>
+<span class="r-in"><span><span class="va">core_layers</span> <span class="op">&lt;-</span> <span class="fu">sass_bundle</span><span class="op">(</span><span class="va">core</span>, red <span class="op">=</span> <span class="va">red_layer</span>, green <span class="op">=</span> <span class="fu">sass_layer</span><span class="op">(</span><span class="va">green</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">core_layers</span> <span class="co"># pretty printed for console</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> /* Sass Bundle: red, green */</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $color: red !default;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $color: green !default;</span>
@@ -208,36 +233,36 @@ calling <code>sass_layer(rules = ...)</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> body { color: $color; }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> :root{ --color: #{$color}; }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> /* *** */</span>
-<span class="r-in"><span class="va">core_slim</span> <span class="op">&lt;-</span> <span class="fu">sass_bundle_remove</span><span class="op">(</span><span class="va">core_layers</span>, <span class="st">"red"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span><span class="va">core_slim</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">core_slim</span> <span class="op">&lt;-</span> <span class="fu">sass_bundle_remove</span><span class="op">(</span><span class="va">core_layers</span>, <span class="st">"red"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span><span class="va">core_slim</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> /* CSS */</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> body {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   color: green;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># File attachment example: Create a checkboard pattern .png, then</span></span>
-<span class="r-in"><span class="co"># use it from a sass layer</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">tmp_png</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".png"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">grDevices</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grDevices/png.html" class="external-link">png</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="va">tmp_png</span>, width <span class="op">=</span> <span class="fl">20</span>, height <span class="op">=</span> <span class="fl">20</span>,</span>
-<span class="r-in">  bg <span class="op">=</span> <span class="st">"transparent"</span>, antialias <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep_len</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">4</span><span class="op">)</span>, xaxs <span class="op">=</span> <span class="st">"i"</span>, yaxs <span class="op">=</span> <span class="st">"i"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/frame.html" class="external-link">plot.new</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/rect.html" class="external-link">rect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>,<span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>,<span class="fl">1</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"#00000044"</span>, border<span class="op">=</span><span class="cn">NA</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.off</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># File attachment example: Create a checkboard pattern .png, then</span></span></span>
+<span class="r-in"><span><span class="co"># use it from a sass layer</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">tmp_png</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".png"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">grDevices</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grDevices/png.html" class="external-link">png</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="va">tmp_png</span>, width <span class="op">=</span> <span class="fl">20</span>, height <span class="op">=</span> <span class="fl">20</span>,</span></span>
+<span class="r-in"><span>  bg <span class="op">=</span> <span class="st">"transparent"</span>, antialias <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep_len</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">4</span><span class="op">)</span>, xaxs <span class="op">=</span> <span class="st">"i"</span>, yaxs <span class="op">=</span> <span class="st">"i"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/frame.html" class="external-link">plot.new</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/rect.html" class="external-link">rect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>,<span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>,<span class="fl">1</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"#00000044"</span>, border<span class="op">=</span><span class="cn">NA</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.off</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> agg_png </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       2 </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">layer</span> <span class="op">&lt;-</span> <span class="fu">sass_layer</span><span class="op">(</span></span>
-<span class="r-in">  rules <span class="op">=</span> <span class="st">".bg-check { background-image: url(images/demo_checkboard_bg.png) }"</span>,</span>
-<span class="r-in">  file_attachments <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"images/demo_checkboard_bg.png"</span> <span class="op">=</span> <span class="va">tmp_png</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">output_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".css"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span><span class="va">layer</span>, output <span class="op">=</span> <span class="va">output_path</span>, write_attachments <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpYH11y9/file28b554e8e30c.css"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">layer</span> <span class="op">&lt;-</span> <span class="fu">sass_layer</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  rules <span class="op">=</span> <span class="st">".bg-check { background-image: url(images/demo_checkboard_bg.png) }"</span>,</span></span>
+<span class="r-in"><span>  file_attachments <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"images/demo_checkboard_bg.png"</span> <span class="op">=</span> <span class="va">tmp_png</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">output_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".css"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span><span class="va">layer</span>, output <span class="op">=</span> <span class="va">output_path</span>, write_attachments <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpyzpZYE/file2ba0476eb24d.css"</span>
 </code></pre></div>
     </div>
   </div>
@@ -252,7 +277,7 @@ calling <code>sass_layer(rules = ...)</code>.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

@@ -63,24 +63,31 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">sass_file_cache</span><span class="op">(</span><span class="va">dir</span>, max_size <span class="op">=</span> <span class="fl">40</span> <span class="op">*</span> <span class="fl">1024</span><span class="op">^</span><span class="fl">2</span>, max_age <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sass_file_cache</span><span class="op">(</span><span class="va">dir</span>, max_size <span class="op">=</span> <span class="fl">40</span> <span class="op">*</span> <span class="fl">1024</span><span class="op">^</span><span class="fl">2</span>, max_age <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>dir</dt>
 <dd><p>The directory in which to store the cached files.</p></dd>
+
+
 <dt>max_size</dt>
 <dd><p>The maximum size of the cache, in bytes. If the cache grows
 past this size, the least-recently-used objects will be removed until it
 fits within this size.</p></dd>
+
+
 <dt>max_age</dt>
 <dd><p>The maximum age of objects in the cache, in seconds. The
 default is one week.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <a href="FileCache.html">FileCache</a> object.</p>
+    
+
+<p>A <a href="FileCache.html">FileCache</a> object.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -89,14 +96,14 @@ default is one week.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># Create a cache with the default settings</span></span>
-<span class="r-in"><span class="va">cache</span> <span class="op">&lt;-</span> <span class="fu">sass_file_cache</span><span class="op">(</span><span class="fu"><a href="sass_cache_context_dir.html">sass_cache_context_dir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Clear the cache</span></span>
-<span class="r-in"><span class="va">cache</span><span class="op">$</span><span class="fu">reset</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># Create a cache with the default settings</span></span></span>
+<span class="r-in"><span><span class="va">cache</span> <span class="op">&lt;-</span> <span class="fu">sass_file_cache</span><span class="op">(</span><span class="fu"><a href="sass_cache_context_dir.html">sass_cache_context_dir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Clear the cache</span></span></span>
+<span class="r-in"><span><span class="va">cache</span><span class="op">$</span><span class="fu">reset</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -111,7 +118,7 @@ default is one week.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

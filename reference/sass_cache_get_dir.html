@@ -61,9 +61,9 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">sass_cache_get_dir</span><span class="op">(</span><span class="va">dir</span>, create <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu">sass_cache_set_dir</span><span class="op">(</span><span class="va">dir</span>, <span class="va">cache</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sass_cache_get_dir</span><span class="op">(</span><span class="va">dir</span>, create <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">sass_cache_set_dir</span><span class="op">(</span><span class="va">dir</span>, <span class="va">cache</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -71,13 +71,18 @@
     <dl><dt>dir</dt>
 <dd><p>A directory. An error will be thrown if the directory does not
 exist.</p></dd>
+
+
 <dt>create</dt>
 <dd><p>If <code>TRUE</code>, then if the cache directory doesn't exist, or if
 there is not a registered cache object for the directory, create them as
 needed.</p></dd>
+
+
 <dt>cache</dt>
 <dd><p>A <code><a href="sass_file_cache.html">sass_file_cache()</a></code> object, or <code>NULL</code> if you don't want to
 unset the cache for a directory.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -106,7 +111,7 @@ like maximum size or age.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

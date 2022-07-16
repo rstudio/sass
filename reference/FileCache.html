@@ -179,15 +179,15 @@ already been deleted.</p>
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
 <p>Create a FileCache object.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va"><a href="../reference/FileCache.html">FileCache</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>
-  dir <span class="op">=</span> <span class="cn">NULL</span>,
-  max_size <span class="op">=</span> <span class="fl">40</span> <span class="op">*</span> <span class="fl">1024</span><span class="op">^</span><span class="fl">2</span>,
-  max_age <span class="op">=</span> <span class="cn">Inf</span>,
-  max_n <span class="op">=</span> <span class="cn">Inf</span>,
-  evict <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lru"</span>, <span class="st">"fifo"</span><span class="op">)</span>,
-  destroy_on_finalize <span class="op">=</span> <span class="cn">FALSE</span>,
-  logfile <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/FileCache.html">FileCache</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span></span>
+<span>  dir <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  max_size <span class="op">=</span> <span class="fl">40</span> <span class="op">*</span> <span class="fl">1024</span><span class="op">^</span><span class="fl">2</span>,</span>
+<span>  max_age <span class="op">=</span> <span class="cn">Inf</span>,</span>
+<span>  max_n <span class="op">=</span> <span class="cn">Inf</span>,</span>
+<span>  evict <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lru"</span>, <span class="st">"fifo"</span><span class="op">)</span>,</span>
+<span>  destroy_on_finalize <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  logfile <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -239,7 +239,7 @@ information will be written. To log to the console, use <code><a href="https://r
 <p>Get the content associated with <code>key</code>, and save in a file
 named <code>outfile</code>.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">FileCache</span><span class="op">$</span><span class="fu">get_file</span><span class="op">(</span><span class="va">key</span>, <span class="va">outfile</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">FileCache</span><span class="op">$</span><span class="fu">get_file</span><span class="op">(</span><span class="va">key</span>, <span class="va">outfile</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -270,7 +270,7 @@ overwritten?</p></dd>
 <p>Get the content associated with <code>key</code>, and return as either
 string or a raw vector.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">FileCache</span><span class="op">$</span><span class="fu">get_content</span><span class="op">(</span><span class="va">key</span>, mode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"text"</span>, <span class="st">"raw"</span><span class="op">)</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">FileCache</span><span class="op">$</span><span class="fu">get_content</span><span class="op">(</span><span class="va">key</span>, mode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"text"</span>, <span class="st">"raw"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -298,7 +298,7 @@ raw vector.</p></dd>
 <p>Sets content associated with <code>key</code>, from a file named
 <code>infile</code>.</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">FileCache</span><span class="op">$</span><span class="fu">set_file</span><span class="op">(</span><span class="va">key</span>, <span class="va">infile</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">FileCache</span><span class="op">$</span><span class="fu">set_file</span><span class="op">(</span><span class="va">key</span>, <span class="va">infile</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -324,7 +324,7 @@ otherwise.</p>
 <p>Sets content associated with <code>key</code>, from a single-element
 vector.</p><div class="section">
 <h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">FileCache</span><span class="op">$</span><span class="fu">set_content</span><span class="op">(</span><span class="va">key</span>, <span class="va">content</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">FileCache</span><span class="op">$</span><span class="fu">set_content</span><span class="op">(</span><span class="va">key</span>, <span class="va">content</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -351,7 +351,7 @@ otherwise.</p>
 <h3 id="method-exists-">Method <code><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists()</a></code><a class="anchor" aria-label="anchor" href="#method-exists-"></a></h3>
 <p>Check if content associated with <code>key</code> exists in cache</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">FileCache</span><span class="op">$</span><span class="fu">exists</span><span class="op">(</span><span class="va">key</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">FileCache</span><span class="op">$</span><span class="fu">exists</span><span class="op">(</span><span class="va">key</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -371,7 +371,7 @@ otherwise.</p>
 <h3 id="method-keys-">Method <code>keys()</code><a class="anchor" aria-label="anchor" href="#method-keys-"></a></h3>
 <p>Get all keys</p><div class="section">
 <h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">FileCache</span><span class="op">$</span><span class="fu">keys</span><span class="op">(</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">FileCache</span><span class="op">$</span><span class="fu">keys</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -383,7 +383,7 @@ otherwise.</p>
 <h3 id="method-remove-">Method <code><a href="https://rdrr.io/r/base/rm.html" class="external-link">remove()</a></code><a class="anchor" aria-label="anchor" href="#method-remove-"></a></h3>
 <p>Remove an object</p><div class="section">
 <h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">FileCache</span><span class="op">$</span><span class="fu">remove</span><span class="op">(</span><span class="va">key</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">FileCache</span><span class="op">$</span><span class="fu">remove</span><span class="op">(</span><span class="va">key</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -404,7 +404,7 @@ otherwise.</p>
 <h3 id="method-reset-">Method <code>reset()</code><a class="anchor" aria-label="anchor" href="#method-reset-"></a></h3>
 <p>Clear all objects from the cache.</p><div class="section">
 <h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">FileCache</span><span class="op">$</span><span class="fu">reset</span><span class="op">(</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">FileCache</span><span class="op">$</span><span class="fu">reset</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 
@@ -412,7 +412,7 @@ otherwise.</p>
 <h3 id="method-dir-">Method <code><a href="https://rdrr.io/r/base/list.files.html" class="external-link">dir()</a></code><a class="anchor" aria-label="anchor" href="#method-dir-"></a></h3>
 <p>Returns the directory used for the cache.</p><div class="section">
 <h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">FileCache</span><span class="op">$</span><span class="fu">dir</span><span class="op">(</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">FileCache</span><span class="op">$</span><span class="fu">dir</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 
@@ -421,7 +421,7 @@ otherwise.</p>
 <p>Prune the cache, using the parameters specified by
 <code>max_size</code>,   <code>max_age</code>, <code>max_n</code>, and <code>evict</code>.</p><div class="section">
 <h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">FileCache</span><span class="op">$</span><span class="fu">prune</span><span class="op">(</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">FileCache</span><span class="op">$</span><span class="fu">prune</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 
@@ -429,7 +429,7 @@ otherwise.</p>
 <h3 id="method-size-">Method <code>size()</code><a class="anchor" aria-label="anchor" href="#method-size-"></a></h3>
 <p>Return the number of items currently in the cache.</p><div class="section">
 <h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">FileCache</span><span class="op">$</span><span class="fu">size</span><span class="op">(</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">FileCache</span><span class="op">$</span><span class="fu">size</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 
@@ -438,7 +438,7 @@ otherwise.</p>
 <p>Clears all objects in the cache, and removes the cache
 directory from disk.</p><div class="section">
 <h4 id="usage-12">Usage<a class="anchor" aria-label="anchor" href="#usage-12"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">FileCache</span><span class="op">$</span><span class="fu">destroy</span><span class="op">(</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">FileCache</span><span class="op">$</span><span class="fu">destroy</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 
@@ -446,7 +446,7 @@ directory from disk.</p><div class="section">
 <h3 id="method-is-destroyed-">Method <code>is_destroyed()</code><a class="anchor" aria-label="anchor" href="#method-is-destroyed-"></a></h3>
 <p>Reports whether the cache has been destroyed.</p><div class="section">
 <h4 id="usage-13">Usage<a class="anchor" aria-label="anchor" href="#usage-13"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">FileCache</span><span class="op">$</span><span class="fu">is_destroyed</span><span class="op">(</span>throw <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">FileCache</span><span class="op">$</span><span class="fu">is_destroyed</span><span class="op">(</span>throw <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -463,7 +463,7 @@ destroyed?</p></dd>
 <h3 id="method-finalize-">Method <code>finalize()</code><a class="anchor" aria-label="anchor" href="#method-finalize-"></a></h3>
 <p>A finalizer for the cache.</p><div class="section">
 <h4 id="usage-14">Usage<a class="anchor" aria-label="anchor" href="#usage-14"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">FileCache</span><span class="op">$</span><span class="fu">finalize</span><span class="op">(</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">FileCache</span><span class="op">$</span><span class="fu">finalize</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 
@@ -471,7 +471,7 @@ destroyed?</p></dd>
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-15">Usage<a class="anchor" aria-label="anchor" href="#usage-15"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span class="va">FileCache</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">FileCache</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -499,7 +499,7 @@ destroyed?</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

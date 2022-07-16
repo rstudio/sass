@@ -63,96 +63,134 @@ font-family property."><meta property="og:image" content="https://rstudio.github
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">font_google</span><span class="op">(</span>
-  <span class="va">family</span>,
-  local <span class="op">=</span> <span class="cn">TRUE</span>,
-  cache <span class="op">=</span> <span class="fu"><a href="sass_file_cache.html">sass_file_cache</a></span><span class="op">(</span><span class="fu"><a href="sass_cache_context_dir.html">sass_cache_context_dir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,
-  wght <span class="op">=</span> <span class="cn">NULL</span>,
-  ital <span class="op">=</span> <span class="cn">NULL</span>,
-  display <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"swap"</span>, <span class="st">"auto"</span>, <span class="st">"block"</span>, <span class="st">"fallback"</span>, <span class="st">"optional"</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="fu">font_link</span><span class="op">(</span><span class="va">family</span>, <span class="va">href</span><span class="op">)</span>
-
-<span class="fu">font_face</span><span class="op">(</span>
-  <span class="va">family</span>,
-  <span class="va">src</span>,
-  weight <span class="op">=</span> <span class="cn">NULL</span>,
-  style <span class="op">=</span> <span class="cn">NULL</span>,
-  display <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"swap"</span>, <span class="st">"auto"</span>, <span class="st">"block"</span>, <span class="st">"fallback"</span>, <span class="st">"optional"</span><span class="op">)</span>,
-  stretch <span class="op">=</span> <span class="cn">NULL</span>,
-  variant <span class="op">=</span> <span class="cn">NULL</span>,
-  unicode_range <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span>
-
-<span class="fu">font_collection</span><span class="op">(</span><span class="va">...</span>, default_flag <span class="op">=</span> <span class="cn">TRUE</span>, quote <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-
-<span class="fu">is_font_collection</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">font_google</span><span class="op">(</span></span>
+<span>  <span class="va">family</span>,</span>
+<span>  local <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  cache <span class="op">=</span> <span class="fu"><a href="sass_file_cache.html">sass_file_cache</a></span><span class="op">(</span><span class="fu"><a href="sass_cache_context_dir.html">sass_cache_context_dir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  wght <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ital <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  display <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"swap"</span>, <span class="st">"auto"</span>, <span class="st">"block"</span>, <span class="st">"fallback"</span>, <span class="st">"optional"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">font_link</span><span class="op">(</span><span class="va">family</span>, <span class="va">href</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">font_face</span><span class="op">(</span></span>
+<span>  <span class="va">family</span>,</span>
+<span>  <span class="va">src</span>,</span>
+<span>  weight <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  style <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  display <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"swap"</span>, <span class="st">"auto"</span>, <span class="st">"block"</span>, <span class="st">"fallback"</span>, <span class="st">"optional"</span><span class="op">)</span>,</span>
+<span>  stretch <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  variant <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  unicode_range <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">font_collection</span><span class="op">(</span><span class="va">...</span>, default_flag <span class="op">=</span> <span class="cn">TRUE</span>, quote <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">is_font_collection</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>family</dt>
 <dd><p>A character string with a <em>single</em> font family name.</p></dd>
+
+
 <dt>local</dt>
 <dd><p>Whether or not download and bundle local (woff) font files.</p></dd>
+
+
 <dt>cache</dt>
 <dd><p>A <code><a href="sass_file_cache.html">sass_file_cache()</a></code> object (or, more generally, a file
 caching class with <code>$get_file()</code> and <code>$set_file()</code> methods). Set this
 argument to <code>FALSE</code> or <code>NULL</code> to disable caching.</p></dd>
+
+
 <dt>wght</dt>
 <dd><p>One of the following:</p><ul><li><p><code>NULL</code>, the default weight for the <code>family</code>.</p></li>
 <li><p>A character string defining an <a href="https://developers.google.com/fonts/docs/css2#axis_ranges" class="external-link">axis range</a></p></li>
 <li><p>A numeric vector of desired font weight(s).</p></li>
 </ul></dd>
+
+
 <dt>ital</dt>
 <dd><p>One of the following:</p><ul><li><p><code>NULL</code>, the default <code>font-style</code> for the <code>family</code>.</p></li>
 <li><p><code>0</code>, meaning <code>font-style: normal</code></p></li>
 <li><p><code>1</code>, meaning <code>font-style: italic</code></p></li>
 <li><p><code>c(0, 1)</code>, meaning both <code>normal</code> and <code>italic</code></p></li>
 </ul></dd>
+
+
 <dt>display</dt>
 <dd><p>A character vector for the <code>font-display</code> <code>@font-face</code>
 property.</p></dd>
+
+
 <dt>href</dt>
 <dd><p>A URL resource pointing to the font data.</p></dd>
+
+
 <dt>src</dt>
 <dd><p>A character vector for the <code>src</code> <code>@font-face</code> property. Beware
 that is character strings are taken verbatim, so careful quoting and/or URL
 encoding may be required.</p></dd>
+
+
 <dt>weight</dt>
 <dd><p>A character (or numeric) vector for the <code>font-weight</code>
 <code>@font-face</code> property.</p></dd>
+
+
 <dt>style</dt>
 <dd><p>A character vector for the <code>font-style</code> <code>@font-face</code> property.</p></dd>
+
+
 <dt>stretch</dt>
 <dd><p>A character vector for the <code>font-stretch</code> <code>@font-face</code>
 property.</p></dd>
+
+
 <dt>variant</dt>
 <dd><p>A character vector for the <code>font-variant</code> <code>@font-face</code>
 property.</p></dd>
+
+
 <dt>unicode_range</dt>
 <dd><p>A character vector for <code>unicode-range</code> <code>@font-face</code>
 property.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>a collection of <code>font_google()</code>, <code>font_link()</code>, <code>font_face()</code>, and/or character vector(s) (i.e., family names to include in the CSS <code>font-family</code> properly). Family names are automatically quoted as necessary.</p></dd>
+
+
 <dt>default_flag</dt>
 <dd><p>whether or not to include a <code>!default</code> when converted to a Sass variable with <code><a href="as_sass.html">as_sass()</a></code>.</p></dd>
+
+
 <dt>quote</dt>
 <dd><p>whether or not to attempt automatic quoting of family names.</p></dd>
+
+
 <dt>x</dt>
 <dd><p>test whether <code>x</code> is a <code>font_collection()</code>, <code>font_google()</code>, <code>font_link()</code>, or <code>font_face()</code> object.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a <code><a href="sass_layer.html">sass_layer()</a></code> holding an <code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html" class="external-link">htmltools::htmlDependency()</a></code> which points
+    
+
+<p>a <code><a href="sass_layer.html">sass_layer()</a></code> holding an <code><a href="https://rdrr.io/pkg/htmltools/man/htmlDependency.html" class="external-link">htmltools::htmlDependency()</a></code> which points
 to the font files.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
     <p>These helpers <strong>must be used the named list approach to variable
 definitions</strong>, for example:</p>
-<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">list</span>(</span>
+<span id="cb1-2"><a href="#cb1-2"></a>  <span class="kw">list</span>(<span class="st">"font-variable"</span> =<span class="st"> </span><span class="kw">font_google</span>(<span class="st">"Pacifico"</span>)),</span>
+<span id="cb1-3"><a href="#cb1-3"></a>  <span class="kw">list</span>(<span class="st">"body{font-family: $font-variable}"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4"></a>)</span></code></pre><p></p></div>
     </div>
     <div id="font-fallbacks">
     <h2>Font fallbacks</h2>
@@ -166,7 +204,11 @@ access. However, when importing font files remotely (i.e., <code>font_google(...
 font(s) in case the remote link isn't working (e.g., maybe the end user
 doesn't have an internet connection). To provide fallback fonts, use
 <code>font_collection()</code>, for example:</p>
-<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1"></a>pacifico &lt;-<span class="st"> </span><span class="kw">font_google</span>(<span class="st">"Pacifico"</span>, <span class="dt">local =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">as_sass</span>(<span class="kw">list</span>(</span>
+<span id="cb1-3"><a href="#cb1-3"></a>  <span class="kw">list</span>(<span class="st">"font-variable"</span> =<span class="st"> </span><span class="kw">font_collection</span>(pacifico, <span class="st">"system-ui"</span>)),</span>
+<span id="cb1-4"><a href="#cb1-4"></a>  <span class="kw">list</span>(<span class="st">"body{font-family: $font-variable}"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5"></a>))</span></code></pre><p></p></div>
     </div>
     <div id="default-flags">
     <h2>Default flags</h2>
@@ -176,7 +218,10 @@ doesn't have an internet connection). To provide fallback fonts, use
 <p>These font helpers encourage best practice of adding a <code>!default</code> to Sass
 variable definitions, but the flag may be removed via <code>font_collection()</code> if
 desired.</p>
-<p></p><div class="sourceCode"><pre><code></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">as_sass</span>(<span class="kw">list</span>(<span class="st">"font-variable"</span> =<span class="st"> </span>pacifico))</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="co">#&gt; $font-variable: Pacifico !default;</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">as_sass</span>(<span class="kw">list</span>(<span class="st">"font-variable"</span> =<span class="st"> </span><span class="kw">font_collection</span>(pacifico, <span class="dt">default_flag =</span> F)))</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt; $font-variable: Pacifico;</span></span></code></pre><p></p></div>
     </div>
     <div id="serving-non-google-fonts-locally">
     <h2>Serving non-Google fonts locally</h2>
@@ -199,39 +244,39 @@ HTML).</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/htmltools" class="external-link">htmltools</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">my_font</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"my-font"</span> <span class="op">=</span> <span class="fu">font_google</span><span class="op">(</span><span class="st">"Pacifico"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">hello</span> <span class="op">&lt;-</span> <span class="va">tags</span><span class="op">$</span><span class="fu">body</span><span class="op">(</span></span>
-<span class="r-in">  <span class="st">"Hello"</span>,</span>
-<span class="r-in">  <span class="va">tags</span><span class="op">$</span><span class="fu">style</span><span class="op">(</span></span>
-<span class="r-in">    <span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span></span>
-<span class="r-in">      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span class="r-in">        <span class="va">my_font</span>,</span>
-<span class="r-in">        <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"body {font-family: $my-font}"</span><span class="op">)</span></span>
-<span class="r-in">      <span class="op">)</span></span>
-<span class="r-in">    <span class="op">)</span></span>
-<span class="r-in">  <span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/browsable.html" class="external-link">browsable</a></span><span class="op">(</span><span class="va">hello</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Three different yet equivalent ways of importing a remotely-hosted Google Font</span></span>
-<span class="r-in"><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu">font_google</span><span class="op">(</span><span class="st">"Crimson Pro"</span>, wght <span class="op">=</span> <span class="st">"200..900"</span>, local <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu">font_link</span><span class="op">(</span></span>
-<span class="r-in">  <span class="st">"Crimson Pro"</span>,</span>
-<span class="r-in">  href <span class="op">=</span> <span class="st">"https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@200..900"</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://fonts.gstatic.com/s/crimsonpro/v13/q5uDsoa5M_tv7IihmnkabARboYF6CsKj.woff2"</span></span>
-<span class="r-in"><span class="va">c</span> <span class="op">&lt;-</span> <span class="fu">font_face</span><span class="op">(</span></span>
-<span class="r-in">  family <span class="op">=</span> <span class="st">"Crimson Pro"</span>,</span>
-<span class="r-in">  style <span class="op">=</span> <span class="st">"normal"</span>,</span>
-<span class="r-in">  weight <span class="op">=</span> <span class="st">"200 900"</span>,</span>
-<span class="r-in">  src <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"url("</span>, <span class="va">url</span>, <span class="st">") format('woff2')"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/htmltools" class="external-link">htmltools</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">my_font</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"my-font"</span> <span class="op">=</span> <span class="fu">font_google</span><span class="op">(</span><span class="st">"Pacifico"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">hello</span> <span class="op">&lt;-</span> <span class="va">tags</span><span class="op">$</span><span class="fu">body</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"Hello"</span>,</span></span>
+<span class="r-in"><span>  <span class="va">tags</span><span class="op">$</span><span class="fu">style</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="va">my_font</span>,</span></span>
+<span class="r-in"><span>        <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"body {font-family: $my-font}"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/browsable.html" class="external-link">browsable</a></span><span class="op">(</span><span class="va">hello</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Three different yet equivalent ways of importing a remotely-hosted Google Font</span></span></span>
+<span class="r-in"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu">font_google</span><span class="op">(</span><span class="st">"Crimson Pro"</span>, wght <span class="op">=</span> <span class="st">"200..900"</span>, local <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu">font_link</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"Crimson Pro"</span>,</span></span>
+<span class="r-in"><span>  href <span class="op">=</span> <span class="st">"https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@200..900"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://fonts.gstatic.com/s/crimsonpro/v13/q5uDsoa5M_tv7IihmnkabARboYF6CsKj.woff2"</span></span></span>
+<span class="r-in"><span><span class="va">c</span> <span class="op">&lt;-</span> <span class="fu">font_face</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  family <span class="op">=</span> <span class="st">"Crimson Pro"</span>,</span></span>
+<span class="r-in"><span>  style <span class="op">=</span> <span class="st">"normal"</span>,</span></span>
+<span class="r-in"><span>  weight <span class="op">=</span> <span class="st">"200 900"</span>,</span></span>
+<span class="r-in"><span>  src <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"url("</span>, <span class="va">url</span>, <span class="st">") format('woff2')"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -246,7 +291,7 @@ HTML).</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

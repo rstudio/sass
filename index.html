@@ -119,11 +119,11 @@ pre.css {
 </h3>
 <p>Install the released version of <code>sass</code> from CRAN:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"sass"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"sass"</span><span class="op">)</span></span></code></pre></div>
 <p>Install the latest development build from GitHub:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"rstudio/sass"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"rstudio/sass"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="basic-usage">Basic usage<a class="anchor" aria-label="anchor" href="#basic-usage"></a>
@@ -136,11 +136,11 @@ pre.css {
 <li>A nested <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> comprising of all the above.</li>
 </ul>
 <!-- end list --><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/sass/">sass</a></span><span class="op">)</span>
-<span class="fu"><a href="reference/sass.html">sass</a></span><span class="op">(</span>input <span class="op">=</span> <span class="st">"
-  $size: 50%;
-  foo { margin: $size * .33; }
-"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/sass/">sass</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/sass.html">sass</a></span><span class="op">(</span>input <span class="op">=</span> <span class="st">"</span></span>
+<span><span class="st">  $size: 50%;</span></span>
+<span><span class="st">  foo { margin: $size * .33; }</span></span>
+<span><span class="st">"</span><span class="op">)</span></span></code></pre></div>
 <style>foo {
   margin: 16.5%;
 }
@@ -218,7 +218,7 @@ pre.css {
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer>
