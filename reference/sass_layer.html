@@ -168,11 +168,11 @@ calling <code>sass_layer(rules = ...)</code>.</p></dd>
     <div id="functions">
     <h2>Functions</h2>
     
-<ul><li><p><code>sass_layer</code>: Compose the parts of a single Sass layer. Object returned is a <code>sass_bundle()</code> with a single Sass layer</p></li>
-<li><p><code>sass_layer_file</code>: Read in a <code>.scss</code> file with parse special <code>/*-- scss:(functions|defaults|rules|mixins) --*/</code> comments as relevant sections of a <code>sass_layer()</code>.</p></li>
-<li><p><code>sass_bundle</code>: Collect <code>sass_bundle()</code> and/or <code>sass_layer()</code> objects. Unnamed Sass bundles will be concatenated together, preserving their internal name structures. Named Sass bundles will be condensed into a single Sass layer for easier removal from the returned Sass bundle.</p></li>
-<li><p><code>sass_bundle_remove</code>: Remove a whole <code>sass_layer()</code> from a <code>sass_bundle()</code> object.</p></li>
-<li><p><code>is_sass_bundle</code>: Check if <code>x</code> is a Sass bundle object</p></li>
+<ul><li><p><code>sass_layer()</code>: Compose the parts of a single Sass layer. Object returned is a <code>sass_bundle()</code> with a single Sass layer</p></li>
+<li><p><code>sass_layer_file()</code>: Read in a <code>.scss</code> file with parse special <code>/*-- scss:(functions|defaults|rules|mixins) --*/</code> comments as relevant sections of a <code>sass_layer()</code>.</p></li>
+<li><p><code>sass_bundle()</code>: Collect <code>sass_bundle()</code> and/or <code>sass_layer()</code> objects. Unnamed Sass bundles will be concatenated together, preserving their internal name structures. Named Sass bundles will be condensed into a single Sass layer for easier removal from the returned Sass bundle.</p></li>
+<li><p><code>sass_bundle_remove()</code>: Remove a whole <code>sass_layer()</code> from a <code>sass_bundle()</code> object.</p></li>
+<li><p><code>is_sass_bundle()</code>: Check if <code>x</code> is a Sass bundle object</p></li>
 </ul></div>
 
     <div id="ref-examples">
@@ -262,7 +262,7 @@ calling <code>sass_layer(rules = ...)</code>.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">output_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".css"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span><span class="va">layer</span>, output <span class="op">=</span> <span class="va">output_path</span>, write_attachments <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmpdc3BgU/file2c2766f15c84.css"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpqieGIK/file338868c6584d.css"</span>
 </code></pre></div>
     </div>
   </div>
@@ -277,7 +277,7 @@ calling <code>sass_layer(rules = ...)</code>.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
