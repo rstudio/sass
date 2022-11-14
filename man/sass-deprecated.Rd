@@ -12,7 +12,7 @@ Deprecated Sass functions
 }
 \section{Functions}{
 \itemize{
-\item \code{sass_layer_merge}: Please use \code{sass_bundle(...)}
-}}
+\item \code{sass_layer_merge()}: Please use \code{sass_bundle(...)}
 
+}}
 \keyword{internal}

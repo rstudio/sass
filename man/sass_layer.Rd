@@ -85,17 +85,17 @@ earlier layers, effectively 'new' defaults through all the 'old' defaults.
 }
 \section{Functions}{
 \itemize{
-\item \code{sass_layer}: Compose the parts of a single Sass layer. Object returned is a \code{sass_bundle()} with a single Sass layer
+\item \code{sass_layer()}: Compose the parts of a single Sass layer. Object returned is a \code{sass_bundle()} with a single Sass layer
 
-\item \code{sass_layer_file}: Read in a \code{.scss} file with parse special \verb{/*-- scss:(functions|defaults|rules|mixins) --*/} comments as relevant sections of a \code{sass_layer()}.
+\item \code{sass_layer_file()}: Read in a \code{.scss} file with parse special \verb{/*-- scss:(functions|defaults|rules|mixins) --*/} comments as relevant sections of a \code{sass_layer()}.
 
-\item \code{sass_bundle}: Collect \code{sass_bundle()} and/or \code{sass_layer()} objects. Unnamed Sass bundles will be concatenated together, preserving their internal name structures. Named Sass bundles will be condensed into a single Sass layer for easier removal from the returned Sass bundle.
+\item \code{sass_bundle()}: Collect \code{sass_bundle()} and/or \code{sass_layer()} objects. Unnamed Sass bundles will be concatenated together, preserving their internal name structures. Named Sass bundles will be condensed into a single Sass layer for easier removal from the returned Sass bundle.
 
-\item \code{sass_bundle_remove}: Remove a whole \code{sass_layer()} from a \code{sass_bundle()} object.
+\item \code{sass_bundle_remove()}: Remove a whole \code{sass_layer()} from a \code{sass_bundle()} object.
 
-\item \code{is_sass_bundle}: Check if \code{x} is a Sass bundle object
+\item \code{is_sass_bundle()}: Check if \code{x} is a Sass bundle object
+
 }}
-
 \examples{
 blue <- list(color = "blue !default")
 red <- list(color = "red !default")
