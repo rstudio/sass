@@ -62,10 +62,10 @@ LDFLAGS  += -std=c++11
 
 ifeq (Windows,$(UNAME))
 	ifneq ($(BUILD),shared)
-		STATIC_ALL     ?= 1
+		STATIC_ALL     ?= 0
 	endif
-	STATIC_LIBGCC    ?= 1
-	STATIC_LIBSTDCPP ?= 1
+	STATIC_LIBGCC    ?= 0
+	STATIC_LIBSTDCPP ?= 0
 else
 	STATIC_ALL       ?= 0
 	STATIC_LIBGCC    ?= 0
