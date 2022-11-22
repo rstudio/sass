@@ -2,7 +2,13 @@
 
 ## Improvements
 
-* Close #113: Get rid of C++ warning during package installation about sprintf() being deprecated
+* Close #116: Remove hard-coded lstdc++ flag from Makevars. (#118) 
+
+# sass 0.4.3
+
+## Improvements
+
+* Close #113: Get rid of C++ warning during package installation about sprintf() being deprecated. (#114)
 
 # sass 0.4.2
 
