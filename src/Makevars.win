@@ -1,4 +1,4 @@
-PKG_LIBS = ./libsass/lib/libsass.a -lstdc++
+PKG_LIBS = ./libsass/lib/libsass.a
 PKG_CPPFLAGS = -I./libsass/include
 
 $(SHLIB): libsass/lib/libsass.a
