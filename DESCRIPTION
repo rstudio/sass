@@ -1,6 +1,6 @@
 Type: Package
 Package: sass
-Version: 0.4.4
+Version: 0.4.4.9000
 Title: Syntactically Awesome Style Sheets ('Sass')
 Description: An 'SCSS' compiler, powered by the 'LibSass' library. With this,
     R developers can use variables, inheritance, and functions to generate
@@ -39,7 +39,7 @@ License: MIT + file LICENSE
 URL: https://rstudio.github.io/sass/, https://github.com/rstudio/sass
 BugReports: https://github.com/rstudio/sass/issues
 Encoding: UTF-8
-RoxygenNote: 7.2.2
+RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
 SystemRequirements: GNU make
 Imports:
