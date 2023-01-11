@@ -1,6 +1,8 @@
 # sass 0.4.4.9000
 
+## Improvements
 
+* Close #122: Upgrade LibSass dependency from v3.6.4 to v3.6.5. (#123)
 
 # sass 0.4.4
 
