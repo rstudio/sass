@@ -9,7 +9,7 @@
   ROOT <- rprojroot::find_package_root_file()
   setwd(ROOT)
 
-  LIBSASS_VERSION <- "3.6.4"
+  LIBSASS_VERSION <- "3.6.5"
 
   url <- sprintf(
     "https://github.com/sass/libsass/archive/%s.tar.gz",

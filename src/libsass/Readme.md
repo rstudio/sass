@@ -1,17 +1,22 @@
 LibSass - Sass compiler written in C++
 ======================================
 
-Currently maintained by Marcel Greter ([@mgreter]) and Michael Mifsud ([@xzyfer])  
+Currently maintained by Marcel Greter ([@mgreter]) and Michael Mifsud ([@xzyfer])
 Originally created by Aaron Leung ([@akhleung]) and Hampton Catlin ([@hcatlin])
 
-[![Unix CI](https://travis-ci.org/sass/libsass.svg?branch=master)](https://travis-ci.org/sass/libsass "Travis CI")
+[![GitHub CI](https://github.com/sass/libsass/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/sass/libsass/actions/workflows/build-and-test.yml "GitHub CI")
 [![Windows CI](https://ci.appveyor.com/api/projects/status/github/sass/libsass?svg=true)](https://ci.appveyor.com/project/sass/libsass/branch/master "Appveyor CI")
-[![Coverage Status](https://img.shields.io/coveralls/sass/libsass.svg)](https://coveralls.io/r/sass/libsass?branch=feature%2Ftest-travis-ci-3 "Code coverage of spec tests")
+[![Coverage Status](https://img.shields.io/coveralls/sass/libsass.svg)](https://coveralls.io/r/sass/libsass?branch=master "Code coverage of spec tests")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/sass/libsass.svg)](http://isitmaintained.com/project/sass/libsass "Percentage of issues still open")
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/sass/libsass.svg)](http://isitmaintained.com/project/sass/libsass "Average time to resolve an issue")
 [![Bountysource](https://www.bountysource.com/badge/tracker?tracker_id=283068)](https://www.bountysource.com/trackers/283068-libsass?utm_source=283068&utm_medium=shield&utm_campaign=TRACKER_BADGE "Bountysource")
 [![Join us](https://libsass-slack.herokuapp.com/badge.svg)](https://libsass-slack.herokuapp.com/ "Slack communication channels")
 
+**Warning:** [LibSass is deprecated](https://sass-lang.com/blog/libsass-is-deprecated).
+While it will continue to receive maintenance releases indefinitely, there are no
+plans to add additional features or compatibility with any new CSS or Sass features.
+Projects that still use it should move onto
+[Dart Sass](https://sass-lang.com/dart-sass).
 
 [LibSass](https://github.com/sass/libsass "LibSass GitHub Project") is just a library!
 If you want to use LibSass to compile Sass, you need an implementer. Some
@@ -30,8 +35,10 @@ CLI tool built by the same people as LibSass.
 - https://github.com/sass/libsass-net (C#)
 - https://github.com/medialize/sass.js (JS)
 - https://github.com/bit3/jsass (Java)
+- https://github.com/scottdavis/sass.ex (Elixir)
+- https://github.com/Youimmi/sass_compiler (Elixir)
 
-This list does not say anything about the quality of either the listed or not listed [implementations](docs/implementations.md)!  
+This list does not say anything about the quality of either the listed or not listed [implementations](docs/implementations.md)!
 The authors of the listed projects above are just known to work regularly together with LibSass developers.
 
 About

@@ -4,12 +4,19 @@
 
 library(rprojroot)
 
-patch_dir <- rprojroot::find_package_root_file("scripts/patches")
+# Remove libsass test files (the entire `test` directory) since they contain unicode
+# directory paths, and R CMD check provides a warning.
+unlink(
+  find_package_root_file("src/libsass/test"),
+  recursive = TRUE
+)
+
+patch_dir <- find_package_root_file("scripts/patches")
 
 for (patch in list.files(patch_dir, full.names = TRUE)) {
   tryCatch({
     message(sprintf("Applying %s", basename(patch)))
-    system(sprintf("git apply '%s'", patch))
+    system(sprintf("git apply --reject --whitespace=fix '%s'", patch))
   },
   error = function(e) {
     quit(save = "no", status = 1)
