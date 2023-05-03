@@ -1,5 +1,6 @@
-# sass 0.4.5.9000
+# sass 0.4.6
 
+* Close #127: Removed a compilation warning on Windows w/ gcc-12. (#128) 
 
 # sass 0.4.5
 

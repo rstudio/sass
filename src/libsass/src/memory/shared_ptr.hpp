@@ -11,6 +11,14 @@
 #include <type_traits>
 #include <vector>
 
+// Workaround for what appears to be a false positive (Wuse-after-free) warning in gcc-12 on Windows.
+// See here for evidence of other false positives: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=Wuse-after-free
+// And here for a discussion of the issue: https://github.com/rstudio/sass/issues/127
+#if __GNUC__ > 11 && _WIN32
+/*IGNORE*/ #pragma GCC diagnostic push
+/*IGNORE*/ #pragma GCC diagnostic ignored "-Wuse-after-free"
+#endif
+
 // https://lokiastari.com/blog/2014/12/30/c-plus-plus-by-example-smart-pointer/index.html
 // https://lokiastari.com/blog/2015/01/15/c-plus-plus-by-example-smart-pointer-part-ii/index.html
 // https://lokiastari.com/blog/2015/01/23/c-plus-plus-by-example-smart-pointer-part-iii/index.html
