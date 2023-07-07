@@ -5,22 +5,19 @@
 
 [![R build
 status](https://github.com/rstudio/sass/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rstudio/sass/actions)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/sass)](https://cran.r-project.org/package=sass)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/sass)](https://cran.r-project.org/package=sass)
 
 <style>
 pre {
   border: 1px solid #eee;
 }
-
-pre.r {
+&#10;pre.r {
   background-color: #ffffff;
 }
-
-pre.r code {
+&#10;pre.r code {
   background-color: #ffffff;
 }
-
-pre.css {
+&#10;pre.css {
   margin-top: -1.25rem;
   background-color: #f8f8f8;
   border-radius: 0;
@@ -57,13 +54,11 @@ remotes::install_github("rstudio/sass")
 To compile Sass into CSS, provide Sass to the `input` argument of the
 `sass()` function. `input` can be any of the following:
 
-  - An R string (as in the example below).
-  - A named `list()` defining [Sass
-    variables](https://rstudio.github.io/sass/articles/sass.html#variables).
-  - A `sass_file()`, `sass_import()`, or `sass_layer()`.
-  - A nested `list()` comprising of all the above.
-
-<!-- end list -->
+- An R string (as in the example below).
+- A named `list()` defining [Sass
+  variables](https://rstudio.github.io/sass/articles/sass.html#variables).
+- A `sass_file()`, `sass_import()`, or `sass_layer()`.
+- A nested `list()` comprising of all the above.
 
 ``` r
 library(sass)
