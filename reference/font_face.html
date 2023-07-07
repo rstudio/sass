@@ -187,10 +187,10 @@ to the font files.</p>
     <h2>Details</h2>
     <p>These helpers <strong>must be used the named list approach to variable
 definitions</strong>, for example:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">list</span>(</span>
-<span id="cb1-2"><a href="#cb1-2"></a>  <span class="kw">list</span>(<span class="st">"font-variable"</span> =<span class="st"> </span><span class="kw">font_google</span>(<span class="st">"Pacifico"</span>)),</span>
-<span id="cb1-3"><a href="#cb1-3"></a>  <span class="kw">list</span>(<span class="st">"body{font-family: $font-variable}"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4"></a>)</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">list</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="fu">list</span>(<span class="st">"font-variable"</span> <span class="ot">=</span> <span class="fu">font_google</span>(<span class="st">"Pacifico"</span>)),</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="fu">list</span>(<span class="st">"body{font-family: $font-variable}"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>)</span></code></pre><p></p></div>
     </div>
     <div id="font-fallbacks">
     <h2>Font fallbacks</h2>
@@ -204,11 +204,11 @@ access. However, when importing font files remotely (i.e., <code>font_google(...
 font(s) in case the remote link isn't working (e.g., maybe the end user
 doesn't have an internet connection). To provide fallback fonts, use
 <code>font_collection()</code>, for example:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1"></a>pacifico &lt;-<span class="st"> </span><span class="kw">font_google</span>(<span class="st">"Pacifico"</span>, <span class="dt">local =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">as_sass</span>(<span class="kw">list</span>(</span>
-<span id="cb1-3"><a href="#cb1-3"></a>  <span class="kw">list</span>(<span class="st">"font-variable"</span> =<span class="st"> </span><span class="kw">font_collection</span>(pacifico, <span class="st">"system-ui"</span>)),</span>
-<span id="cb1-4"><a href="#cb1-4"></a>  <span class="kw">list</span>(<span class="st">"body{font-family: $font-variable}"</span>)</span>
-<span id="cb1-5"><a href="#cb1-5"></a>))</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>pacifico <span class="ot">&lt;-</span> <span class="fu">font_google</span>(<span class="st">"Pacifico"</span>, <span class="at">local =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">as_sass</span>(<span class="fu">list</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="fu">list</span>(<span class="st">"font-variable"</span> <span class="ot">=</span> <span class="fu">font_collection</span>(pacifico, <span class="st">"system-ui"</span>)),</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="fu">list</span>(<span class="st">"body{font-family: $font-variable}"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>))</span></code></pre><p></p></div>
     </div>
     <div id="default-flags">
     <h2>Default flags</h2>
@@ -218,10 +218,10 @@ doesn't have an internet connection). To provide fallback fonts, use
 <p>These font helpers encourage best practice of adding a <code>!default</code> to Sass
 variable definitions, but the flag may be removed via <code>font_collection()</code> if
 desired.</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">as_sass</span>(<span class="kw">list</span>(<span class="st">"font-variable"</span> =<span class="st"> </span>pacifico))</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="co">#&gt; $font-variable: Pacifico !default;</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">as_sass</span>(<span class="kw">list</span>(<span class="st">"font-variable"</span> =<span class="st"> </span><span class="kw">font_collection</span>(pacifico, <span class="dt">default_flag =</span> F)))</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt; $font-variable: Pacifico;</span></span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">as_sass</span>(<span class="fu">list</span>(<span class="st">"font-variable"</span> <span class="ot">=</span> pacifico))</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt; $font-variable: Pacifico !default;</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">as_sass</span>(<span class="fu">list</span>(<span class="st">"font-variable"</span> <span class="ot">=</span> <span class="fu">font_collection</span>(pacifico, <span class="at">default_flag =</span> F)))</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">#&gt; $font-variable: Pacifico;</span></span></code></pre><p></p></div>
     </div>
     <div id="serving-non-google-fonts-locally">
     <h2>Serving non-Google fonts locally</h2>
@@ -232,7 +232,7 @@ desired.</p>
 requires downloading font file(s) and pointing <code>src</code> to the right location
 on disk. If you want <code>src</code> to be a relative file path (you almost certainly
 do), then you'll need to mount that resource path using something like
-<code><a href="https://shiny.rstudio.com/reference/shiny/latest/resourcePaths.html" class="external-link">shiny::addResourcePath()</a></code> (for a shiny app) or <code>servr::httd()</code> (for static
+<code><a href="https://rdrr.io/pkg/shiny/man/resourcePaths.html" class="external-link">shiny::addResourcePath()</a></code> (for a shiny app) or <code>servr::httd()</code> (for static
 HTML).</p>
     </div>
     <div id="references">

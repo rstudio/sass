@@ -55,27 +55,34 @@
       <small>Source: <a href="https://github.com/rstudio/sass/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
-    <div class="section level2"><h2 class="page-header" data-toc-text="0.4.6.9000" id="sass-0469000">sass 0.4.6.9000<a class="anchor" aria-label="anchor" href="#sass-0469000"></a></h2></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.4.6.9000" id="sass-0469000">sass 0.4.6.9000<a class="anchor" aria-label="anchor" href="#sass-0469000"></a></h2>
+<ul><li>Closed <a href="https://github.com/rstudio/sass/issues/129" class="external-link">#129</a>: Fixed a compilation warning on latest Apple Clang (15). (<a href="https://github.com/rstudio/sass/issues/130" class="external-link">#130</a>)</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.4.6" id="sass-046">sass 0.4.6<small>2023-05-03</small><a class="anchor" aria-label="anchor" href="#sass-046"></a></h2>
-<ul><li>Close <a href="https://github.com/rstudio/sass/issues/127" class="external-link">#127</a>: Removed a compilation warning on Windows w/ gcc-12. (<a href="https://github.com/rstudio/sass/issues/128" class="external-link">#128</a>)</li></ul></div>
+<ul><li>Close <a href="https://github.com/rstudio/sass/issues/127" class="external-link">#127</a>: Removed a compilation warning on Windows w/ gcc-12. (<a href="https://github.com/rstudio/sass/issues/128" class="external-link">#128</a>)</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.4.5" id="sass-045">sass 0.4.5<small>2023-01-24</small><a class="anchor" aria-label="anchor" href="#sass-045"></a></h2>
 <div class="section level3">
 <h3 id="improvements-0-4-5">Improvements<a class="anchor" aria-label="anchor" href="#improvements-0-4-5"></a></h3>
-<ul><li>Close <a href="https://github.com/rstudio/sass/issues/122" class="external-link">#122</a>: Upgrade LibSass dependency from v3.6.4 to v3.6.5. (<a href="https://github.com/rstudio/sass/issues/123" class="external-link">#123</a>)</li></ul></div>
+<ul><li>Close <a href="https://github.com/rstudio/sass/issues/122" class="external-link">#122</a>: Upgrade LibSass dependency from v3.6.4 to v3.6.5. (<a href="https://github.com/rstudio/sass/issues/123" class="external-link">#123</a>)</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.4.4" id="sass-044">sass 0.4.4<small>2022-11-24</small><a class="anchor" aria-label="anchor" href="#sass-044"></a></h2>
 <div class="section level3">
 <h3 id="improvements-0-4-4">Improvements<a class="anchor" aria-label="anchor" href="#improvements-0-4-4"></a></h3>
-<ul><li>Close <a href="https://github.com/rstudio/sass/issues/116" class="external-link">#116</a>: Remove hard-coded lstdc++ flag from Makevars. (<a href="https://github.com/rstudio/sass/issues/118" class="external-link">#118</a>)</li></ul></div>
+<ul><li>Close <a href="https://github.com/rstudio/sass/issues/116" class="external-link">#116</a>: Remove hard-coded lstdc++ flag from Makevars. (<a href="https://github.com/rstudio/sass/issues/118" class="external-link">#118</a>)</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.4.3" id="sass-043">sass 0.4.3<small>2022-11-19</small><a class="anchor" aria-label="anchor" href="#sass-043"></a></h2>
 <div class="section level3">
 <h3 id="improvements-0-4-3">Improvements<a class="anchor" aria-label="anchor" href="#improvements-0-4-3"></a></h3>
-<ul><li>Close <a href="https://github.com/rstudio/sass/issues/113" class="external-link">#113</a>: Get rid of C++ warning during package installation about sprintf() being deprecated. (<a href="https://github.com/rstudio/sass/issues/114" class="external-link">#114</a>)</li></ul></div>
+<ul><li>Close <a href="https://github.com/rstudio/sass/issues/113" class="external-link">#113</a>: Get rid of C++ warning during package installation about sprintf() being deprecated. (<a href="https://github.com/rstudio/sass/issues/114" class="external-link">#114</a>)</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.4.2" id="sass-042">sass 0.4.2<small>2022-07-16</small><a class="anchor" aria-label="anchor" href="#sass-042"></a></h2>
@@ -107,12 +114,13 @@
 <h3 id="new-features-0-4-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-4-0"></a></h3>
 <ul><li><p>Added new font importing helpers, namely <code><a href="../reference/font_face.html">font_google()</a></code>, <code><a href="../reference/font_face.html">font_link()</a></code>, <code><a href="../reference/font_face.html">font_face()</a></code>, and <code><a href="../reference/font_face.html">font_collection()</a></code> for intelligently importing web fonts files. They must be used inside a named list, for example: <code>list("font-variable" = font_google("Pacifico"))</code>. See <code><a href="../reference/font_face.html">help(font_face, package = "sass")</a></code> for more details and examples. (<a href="https://github.com/rstudio/sass/issues/74" class="external-link">#74</a>)</p></li>
 <li><p>A new <code><a href="../reference/sass_layer.html">sass_layer_file()</a></code> function was added to read in a <code>.scss</code> file as a <code><a href="../reference/sass_layer.html">sass_layer()</a></code>. Special comments of the form <code>/*-- scss:(functions|defaults|rules|mixins) --*/</code> can be used to place certain sections of the file into <code>functions</code>, <code>defaults</code>, <code>rules</code>, and <code>mixins</code>. The primary motivation for this is to allow <a href="https://quarto.org/docs/output-formats/html-themes-more.html" class="external-link">quarto’s theme file format</a> to also be used Shiny and R Markdown. (<a href="https://github.com/rstudio/sass/issues/81" class="external-link">#81</a>)</p></li>
-<li><p>Closed <a href="https://github.com/rstudio/sass/issues/87" class="external-link">#87</a>: Added new <code><a href="../reference/sass_options.html">sass_options_get()</a></code> and <code><a href="../reference/sass_options.html">sass_options_set()</a></code> for setting and reading <code><a href="../reference/sass_options.html">sass_options()</a></code> globally (<code><a href="../reference/sass.html">sass()</a></code>’s <code>options</code> argument now defaults to <code><a href="../reference/sass_options.html">sass_options_get()</a></code> instead of <code><a href="../reference/sass_options.html">sass_options()</a></code>). In addition, when <code><a href="https://shiny.rstudio.com/reference/shiny/latest/devmode.html" class="external-link">shiny::devmode()</a></code> is enabled, Sass source maps are included by default. (<a href="https://github.com/rstudio/sass/issues/88" class="external-link">#88</a>)</p></li>
+<li><p>Closed <a href="https://github.com/rstudio/sass/issues/87" class="external-link">#87</a>: Added new <code><a href="../reference/sass_options.html">sass_options_get()</a></code> and <code><a href="../reference/sass_options.html">sass_options_set()</a></code> for setting and reading <code><a href="../reference/sass_options.html">sass_options()</a></code> globally (<code><a href="../reference/sass.html">sass()</a></code>’s <code>options</code> argument now defaults to <code><a href="../reference/sass_options.html">sass_options_get()</a></code> instead of <code><a href="../reference/sass_options.html">sass_options()</a></code>). In addition, when <code><a href="https://rdrr.io/pkg/shiny/man/devmode.html" class="external-link">shiny::devmode()</a></code> is enabled, Sass source maps are included by default. (<a href="https://github.com/rstudio/sass/issues/88" class="external-link">#88</a>)</p></li>
 <li><p><code><a href="../reference/output_template.html">output_template()</a></code> gains a <code>path</code> argument to change the root directory where output file will be written. (<a href="https://github.com/rstudio/sass/issues/76" class="external-link">#76</a>)</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-4-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-4-0"></a></h3>
-<ul><li>Closed <a href="https://github.com/rstudio/sass/issues/84" class="external-link">#84</a>: Fixed an issue with <code><a href="../reference/sass_import.html">sass_file()</a></code> being cached even if the contents of the file had changed (this regression was introduced by the 0.3.0 release). (<a href="https://github.com/rstudio/sass/issues/85" class="external-link">#85</a>)</li></ul></div>
+<ul><li>Closed <a href="https://github.com/rstudio/sass/issues/84" class="external-link">#84</a>: Fixed an issue with <code><a href="../reference/sass_import.html">sass_file()</a></code> being cached even if the contents of the file had changed (this regression was introduced by the 0.3.0 release). (<a href="https://github.com/rstudio/sass/issues/85" class="external-link">#85</a>)</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.3.1" id="sass-031">sass 0.3.1<small>2021-01-24</small><a class="anchor" aria-label="anchor" href="#sass-031"></a></h2>
@@ -146,10 +154,12 @@
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.1.2" id="sass-012">sass 0.1.2<a class="anchor" aria-label="anchor" href="#sass-012"></a></h2>
-<ul><li>No significant changes other than CRAN compliance.</li></ul></div>
+<ul><li>No significant changes other than CRAN compliance.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.1.1" id="sass-011">sass 0.1.1<small>2019-06-11</small><a class="anchor" aria-label="anchor" href="#sass-011"></a></h2>
-<ul><li>First release.</li></ul></div>
+<ul><li>First release.</li>
+</ul></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

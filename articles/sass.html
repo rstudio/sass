@@ -81,13 +81,14 @@
 
       
 
-      </header><script src="sass_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Overview of the sass R package</h1>
-                        <h4 data-toc-skip class="author">Carson Sievert</h4>
+                        <h4 data-toc-skip class="author">Carson
+Sievert</h4>
             
-            <h4 data-toc-skip class="date">2023-05-04</h4>
+            <h4 data-toc-skip class="date">2023-07-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/rstudio/sass/blob/HEAD/vignettes/sass.Rmd" class="external-link"><code>vignettes/sass.Rmd</code></a></small>
       <div class="hidden name"><code>sass.Rmd</code></div>
@@ -120,23 +121,49 @@ pre.css {
 <div class="section level2">
 <h2 id="why">Why Sass?<a class="anchor" aria-label="anchor" href="#why"></a>
 </h2>
-<p><a href="https://sass-lang.com/" class="external-link">Sass</a> is the most widely used, feature rich, and stable CSS extension language available. It has become an essential tool in modern web development because of its ability to <em>reduce complexity</em> and <em>increase composability</em> when styling a website. For a basic example, suppose you want to use the same color for multiple styling rules in your website (e.g., hyperlinks and buttons). With CSS, you’d have to repeat that color every time it is used in styling rule, so in a large project, changing at a later point can be tedious and error-prone.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb1-1"><a href="#cb1-1"></a>a {</span>
-<span id="cb1-2"><a href="#cb1-2"></a>  <span class="kw">color</span>: <span class="cn">salmon</span><span class="op">;</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a>}</span>
-<span id="cb1-4"><a href="#cb1-4"></a>button {</span>
-<span id="cb1-5"><a href="#cb1-5"></a>  <span class="kw">background-color</span>: <span class="cn">salmon</span><span class="op">;</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a>}</span></code></pre></div>
-<p>With Sass, you could store this color in a Sass variable and use it in the styling rules to produce the same CSS, resulting in a single entry point for the color’s value. This simple Sass tool can make CSS styling a lot easier to reason about, making styles a lot easier to customize and maintain.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb2-1"><a href="#cb2-1"></a>$main-color<span class="in">: salmon</span>;</span>
-<span id="cb2-2"><a href="#cb2-2"></a>a {</span>
-<span id="cb2-3"><a href="#cb2-3"></a>  <span class="kw">color</span>: $main-color<span class="op">;</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a>}</span>
-<span id="cb2-5"><a href="#cb2-5"></a>button {</span>
-<span id="cb2-6"><a href="#cb2-6"></a>  <span class="kw">background-color</span>: $main-color<span class="op">;</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a>}</span></code></pre></div>
-<p>Sass variables are not the only Sass tool useful for reducing complexity. For Sass and <strong>sass</strong> newcomers, this vignette first covers how to use basic Sass tools like <a href="#variables">variables</a>, <a href="#mixins">mixins</a>, and <a href="#functions">functions</a> in the <strong>sass</strong> R package. After the basics, you’ll also learn how to write <a href="#layering">composable <strong>sass</strong></a> that allows users to easily override your styling defaults and developers to <a href="#includes">include</a> your Sass in their styling projects. You’ll also learn how to control the CSS output (e.g., <a href="#compression">compress</a> and <a href="#caching">cache</a> it), and how to use it in <a href="#shiny"><strong>shiny</strong></a> &amp; <a href="#rmarkdown"><strong>rmarkdown</strong></a>.</p>
-<p>By mastering these concepts, you’ll not only be able to leverage the advantages of using Sass over CSS, but you’ll also have the basis needed to develop R interfaces to Sass projects that allow users to easily customize your styling templates <em>without any knowledge of Sass/CSS</em>. For an example, see the <a href="https://github.com/rstudio/bslib" class="external-link"><strong>bslib</strong> R package</a>, which provides a interface to <a href="https://getbootstrap.com/docs/4.0/getting-started/theming/" class="external-link">Bootstrap Sass</a> through easy-to-use functions like <code>bs_theme_add_variables()</code>.</p>
+<p><a href="https://sass-lang.com/" class="external-link">Sass</a> is the most widely used,
+feature rich, and stable CSS extension language available. It has become
+an essential tool in modern web development because of its ability to
+<em>reduce complexity</em> and <em>increase composability</em> when
+styling a website. For a basic example, suppose you want to use the same
+color for multiple styling rules in your website (e.g., hyperlinks and
+buttons). With CSS, you’d have to repeat that color every time it is
+used in styling rule, so in a large project, changing at a later point
+can be tedious and error-prone.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>a {</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="kw">color</span>: <span class="cn">salmon</span><span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>}</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>button {</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="kw">background-color</span>: <span class="cn">salmon</span><span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>}</span></code></pre></div>
+<p>With Sass, you could store this color in a Sass variable and use it
+in the styling rules to produce the same CSS, resulting in a single
+entry point for the color’s value. This simple Sass tool can make CSS
+styling a lot easier to reason about, making styles a lot easier to
+customize and maintain.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>$main-color<span class="in">: salmon</span>;</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>a {</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="kw">color</span>: $main-color<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>}</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>button {</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="kw">background-color</span>: $main-color<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>}</span></code></pre></div>
+<p>Sass variables are not the only Sass tool useful for reducing
+complexity. For Sass and <strong>sass</strong> newcomers, this vignette
+first covers how to use basic Sass tools like <a href="#variables">variables</a>, <a href="#mixins">mixins</a>, and <a href="#functions">functions</a> in the <strong>sass</strong> R package.
+After the basics, you’ll also learn how to write <a href="#layering">composable <strong>sass</strong></a> that allows users
+to easily override your styling defaults and developers to <a href="#includes">include</a> your Sass in their styling projects. You’ll
+also learn how to control the CSS output (e.g., <a href="#compression">compress</a> and <a href="#caching">cache</a> it),
+and how to use it in <a href="#shiny"><strong>shiny</strong></a> &amp;
+<a href="#rmarkdown"><strong>rmarkdown</strong></a>.</p>
+<p>By mastering these concepts, you’ll not only be able to leverage the
+advantages of using Sass over CSS, but you’ll also have the basis needed
+to develop R interfaces to Sass projects that allow users to easily
+customize your styling templates <em>without any knowledge of
+Sass/CSS</em>. For an example, see the <a href="https://github.com/rstudio/bslib" class="external-link"><strong>bslib</strong> R
+package</a>, which provides a interface to <a href="https://getbootstrap.com/docs/4.0/getting-started/theming/" class="external-link">Bootstrap
+Sass</a> through easy-to-use functions like
+<code>bs_theme_add_variables()</code>.</p>
 </div>
 <div class="section level2">
 <h2 id="basics">Sass Basics<a class="anchor" aria-label="anchor" href="#basics"></a>
@@ -144,53 +171,95 @@ pre.css {
 <div class="section level3">
 <h3 id="variables">Variables<a class="anchor" aria-label="anchor" href="#variables"></a>
 </h3>
-<p><a href="https://sass-lang.com/guide#topic-2" class="external-link">Sass variables</a> are a great mechanism for simplifying and exposing CSS logic to users. To create a variable, assign a value (likely a CSS <a href="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics" class="external-link">property value</a>) to a name, then refer to it by name in downstream Sass code. In this minimal example, we create a <code>body-bg</code> variable then use it to generate a single <a href="https://sass-lang.com/documentation//style-rules" class="external-link">style rule</a>, but as we’ll see later, variables can also be used inside of other arbitrary Sass code (e.g., functions, mixins, etc).</p>
+<p><a href="https://sass-lang.com/guide#topic-2" class="external-link">Sass variables</a> are
+a great mechanism for simplifying and exposing CSS logic to users. To
+create a variable, assign a value (likely a CSS <a href="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics" class="external-link">property
+value</a>) to a name, then refer to it by name in downstream Sass code.
+In this minimal example, we create a <code>body-bg</code> variable then
+use it to generate a single <a href="https://sass-lang.com/documentation//style-rules" class="external-link">style rule</a>,
+but as we’ll see later, variables can also be used inside of other
+arbitrary Sass code (e.g., functions, mixins, etc).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/sass/">sass</a></span><span class="op">)</span></span>
 <span><span class="va">variable</span> <span class="op">&lt;-</span> <span class="st">"$body-bg: red;"</span></span>
 <span><span class="va">rule</span> <span class="op">&lt;-</span> <span class="st">"body { background-color: $body-bg; }"</span></span>
 <span><span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span>input <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">variable</span>, <span class="va">rule</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">/* CSS */</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>body { </span>
-<span id="cb4-3"><a href="#cb4-3"></a>  <span class="kw">background-color</span>: <span class="cn">red</span><span class="op">;</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a>}</span></code></pre></div>
-<p>A more convenient and readable way to create Sass variables in R is to use a named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>. Also, it’s a good idea to add the <code>!default</code> flag after the value since it provides users of your Sass an opportunity to set their own value. We’ll learn more about defaults in <a href="#layering">layering</a>, but for now, just note that the <code>!default</code> flag says use this value only if that variable isn’t already defined:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co">/* CSS */</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>body { </span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="kw">background-color</span>: <span class="cn">red</span><span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>}</span></code></pre></div>
+<p>A more convenient and readable way to create Sass variables in R is
+to use a named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>. Also, it’s a good idea to add the
+<code>!default</code> flag after the value since it provides users of
+your Sass an opportunity to set their own value. We’ll learn more about
+defaults in <a href="#layering">layering</a>, but for now, just note
+that the <code>!default</code> flag says use this value only if that
+variable isn’t already defined:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">user_default</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"body-bg"</span> <span class="op">=</span> <span class="st">"blue !default"</span><span class="op">)</span></span>
 <span><span class="va">default</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"body-bg"</span> <span class="op">=</span> <span class="st">"red !default"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span>input <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">user_default</span>, <span class="va">default</span>, <span class="va">rule</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb6-1"><a href="#cb6-1"></a><span class="co">/* CSS */</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a>body { </span>
-<span id="cb6-3"><a href="#cb6-3"></a>  <span class="kw">background-color</span>: <span class="cn">blue</span><span class="op">;</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co">/* CSS */</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>body { </span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="kw">background-color</span>: <span class="cn">blue</span><span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a>
 </h3>
-<p>Sass comes with a variety of <a href="https://sass-lang.com/documentation//modules" class="external-link">built-in functions</a> (i.e., you don’t have to <a href="#imports">import</a> anything to start using them) which are useful for working with CSS values (<a href="https://sass-lang.com/documentation//modules/color" class="external-link">colors</a>, <a href="https://sass-lang.com/documentation//modules/math" class="external-link">numbers</a>, <a href="https://sass-lang.com/documentation//modules/string" class="external-link">strings</a>, etc). These built-in functions are primarily useful modifying or combining CSS values in such a way that isn’t possible with CSS. Here we use the <code>rgba()</code> to add alpha blending to <code>black</code> and assign the result to a variable.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
+<p>Sass comes with a variety of <a href="https://sass-lang.com/documentation//modules" class="external-link">built-in
+functions</a> (i.e., you don’t have to <a href="#imports">import</a>
+anything to start using them) which are useful for working with CSS
+values (<a href="https://sass-lang.com/documentation//modules/color" class="external-link">colors</a>, <a href="https://sass-lang.com/documentation//modules/math" class="external-link">numbers</a>, <a href="https://sass-lang.com/documentation//modules/string" class="external-link">strings</a>,
+etc). These built-in functions are primarily useful modifying or
+combining CSS values in such a way that isn’t possible with CSS. Here we
+use the <code>rgba()</code> to add alpha blending to <code>black</code>
+and assign the result to a variable.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">variable</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"body-bg"</span> <span class="op">=</span> <span class="st">"rgba(black, 0.8)"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span>input <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">variable</span>, <span class="va">rule</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">/* CSS */</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a>body {</span>
-<span id="cb8-3"><a href="#cb8-3"></a>  <span class="kw">background-color</span>: <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0.8</span><span class="fu">)</span><span class="op">;</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a>}</span></code></pre></div>
-<p>Sass also provides the ability to define your own functions through the <a href="https://sass-lang.com/documentation//at-rules/function" class="external-link"><code>@function</code> at-rule</a>. Like functions in most languages, there are four main components to a function definition: (1) the function <code>name</code>, (2) the function argument/inputs (e.g., <code>arg1</code>, <code>arg2</code>), (3) the function body which contains statements (i.e., <code>statement1</code>, <code>statement2</code>, etc.), and finally (4) a return <code>value</code>.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="op">@</span>function <span class="kw">name</span>(arg1, arg2) {</span>
-<span id="cb9-2"><a href="#cb9-2"></a>  statement1;</span>
-<span id="cb9-3"><a href="#cb9-3"></a>  statement2;</span>
-<span id="cb9-4"><a href="#cb9-4"></a>  <span class="op">@</span>return value;</span>
-<span id="cb9-5"><a href="#cb9-5"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co">/* CSS */</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>body {</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="kw">background-color</span>: <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0.8</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>}</span></code></pre></div>
+<p>Sass also provides the ability to define your own functions through
+the <a href="https://sass-lang.com/documentation//at-rules/function" class="external-link"><code>@function</code>
+at-rule</a>. Like functions in most languages, there are four main
+components to a function definition: (1) the function <code>name</code>,
+(2) the function argument/inputs (e.g., <code>arg1</code>,
+<code>arg2</code>), (3) the function body which contains statements
+(i.e., <code>statement1</code>, <code>statement2</code>, etc.), and
+finally (4) a return <code>value</code>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="sc">@</span>function <span class="fu">name</span>(arg1, arg2) {</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  statement1;</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  statement2;</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="sc">@</span>return value;</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>}</span></code></pre></div>
 <p><br></p>
-<p>For an example of where creating your function becomes useful, consider this <code>color-contrast()</code> function, inspired by <a href="https://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color/3943023#3943023" class="external-link">this SO answer</a> to a common problem that arises when allowing users control over background color of something (e.g., the document body). We’d like to strive for styling rules that are smart enough to overlay white text on a dark colored background and black text on a light colored background. <code>color-contrast()</code> helps us achieve this since, given a dark color, it returns white; and given a light color, it returns black.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="op">@</span>function color<span class="op">-</span><span class="kw">contrast</span>(<span class="op">$</span>color) {</span>
-<span id="cb10-2"><a href="#cb10-2"></a>  <span class="op">@</span>return <span class="cf">if</span>(</span>
-<span id="cb10-3"><a href="#cb10-3"></a>    <span class="kw">red</span>(<span class="op">$</span>color) <span class="op">*</span><span class="st"> </span><span class="fl">0.299</span> <span class="op">+</span><span class="st"> </span><span class="kw">green</span>(<span class="op">$</span>color) <span class="op">*</span><span class="st"> </span><span class="fl">0.587</span> <span class="op">+</span><span class="st"> </span><span class="kw">blue</span>(<span class="op">$</span>color) <span class="op">*</span><span class="st"> </span><span class="fl">0.114</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">186</span>,</span>
-<span id="cb10-4"><a href="#cb10-4"></a>    black, white</span>
-<span id="cb10-5"><a href="#cb10-5"></a>  );</span>
-<span id="cb10-6"><a href="#cb10-6"></a>}</span></code></pre></div>
+<p>For an example of where creating your function becomes useful,
+consider this <code>color-contrast()</code> function, inspired by <a href="https://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color/3943023#3943023" class="external-link">this
+SO answer</a> to a common problem that arises when allowing users
+control over background color of something (e.g., the document body).
+We’d like to strive for styling rules that are smart enough to overlay
+white text on a dark colored background and black text on a light
+colored background. <code>color-contrast()</code> helps us achieve this
+since, given a dark color, it returns white; and given a light color, it
+returns black.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="sc">@</span>function color<span class="sc">-</span><span class="fu">contrast</span>(<span class="sc">$</span>color) {</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="sc">@</span>return <span class="cf">if</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>    <span class="fu">red</span>(<span class="sc">$</span>color) <span class="sc">*</span> <span class="fl">0.299</span> <span class="sc">+</span> <span class="fu">green</span>(<span class="sc">$</span>color) <span class="sc">*</span> <span class="fl">0.587</span> <span class="sc">+</span> <span class="fu">blue</span>(<span class="sc">$</span>color) <span class="sc">*</span> <span class="fl">0.114</span> <span class="sc">&gt;</span> <span class="dv">186</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>    black, white</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  );</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>}</span></code></pre></div>
 <p><br></p>
-<p>By saving this function to a file named <code>color-contrast.scss</code>, it can then be <a href="#imports">imported</a> and used in the following way. For a live example of this in action, consider <a href="https://gallery.shinyapps.io/sass-font/" class="external-link">this Shiny app</a> which allows the user to interactively choose a background color and the title’s font color automatically updates to an appropriate color contrast. <a href="#shiny-dynamic">See here</a> for more on allowing <strong>shiny</strong> users to influence styling on the page using <strong>sass</strong>.</p>
+<p>By saving this function to a file named
+<code>color-contrast.scss</code>, it can then be <a href="#imports">imported</a> and used in the following way. For a live
+example of this in action, consider <a href="https://gallery.shinyapps.io/sass-font/" class="external-link">this Shiny app</a> which
+allows the user to interactively choose a background color and the
+title’s font color automatically updates to an appropriate color
+contrast. <a href="#shiny-dynamic">See here</a> for more on allowing
+<strong>shiny</strong> users to influence styling on the page using
+<strong>sass</strong>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
@@ -202,31 +271,53 @@ pre.css {
 <span><span class="st">    }"</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb12-1"><a href="#cb12-1"></a><span class="co">/* CSS */</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a>body {</span>
-<span id="cb12-3"><a href="#cb12-3"></a>  <span class="kw">background-color</span>: <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0.8</span><span class="fu">)</span><span class="op">;</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a>  <span class="kw">color</span>: <span class="cn">white</span><span class="op">;</span></span>
-<span id="cb12-5"><a href="#cb12-5"></a>}</span></code></pre></div>
-<p><strong>NOTE</strong>: <code><a href="https://rstudio.github.io/bslib/reference/bs_theme.html" class="external-link">bslib::bs_theme()</a></code> provides it’s own, more sophisticated, version of <code>color-contrast()</code> that you can use like so: <code>sass::sass_partial("body{color: color-contrast($body-bg)}", bs_theme())</code></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co">/* CSS */</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>body {</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="kw">background-color</span>: <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0.8</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="kw">color</span>: <span class="cn">white</span><span class="op">;</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>NOTE</strong>: <code><a href="https://rstudio.github.io/bslib/reference/bs_theme.html" class="external-link">bslib::bs_theme()</a></code> provides it’s
+own, more sophisticated, version of <code>color-contrast()</code> that
+you can use like so:
+<code>sass::sass_partial("body{color: color-contrast($body-bg)}", bs_theme())</code></p>
 </div>
 <div class="section level3">
 <h3 id="imports">Importing<a class="anchor" aria-label="anchor" href="#imports"></a>
 </h3>
-<p>In practice, you’ll want to write your Sass code in <code>.scss</code> (<a href="https://sass-lang.com/documentation//syntax" class="external-link">or <code>.sass</code></a>) files (instead of inside R strings). That way you can leverage things like syntax highlighting in RStudio (or your favorite IDE) and make it easier for others to import your Sass into their workflow. For example, if I have <code>.scss</code> file in my working directory, say <code>my-style.scss</code>, I can compile it this way:</p>
+<p>In practice, you’ll want to write your Sass code in
+<code>.scss</code> (<a href="https://sass-lang.com/documentation//syntax" class="external-link">or
+<code>.sass</code></a>) files (instead of inside R strings). That way
+you can leverage things like syntax highlighting in RStudio (or your
+favorite IDE) and make it easier for others to import your Sass into
+their workflow. For example, if I have <code>.scss</code> file in my
+working directory, say <code>my-style.scss</code>, I can compile it this
+way:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span><span class="fu"><a href="../reference/sass_import.html">sass_file</a></span><span class="op">(</span><span class="st">"my-style.scss"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="my-style.png" width="50%" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb14-1"><a href="#cb14-1"></a><span class="co">/* CSS */</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a>body {</span>
-<span id="cb14-3"><a href="#cb14-3"></a>  <span class="kw">background-color</span>: <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0.8</span><span class="fu">)</span><span class="op">;</span></span>
-<span id="cb14-4"><a href="#cb14-4"></a>}</span></code></pre></div>
-<p>This works because <code><a href="../reference/sass_import.html">sass_file()</a></code> uses <code><a href="../reference/sass_import.html">sass_import()</a></code> to generate an <code>@import</code> at-rule. If you visit the <a href="https://sass-lang.com/documentation//at-rules/import" class="external-link">docs for <code>@import</code></a>, you’ll notice there’s more you can do that import local <code>.scss</code>, like import local or remote <code>.css</code> files, import font files, and more. Note also that <a href="https://rstudio.github.io/sass/">sass</a> also provides tools that make importing of local font files easier – see <code><a href="../reference/font_face.html">font_google()</a></code> to learn more.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="co">/* CSS */</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>body {</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="kw">background-color</span>: <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0.8</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>}</span></code></pre></div>
+<p>This works because <code><a href="../reference/sass_import.html">sass_file()</a></code> uses
+<code><a href="../reference/sass_import.html">sass_import()</a></code> to generate an <code>@import</code> at-rule.
+If you visit the <a href="https://sass-lang.com/documentation//at-rules/import" class="external-link">docs for
+<code>@import</code></a>, you’ll notice there’s more you can do that
+import local <code>.scss</code>, like import local or remote
+<code>.css</code> files, import font files, and more. Note also that
+<a href="https://rstudio.github.io/sass/">sass</a> also provides tools that make importing of local
+font files easier – see <code><a href="../reference/font_face.html">font_google()</a></code> to learn more.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="file-import">Font imports<a class="anchor" aria-label="anchor" href="#file-import"></a>
 </h2>
-<p>Importing font file(s) directly in Sass/CSS/HTML can be a headache to implement. This is especially true if you want to serve font files so that a custom font renders on any client machine, even if the client is without an internet connection. To make this easier, <a href="https://rstudio.github.io/sass/">sass</a> provides a <code><a href="../reference/font_face.html">font_google()</a></code> which can be used to download, cache, import, and serve the relevant font files all at once.</p>
+<p>Importing font file(s) directly in Sass/CSS/HTML can be a headache to
+implement. This is especially true if you want to serve font files so
+that a custom font renders on any client machine, even if the client is
+without an internet connection. To make this easier, <a href="https://rstudio.github.io/sass/">sass</a>
+provides a <code><a href="../reference/font_face.html">font_google()</a></code> which can be used to download,
+cache, import, and serve the relevant font files all at once.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/htmltools" class="external-link">htmltools</a></span><span class="op">)</span></span>
 <span></span>
@@ -246,23 +337,47 @@ pre.css {
 <span>  <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span><span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="hello-pacifico.png" width="30%" style="display: block; margin: auto;"></p>
-<p>To import non-Google fonts, use either <code><a href="../reference/font_face.html">font_link()</a></code> or <code><a href="../reference/font_face.html">font_face()</a></code>. The former is for importing fonts via a remote URL whereas the former could be use to import any font locally (or remotely).</p>
+<p>To import non-Google fonts, use either <code><a href="../reference/font_face.html">font_link()</a></code> or
+<code><a href="../reference/font_face.html">font_face()</a></code>. The former is for importing fonts via a remote
+URL whereas the former could be use to import any font locally (or
+remotely).</p>
 <div class="section level3">
 <h3 id="mixins">Mixins<a class="anchor" aria-label="anchor" href="#mixins"></a>
 </h3>
-<p>Similar to how functions are useful for encapsulating <em>computation</em> in a reusable unit, <a href="https://sass-lang.com/documentation//at-rules/mixin" class="external-link">mixins</a> are useful for doing the same with <em>styling rules</em> (i.e., packaging them into a reusable unit). Technically speaking, mixins are similar to functions in that they require a <code>name</code>, may have arguments, as well as any number of statements. However, they differ in that they require the return value to be a <a href="https://sass-lang.com/documentation//style-rules" class="external-link">style rule</a>, and when called, need to be <code>@include</code>d in a larger style rule in order to generate any CSS.</p>
-<p>For some examples, please see the <a href="https://sass-lang.com/documentation//at-rules/mixin" class="external-link">Sass mixin documentation</a>.</p>
+<p>Similar to how functions are useful for encapsulating
+<em>computation</em> in a reusable unit, <a href="https://sass-lang.com/documentation//at-rules/mixin" class="external-link">mixins</a>
+are useful for doing the same with <em>styling rules</em> (i.e.,
+packaging them into a reusable unit). Technically speaking, mixins are
+similar to functions in that they require a <code>name</code>, may have
+arguments, as well as any number of statements. However, they differ in
+that they require the return value to be a <a href="https://sass-lang.com/documentation//style-rules" class="external-link">style rule</a>,
+and when called, need to be <code>@include</code>d in a larger style
+rule in order to generate any CSS.</p>
+<p>For some examples, please see the <a href="https://sass-lang.com/documentation//at-rules/mixin" class="external-link">Sass mixin
+documentation</a>.</p>
 </div>
 <div class="section level3">
 <h3 id="more-basics">More basics<a class="anchor" aria-label="anchor" href="#more-basics"></a>
 </h3>
-<p>This vignette intentionally doesn’t try to re-invent the existing and wonderful <a href="https://sass-lang.com/documentation/" class="external-link">Sass documentation</a>. There you’ll find many more useful things as you start to write more Sass, such as <a href="https://sass-lang.com/documentation//at-rules/control" class="external-link">control flow</a>, <a href="https://sass-lang.com/documentation//values/lists" class="external-link">lists</a>, <a href="https://sass-lang.com/documentation//values/maps" class="external-link">maps</a>, <a href="https://sass-lang.com/documentation//interpolation" class="external-link">interpolation</a>, and more.</p>
+<p>This vignette intentionally doesn’t try to re-invent the existing and
+wonderful <a href="https://sass-lang.com/documentation/" class="external-link">Sass
+documentation</a>. There you’ll find many more useful things as you
+start to write more Sass, such as <a href="https://sass-lang.com/documentation//at-rules/control" class="external-link">control
+flow</a>, <a href="https://sass-lang.com/documentation//values/lists" class="external-link">lists</a>, <a href="https://sass-lang.com/documentation//values/maps" class="external-link">maps</a>, <a href="https://sass-lang.com/documentation//interpolation" class="external-link">interpolation</a>,
+and more.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="layering">Composable sass<a class="anchor" aria-label="anchor" href="#layering"></a>
 </h2>
-<p>To make Sass code more composable with other Sass code (e.g., allowing others to change your variable defaults or import a function or mixin you’ve defined), consider partitioning your Sass code into a <code><a href="../reference/sass_layer.html">sass::sass_layer()</a></code>. The main idea is to split your Sass into 4 parts: <a href="#functions"><code>functions</code></a>, <code>defaults</code> (i.e. <a href="#variables">variable defaults</a>), <a href="#mixins"><code>mixins</code></a>, and <code>rules</code> (i.e., styling rules).</p>
+<p>To make Sass code more composable with other Sass code (e.g.,
+allowing others to change your variable defaults or import a function or
+mixin you’ve defined), consider partitioning your Sass code into a
+<code><a href="../reference/sass_layer.html">sass::sass_layer()</a></code>. The main idea is to split your Sass
+into 4 parts: <a href="#functions"><code>functions</code></a>,
+<code>defaults</code> (i.e. <a href="#variables">variable defaults</a>),
+<a href="#mixins"><code>mixins</code></a>, and <code>rules</code> (i.e.,
+styling rules).</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">layer1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sass_layer.html">sass_layer</a></span><span class="op">(</span></span>
 <span>  functions <span class="op">=</span> <span class="fu"><a href="../reference/sass_import.html">sass_file</a></span><span class="op">(</span><span class="st">"color-contrast.scss"</span><span class="op">)</span>,</span>
@@ -270,23 +385,30 @@ pre.css {
 <span>  rules <span class="op">=</span> <span class="st">"body{background-color: $body-bg; color: color-contrast($body-bg)}"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/as_sass.html">as_sass</a></span><span class="op">(</span><span class="va">layer1</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb17"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb17-1"><a href="#cb17-1"></a><span class="co">/* CSS */</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a>body {</span>
-<span id="cb17-3"><a href="#cb17-3"></a>  <span class="kw">background-color</span>: <span class="cn">black</span><span class="op">;</span></span>
-<span id="cb17-4"><a href="#cb17-4"></a>  <span class="kw">color</span>: <span class="cn">white</span><span class="op">;</span></span>
-<span id="cb17-5"><a href="#cb17-5"></a>}</span></code></pre></div>
-<p>This allows downstream <code><a href="../reference/sass_layer.html">sass_layer()</a></code>s to be <code><a href="../reference/sass_layer.html">sass_bundle()</a></code>d into a single layer, where <code>defaults</code> in downstream layers are granted higher priority. More specifically, this means:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co">/* CSS */</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>body {</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  <span class="kw">background-color</span>: <span class="cn">black</span><span class="op">;</span></span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  <span class="kw">color</span>: <span class="cn">white</span><span class="op">;</span></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>}</span></code></pre></div>
+<p>This allows downstream <code><a href="../reference/sass_layer.html">sass_layer()</a></code>s to be
+<code><a href="../reference/sass_layer.html">sass_bundle()</a></code>d into a single layer, where
+<code>defaults</code> in downstream layers are granted higher priority.
+More specifically, this means:</p>
 <ul>
 <li>
-<code>defaults</code> for <code>layer2</code> are placed <em>before</em> <code>defaults</code> for <code>layer1</code>.
+<code>defaults</code> for <code>layer2</code> are placed
+<em>before</em> <code>defaults</code> for <code>layer1</code>.
 <ul>
-<li>Allowing downstream Sass to override variable defaults in upstream Sass.</li>
+<li>Allowing downstream Sass to override variable defaults in upstream
+Sass.</li>
 </ul>
 </li>
 <li>
-<code>rules</code> for <code>layer2</code> are placed <em>after</em> <code>rules</code> for <code>layer1</code>.
+<code>rules</code> for <code>layer2</code> are placed <em>after</em>
+<code>rules</code> for <code>layer1</code>.
 <ul>
-<li>Allows downstream rules to take precedence over upstream rules (<a href="https://css-tricks.com/precedence-css-order-css-matters/" class="external-link">precedence</a> matters when there are multiple rules with the same level of <a href="https://css-tricks.com/specifics-on-css-specificity/" class="external-link">specificity</a>).</li>
+<li>Allows downstream rules to take precedence over upstream rules (<a href="https://css-tricks.com/precedence-css-order-css-matters/" class="external-link">precedence</a>
+matters when there are multiple rules with the same level of <a href="https://css-tricks.com/specifics-on-css-specificity/" class="external-link">specificity</a>).</li>
 </ul>
 </li>
 </ul>
@@ -295,15 +417,23 @@ pre.css {
 <span>  defaults <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"body-bg"</span> <span class="op">=</span> <span class="st">"white !default"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span><span class="fu"><a href="../reference/sass_layer.html">sass_bundle</a></span><span class="op">(</span><span class="va">layer1</span>, <span class="va">layer2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb19-1"><a href="#cb19-1"></a><span class="co">/* CSS */</span></span>
-<span id="cb19-2"><a href="#cb19-2"></a>body {</span>
-<span id="cb19-3"><a href="#cb19-3"></a>  <span class="kw">background-color</span>: <span class="cn">white</span><span class="op">;</span></span>
-<span id="cb19-4"><a href="#cb19-4"></a>  <span class="kw">color</span>: <span class="cn">black</span><span class="op">;</span></span>
-<span id="cb19-5"><a href="#cb19-5"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="co">/* CSS */</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>body {</span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>  <span class="kw">background-color</span>: <span class="cn">white</span><span class="op">;</span></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>  <span class="kw">color</span>: <span class="cn">black</span><span class="op">;</span></span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>}</span></code></pre></div>
 <div class="section level3">
 <h3 id="imports-relative">Resolving relative imports<a class="anchor" aria-label="anchor" href="#imports-relative"></a>
 </h3>
-<p>Another problem that <code><a href="../reference/sass_layer.html">sass_layer()</a></code> helps solve is that sometimes your Sass code might want to <a href="#imports">import</a> a local file using a relative path that <em>you</em> know how to resolve, but not necessarily the person who eventually compiles your Sass. To solve this issue, provide a named character vector to <code>file_attachments</code>, pointing the relevant relative path(s) to the appropriate absolute path(s). Here’s a contrived example of how that might look (<a href="https://github.com/rstudio/bslib/blob/9c973e9/R/layers.R#L75-L77" class="external-link">here’s</a> a more real example of using it in an R package).</p>
+<p>Another problem that <code><a href="../reference/sass_layer.html">sass_layer()</a></code> helps solve is that
+sometimes your Sass code might want to <a href="#imports">import</a> a
+local file using a relative path that <em>you</em> know how to resolve,
+but not necessarily the person who eventually compiles your Sass. To
+solve this issue, provide a named character vector to
+<code>file_attachments</code>, pointing the relevant relative path(s) to
+the appropriate absolute path(s). Here’s a contrived example of how that
+might look (<a href="https://github.com/rstudio/bslib/blob/9c973e9/R/layers.R#L75-L77" class="external-link">here’s</a>
+a more real example of using it in an R package).</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/sass_layer.html">sass_layer</a></span><span class="op">(</span></span>
 <span>  declarations <span class="op">=</span> <span class="st">"@import url('fonts/Source_Sans_Pro_300.ttf')"</span>,</span>
@@ -315,18 +445,36 @@ pre.css {
 <div class="section level3">
 <h3 id="html-dependencies">Attaching HTML dependencies<a class="anchor" aria-label="anchor" href="#html-dependencies"></a>
 </h3>
-<p>Another problem that <code><a href="../reference/sass_layer.html">sass_layer()</a></code> helps solve is that sometimes you want to attach other HTML dependencies to your Sass/CSS (e.g., JavaScript, other CSS, etc). For this reason, <code><a href="../reference/sass_layer.html">sass_layer()</a></code> has a <code>html_deps</code> argument to which you can provide <code><a href="https://rstudio.github.io/htmltools/reference/htmlDependency.html" class="external-link">htmltools::htmlDependency()</a></code> objects. <code><a href="../reference/sass.html">sass()</a></code> preserves these, as well as any other HTML dependencies attached to it’s input, by including them in the return value. This ensures that, when you include <code><a href="../reference/sass.html">sass()</a></code> in <a href="#rmarkdown"><strong>rmarkdown</strong></a> or <a href="#shiny-string"><strong>shiny</strong></a> those dependencies come along for the ride.</p>
-<p><strong>DISCLAIMER</strong>: If you want to use this feature <em>and</em> include <a href="#shiny-file">CSS as a file in shiny</a>, you’ll need to call <code><a href="https://rstudio.github.io/htmltools/reference/htmlDependencies.html" class="external-link">htmltools::htmlDependencies()</a></code> on the return value of <code><a href="../reference/sass.html">sass()</a></code> to get the dependencies, then include them in your user interface definition.</p>
+<p>Another problem that <code><a href="../reference/sass_layer.html">sass_layer()</a></code> helps solve is that
+sometimes you want to attach other HTML dependencies to your Sass/CSS
+(e.g., JavaScript, other CSS, etc). For this reason,
+<code><a href="../reference/sass_layer.html">sass_layer()</a></code> has a <code>html_deps</code> argument to which
+you can provide <code><a href="https://rstudio.github.io/htmltools/reference/htmlDependency.html" class="external-link">htmltools::htmlDependency()</a></code> objects.
+<code><a href="../reference/sass.html">sass()</a></code> preserves these, as well as any other HTML
+dependencies attached to it’s input, by including them in the return
+value. This ensures that, when you include <code><a href="../reference/sass.html">sass()</a></code> in <a href="#rmarkdown"><strong>rmarkdown</strong></a> or <a href="#shiny-string"><strong>shiny</strong></a> those dependencies come
+along for the ride.</p>
+<p><strong>DISCLAIMER</strong>: If you want to use this feature
+<em>and</em> include <a href="#shiny-file">CSS as a file in shiny</a>,
+you’ll need to call <code><a href="https://rstudio.github.io/htmltools/reference/htmlDependencies.html" class="external-link">htmltools::htmlDependencies()</a></code> on the
+return value of <code><a href="../reference/sass.html">sass()</a></code> to get the dependencies, then
+include them in your user interface definition.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="options">CSS output options<a class="anchor" aria-label="anchor" href="#options"></a>
 </h2>
-<p>The <code><a href="../reference/sass.html">sass()</a></code> function provides a few arguments for controlling the CSS output it generates, including <code>output</code>, <code>options</code>, and <code>cache_options</code>. The following covers some of the most important options available.</p>
+<p>The <code><a href="../reference/sass.html">sass()</a></code> function provides a few arguments for
+controlling the CSS output it generates, including <code>output</code>,
+<code>options</code>, and <code>cache_options</code>. The following
+covers some of the most important options available.</p>
 <div class="section level3">
 <h3 id="output-file">Output to a file<a class="anchor" aria-label="anchor" href="#output-file"></a>
 </h3>
-<p>If the CSS generated from <code><a href="../reference/sass.html">sass()</a></code> can be useful in more than one place, consider writing it to a file (instead of returning it as a string). To write CSS to a file, give a suitable file path to <code><a href="../reference/sass.html">sass()</a></code>’s <code>output</code> argument.</p>
+<p>If the CSS generated from <code><a href="../reference/sass.html">sass()</a></code> can be useful in more
+than one place, consider writing it to a file (instead of returning it
+as a string). To write CSS to a file, give a suitable file path to
+<code><a href="../reference/sass.html">sass()</a></code>’s <code>output</code> argument.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/sass_import.html">sass_file</a></span><span class="op">(</span><span class="st">"my-style.scss"</span><span class="op">)</span>,</span>
@@ -336,7 +484,12 @@ pre.css {
 <div class="section level3">
 <h3 id="compression">Compression<a class="anchor" aria-label="anchor" href="#compression"></a>
 </h3>
-<p>By default, <code><a href="../reference/sass.html">sass()</a></code> outputs <code>'expanded'</code> CSS meaning there are lots of white-space and line-breaks included to make it more readable by humans. Computers don’t need all those unnecessary characters, so to speed up your page load time when you go to include the CSS in <a href="#shiny"><strong>shiny</strong></a> or <a href="#rmarkdown"><strong>rmarkdown</strong></a>, consider removing them altogether with <code>output_style = "compressed"</code>:</p>
+<p>By default, <code><a href="../reference/sass.html">sass()</a></code> outputs <code>'expanded'</code> CSS
+meaning there are lots of white-space and line-breaks included to make
+it more readable by humans. Computers don’t need all those unnecessary
+characters, so to speed up your page load time when you go to include
+the CSS in <a href="#shiny"><strong>shiny</strong></a> or <a href="#rmarkdown"><strong>rmarkdown</strong></a>, consider removing them
+altogether with <code>output_style = "compressed"</code>:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/sass_import.html">sass_file</a></span><span class="op">(</span><span class="st">"my-style.scss"</span><span class="op">)</span>,</span>
@@ -346,7 +499,10 @@ pre.css {
 <div class="section level3">
 <h3 id="source-maps">Source maps<a class="anchor" aria-label="anchor" href="#source-maps"></a>
 </h3>
-<p>When compressing the CSS output, it can be useful to include a <a href="http://www.richfinelli.com/what-is-a-css-source-maps/" class="external-link">source map</a> so that it’s easier to inspect the CSS from the website. The easiest way to include a source map is to set <code>source_map_embed = TRUE</code>:</p>
+<p>When compressing the CSS output, it can be useful to include a <a href="http://www.richfinelli.com/what-is-a-css-source-maps/" class="external-link">source
+map</a> so that it’s easier to inspect the CSS from the website. The
+easiest way to include a source map is to set
+<code>source_map_embed = TRUE</code>:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/sass_import.html">sass_file</a></span><span class="op">(</span><span class="st">"my-style.scss"</span><span class="op">)</span>,</span>
@@ -359,50 +515,76 @@ pre.css {
 <div class="section level3">
 <h3 id="caching">Caching<a class="anchor" aria-label="anchor" href="#caching"></a>
 </h3>
-<p>Sometimes calling <code><a href="../reference/sass.html">sass()</a></code> can be computationally expensive, in which case, it can be useful to leverage its caching capability. Caching is enabled by default, unless Shiny’s Developer Mode (<code><a href="https://shiny.rstudio.com/reference/shiny/latest/devmode.html" class="external-link">shiny::devmode()</a></code>) is enabled. To explicitly enable (disable), set <code>options(sass.cache = )</code> to <code>TRUE</code> (or <code>FALSE</code>):</p>
+<p>Sometimes calling <code><a href="../reference/sass.html">sass()</a></code> can be computationally
+expensive, in which case, it can be useful to leverage its caching
+capability. Caching is enabled by default, unless Shiny’s Developer Mode
+(<code><a href="https://rdrr.io/pkg/shiny/man/devmode.html" class="external-link">shiny::devmode()</a></code>) is enabled. To explicitly enable
+(disable), set <code>options(sass.cache = )</code> to <code>TRUE</code>
+(or <code>FALSE</code>):</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_options.html" class="external-link">with_options</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sass.cache <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span><span class="fu"><a href="../reference/sass_import.html">sass_file</a></span><span class="op">(</span><span class="st">"my-style.scss"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>You can also configure the location, size, and age of file caching via <code><a href="../reference/sass_file_cache.html">sass_file_cache()</a></code>, which can be passed directly to a <code><a href="../reference/sass.html">sass()</a></code> call:</p>
+<p>You can also configure the location, size, and age of file caching
+via <code><a href="../reference/sass_file_cache.html">sass_file_cache()</a></code>, which can be passed directly to a
+<code><a href="../reference/sass.html">sass()</a></code> call:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/sass_import.html">sass_file</a></span><span class="op">(</span><span class="st">"my-style.scss"</span><span class="op">)</span>,</span>
 <span>  cache <span class="op">=</span> <span class="fu"><a href="../reference/sass_file_cache.html">sass_file_cache</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, max_size <span class="op">=</span> <span class="fl">100</span> <span class="op">*</span> <span class="fl">1024</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>Or used with <code><a href="../reference/sass_cache_get_dir.html">sass_cache_set_dir()</a></code> to configure the file cache globally:</p>
+<p>Or used with <code><a href="../reference/sass_cache_get_dir.html">sass_cache_set_dir()</a></code> to configure the file
+cache globally:</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/sass_cache_get_dir.html">sass_cache_set_dir</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="../reference/sass_file_cache.html">sass_file_cache</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, max_size <span class="op">=</span> <span class="fl">100</span> <span class="op">*</span> <span class="fl">1024</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Note that the location of the file cache defaults to <code><a href="../reference/sass_cache_context_dir.html">sass_cache_context_dir()</a></code>, which depends on the context in which it’s running. When inside a Shiny app, the cache location is relative to the app’s directory so the cache can persist and be shared across R processes. Otherwise, the context directory is a OS and package specific caching directory.</p>
+<p>Note that the location of the file cache defaults to
+<code><a href="../reference/sass_cache_context_dir.html">sass_cache_context_dir()</a></code>, which depends on the context in
+which it’s running. When inside a Shiny app, the cache location is
+relative to the app’s directory so the cache can persist and be shared
+across R processes. Otherwise, the context directory is a OS and package
+specific caching directory.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="shiny">In shiny<a class="anchor" aria-label="anchor" href="#shiny"></a>
 </h2>
-<p>There are two basic approaches to including the CSS that <code><a href="../reference/sass.html">sass()</a></code> returns as HTML in your <strong>shiny</strong> app. If you’re curious, the official <a href="https://shiny.rstudio.com/articles/css.html" class="external-link">shiny article on CSS</a> has more details with a couple different approaches. Regardless of the approach, consider leveraging <a href="#compression">compressing</a> and <a href="#caching">caching</a> the CSS output to make your app faster to load.</p>
+<p>There are two basic approaches to including the CSS that
+<code><a href="../reference/sass.html">sass()</a></code> returns as HTML in your <strong>shiny</strong> app.
+If you’re curious, the official <a href="https://shiny.rstudio.com/articles/css.html" class="external-link">shiny article on
+CSS</a> has more details with a couple different approaches. Regardless
+of the approach, consider leveraging <a href="#compression">compressing</a> and <a href="#caching">caching</a>
+the CSS output to make your app faster to load.</p>
 <div class="section level3">
 <h3 id="shiny-string">As a string<a class="anchor" aria-label="anchor" href="#shiny-string"></a>
 </h3>
-<p>The character string that <code><a href="../reference/sass.html">sass()</a></code> returns is already marked as <code><a href="https://rstudio.github.io/htmltools/reference/HTML.html" class="external-link">HTML()</a></code><a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>, so to include it in your <strong>shiny</strong> app, wrap it in a <code>&lt;style&gt;</code> tag. It’s not necessary to place this tag in the <code>&lt;head&gt;</code> of the document, but it’s good practice:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw">library</span>(shiny)</span>
-<span id="cb27-2"><a href="#cb27-2"></a>css &lt;-<span class="st"> </span><span class="kw">sass</span>(<span class="kw">sass_file</span>(<span class="st">"my-style.scss"</span>))</span>
-<span id="cb27-3"><a href="#cb27-3"></a><span class="kw">fluidPage</span>(</span>
-<span id="cb27-4"><a href="#cb27-4"></a>  tags<span class="op">$</span><span class="kw">head</span>(tags<span class="op">$</span><span class="kw">style</span>(css),</span>
-<span id="cb27-5"><a href="#cb27-5"></a>  ...</span>
-<span id="cb27-6"><a href="#cb27-6"></a>)</span></code></pre></div>
+<p>The character string that <code><a href="../reference/sass.html">sass()</a></code> returns is already
+marked as <code><a href="https://rstudio.github.io/htmltools/reference/HTML.html" class="external-link">HTML()</a></code><a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>, so to include it in your
+<strong>shiny</strong> app, wrap it in a <code>&lt;style&gt;</code> tag.
+It’s not necessary to place this tag in the <code>&lt;head&gt;</code> of
+the document, but it’s good practice:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>css <span class="ot">&lt;-</span> <span class="fu">sass</span>(<span class="fu">sass_file</span>(<span class="st">"my-style.scss"</span>))</span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a><span class="fu">fluidPage</span>(</span>
+<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">head</span>(tags<span class="sc">$</span><span class="fu">style</span>(css),</span>
+<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a>  ...</span>
+<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="shiny-file">As a file<a class="anchor" aria-label="anchor" href="#shiny-file"></a>
 </h3>
-<p>To write CSS to a file, give a suitable file path to <code><a href="../reference/sass.html">sass()</a></code>’s <code>output</code> argument. Here we write to a specially named <code>www/</code> subdirectory so that <strong>shiny</strong> will automatically make those file(s) available to the web app.</p>
+<p>To write CSS to a file, give a suitable file path to
+<code><a href="../reference/sass.html">sass()</a></code>’s <code>output</code> argument. Here we write to a
+specially named <code>www/</code> subdirectory so that
+<strong>shiny</strong> will automatically make those file(s) available
+to the web app.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/" class="external-link">shiny</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/sass_import.html">sass_file</a></span><span class="op">(</span><span class="st">"my-style.scss"</span><span class="op">)</span>,</span>
 <span>  output <span class="op">=</span> <span class="st">"www/my-style.css"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span>
 <span>  <span class="va">tags</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span></span>
 <span>    <span class="va">tags</span><span class="op">$</span><span class="fu">link</span><span class="op">(</span>href <span class="op">=</span> <span class="st">"my-style.css"</span>, rel <span class="op">=</span> <span class="st">"stylesheet"</span>, type <span class="op">=</span> <span class="st">"text/css"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span>,</span>
@@ -412,22 +594,34 @@ pre.css {
 <div class="section level3">
 <h3 id="shiny-dynamic">As a dynamic input<a class="anchor" aria-label="anchor" href="#shiny-dynamic"></a>
 </h3>
-<p>Sometimes it’s useful to allow users of your <strong>shiny</strong> app to be able to influence your app’s styling via <strong>shiny</strong> input(s). One way this can be done is via <a href="https://shiny.rstudio.com/articles/dynamic-ui.html" class="external-link">dynamic UI</a>, where you use <code><a href="https://shiny.rstudio.com/reference/shiny/latest/renderUI.html" class="external-link">renderUI()</a></code>/<code><a href="https://shiny.rstudio.com/reference/shiny/latest/htmlOutput.html" class="external-link">uiOutput()</a></code> to dynamically insert <a href="#shiny-string">CSS as an HTML string</a> whenever a relevant input changes. Be aware, however, that whenever you allow dynamic user input to generate <code><a href="https://rstudio.github.io/htmltools/reference/HTML.html" class="external-link">HTML()</a></code>, you’re leaving yourself open to security vulnerabilites; so try to avoid it, and <em>never</em> allow clients to enter free form <code><a href="https://shiny.rstudio.com/reference/shiny/latest/textInput.html" class="external-link">textInput()</a></code> without any sort of sanitation of the user input.</p>
-<p>Consider this basic example of using a <code>colourInput()</code> widget (from the <strong>colourpicker</strong> package) to choose the body’s background color, which triggers a call to <code><a href="../reference/sass.html">sass()</a></code>:</p>
+<p>Sometimes it’s useful to allow users of your <strong>shiny</strong>
+app to be able to influence your app’s styling via
+<strong>shiny</strong> input(s). One way this can be done is via <a href="https://shiny.rstudio.com/articles/dynamic-ui.html" class="external-link">dynamic
+UI</a>, where you use <code><a href="https://rdrr.io/pkg/shiny/man/renderUI.html" class="external-link">renderUI()</a></code>/<code><a href="https://rdrr.io/pkg/shiny/man/htmlOutput.html" class="external-link">uiOutput()</a></code> to
+dynamically insert <a href="#shiny-string">CSS as an HTML string</a>
+whenever a relevant input changes. Be aware, however, that whenever you
+allow dynamic user input to generate <code><a href="https://rstudio.github.io/htmltools/reference/HTML.html" class="external-link">HTML()</a></code>, you’re leaving
+yourself open to security vulnerabilites; so try to avoid it, and
+<em>never</em> allow clients to enter free form <code><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput()</a></code>
+without any sort of sanitation of the user input.</p>
+<p>Consider this basic example of using a <code>colourInput()</code>
+widget (from the <strong>colourpicker</strong> package) to choose the
+body’s background color, which triggers a call to
+<code><a href="../reference/sass.html">sass()</a></code>:</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/" class="external-link">shiny</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/headerPanel.html" class="external-link">headerPanel</a></span><span class="op">(</span><span class="st">"Sass Color Example"</span><span class="op">)</span>,</span>
+<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/headerPanel.html" class="external-link">headerPanel</a></span><span class="op">(</span><span class="st">"Sass Color Example"</span><span class="op">)</span>,</span>
 <span>  <span class="fu">colourpicker</span><span class="fu">::</span><span class="fu">colourInput</span><span class="op">(</span><span class="st">"color"</span>, <span class="st">"Background Color"</span>, value <span class="op">=</span> <span class="st">"#6498d2"</span>, showColour <span class="op">=</span> <span class="st">"text"</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/htmlOutput.html" class="external-link">uiOutput</a></span><span class="op">(</span><span class="st">"sass"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/htmlOutput.html" class="external-link">uiOutput</a></span><span class="op">(</span><span class="st">"sass"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">output</span><span class="op">$</span><span class="va">sass</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/renderUI.html" class="external-link">renderUI</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>  <span class="va">output</span><span class="op">$</span><span class="va">sass</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/renderUI.html" class="external-link">renderUI</a></span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="va">tags</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span><span class="va">tags</span><span class="op">$</span><span class="fu">style</span><span class="op">(</span><span class="fu"><a href="https://rstudio.github.io/htmltools/reference/css.html" class="external-link">css</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
-<span>  <span class="va">css</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/reactive.html" class="external-link">reactive</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>  <span class="va">css</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reactive.html" class="external-link">reactive</a></span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="fu">sass</span><span class="fu">::</span><span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">input</span><span class="op">$</span><span class="va">color</span><span class="op">)</span>,</span>
 <span>      <span class="st">"body { background-color: $color; }"</span></span>
@@ -435,7 +629,7 @@ pre.css {
 <span>  <span class="op">}</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
-<span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
 <p><br></p>
 <p><img src="https://i.imgur.com/5cUEifg.gif" width="80%" style="display: block; margin: auto;"></p>
 <p>Below are a few more sophisticated examples of dynamic input:</p>
@@ -464,27 +658,49 @@ pre.css {
 <div class="section level2">
 <h2 id="rmarkdown">In rmarkdown<a class="anchor" aria-label="anchor" href="#rmarkdown"></a>
 </h2>
-<p><strong>knitr</strong> <a href="https://github.com/yihui/knitr/pull/1666" class="external-link">recently gained</a> a Sass engine powered by the <strong>sass</strong> package. This means you can write Sass code directly into a code <code>sass</code> chunk and the resulting CSS will be included in the resulting document (The <code>echo = FALSE</code> prevents the Sass code from being shown in the resulting document).</p>
+<p><strong>knitr</strong> <a href="https://github.com/yihui/knitr/pull/1666" class="external-link">recently gained</a> a
+Sass engine powered by the <strong>sass</strong> package. This means you
+can write Sass code directly into a code <code>sass</code> chunk and the
+resulting CSS will be included in the resulting document (The
+<code>echo = FALSE</code> prevents the Sass code from being shown in the
+resulting document).</p>
 <pre><code>```{sass, echo = FALSE}
 $body-bg: red;
 body{
   background-color: $body-bg;
 }
 ```</code></pre>
-<p>If you like to write R <strong>sass</strong> code instead, you can do that as well, and by default it works similarly to the <code>sass</code> engine (except that the sass-specific code chunk options will be ignored, but you can specify those <a href="#options">options</a> via <code><a href="../reference/sass.html">sass::sass()</a></code> instead).</p>
+<p>If you like to write R <strong>sass</strong> code instead, you can do
+that as well, and by default it works similarly to the <code>sass</code>
+engine (except that the sass-specific code chunk options will be
+ignored, but you can specify those <a href="#options">options</a> via
+<code><a href="../reference/sass.html">sass::sass()</a></code> instead).</p>
 <pre><code>```{r, echo = FALSE}
 sass(sass_file("my-style.scss"))
 ```</code></pre>
-<p>If syntax highlighting is enabled in your output document , it’s also possible to display the generated CSS (instead of embedding it as HTML) with syntax highlighting by setting the code chunk options <code>class.output='css'</code> and <code>comment=''</code>. Unfortunately, for some output formats, like <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/html_vignette.html" class="external-link">rmarkdown::html_vignette()</a></code>, syntax hightlighting isn’t supported, but for output formats like <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/html_document.html" class="external-link">rmarkdown::html_document()</a></code>, you can enable syntax highlighting by setting the <code>highlight</code> parameter to a non-default value (e.g., <code>tango</code>).</p>
+<p>If syntax highlighting is enabled in your output document , it’s also
+possible to display the generated CSS (instead of embedding it as HTML)
+with syntax highlighting by setting the code chunk options
+<code>class.output='css'</code> and <code>comment=''</code>.
+Unfortunately, for some output formats, like
+<code><a href="https://pkgs.rstudio.com/rmarkdown/reference/html_vignette.html" class="external-link">rmarkdown::html_vignette()</a></code>, syntax hightlighting isn’t
+supported, but for output formats like
+<code><a href="https://pkgs.rstudio.com/rmarkdown/reference/html_document.html" class="external-link">rmarkdown::html_document()</a></code>, you can enable syntax
+highlighting by setting the <code>highlight</code> parameter to a
+non-default value (e.g., <code>tango</code>).</p>
 <pre><code>```{r, class.output='css', comment=''}
 sass(sass_file("my-style.scss"))
 ```</code></pre>
 </div>
-<div class="footnotes">
+<div class="footnotes footnotes-end-of-document">
 <hr>
 <ol>
-<li id="fn1"><p>Oh, by the way, the value of a variable may be an expression.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-<li id="fn2"><p>Including <a href="#shiny-dynamic">dynamic user input</a> directly as <code><a href="https://rstudio.github.io/htmltools/reference/HTML.html" class="external-link">HTML()</a></code>, especially with free form inputs like <code><a href="https://shiny.rstudio.com/reference/shiny/latest/textInput.html" class="external-link">textInput()</a></code>, is a security vulnerability. Avoid it if you can.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn1"><p>Oh, by the way, the value of a variable may be an
+expression.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>Including <a href="#shiny-dynamic">dynamic user
+input</a> directly as <code><a href="https://rstudio.github.io/htmltools/reference/HTML.html" class="external-link">HTML()</a></code>, especially with free form
+inputs like <code><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput()</a></code>, is a security vulnerability. Avoid
+it if you can.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
   </div>

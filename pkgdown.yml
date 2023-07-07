@@ -1,9 +1,9 @@
-pandoc: 2.7.3
+pandoc: 3.1.2
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   sass: sass.html
-last_built: 2023-05-04T17:21Z
+last_built: 2023-07-07T01:42Z
 urls:
   reference: https://rstudio.github.io/sass/reference
   article: https://rstudio.github.io/sass/articles
