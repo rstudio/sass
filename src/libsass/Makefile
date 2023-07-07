@@ -110,7 +110,6 @@ ifeq ($(STATIC_LIBSTDCPP),1)
 endif
 
 ifeq ($(UNAME),Darwin)
-	CFLAGS += -stdlib=libc++
 	CXXFLAGS += -stdlib=libc++
 	LDFLAGS += -stdlib=libc++
 endif
