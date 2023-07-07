@@ -1,0 +1,12 @@
+diff --git a/src/libsass/Makefile b/src/libsass/Makefile
+index 6f81feb..41e3739 100644
+--- a/src/libsass/Makefile
++++ b/src/libsass/Makefile
+@@ -110,7 +110,6 @@ ifeq ($(STATIC_LIBSTDCPP),1)
+ endif
+ 
+ ifeq ($(UNAME),Darwin)
+-	CFLAGS += -stdlib=libc++
+ 	CXXFLAGS += -stdlib=libc++
+ 	LDFLAGS += -stdlib=libc++
+ endif
