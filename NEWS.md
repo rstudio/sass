@@ -1,6 +1,6 @@
 # sass 0.4.6.9000
 
-
+* Closed #129: Fixed a compilation warning on latest Apple Clang (15). (#130)
 
 # sass 0.4.6
 
