@@ -43,7 +43,7 @@ RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
 SystemRequirements: GNU make
 Imports:
-    fs,
+    fs (>= 1.2.4),
     rlang (>= 0.4.10),
     htmltools (>= 0.5.1),
     R6,
