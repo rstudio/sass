@@ -1,4 +1,4 @@
-# sass 0.4.6.9000
+# sass 0.4.7
 
 - Closed #129: Fixed a compilation warning on latest Apple Clang (15). (#130)
 - Closed #125: Installation now (correctly) requires `{fs}` >= 1.2.4.
