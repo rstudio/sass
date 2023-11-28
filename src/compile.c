@@ -100,7 +100,7 @@ SEXP compile_file(SEXP file, SEXP options) {
   int status = sass_compile_file_context(file_context);
 
   if (status != 0)
-    error(sass_context_get_error_message(context));
+    error("%s", sass_context_get_error_message(context));
 
   SEXP ret = PROTECT(mkString(sass_context_get_output_string(context)));
 
@@ -129,7 +129,7 @@ SEXP compile_data(SEXP data, SEXP options) {
   int status = sass_compile_data_context(data_context);
 
   if (status != 0)
-    error(sass_context_get_error_message(context));
+    error("%s", sass_context_get_error_message(context));
 
   SEXP ret = PROTECT(mkString(sass_context_get_output_string(context)));
 
