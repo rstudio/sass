@@ -1,4 +1,4 @@
-# sass 0.4.7.9000
+# sass 0.4.8
 
 - Closed #132: Fix R CMD check warning re error() format strings (for r-devel). (#133)
 
