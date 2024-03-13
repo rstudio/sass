@@ -59,7 +59,7 @@
 #'  HTML).
 #'
 #' @param family A character string with a _single_ font family name.
-#' @param local Whether or not download and bundle local (woff) font files.
+#' @param local Whether or not download and bundle local (woff2) font files.
 #' @param cache A [sass::sass_file_cache()] object (or, more generally, a file
 #'   caching class with `$get_file()` and `$set_file()` methods). Set this
 #'   argument to `FALSE` or `NULL` to disable caching.
@@ -414,9 +414,9 @@ font_dep_google_local <- function(x) {
   dir.create(tmpdir, recursive = TRUE)
   css_file <- file.path(tmpdir, "font.css")
 
-  # TODO: could the hash be more aware of when the href updates?
   x$cache <- resolve_cache(x$cache)
-  css_key <- rlang::hash(x$href)
+
+  css_key <- hash_with_user_agent(x$href)
   css_hit <- x$cache$get_file(css_key, css_file)
 
   # Even if we have a cache hit on the CSS file, we may need
@@ -430,7 +430,7 @@ font_dep_google_local <- function(x) {
   # If need be, download the font file(s) that the CSS imports,
   # and modify the CSS to point to the local files
   Map(function(url, nm) {
-    key <- rlang::hash(nm)
+    key <- hash_with_user_agent(nm)
     f <- file.path(tmpdir, nm)
     hit <- x$cache$get_file(key, f)
     if (hit) return()
@@ -462,16 +462,27 @@ font_dep_google_local <- function(x) {
 }
 
 # Request the relevant @font-face definitions for the font url
-# (without the IE11 user-agent header we'd get truetype fonts, but
-# there's no reason why we can't use woff, which IE11 supports)
 read_gfont_url <- function(url, file) {
+
   download_file(
     utils::URLencode(url), file,
-    headers = c(
-      "User-Agent" = "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko"
-    )
+    headers = c("User-Agent" = gfont_user_agent())
   )
   readLines(file)
+}
+
+# Set the User-Agent to Chrome user-agent so get receive woff2 font files,
+# which is now suitable for the browsers that we support
+gfont_user_agent <- function() {
+  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+}
+
+# Incorporate the User-Agent request header in
+# the cache key since that can influence the font file type.
+# Note that in version >0.4.8 we switched from woff to woff2
+# to help with unstable font file hyperlinks
+hash_with_user_agent <- function(x) {
+  rlang::hash(paste0(x, gfont_user_agent()))
 }
 
 extract_group <- function(x, pattern, which = 1) {

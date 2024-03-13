@@ -50,11 +50,27 @@ test_that("Remote font importing basically works", {
 test_that("font_google(local = TRUE) basically works", {
   skip_if_offline()
 
+  # Setup a new file cache and pass it to font_google()
+  tmpdir <- tempfile("sass-cache-test-")
+  dir.create(tmpdir)
+  cache <- sass_file_cache(tmpdir)
+  expect_equal(cache$size(), 0)
+
   scss <- list(
-    list("my-font" = font_google("Pacifico")),
+    list("my-font" = font_google("Pacifico", cache = cache)),
     list("body {font-family: $my-font}")
   )
+
+  # 1st time rendering font should add files to cache
   tagz <- renderTags(tags$style(sass(scss)))
+  size <- cache$size()
+  expect_true(size > 0)
+
+  # 2md time should result in cache hit
+  tagz <- renderTags(tags$style(sass(scss)))
+  expect_true(size == cache$size())
+
+  # Make sure the markup structure and files are as expected
   expect_snapshot(tagz$html, cran = TRUE)
   src <- tagz$dependencies[[1]]$src$file
   expect_snapshot_file(
@@ -64,8 +80,9 @@ test_that("font_google(local = TRUE) basically works", {
     cran = FALSE,
     compare = compare_file_text
   )
-  woff <- dir(src, pattern = "\\.woff$", full.names = TRUE)
+  woff <- dir(src, pattern = "\\.woff2$", full.names = TRUE)
   expect_true(length(woff) > 0)
+
 
   # https://github.com/rstudio/bslib/issues/408
   scss <- list(
