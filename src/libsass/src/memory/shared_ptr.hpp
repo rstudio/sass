@@ -14,7 +14,7 @@
 // Workaround for what appears to be a false positive (Wuse-after-free) warning in gcc-12 on Windows.
 // See here for evidence of other false positives: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=Wuse-after-free
 // And here for a discussion of the issue: https://github.com/rstudio/sass/issues/127
-#if __GNUC__ > 11 && _WIN32
+#if __GNUC__ == 12 && _WIN32
 /*IGNORE*/ #pragma GCC diagnostic push
 /*IGNORE*/ #pragma GCC diagnostic ignored "-Wuse-after-free"
 #endif
