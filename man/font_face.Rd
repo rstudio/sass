@@ -37,7 +37,7 @@ is_font_collection(x)
 \arguments{
 \item{family}{A character string with a \emph{single} font family name.}
 
-\item{local}{Whether or not download and bundle local (woff) font files.}
+\item{local}{Whether or not download and bundle local (woff2) font files.}
 
 \item{cache}{A \code{\link[=sass_file_cache]{sass_file_cache()}} object (or, more generally, a file
 caching class with \verb{$get_file()} and \verb{$set_file()} methods). Set this
