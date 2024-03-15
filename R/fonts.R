@@ -423,16 +423,30 @@ font_dep_google_local <- function(x) {
   # to re-download font file(s) if they've been pruned from the cache
   css <- if (css_hit) readLines(css_file) else read_gfont_url(x$href, css_file)
 
-  # basename() of these url()s contain a hash key of the font data
+  # Pull out the font file urls and get the file extension/format
   urls <- extract_group(css, "url\\(([^)]+)")
-  basenames <- basename(urls)
+  exts <- tools::file_ext(urls)
+
+  # Gracefully handle case where file extension is missing
+  if (any(!nzchar(exts))) {
+    exts <- extract_group(css, "format\\(([^)]+)")
+    exts <- gsub("'|\"", "", exts)
+
+    if (any(!nzchar(exts)) || length(exts) != urls) {
+      stop(
+        "Unable to infer font file format from this CSS:",
+        paste(css, collapse = "\n")
+      )
+    }
+  }
 
   # If need be, download the font file(s) that the CSS imports,
   # and modify the CSS to point to the local files
-  Map(function(url, nm) {
-    key <- hash_with_user_agent(nm)
-    f <- file.path(tmpdir, nm)
-    hit <- x$cache$get_file(key, f)
+  keys <- vapply(urls, hash_with_user_agent, character(1))
+  files <- file.path(tmpdir, paste0(keys, ".", exts))
+
+  Map(function(url, key, file) {
+    hit <- x$cache$get_file(key, file)
     if (hit) return()
     # In the event we have a CSS cache hit but miss here, url should actually be
     # a local file. In that case, bust the CSS cache, and start over so we know
@@ -441,10 +455,11 @@ font_dep_google_local <- function(x) {
       x$cache$remove(css_key)
       return(font_dep_google_local(x))
     }
-    download_file(url, f)
-    x$cache$set_file(key, f)
-    css <<- sub(url, nm, css, fixed = TRUE)
-  }, urls, basenames)
+    # TODO: if this fails, gracefully fallback to local = FALSE
+    download_file(url, file)
+    x$cache$set_file(key, file)
+    css <<- sub(url, basename(file), css, fixed = TRUE)
+  }, urls, keys, files)
 
   # Cache the *modified* form of the CSS file
   # (with the local file paths instead of remote URLs)
@@ -463,7 +478,6 @@ font_dep_google_local <- function(x) {
 
 # Request the relevant @font-face definitions for the font url
 read_gfont_url <- function(url, file) {
-
   download_file(
     utils::URLencode(url), file,
     headers = c("User-Agent" = gfont_user_agent())

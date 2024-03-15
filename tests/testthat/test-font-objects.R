@@ -80,6 +80,7 @@ test_that("font_google(local = TRUE) basically works", {
     cran = FALSE,
     compare = compare_file_text
   )
+  browser()
   woff <- dir(src, pattern = "\\.woff2$", full.names = TRUE)
   expect_true(length(woff) > 0)
 
