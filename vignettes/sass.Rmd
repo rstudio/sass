@@ -330,7 +330,7 @@ sass(
 
 ### Source maps {#source-maps}
 
-When compressing the CSS output, it can be useful to include a [source map](http://www.richfinelli.com/what-is-a-css-source-maps/) so that it's easier to inspect the CSS from the website. The easiest way to include a source map is to set `source_map_embed = TRUE`:
+When compressing the CSS output, it can be useful to include a [source map](https://web.dev/articles/source-maps) so that it's easier to inspect the CSS from the website. The easiest way to include a source map is to set `source_map_embed = TRUE`:
 
 ```r
 sass(
