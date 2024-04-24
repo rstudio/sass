@@ -62,12 +62,15 @@ test_that("font_google(local = TRUE) basically works", {
   )
 
   # 1st time rendering font should add files to cache
-  tagz <- renderTags(tags$style(sass(scss)))
+  expect_snapshot(
+    tagz <- renderTags(tags$style(sass(scss))),
+    transform = function(x) gsub("\\(.*\\)", "(<temp-cache>)", x)
+  )
   size <- cache$size()
   expect_true(size > 0)
 
   # 2md time should result in cache hit
-  tagz <- renderTags(tags$style(sass(scss)))
+  expect_snapshot(tagz <- renderTags(tags$style(sass(scss))))
   expect_true(size == cache$size())
 
   # Make sure the markup structure and files are as expected

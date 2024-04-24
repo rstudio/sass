@@ -1,5 +1,7 @@
 # sass (development version)
 
+- More informative output when `font_google()` downloads google font files (for `font_google(local=TRUE)`).
+
 # sass 0.4.9
 
 - Closed #138: font_google(local = TRUE) now uses woff2 (instead of woff) for a font file type. (#139) 

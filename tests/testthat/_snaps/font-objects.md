@@ -188,6 +188,18 @@
 # font_google(local = TRUE) basically works
 
     Code
+      tagz <- renderTags(tags$style(sass(scss)))
+    Message
+      Downloading google font Pacifico to local cache (<temp-cache>)
+
+---
+
+    Code
+      tagz <- renderTags(tags$style(sass(scss)))
+
+---
+
+    Code
       tagz$html
     Output
       <style>body {

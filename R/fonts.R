@@ -414,6 +414,7 @@ font_dep_google_local <- function(x) {
   dir.create(tmpdir, recursive = TRUE)
   css_file <- file.path(tmpdir, "font.css")
 
+  has_cache <- is_cache_object(x$cache)
   x$cache <- resolve_cache(x$cache)
 
   css_key <- hash_with_user_agent(x$href)
@@ -429,6 +430,7 @@ font_dep_google_local <- function(x) {
 
   # If need be, download the font file(s) that the CSS imports,
   # and modify the CSS to point to the local files
+  needs_download_message <- TRUE
   Map(function(url, nm) {
     key <- hash_with_user_agent(nm)
     f <- file.path(tmpdir, nm)
@@ -441,7 +443,17 @@ font_dep_google_local <- function(x) {
       x$cache$remove(css_key)
       return(font_dep_google_local(x))
     }
-    download_file(url, f)
+
+    if (needs_download_message) {
+      needs_download_message <<- FALSE
+      download_msg <- paste0("Downloading google font ", x$family)
+      if (has_cache) {
+        download_msg <- paste0(download_msg, " to local cache (", x$cache$dir(), ")")
+      }
+      rlang::inform(download_msg)
+    }
+
+    download_file(url, f, quiet = TRUE)
     x$cache$set_file(key, f)
     css <<- sub(url, nm, css, fixed = TRUE)
   }, urls, basenames)
@@ -466,7 +478,8 @@ read_gfont_url <- function(url, file) {
 
   download_file(
     utils::URLencode(url), file,
-    headers = c("User-Agent" = gfont_user_agent())
+    headers = c("User-Agent" = gfont_user_agent()),
+    quiet = TRUE
   )
   readLines(file)
 }
@@ -493,7 +506,8 @@ extract_group <- function(x, pattern, which = 1) {
 # similar to thematic:::download_file, but also translates headers to curl
 #' @importFrom stats na.omit
 #' @importFrom utils download.file packageVersion
-download_file <- function(url, dest, headers = NULL, ...) {
+download_file <- function(url, dest, headers = NULL, quiet = FALSE, ...) {
+
   if (is_installed("curl")) {
     if (!curl::has_internet()) {
       warning(
@@ -505,11 +519,11 @@ download_file <- function(url, dest, headers = NULL, ...) {
       )
     }
     handle <- curl::handle_setheaders(curl::new_handle(), .list = headers)
-    return(curl::curl_download(url, dest, handle = handle, quiet = FALSE, ...))
+    return(curl::curl_download(url, dest, handle = handle, quiet = quiet, ...))
   }
 
   if (capabilities("libcurl")) {
-    return(download.file(url, dest, method = "libcurl", headers = headers, ...))
+    return(download.file(url, dest, method = "libcurl", headers = headers, quiet = quiet, ...))
   }
 
   stop(
