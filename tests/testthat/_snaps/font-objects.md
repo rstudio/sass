@@ -190,7 +190,7 @@
     Code
       tagz <- renderTags(tags$style(sass(scss)))
     Message
-      Downloading google font Pacifico to local cache
+      Downloading google font Pacifico to local cache (<temp-cache>)
 
 ---
 

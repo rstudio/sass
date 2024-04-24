@@ -443,7 +443,9 @@ font_dep_google_local <- function(x) {
       return(font_dep_google_local(x))
     }
     if (needs_message) {
-      rlang::inform(paste0("Downloading google font ", x$family, " to local cache"))
+      rlang::inform(paste0(
+        "Downloading google font ", x$family, " to local cache (", x$cache$dir(), ")"
+      ))
       needs_message <<- FALSE
     }
     
