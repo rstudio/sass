@@ -414,6 +414,7 @@ font_dep_google_local <- function(x) {
   dir.create(tmpdir, recursive = TRUE)
   css_file <- file.path(tmpdir, "font.css")
 
+  needs_message <- is_cache_object(x$cache)
   x$cache <- resolve_cache(x$cache)
 
   css_key <- hash_with_user_agent(x$href)
@@ -426,8 +427,6 @@ font_dep_google_local <- function(x) {
   # basename() of these url()s contain a hash key of the font data
   urls <- extract_group(css, "url\\(([^)]+)")
   basenames <- basename(urls)
-
-  informed <- FALSE
 
   # If need be, download the font file(s) that the CSS imports,
   # and modify the CSS to point to the local files
@@ -443,9 +442,9 @@ font_dep_google_local <- function(x) {
       x$cache$remove(css_key)
       return(font_dep_google_local(x))
     }
-    if (!informed) {
+    if (needs_message) {
       rlang::inform(paste0("Downloading google font ", x$family, " to local cache"))
-      informed <<- TRUE
+      needs_message <<- FALSE
     }
     
     download_file(url, f, quiet = TRUE)
