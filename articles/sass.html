@@ -12,7 +12,7 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -88,7 +88,7 @@
                         <h4 data-toc-skip class="author">Carson
 Sievert</h4>
             
-            <h4 data-toc-skip class="date">2024-03-15</h4>
+            <h4 data-toc-skip class="date">2024-04-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/rstudio/sass/blob/HEAD/vignettes/sass.Rmd" class="external-link"><code>vignettes/sass.Rmd</code></a></small>
       <div class="hidden name"><code>sass.Rmd</code></div>
@@ -131,22 +131,22 @@ buttons). With CSS, you’d have to repeat that color every time it is
 used in styling rule, so in a large project, changing at a later point
 can be tedious and error-prone.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>a {</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="kw">color</span>: <span class="cn">salmon</span><span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="kw">color</span><span class="ch">:</span> <span class="cn">salmon</span><span class="op">;</span></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>}</span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>button {</span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="kw">background-color</span>: <span class="cn">salmon</span><span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="kw">background-color</span><span class="ch">:</span> <span class="cn">salmon</span><span class="op">;</span></span>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>}</span></code></pre></div>
 <p>With Sass, you could store this color in a Sass variable and use it
 in the styling rules to produce the same CSS, resulting in a single
 entry point for the color’s value. This simple Sass tool can make CSS
 styling a lot easier to reason about, making styles a lot easier to
 customize and maintain.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>$main-color<span class="in">: salmon</span>;</span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>$main-color<span class="in">:</span> salmon;</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>a {</span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="kw">color</span>: $main-color<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="kw">color</span><span class="ch">:</span> $<span class="dv">main-color</span><span class="op">;</span></span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>}</span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>button {</span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="kw">background-color</span>: $main-color<span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="kw">background-color</span><span class="ch">:</span> $<span class="dv">main-color</span><span class="op">;</span></span>
 <span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>}</span></code></pre></div>
 <p>Sass variables are not the only Sass tool useful for reducing
 complexity. For Sass and <strong>sass</strong> newcomers, this vignette
@@ -186,7 +186,7 @@ arbitrary Sass code (e.g., functions, mixins, etc).</p>
 <span><span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span>input <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">variable</span>, <span class="va">rule</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co">/* CSS */</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>body { </span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="kw">background-color</span>: <span class="cn">red</span><span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="kw">background-color</span><span class="ch">:</span> <span class="cn">red</span><span class="op">;</span></span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>}</span></code></pre></div>
 <p>A more convenient and readable way to create Sass variables in R is
 to use a named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>. Also, it’s a good idea to add the
@@ -201,7 +201,7 @@ variable isn’t already defined:</p>
 <span><span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span>input <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">user_default</span>, <span class="va">default</span>, <span class="va">rule</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co">/* CSS */</span></span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>body { </span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="kw">background-color</span>: <span class="cn">blue</span><span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="kw">background-color</span><span class="ch">:</span> <span class="cn">blue</span><span class="op">;</span></span>
 <span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div class="section level3">
@@ -220,7 +220,7 @@ and assign the result to a variable.<a href="#fn1" class="footnote-ref" id="fnre
 <span><span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span>input <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">variable</span>, <span class="va">rule</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co">/* CSS */</span></span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>body {</span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="kw">background-color</span>: <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0.8</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="kw">background-color</span><span class="ch">:</span> <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0.8</span><span class="fu">)</span><span class="op">;</span></span>
 <span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>}</span></code></pre></div>
 <p>Sass also provides the ability to define your own functions through
 the <a href="https://sass-lang.com/documentation//at-rules/function" class="external-link"><code>@function</code>
@@ -273,8 +273,8 @@ contrast. <a href="#shiny-dynamic">See here</a> for more on allowing
 <span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co">/* CSS */</span></span>
 <span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>body {</span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="kw">background-color</span>: <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0.8</span><span class="fu">)</span><span class="op">;</span></span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="kw">color</span>: <span class="cn">white</span><span class="op">;</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="kw">background-color</span><span class="ch">:</span> <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0.8</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="kw">color</span><span class="ch">:</span> <span class="cn">white</span><span class="op">;</span></span>
 <span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>}</span></code></pre></div>
 <p><strong>NOTE</strong>: <code><a href="https://rdrr.io/pkg/bslib/man/bs_theme.html" class="external-link">bslib::bs_theme()</a></code> provides it’s
 own, more sophisticated, version of <code>color-contrast()</code> that
@@ -297,7 +297,7 @@ way:</p>
 <p><img src="my-style.png" width="50%" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="co">/* CSS */</span></span>
 <span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>body {</span>
-<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="kw">background-color</span>: <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0.8</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="kw">background-color</span><span class="ch">:</span> <span class="fu">rgba(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0.8</span><span class="fu">)</span><span class="op">;</span></span>
 <span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>}</span></code></pre></div>
 <p>This works because <code><a href="../reference/sass_import.html">sass_file()</a></code> uses
 <code><a href="../reference/sass_import.html">sass_import()</a></code> to generate an <code>@import</code> at-rule.
@@ -387,8 +387,8 @@ styling rules).</p>
 <span><span class="fu"><a href="../reference/as_sass.html">as_sass</a></span><span class="op">(</span><span class="va">layer1</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb17"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co">/* CSS */</span></span>
 <span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>body {</span>
-<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  <span class="kw">background-color</span>: <span class="cn">black</span><span class="op">;</span></span>
-<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  <span class="kw">color</span>: <span class="cn">white</span><span class="op">;</span></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  <span class="kw">background-color</span><span class="ch">:</span> <span class="cn">black</span><span class="op">;</span></span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  <span class="kw">color</span><span class="ch">:</span> <span class="cn">white</span><span class="op">;</span></span>
 <span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>}</span></code></pre></div>
 <p>This allows downstream <code><a href="../reference/sass_layer.html">sass_layer()</a></code>s to be
 <code><a href="../reference/sass_layer.html">sass_bundle()</a></code>d into a single layer, where
@@ -419,8 +419,8 @@ matters when there are multiple rules with the same level of <a href="https://cs
 <span><span class="fu"><a href="../reference/sass.html">sass</a></span><span class="op">(</span><span class="fu"><a href="../reference/sass_layer.html">sass_bundle</a></span><span class="op">(</span><span class="va">layer1</span>, <span class="va">layer2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb19"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="co">/* CSS */</span></span>
 <span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>body {</span>
-<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>  <span class="kw">background-color</span>: <span class="cn">white</span><span class="op">;</span></span>
-<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>  <span class="kw">color</span>: <span class="cn">black</span><span class="op">;</span></span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>  <span class="kw">background-color</span><span class="ch">:</span> <span class="cn">white</span><span class="op">;</span></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>  <span class="kw">color</span><span class="ch">:</span> <span class="cn">black</span><span class="op">;</span></span>
 <span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>}</span></code></pre></div>
 <div class="section level3">
 <h3 id="imports-relative">Resolving relative imports<a class="anchor" aria-label="anchor" href="#imports-relative"></a>
@@ -721,7 +721,7 @@ it if you can.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>
