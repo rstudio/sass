@@ -1,6 +1,6 @@
 # sass (development version)
 
-- More informative output when sass downloads a google font to the local cache.
+- More informative output when `font_google()` downloads google font files (for `font_google(local=TRUE)`).
 
 # sass 0.4.9
 
