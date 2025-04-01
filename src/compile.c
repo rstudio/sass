@@ -25,11 +25,11 @@ const char* get_char_element(SEXP list, const char* name) {
   int index = get_index(list, name);
   SEXP value = PROTECT(VECTOR_ELT(list, index));
   if (TYPEOF(value) != STRSXP) {
-    UNPROTECT(1);
     error("Invalid type for %s option. Expected string.", name);
   }
+  value = asChar(value);
   UNPROTECT(1);
-  return CHAR(asChar(value));
+  return CHAR(value);
 }
 
 int get_bool_element(SEXP list, const char* name) {
