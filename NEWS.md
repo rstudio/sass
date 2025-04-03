@@ -1,5 +1,7 @@
 # sass (development version)
 
+- Closed #149: `FileCache` R6 class `finalize()` method should be private. (#150)
+
 - More informative output when `font_google()` downloads google font files (for `font_google(local=TRUE)`).
 
 # sass 0.4.9

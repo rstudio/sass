@@ -475,13 +475,6 @@ FileCache <- R6::R6Class("FileCache",
       } else {
         private$destroyed
       }
-    },
-
-    #' @description A finalizer for the cache.
-    finalize = function() {
-      if (private$destroy_on_finalize) {
-        self$destroy()
-      }
     }
   ),
 
@@ -500,6 +493,13 @@ FileCache <- R6::R6Class("FileCache",
 
     filename_full_path = function(filename) {
       file.path(private$dir_, filename)
+    },
+
+    # A finalizer for the cache.
+    finalize = function() {
+      if (private$destroy_on_finalize) {
+        self$destroy()
+      }
     },
 
     # A wrapper for prune() that throttles it, because prune() can be

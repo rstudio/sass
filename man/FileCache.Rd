@@ -119,7 +119,6 @@ already been deleted.
 \item \href{#method-FileCache-size}{\code{FileCache$size()}}
 \item \href{#method-FileCache-destroy}{\code{FileCache$destroy()}}
 \item \href{#method-FileCache-is_destroyed}{\code{FileCache$is_destroyed()}}
-\item \href{#method-FileCache-finalize}{\code{FileCache$finalize()}}
 \item \href{#method-FileCache-clone}{\code{FileCache$clone()}}
 }
 }
@@ -397,16 +396,6 @@ destroyed?}
 }
 \if{html}{\out{</div>}}
 }
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-FileCache-finalize"></a>}}
-\if{latex}{\out{\hypertarget{method-FileCache-finalize}{}}}
-\subsection{Method \code{finalize()}}{
-A finalizer for the cache.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{FileCache$finalize()}\if{html}{\out{</div>}}
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-FileCache-clone"></a>}}
