@@ -7,7 +7,7 @@ TRUE."><meta property="og:image" content="https://rstudio.github.io/sass/logo.sv
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -38,25 +38,25 @@ TRUE."><meta property="og:image" content="https://rstudio.github.io/sass/logo.sv
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/rstudio/sass/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul><form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off"></div>
       </form>
-      
+
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Compiler Options for Sass</h1>
-    <small class="dont-index">Source: <a href="https://github.com/rstudio/sass/blob/HEAD/R/options.R" class="external-link"><code>R/options.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/rstudio/sass/blob/main/R/options.R" class="external-link"><code>R/options.R</code></a></small>
     <div class="hidden name"><code>sass_options.Rd</code></div>
     </div>
 
@@ -93,79 +93,81 @@ TRUE."><meta property="og:image" content="https://rstudio.github.io/sass/logo.sv
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>precision</dt>
+
+
+<dl><dt id="arg-precision">precision<a class="anchor" aria-label="anchor" href="#arg-precision"></a></dt>
 <dd><p>Number of decimal places.</p></dd>
 
 
-<dt>output_style</dt>
+<dt id="arg-output-style">output_style<a class="anchor" aria-label="anchor" href="#arg-output-style"></a></dt>
 <dd><p>Bracketing and formatting style of the CSS output.
 Possible styles: <code>"nested"</code>, <code>"expanded"</code>, <code>"compact"</code>, and
 <code>"compressed"</code>.</p></dd>
 
 
-<dt>indented_syntax</dt>
+<dt id="arg-indented-syntax">indented_syntax<a class="anchor" aria-label="anchor" href="#arg-indented-syntax"></a></dt>
 <dd><p>Enables the compiler to parse Sass Indented Syntax in
 strings. Note that the compiler automatically overrides this option to
 <code>TRUE</code> or <code>FALSE</code> for files with .sass and .scss file extensions
 respectively.</p></dd>
 
 
-<dt>include_path</dt>
+<dt id="arg-include-path">include_path<a class="anchor" aria-label="anchor" href="#arg-include-path"></a></dt>
 <dd><p>Vector of paths used to resolve <code>@import</code>. Multiple
 paths are possible using a character vector of paths.</p></dd>
 
 
-<dt>source_comments</dt>
+<dt id="arg-source-comments">source_comments<a class="anchor" aria-label="anchor" href="#arg-source-comments"></a></dt>
 <dd><p>Annotates CSS output with line and file comments from
 Sass file for debugging.</p></dd>
 
 
-<dt>indent_type</dt>
+<dt id="arg-indent-type">indent_type<a class="anchor" aria-label="anchor" href="#arg-indent-type"></a></dt>
 <dd><p>Specifies the indent type as <code>"space"</code> or
 <code>"tab"</code>.</p></dd>
 
 
-<dt>indent_width</dt>
+<dt id="arg-indent-width">indent_width<a class="anchor" aria-label="anchor" href="#arg-indent-width"></a></dt>
 <dd><p>Number of tabs or spaces used for indentation. Maximum
 10.</p></dd>
 
 
-<dt>linefeed</dt>
+<dt id="arg-linefeed">linefeed<a class="anchor" aria-label="anchor" href="#arg-linefeed"></a></dt>
 <dd><p>Specifies how new lines should be delimited. Possible values:
 <code>"lf"</code>, <code>"cr"</code>, <code>"lfcr"</code>, and <code>"crlf"</code>.</p></dd>
 
 
-<dt>output_path</dt>
+<dt id="arg-output-path">output_path<a class="anchor" aria-label="anchor" href="#arg-output-path"></a></dt>
 <dd><p>Specifies the location of the output file. Note: this
 option will not write the file on disk. It is only for internal reference
 with the source map.</p></dd>
 
 
-<dt>source_map_file</dt>
+<dt id="arg-source-map-file">source_map_file<a class="anchor" aria-label="anchor" href="#arg-source-map-file"></a></dt>
 <dd><p>Specifies the location for Sass to write the source
 map.</p></dd>
 
 
-<dt>source_map_root</dt>
+<dt id="arg-source-map-root">source_map_root<a class="anchor" aria-label="anchor" href="#arg-source-map-root"></a></dt>
 <dd><p>Value will be included as source root in the source
 map information.</p></dd>
 
 
-<dt>source_map_embed</dt>
+<dt id="arg-source-map-embed">source_map_embed<a class="anchor" aria-label="anchor" href="#arg-source-map-embed"></a></dt>
 <dd><p>Embeds the source map as a data URI.</p></dd>
 
 
-<dt>source_map_contents</dt>
+<dt id="arg-source-map-contents">source_map_contents<a class="anchor" aria-label="anchor" href="#arg-source-map-contents"></a></dt>
 <dd><p>Includes the contents in the source map
 information.</p></dd>
 
 
-<dt>omit_source_map_url</dt>
+<dt id="arg-omit-source-map-url">omit_source_map_url<a class="anchor" aria-label="anchor" href="#arg-omit-source-map-url"></a></dt>
 <dd><p>Disable the inclusion of source map information in
 the output file. Note: must specify <code>output_path</code> when <code>TRUE</code>.</p></dd>
 
 
-<dt>...</dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>arguments to <code>sass_options()</code>. For <code>sass_options_set()</code>, the
 following values are also acceptable:</p><ul><li><p><code>NULL</code>, clearing the global options.</p></li>
 <li><p>Return value of <code>sass_options_get()</code>.</p></li>
@@ -175,9 +177,7 @@ following values are also acceptable:</p><ul><li><p><code>NULL</code>, clearing 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>List of Sass compiler options to be used with <code><a href="sass.html">sass()</a></code>. For
+    <p>List of Sass compiler options to be used with <code><a href="sass.html">sass()</a></code>. For
 <code>sass_options_set()</code>, any previously set global options are returned.</p>
     </div>
 
@@ -230,16 +230,16 @@ following values are also acceptable:</p><ul><li><p><code>NULL</code>, clearing 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
 
-  
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script><script>
   docsearch({
-    
-    
+
+
     apiKey: 'b7f32716c953bf205e00b89772b35d36',
     indexName: 'rstudio_sass',
     inputSelector: 'input#search-input.form-control',

@@ -7,7 +7,7 @@ earlier layers, effectively 'new' defaults through all the 'old' defaults."><met
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -38,25 +38,25 @@ earlier layers, effectively 'new' defaults through all the 'old' defaults."><met
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/rstudio/sass/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul><form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off"></div>
       </form>
-      
+
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Bundling Sass layers</h1>
-    <small class="dont-index">Source: <a href="https://github.com/rstudio/sass/blob/HEAD/R/layers.R" class="external-link"><code>R/layers.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/rstudio/sass/blob/main/R/layers.R" class="external-link"><code>R/layers.R</code></a></small>
     <div class="hidden name"><code>sass_layer.Rd</code></div>
     </div>
 
@@ -91,13 +91,15 @@ earlier layers, effectively 'new' defaults through all the 'old' defaults.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>functions</dt>
+
+
+<dl><dt id="arg-functions">functions<a class="anchor" aria-label="anchor" href="#arg-functions"></a></dt>
 <dd><p><code><a href="as_sass.html">as_sass()</a></code> <code>input</code> intended for <a href="https://rstudio.github.io/sass/articles/sass.html#functions-1">Sass functions</a>.
 Functions are placed before <code>defaults</code> so that variable definitions may make
 use of functions.</p></dd>
 
 
-<dt>defaults</dt>
+<dt id="arg-defaults">defaults<a class="anchor" aria-label="anchor" href="#arg-defaults"></a></dt>
 <dd><p><code><a href="as_sass.html">as_sass()</a></code> <code>input</code> intended for <a href="https://rstudio.github.io/sass/articles/sass.html#variables-1">variable defaults</a>.
 These variable defaults after placed after <code>functions</code> but before <code>mixins</code>.
 When multiple layers are combined in a <code>sass_bundle()</code>, defaults are merged
@@ -105,22 +107,22 @@ in reverse order; that is, <code>sass_bundle(layer1, layer2)</code> will include
 <code>layer2$defaults</code> before <code>layer1$defaults</code>.</p></dd>
 
 
-<dt>mixins</dt>
+<dt id="arg-mixins">mixins<a class="anchor" aria-label="anchor" href="#arg-mixins"></a></dt>
 <dd><p><code><a href="as_sass.html">as_sass()</a></code> <code>input</code> intended for <a href="https://rstudio.github.io/sass/articles/sass.html#mixins-1">Sass mixins</a>. Mixins
 are placed after <code>defaults</code>, but before <code>rules</code>.</p></dd>
 
 
-<dt>rules</dt>
+<dt id="arg-rules">rules<a class="anchor" aria-label="anchor" href="#arg-rules"></a></dt>
 <dd><p><code><a href="as_sass.html">as_sass()</a></code> <code>input</code> intended for <a href="https://sass-lang.com/documentation/style-rules" class="external-link">Sass rules</a>. Rules are placed last
 (i.e., after <code>functions</code>, <code>defaults</code>, and <code>mixins</code>).</p></dd>
 
 
-<dt>html_deps</dt>
+<dt id="arg-html-deps">html_deps<a class="anchor" aria-label="anchor" href="#arg-html-deps"></a></dt>
 <dd><p>An HTML dependency (or a list of them). This dependency
 gets attached to the return value of <code><a href="sass.html">sass()</a></code>/<code><a href="as_sass.html">as_sass()</a></code>.</p></dd>
 
 
-<dt>file_attachments</dt>
+<dt id="arg-file-attachments">file_attachments<a class="anchor" aria-label="anchor" href="#arg-file-attachments"></a></dt>
 <dd><p>A named character vector, representing file assets
 that are referenced (using relative paths) from the sass in this layer. The
 vector names should be a relative path, and the corresponding vector values
@@ -132,20 +134,20 @@ You can also omit the name, in which case that file or directory will be
 copied directly into the output directory.</p></dd>
 
 
-<dt>declarations</dt>
+<dt id="arg-declarations">declarations<a class="anchor" aria-label="anchor" href="#arg-declarations"></a></dt>
 <dd><p>Deprecated, use <code>functions</code> or <code>mixins</code> instead.</p></dd>
 
 
-<dt>tags</dt>
+<dt id="arg-tags">tags<a class="anchor" aria-label="anchor" href="#arg-tags"></a></dt>
 <dd><p>Deprecated. Preserve meta information using a key in <code>sass_bundle(KEY = val)</code>.
 preserve simple metadata as layers are merged.</p></dd>
 
 
-<dt>file</dt>
+<dt id="arg-file">file<a class="anchor" aria-label="anchor" href="#arg-file"></a></dt>
 <dd><p>file path to a <code>.scss</code> file.</p></dd>
 
 
-<dt>...</dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>A collection of <code>sass_layer()</code>s and/or objects that <code><a href="as_sass.html">as_sass()</a></code>
 understands. Arguments should be provided in reverse priority order:
 defaults, declarations, and rules in later layers will take precedence over
@@ -153,21 +155,21 @@ those of previous layers. Non-layer values will be converted to layers by
 calling <code>sass_layer(rules = ...)</code>.</p></dd>
 
 
-<dt>bundle</dt>
+<dt id="arg-bundle">bundle<a class="anchor" aria-label="anchor" href="#arg-bundle"></a></dt>
 <dd><p>Output value from <code>sass_layer()</code> or <code>sass_bundle()</code></p></dd>
 
 
-<dt>name</dt>
+<dt id="arg-name">name<a class="anchor" aria-label="anchor" href="#arg-name"></a></dt>
 <dd><p>If a Sass layer name is contained in <code>name</code>, the matching Sass layer will be removed from the <code>bundle</code></p></dd>
 
 
-<dt>x</dt>
+<dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>object to inspect</p></dd>
 
 </dl></div>
     <div id="functions">
     <h2>Functions</h2>
-    
+
 <ul><li><p><code>sass_layer()</code>: Compose the parts of a single Sass layer. Object returned is a <code>sass_bundle()</code> with a single Sass layer</p></li>
 <li><p><code>sass_layer_file()</code>: Read in a <code>.scss</code> file with parse special <code>/*-- scss:(functions|defaults|rules|mixins) --*/</code> comments as relevant sections of a <code>sass_layer()</code>.</p></li>
 <li><p><code>sass_bundle()</code>: Collect <code>sass_bundle()</code> and/or <code>sass_layer()</code> objects. Unnamed Sass bundles will be concatenated together, preserving their internal name structures. Named Sass bundles will be condensed into a single Sass layer for easier removal from the returned Sass bundle.</p></li>
@@ -252,8 +254,8 @@ calling <code>sass_layer(rules = ...)</code>.</p></dd>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/frame.html" class="external-link">plot.new</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/rect.html" class="external-link">rect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>,<span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>,<span class="fl">1</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"#00000044"</span>, border<span class="op">=</span><span class="cn">NA</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.off</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> agg_png </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> pdf </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   2 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">layer</span> <span class="op">&lt;-</span> <span class="fu">sass_layer</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  rules <span class="op">=</span> <span class="st">".bg-check { background-image: url(images/demo_checkboard_bg.png) }"</span>,</span></span>
@@ -262,7 +264,7 @@ calling <code>sass_layer(rules = ...)</code>.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">output_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".css"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span><span class="va">layer</span>, output <span class="op">=</span> <span class="va">output_path</span>, write_attachments <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpXei65c/file2b4b795a50db.css"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpK2Ahh8/file1dc420a3bf6b.css"</span>
 </code></pre></div>
     </div>
   </div>
@@ -277,16 +279,16 @@ calling <code>sass_layer(rules = ...)</code>.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
 
-  
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script><script>
   docsearch({
-    
-    
+
+
     apiKey: 'b7f32716c953bf205e00b89772b35d36',
     indexName: 'rstudio_sass',
     inputSelector: 'input#search-input.form-control',

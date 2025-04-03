@@ -4,7 +4,7 @@ font-family property."><meta property="og:image" content="https://rstudio.github
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -35,25 +35,25 @@ font-family property."><meta property="og:image" content="https://rstudio.github
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/rstudio/sass/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul><form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off"></div>
       </form>
-      
+
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Helpers for importing web fonts</h1>
-    <small class="dont-index">Source: <a href="https://github.com/rstudio/sass/blob/HEAD/R/fonts.R" class="external-link"><code>R/fonts.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/rstudio/sass/blob/main/R/fonts.R" class="external-link"><code>R/fonts.R</code></a></small>
     <div class="hidden name"><code>font_face.Rd</code></div>
     </div>
 
@@ -92,28 +92,30 @@ font-family property."><meta property="og:image" content="https://rstudio.github
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>family</dt>
+
+
+<dl><dt id="arg-family">family<a class="anchor" aria-label="anchor" href="#arg-family"></a></dt>
 <dd><p>A character string with a <em>single</em> font family name.</p></dd>
 
 
-<dt>local</dt>
+<dt id="arg-local">local<a class="anchor" aria-label="anchor" href="#arg-local"></a></dt>
 <dd><p>Whether or not download and bundle local (woff2) font files.</p></dd>
 
 
-<dt>cache</dt>
+<dt id="arg-cache">cache<a class="anchor" aria-label="anchor" href="#arg-cache"></a></dt>
 <dd><p>A <code><a href="sass_file_cache.html">sass_file_cache()</a></code> object (or, more generally, a file
 caching class with <code>$get_file()</code> and <code>$set_file()</code> methods). Set this
 argument to <code>FALSE</code> or <code>NULL</code> to disable caching.</p></dd>
 
 
-<dt>wght</dt>
+<dt id="arg-wght">wght<a class="anchor" aria-label="anchor" href="#arg-wght"></a></dt>
 <dd><p>One of the following:</p><ul><li><p><code>NULL</code>, the default weight for the <code>family</code>.</p></li>
 <li><p>A character string defining an <a href="https://developers.google.com/fonts/docs/css2#axis_ranges" class="external-link">axis range</a></p></li>
 <li><p>A numeric vector of desired font weight(s).</p></li>
 </ul></dd>
 
 
-<dt>ital</dt>
+<dt id="arg-ital">ital<a class="anchor" aria-label="anchor" href="#arg-ital"></a></dt>
 <dd><p>One of the following:</p><ul><li><p><code>NULL</code>, the default <code>font-style</code> for the <code>family</code>.</p></li>
 <li><p><code>0</code>, meaning <code>font-style: normal</code></p></li>
 <li><p><code>1</code>, meaning <code>font-style: italic</code></p></li>
@@ -121,66 +123,64 @@ argument to <code>FALSE</code> or <code>NULL</code> to disable caching.</p></dd>
 </ul></dd>
 
 
-<dt>display</dt>
+<dt id="arg-display">display<a class="anchor" aria-label="anchor" href="#arg-display"></a></dt>
 <dd><p>A character vector for the <code>font-display</code> <code>@font-face</code>
 property.</p></dd>
 
 
-<dt>href</dt>
+<dt id="arg-href">href<a class="anchor" aria-label="anchor" href="#arg-href"></a></dt>
 <dd><p>A URL resource pointing to the font data.</p></dd>
 
 
-<dt>src</dt>
+<dt id="arg-src">src<a class="anchor" aria-label="anchor" href="#arg-src"></a></dt>
 <dd><p>A character vector for the <code>src</code> <code>@font-face</code> property. Beware
 that is character strings are taken verbatim, so careful quoting and/or URL
 encoding may be required.</p></dd>
 
 
-<dt>weight</dt>
+<dt id="arg-weight">weight<a class="anchor" aria-label="anchor" href="#arg-weight"></a></dt>
 <dd><p>A character (or numeric) vector for the <code>font-weight</code>
 <code>@font-face</code> property.</p></dd>
 
 
-<dt>style</dt>
+<dt id="arg-style">style<a class="anchor" aria-label="anchor" href="#arg-style"></a></dt>
 <dd><p>A character vector for the <code>font-style</code> <code>@font-face</code> property.</p></dd>
 
 
-<dt>stretch</dt>
+<dt id="arg-stretch">stretch<a class="anchor" aria-label="anchor" href="#arg-stretch"></a></dt>
 <dd><p>A character vector for the <code>font-stretch</code> <code>@font-face</code>
 property.</p></dd>
 
 
-<dt>variant</dt>
+<dt id="arg-variant">variant<a class="anchor" aria-label="anchor" href="#arg-variant"></a></dt>
 <dd><p>A character vector for the <code>font-variant</code> <code>@font-face</code>
 property.</p></dd>
 
 
-<dt>unicode_range</dt>
+<dt id="arg-unicode-range">unicode_range<a class="anchor" aria-label="anchor" href="#arg-unicode-range"></a></dt>
 <dd><p>A character vector for <code>unicode-range</code> <code>@font-face</code>
 property.</p></dd>
 
 
-<dt>...</dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>a collection of <code>font_google()</code>, <code>font_link()</code>, <code>font_face()</code>, and/or character vector(s) (i.e., family names to include in the CSS <code>font-family</code> properly). Family names are automatically quoted as necessary.</p></dd>
 
 
-<dt>default_flag</dt>
+<dt id="arg-default-flag">default_flag<a class="anchor" aria-label="anchor" href="#arg-default-flag"></a></dt>
 <dd><p>whether or not to include a <code>!default</code> when converted to a Sass variable with <code><a href="as_sass.html">as_sass()</a></code>.</p></dd>
 
 
-<dt>quote</dt>
+<dt id="arg-quote">quote<a class="anchor" aria-label="anchor" href="#arg-quote"></a></dt>
 <dd><p>whether or not to attempt automatic quoting of family names.</p></dd>
 
 
-<dt>x</dt>
+<dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>test whether <code>x</code> is a <code>font_collection()</code>, <code>font_google()</code>, <code>font_link()</code>, or <code>font_face()</code> object.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>a <code><a href="sass_layer.html">sass_layer()</a></code> holding an <code><a href="https://rstudio.github.io/htmltools/reference/htmlDependency.html" class="external-link">htmltools::htmlDependency()</a></code> which points
+    <p>a <code><a href="sass_layer.html">sass_layer()</a></code> holding an <code><a href="https://rstudio.github.io/htmltools/reference/htmlDependency.html" class="external-link">htmltools::htmlDependency()</a></code> which points
 to the font files.</p>
     </div>
     <div id="details">
@@ -194,7 +194,7 @@ definitions</strong>, for example:</p>
     </div>
     <div id="font-fallbacks">
     <h2>Font fallbacks</h2>
-    
+
 
 
 <p>By default, <code>font_google()</code> downloads, caches, and serves the relevant font
@@ -212,7 +212,7 @@ doesn't have an internet connection). To provide fallback fonts, use
     </div>
     <div id="default-flags">
     <h2>Default flags</h2>
-    
+
 
 
 <p>These font helpers encourage best practice of adding a <code>!default</code> to Sass
@@ -225,7 +225,7 @@ desired.</p>
     </div>
     <div id="serving-non-google-fonts-locally">
     <h2>Serving non-Google fonts locally</h2>
-    
+
 
 
 <p>Non-Google fonts may also be served locally with <code>font_face()</code>, but it
@@ -291,16 +291,16 @@ HTML).</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
 
-  
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script><script>
   docsearch({
-    
-    
+
+
     apiKey: 'b7f32716c953bf205e00b89772b35d36',
     indexName: 'rstudio_sass',
     inputSelector: 'input#search-input.form-control',

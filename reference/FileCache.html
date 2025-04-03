@@ -4,7 +4,7 @@ Create a file cache object"><meta property="og:image" content="https://rstudio.g
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -35,25 +35,25 @@ Create a file cache object"><meta property="og:image" content="https://rstudio.g
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/rstudio/sass/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul><form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
         <div class="form-group">
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off"></div>
       </form>
-      
+
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Create a file cache object</h1>
-    <small class="dont-index">Source: <a href="https://github.com/rstudio/sass/blob/HEAD/R/file_cache.R" class="external-link"><code>R/file_cache.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/rstudio/sass/blob/main/R/file_cache.R" class="external-link"><code>R/file_cache.R</code></a></small>
     <div class="hidden name"><code>FileCache.Rd</code></div>
     </div>
 
@@ -73,7 +73,7 @@ according to the parameters <code>max_size</code>, <code>max_age</code>, <code>m
     </div>
     <div id="cache-pruning">
     <h2>Cache pruning</h2>
-    
+
 
 
 <p>Cache pruning occurs when <code>set_file()</code> or <code>set_content()</code> is called, or it
@@ -97,7 +97,7 @@ is <code>max_n</code>.</p>
 will be removed from the cache. Objects will be removed from the cache so
 that the total size remains under <code>max_size</code>. Note that the size is
 calculated using the size of the files, not the size of disk space used by
-the files --- these two values can differ because of files are stored in
+the files — these two values can differ because of files are stored in
 blocks on disk. For example, if the block size is 4096 bytes, then a file
 that is one byte in size will take 4096 bytes on disk.</p>
 <p>Another time that objects can be removed from the cache is when
@@ -107,7 +107,7 @@ missing value.</p>
     </div>
     <div id="eviction-policies">
     <h2>Eviction policies</h2>
-    
+
 
 
 <p>If <code>max_n</code> or <code>max_size</code> are used, then objects will be removed from the
@@ -120,14 +120,14 @@ update the file's mtime.</p></dd>
  <dt><code>"fifo"</code></dt>
 <dd><p>First-in-first-out. The oldest
 objects will be removed.</p></dd>
- 
+
 </dl><p>Both of these policies use files' mtime. Note that some filesystems
 (notably FAT) have poor mtime resolution. (atime is not used because
 support for atime is worse than mtime.)</p>
     </div>
     <div id="sharing-among-multiple-processes">
     <h2>Sharing among multiple processes</h2>
-    
+
 
 
 <p>The directory for a FileCache can be shared among multiple R processes. To
@@ -155,7 +155,7 @@ already been deleted.</p>
     </div>
     <div id="methods">
     <h2>Methods</h2>
-    
+
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 
@@ -499,16 +499,16 @@ destroyed?</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
 
-  
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script><script>
   docsearch({
-    
-    
+
+
     apiKey: 'b7f32716c953bf205e00b89772b35d36',
     indexName: 'rstudio_sass',
     inputSelector: 'input#search-input.form-control',
