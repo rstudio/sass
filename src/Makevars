@@ -1,16 +1,20 @@
 PKG_LIBS = ./libsass/lib/libsass.a
 PKG_CPPFLAGS = -I./libsass/include
 
-$(SHLIB): libsass/lib/libsass.a
+STATLIB = libsass/lib/libsass.a
 
-libsass/lib/libsass.a:
+all: $(SHLIB) cleanup
+
+$(SHLIB): $(STATLIB)
+
+$(STATLIB):
 	MAKEFLAGS= CC="$(CC)" CFLAGS="$(CFLAGS)" CXX="$(CXX)" AR="$(AR)" LDFLAGS="$(LDFLAGS)" $(MAKE) -C libsass
 
-.PHONY: shlib-clean clean
-
-shlib-clean: clean
-	rm -f $(SHLIB)
+cleanup: $(SHLIB)
+	rm -f $(STATLIB)
 
 clean:
 	MAKEFLAGS= $(MAKE) -C libsass clean
-	rm -f $(OBJECTS)
+	rm -Rf $(SHLIB) $(OBJECTS) $(STATLIB)
+
+.PHONY: all cleanup clean
