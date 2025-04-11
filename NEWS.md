@@ -1,4 +1,4 @@
-# sass (development version)
+# sass 0.4.10
 
 - Closed #149: `FileCache` R6 class `finalize()` method should be private. (#150)
 
