@@ -11,7 +11,7 @@ $(STATLIB):
 	MAKEFLAGS= CC="$(CC)" CFLAGS="$(CFLAGS)" CXX="$(CXX)" AR="$(AR)" LDFLAGS="$(LDFLAGS)" $(MAKE) -C libsass
 
 cleanup: $(SHLIB)
-	rm -f $(STATLIB)
+	@rm -f $(STATLIB)
 
 clean:
 	MAKEFLAGS= $(MAKE) -C libsass clean
