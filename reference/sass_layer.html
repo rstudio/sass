@@ -254,8 +254,8 @@ calling <code>sass_layer(rules = ...)</code>.</p></dd>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/frame.html" class="external-link">plot.new</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/rect.html" class="external-link">rect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>,<span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>,<span class="fl">1</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"#00000044"</span>, border<span class="op">=</span><span class="cn">NA</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.off</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> pdf </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> agg_record_147083781 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    2 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">layer</span> <span class="op">&lt;-</span> <span class="fu">sass_layer</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  rules <span class="op">=</span> <span class="st">".bg-check { background-image: url(images/demo_checkboard_bg.png) }"</span>,</span></span>
@@ -264,7 +264,7 @@ calling <code>sass_layer(rules = ...)</code>.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">output_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".css"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="sass.html">sass</a></span><span class="op">(</span><span class="va">layer</span>, output <span class="op">=</span> <span class="va">output_path</span>, write_attachments <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpVa6YpM/file1e0b7740b649.css"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpRYKgM5/file1dba1181a433.css"</span>
 </code></pre></div>
     </div>
   </div>
@@ -279,7 +279,7 @@ calling <code>sass_layer(rules = ...)</code>.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
       </footer></div>
