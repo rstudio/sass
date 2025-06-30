@@ -73,6 +73,10 @@ else
 	STATIC_LIBSTDCPP ?= 0
 endif
 
+ifeq (Emscripten,$(UNAME))
+	CXXFLAGS += -fwasm-exceptions
+endif
+
 ifndef SASS_LIBSASS_PATH
 	SASS_LIBSASS_PATH = .
 endif
