@@ -1,6 +1,7 @@
 # sass (development version)
 
 - Fixed throwing exceptions when running under Emscripten.
+- Copy files without inheriting read/write/execute permissions fixing issues when using sass on immutable operating systems.
 
 # sass 0.4.10
 
