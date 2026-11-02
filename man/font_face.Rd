@@ -147,7 +147,7 @@ Non-Google fonts may also be served locally with \code{font_face()}, but it
 requires downloading font file(s) and pointing \code{src} to the right location
 on disk. If you want \code{src} to be a relative file path (you almost certainly
 do), then you'll need to mount that resource path using something like
-\code{\link[shiny:resourcePaths]{shiny::addResourcePath()}} (for a shiny app) or \code{servr::httd()} (for static
+\code{\link[shiny:addResourcePath]{shiny::addResourcePath()}} (for a shiny app) or \code{servr::httd()} (for static
 HTML).
 }
 
