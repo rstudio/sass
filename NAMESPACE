@@ -38,15 +38,19 @@ export(sass_partial)
 export(write_file_attachments)
 import(htmltools)
 importFrom(R6,R6Class)
-importFrom(rlang,"%||%")
-importFrom(rlang,have_name)
-importFrom(rlang,is_missing)
-importFrom(rlang,list2)
-importFrom(rlang,maybe_missing)
-importFrom(rlang,missing_arg)
-importFrom(rlang,names2)
+importFrom(rlang,
+  "%||%",
+  have_name,
+  is_missing,
+  list2,
+  maybe_missing,
+  missing_arg,
+  names2
+)
 importFrom(stats,na.omit)
-importFrom(utils,download.file)
-importFrom(utils,modifyList)
-importFrom(utils,packageVersion)
+importFrom(utils,
+  download.file,
+  modifyList,
+  packageVersion
+)
 useDynLib(sass, .registration = TRUE)
