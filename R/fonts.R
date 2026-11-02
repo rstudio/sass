@@ -430,6 +430,7 @@ font_dep_google_local <- function(x) {
 
   # If need be, download the font file(s) that the CSS imports,
   # and modify the CSS to point to the local files
+  bust_css_cache <- FALSE
   needs_download_message <- TRUE
   Map(function(url, nm) {
     key <- hash_with_user_agent(nm)
@@ -438,10 +439,14 @@ font_dep_google_local <- function(x) {
     if (hit) return()
     # In the event we have a CSS cache hit but miss here, url should actually be
     # a local file. In that case, bust the CSS cache, and start over so we know
-    # where to find the font files
+    # where to find the font files (note that we can't simply "start over" from
+    # within this Map() callback, since its return value would be discarded)
     if (!grepl("^\\s*http", url)) {
-      x$cache$remove(css_key)
-      return(font_dep_google_local(x))
+      if (!bust_css_cache) {
+        x$cache$remove(css_key)
+        bust_css_cache <<- TRUE
+      }
+      return()
     }
 
     if (needs_download_message) {
@@ -457,6 +462,10 @@ font_dep_google_local <- function(x) {
     x$cache$set_file(key, f)
     css <<- sub(url, nm, css, fixed = TRUE)
   }, urls, basenames)
+
+  if (bust_css_cache) {
+    return(font_dep_google_local(x))
+  }
 
   # Cache the *modified* form of the CSS file
   # (with the local file paths instead of remote URLs)

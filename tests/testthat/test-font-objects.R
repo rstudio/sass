@@ -98,6 +98,48 @@ test_that("font_google(local = TRUE) basically works", {
   expect_equal(tagz$dependencies[[1]]$name, "Crimson_Pro")
 })
 
+test_that("font_google(local = TRUE) recovers when fonts are pruned from the cache", {
+  skip_if_offline()
+
+  tmpdir <- tempfile("sass-cache-test-")
+  dir.create(tmpdir)
+  cache <- sass_file_cache(tmpdir)
+
+  scss <- list(
+    list("my-font" = font_google("Pacifico", cache = cache)),
+    list("body {font-family: $my-font}")
+  )
+  render_src <- function() {
+    renderTags(tags$style(sass(scss)))$dependencies[[1]]$src$file
+  }
+  # Check that every font file referenced by the CSS actually exists
+  has_font_files <- function(src) {
+    css_file <- dir(src, pattern = "\\.css$", full.names = TRUE)
+    refs <- sub(
+      ".*url\\(([^)]+)\\).*", "\\1",
+      grep("src:", readLines(css_file), value = TRUE)
+    )
+    length(refs) > 0 && all(file.exists(file.path(src, refs)))
+  }
+
+  src <- render_src()
+  expect_true(has_font_files(src))
+
+  # Simulate the cache pruning the font files, but not the CSS file
+  cached <- dir(cache$dir(), full.names = TRUE)
+  is_font <- vapply(
+    cached,
+    function(f) identical(readBin(f, "raw", 4), charToRaw("wOF2")),
+    logical(1)
+  )
+  expect_true(any(is_font))
+  file.remove(cached[is_font])
+
+  # Rendering again should restore the font files
+  src <- render_src()
+  expect_true(has_font_files(src))
+})
+
 expect_collection <- function(..., expected) {
   scss <- as_sass(list(font = font_collection(...)))
   expect_equal(
