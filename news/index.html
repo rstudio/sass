@@ -57,8 +57,9 @@
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="development version" id="sass-development-version">sass (development version)<a class="anchor" aria-label="anchor" href="#sass-development-version"></a></h2>
-<ul><li>Fixed throwing exceptions when running under Emscripten.</li>
-<li>Copy files without inheriting read/write/execute permissions fixing issues when using sass on immutable operating systems.</li>
+<ul><li><p>Closed <a href="https://github.com/rstudio/sass/issues/151" class="external-link">#151</a>: fixed a memory leak of the libsass context when Sass compilation fails (previously <code>sass_delete_file_context()</code>/<code>sass_delete_data_context()</code> were skipped on the error path).</p></li>
+<li><p>Fixed throwing exceptions when running under Emscripten.</p></li>
+<li><p>Copy files without inheriting read/write/execute permissions fixing issues when using sass on immutable operating systems.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.4.10" id="sass-0410">sass 0.4.10<small>2025-04-11</small><a class="anchor" aria-label="anchor" href="#sass-0410"></a></h2>
