@@ -1,5 +1,7 @@
 # sass (development version)
 
+- Closed #151: fixed a memory leak of the libsass context when Sass compilation fails (previously `sass_delete_file_context()`/`sass_delete_data_context()` were skipped on the error path).
+
 - Fixed throwing exceptions when running under Emscripten.
 - Copy files without inheriting read/write/execute permissions fixing issues when using sass on immutable operating systems.
 
