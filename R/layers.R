@@ -492,8 +492,12 @@ write_file_attachments <- function(file_attachments, output_path) {
       file.path(output_path, dest)
     }
 
+    # Copy without inheriting (possibly read-only) source permissions so the
+    # destination can be overwritten on subsequent compilations, e.g., when
+    # the source lives in a read-only library (NixOS). fs::file_copy() would
+    # preserve the source's permissions, so use file.copy2() instead.
     fs::dir_create(dirname(dest))
-    fs::file_copy(src, dest, overwrite = TRUE)
+    file.copy2(src, dest, overwrite = TRUE, copy.mode = FALSE)
 
     NULL
   }, names(file_attachments), unname(file_attachments))

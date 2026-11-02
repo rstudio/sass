@@ -1,7 +1,7 @@
 # sass (development version)
 
 - Fixed throwing exceptions when running under Emscripten.
-- Copy files without inheriting read/write/execute permissions fixing issues when using sass on immutable operating systems.
+- Files copied by the cache and by file attachments no longer inherit (possibly read-only) source permissions, fixing failures on immutable operating systems such as NixOS (rstudio/bslib#1281, #156).
 
 # sass 0.4.10
 
