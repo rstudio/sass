@@ -19,3 +19,7 @@ jobs:
     uses: rstudio/shiny-workflows/.github/workflows/routine.yaml@v1
   R-CMD-check:
     uses: rstudio/shiny-workflows/.github/workflows/R-CMD-check.yaml@v1
+    with:
+      # Tests/vignettes legitimately require Suggests packages (curl,
+      # rmarkdown), so the Suggests-free check can't pass (same as bslib)
+      check-depends-only: false

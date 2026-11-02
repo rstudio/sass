@@ -4,11 +4,6 @@
 \alias{FileCache}
 \title{Create a file cache object}
 \description{
-Create a file cache object
-
-Create a file cache object
-}
-\details{
 A file cache object is a key-file store that saves the values as files in a
 directory on disk. The objects are files on disk. They are stored and
 retrieved using the \code{get_file()}, \code{get_content()}, \code{set_file()}, and
@@ -104,31 +99,32 @@ already been deleted.
 \keyword{internal}
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-FileCache-new}{\code{FileCache$new()}}
-\item \href{#method-FileCache-get_file}{\code{FileCache$get_file()}}
-\item \href{#method-FileCache-get_content}{\code{FileCache$get_content()}}
-\item \href{#method-FileCache-set_file}{\code{FileCache$set_file()}}
-\item \href{#method-FileCache-set_content}{\code{FileCache$set_content()}}
-\item \href{#method-FileCache-exists}{\code{FileCache$exists()}}
-\item \href{#method-FileCache-keys}{\code{FileCache$keys()}}
-\item \href{#method-FileCache-remove}{\code{FileCache$remove()}}
-\item \href{#method-FileCache-reset}{\code{FileCache$reset()}}
-\item \href{#method-FileCache-dir}{\code{FileCache$dir()}}
-\item \href{#method-FileCache-prune}{\code{FileCache$prune()}}
-\item \href{#method-FileCache-size}{\code{FileCache$size()}}
-\item \href{#method-FileCache-destroy}{\code{FileCache$destroy()}}
-\item \href{#method-FileCache-is_destroyed}{\code{FileCache$is_destroyed()}}
-\item \href{#method-FileCache-clone}{\code{FileCache$clone()}}
-}
+  \itemize{
+    \item \href{#method-FileCache-initialize}{\code{FileCache$new()}}
+    \item \href{#method-FileCache-get_file}{\code{FileCache$get_file()}}
+    \item \href{#method-FileCache-get_content}{\code{FileCache$get_content()}}
+    \item \href{#method-FileCache-set_file}{\code{FileCache$set_file()}}
+    \item \href{#method-FileCache-set_content}{\code{FileCache$set_content()}}
+    \item \href{#method-FileCache-exists}{\code{FileCache$exists()}}
+    \item \href{#method-FileCache-keys}{\code{FileCache$keys()}}
+    \item \href{#method-FileCache-remove}{\code{FileCache$remove()}}
+    \item \href{#method-FileCache-reset}{\code{FileCache$reset()}}
+    \item \href{#method-FileCache-dir}{\code{FileCache$dir()}}
+    \item \href{#method-FileCache-prune}{\code{FileCache$prune()}}
+    \item \href{#method-FileCache-size}{\code{FileCache$size()}}
+    \item \href{#method-FileCache-destroy}{\code{FileCache$destroy()}}
+    \item \href{#method-FileCache-is_destroyed}{\code{FileCache$is_destroyed()}}
+    \item \href{#method-FileCache-clone}{\code{FileCache$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-FileCache-new"></a>}}
-\if{latex}{\out{\hypertarget{method-FileCache-new}{}}}
-\subsection{Method \code{new()}}{
-Create a FileCache object.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{FileCache$new(
+\if{html}{\out{<a id="method-FileCache-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-FileCache-initialize}{}}}
+\subsection{\code{FileCache$new()}}{
+  Create a FileCache object.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FileCache$new(
   dir = NULL,
   max_size = 40 * 1024^2,
   max_age = Inf,
@@ -136,282 +132,300 @@ Create a FileCache object.
   evict = c("lru", "fifo"),
   destroy_on_finalize = FALSE,
   logfile = NULL
-)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{dir}}{Directory to store files for the cache. If \code{NULL} (the default) it
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{dir}}{Directory to store files for the cache. If \code{NULL} (the default) it
 will create and use a temporary directory.}
-
-\item{\code{max_size}}{Maximum size of the cache, in bytes. If the cache exceeds
+      \item{\code{max_size}}{Maximum size of the cache, in bytes. If the cache exceeds
 this size, cached objects will be removed according to the value of the
 \code{evict}. Use \code{Inf} for no size limit.}
-
-\item{\code{max_age}}{Maximum age of files in cache before they are evicted, in
+      \item{\code{max_age}}{Maximum age of files in cache before they are evicted, in
 seconds. Use \code{Inf} for no age limit.}
-
-\item{\code{max_n}}{Maximum number of objects in the cache. If the number of objects
+      \item{\code{max_n}}{Maximum number of objects in the cache. If the number of objects
 exceeds this value, then cached objects will be removed according to the
 value of \code{evict}. Use \code{Inf} for no limit of number of items.}
-
-\item{\code{evict}}{The eviction policy to use to decide which objects are removed
+      \item{\code{evict}}{The eviction policy to use to decide which objects are removed
 when a cache pruning occurs. Currently, \code{"lru"} and \code{"fifo"} are supported.}
-
-\item{\code{destroy_on_finalize}}{If \code{TRUE}, then when the FileCache object is
+      \item{\code{destroy_on_finalize}}{If \code{TRUE}, then when the FileCache object is
 garbage collected, the cache directory and all objects inside of it will be
 deleted from disk. If \code{FALSE} (the default), it will do nothing when
 finalized.}
-
-\item{\code{logfile}}{An optional filename or connection object to where logging
+      \item{\code{logfile}}{An optional filename or connection object to where logging
 information will be written. To log to the console, use \code{stdout()}.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-FileCache-get_file"></a>}}
 \if{latex}{\out{\hypertarget{method-FileCache-get_file}{}}}
-\subsection{Method \code{get_file()}}{
-Get the content associated with \code{key}, and save in a file
+\subsection{\code{FileCache$get_file()}}{
+  Get the content associated with \code{key}, and save in a file
 named \code{outfile}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{FileCache$get_file(key, outfile, overwrite = TRUE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{Key. Must be lowercase numbers and letters.}
-
-\item{\code{outfile}}{Name of output file. If \code{NULL}, return the content as}
-
-\item{\code{overwrite}}{If the output file already exists, should it be
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FileCache$get_file(key, outfile, overwrite = TRUE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{Key. Must be lowercase numbers and letters.}
+      \item{\code{outfile}}{Name of output file. If \code{NULL}, return the content as}
+      \item{\code{overwrite}}{If the output file already exists, should it be
 overwritten?}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{TRUE} if the object is found in the cache and copying succeeds,
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{TRUE} if the object is found in the cache and copying succeeds,
 \code{FALSE} otherwise.
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-FileCache-get_content"></a>}}
 \if{latex}{\out{\hypertarget{method-FileCache-get_content}{}}}
-\subsection{Method \code{get_content()}}{
-Get the content associated with \code{key}, and return as either
+\subsection{\code{FileCache$get_content()}}{
+  Get the content associated with \code{key}, and return as either
 string or a raw vector.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{FileCache$get_content(key, mode = c("text", "raw"))}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{Key. Must be lowercase numbers and letters.}
-
-\item{\code{mode}}{If \code{"text"}, return the content as a UTF-8-encoded text
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FileCache$get_content(key, mode = c("text", "raw"))}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{Key. Must be lowercase numbers and letters.}
+      \item{\code{mode}}{If \code{"text"}, return the content as a UTF-8-encoded text
 string (a one element char vector). If \code{"raw"}, return the content as a
 raw vector.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A character or raw vector if the object is found in the cache,
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A character or raw vector if the object is found in the cache,
 \code{NULL} otherwise.
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-FileCache-set_file"></a>}}
 \if{latex}{\out{\hypertarget{method-FileCache-set_file}{}}}
-\subsection{Method \code{set_file()}}{
-Sets content associated with \code{key}, from a file named
+\subsection{\code{FileCache$set_file()}}{
+  Sets content associated with \code{key}, from a file named
 \code{infile}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{FileCache$set_file(key, infile)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{Key. Must be lowercase numbers and letters.}
-
-\item{\code{infile}}{Name of input file.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{TRUE} if copying the file into the cache succeeds, \code{FALSE}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FileCache$set_file(key, infile)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{Key. Must be lowercase numbers and letters.}
+      \item{\code{infile}}{Name of input file.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{TRUE} if copying the file into the cache succeeds, \code{FALSE}
 otherwise.
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-FileCache-set_content"></a>}}
 \if{latex}{\out{\hypertarget{method-FileCache-set_content}{}}}
-\subsection{Method \code{set_content()}}{
-Sets content associated with \code{key}, from a single-element
+\subsection{\code{FileCache$set_content()}}{
+  Sets content associated with \code{key}, from a single-element
 vector.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{FileCache$set_content(key, content)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{Key. Must be lowercase numbers and letters.}
-
-\item{\code{content}}{A character or raw vector. If it is a character vector,
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FileCache$set_content(key, content)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{Key. Must be lowercase numbers and letters.}
+      \item{\code{content}}{A character or raw vector. If it is a character vector,
 it will be written with UTF-8 encoding, with with elements collapsed
 with \verb{\\\\n} (consistent across platforms).}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{TRUE} if setting the content in the cache succeeds, \code{FALSE}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{TRUE} if setting the content in the cache succeeds, \code{FALSE}
 otherwise.
+  }
 }
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-FileCache-exists"></a>}}
 \if{latex}{\out{\hypertarget{method-FileCache-exists}{}}}
-\subsection{Method \code{exists()}}{
-Check if content associated with \code{key} exists in cache
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{FileCache$exists(key)}\if{html}{\out{</div>}}
+\subsection{\code{FileCache$exists()}}{
+  Check if content associated with \code{key} exists in cache
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FileCache$exists(key)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{Key. Must be lowercase numbers and letters.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{TRUE} if the object is in the cache, \code{FALSE} otherwise.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{Key. Must be lowercase numbers and letters.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{TRUE} if the object is in the cache, \code{FALSE} otherwise.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-FileCache-keys"></a>}}
 \if{latex}{\out{\hypertarget{method-FileCache-keys}{}}}
-\subsection{Method \code{keys()}}{
-Get all keys
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{FileCache$keys()}\if{html}{\out{</div>}}
+\subsection{\code{FileCache$keys()}}{
+  Get all keys
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FileCache$keys()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A character vector of all keys currently in the cache.
+  }
 }
 
-\subsection{Returns}{
-A character vector of all keys currently in the cache.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-FileCache-remove"></a>}}
 \if{latex}{\out{\hypertarget{method-FileCache-remove}{}}}
-\subsection{Method \code{remove()}}{
-Remove an object
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{FileCache$remove(key)}\if{html}{\out{</div>}}
+\subsection{\code{FileCache$remove()}}{
+  Remove an object
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FileCache$remove(key)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{key}}{Key. Must be lowercase numbers and letters.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{TRUE} if the object was found and successfully removed, \code{FALSE}
+otherwise.
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{Key. Must be lowercase numbers and letters.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{TRUE} if the object was found and successfully removed, \code{FALSE}
-otherwise.
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-FileCache-reset"></a>}}
 \if{latex}{\out{\hypertarget{method-FileCache-reset}{}}}
-\subsection{Method \code{reset()}}{
-Clear all objects from the cache.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{FileCache$reset()}\if{html}{\out{</div>}}
+\subsection{\code{FileCache$reset()}}{
+  Clear all objects from the cache.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FileCache$reset()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-FileCache-dir"></a>}}
 \if{latex}{\out{\hypertarget{method-FileCache-dir}{}}}
-\subsection{Method \code{dir()}}{
-Returns the directory used for the cache.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{FileCache$dir()}\if{html}{\out{</div>}}
+\subsection{\code{FileCache$dir()}}{
+  Returns the directory used for the cache.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FileCache$dir()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-FileCache-prune"></a>}}
 \if{latex}{\out{\hypertarget{method-FileCache-prune}{}}}
-\subsection{Method \code{prune()}}{
-Prune the cache, using the parameters specified by
+\subsection{\code{FileCache$prune()}}{
+  Prune the cache, using the parameters specified by
 \code{max_size},   \code{max_age}, \code{max_n}, and \code{evict}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{FileCache$prune()}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FileCache$prune()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-FileCache-size"></a>}}
 \if{latex}{\out{\hypertarget{method-FileCache-size}{}}}
-\subsection{Method \code{size()}}{
-Return the number of items currently in the cache.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{FileCache$size()}\if{html}{\out{</div>}}
+\subsection{\code{FileCache$size()}}{
+  Return the number of items currently in the cache.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FileCache$size()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-FileCache-destroy"></a>}}
 \if{latex}{\out{\hypertarget{method-FileCache-destroy}{}}}
-\subsection{Method \code{destroy()}}{
-Clears all objects in the cache, and removes the cache
+\subsection{\code{FileCache$destroy()}}{
+  Clears all objects in the cache, and removes the cache
 directory from disk.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{FileCache$destroy()}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FileCache$destroy()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-FileCache-is_destroyed"></a>}}
 \if{latex}{\out{\hypertarget{method-FileCache-is_destroyed}{}}}
-\subsection{Method \code{is_destroyed()}}{
-Reports whether the cache has been destroyed.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{FileCache$is_destroyed(throw = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{FileCache$is_destroyed()}}{
+  Reports whether the cache has been destroyed.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FileCache$is_destroyed(throw = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{throw}}{Should this function throw an error if the cache has been
+destroyed?}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{throw}}{Should this function throw an error if the cache has been
-destroyed?}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-FileCache-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-FileCache-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{FileCache$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{FileCache$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{FileCache$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

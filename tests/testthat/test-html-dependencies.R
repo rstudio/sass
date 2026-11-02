@@ -16,8 +16,8 @@ dep2 <- htmlDependency(
 test_that("sass()/as_sass() relay html dependencies", {
   scss <- attachDependencies(list("body{color: green}"), dep1)
   # Test that the print methods also relay
-  expect_snapshot(sass(scss), cran = TRUE)
-  expect_snapshot(as_sass(scss), cran = TRUE)
+  expect_snapshot(sass(scss), cran = TRUE, transform = normalize_str)
+  expect_snapshot(as_sass(scss), cran = TRUE, transform = normalize_str)
   tmpcss <- tempfile(fileext = ".css")
   on.exit(unlink(tmpcss), add = TRUE)
   expect_equal(htmlDependencies(sass(scss)), list(dep1))

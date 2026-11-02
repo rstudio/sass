@@ -48,6 +48,8 @@ test_that("Remote font importing basically works", {
 })
 
 test_that("font_google(local = TRUE) basically works", {
+  # skip_if_offline() errors when curl isn't installed
+  skip_if_not_installed("curl")
   skip_if_offline()
 
   # Setup a new file cache and pass it to font_google()
