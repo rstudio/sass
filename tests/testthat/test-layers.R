@@ -229,5 +229,5 @@ test_that("write_file_attachments edge cases", {
 
 test_that("sass_layer_file() basically works", {
   f <- file.path(assets, "test-layer-file.scss")
-  expect_snapshot(str(sass_layer_file(f)))
+  expect_snapshot(str(sass_layer_file(f)), transform = normalize_str)
 })

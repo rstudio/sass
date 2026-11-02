@@ -11,10 +11,10 @@
       
       /* HTML Dependencies */
       List of 1
-       $ :List of 10
+       $ : List of 10
         ..$ name      : chr "fake1"
         ..$ version   : chr "1.0.0"
-        ..$ src       :List of 1
+        ..$ src       : List of 1
         .. ..$ file: chr ""
         ..$ meta      : NULL
         ..$ script    : NULL
@@ -35,10 +35,10 @@
       
       /* HTML Dependencies */
       List of 1
-       $ :List of 10
+       $ : List of 10
         ..$ name      : chr "fake1"
         ..$ version   : chr "1.0.0"
-        ..$ src       :List of 1
+        ..$ src       : List of 1
         .. ..$ file: chr ""
         ..$ meta      : NULL
         ..$ script    : NULL
