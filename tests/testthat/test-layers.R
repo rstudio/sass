@@ -226,6 +226,36 @@ test_that("write_file_attachments edge cases", {
 })
 
 
+test_that("write_file_attachments doesn't inherit read-only permissions", {
+  # Reproduces https://github.com/rstudio/bslib/issues/1281: on immutable
+  # systems (e.g., NixOS), file attachments may live in a read-only location.
+  # If copies inherit those permissions, subsequent compilations fail when
+  # overwriting the destination.
+  skip_on_os("windows")
+
+  tmpdir <- tempfile()
+  dir.create(tmpdir)
+  on.exit(unlink(tmpdir, recursive = TRUE), add = TRUE)
+
+  # A read-only source file (as on an immutable OS)
+  src <- tempfile()
+  writeLines("foo", src)
+  Sys.chmod(src, "0444")
+  on.exit(unlink(src), add = TRUE)
+
+  attachments <- c("files/a.txt" = src)
+
+  write_file_attachments(attachments, tmpdir)
+  dest <- file.path(tmpdir, "files", "a.txt")
+
+  # The copy is writable, even though the source is read-only
+  expect_true(file.access(dest, mode = 2) == 0)
+
+  # Re-copying over the existing copy also succeeds
+  expect_error(write_file_attachments(attachments, tmpdir), NA)
+  expect_equal(readLines(dest), "foo")
+})
+
 
 test_that("sass_layer_file() basically works", {
   f <- file.path(assets, "test-layer-file.scss")

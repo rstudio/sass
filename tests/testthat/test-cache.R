@@ -33,6 +33,33 @@ test_that("reads from and writes to cache", {
   expect_equal(sass_cache_get()$size(), 2)
 })
 
+test_that("cache files don't inherit read-only permissions", {
+  # Reproduces https://github.com/rstudio/bslib/issues/1281: on immutable
+  # systems (e.g., NixOS), cache inputs may live in a read-only location. If
+  # copies inherit those permissions, cache writes/overwrites fail.
+  skip_on_os("windows")
+  local_temp_cache()
+  cache <- sass_cache_get()
+
+  # A read-only source file (as on an immutable OS)
+  src <- tempfile()
+  writeLines("foo", src)
+  Sys.chmod(src, "0444")
+  on.exit(unlink(src), add = TRUE)
+
+  expect_true(cache$set_file("readonly", src))
+  # Overwriting the cache entry succeeds (fails with EACCES if the cache
+  # file inherited the source's read-only permissions)
+  expect_true(cache$set_file("readonly", src))
+
+  # Reading out of the cache also produces a writable file
+  out <- tempfile()
+  on.exit(unlink(out), add = TRUE)
+  expect_true(cache$get_file("readonly", out))
+  expect_equal(readLines(out), "foo")
+  expect_true(file.access(out, mode = 2) == 0)
+})
+
 test_that("writes to cache", {
 
   expect_cached <- function(input, css) {
