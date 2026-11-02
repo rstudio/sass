@@ -194,7 +194,7 @@ FileCache <- R6::R6Class("FileCache",
 
       cache_file <- private$filename_full_path(key)
 
-      if (file.copy(cache_file, outfile, overwrite = overwrite)) {
+      if (file.copy(cache_file, outfile, overwrite = overwrite, copy.mode = FALSE)) {
         private$log(paste0('get: key "', key, '" found and copied to ', outfile))
         if (private$evict == "lru"){
           Sys.setFileTime(cache_file, Sys.time())
@@ -264,7 +264,7 @@ FileCache <- R6::R6Class("FileCache",
 
       cache_file <- private$filename_full_path(key)
 
-      success <- file.copy(infile, cache_file, overwrite = TRUE)
+      success <- file.copy(infile, cache_file, overwrite = TRUE, copy.mode = FALSE)
       if (success) {
         private$log(paste0('set: key "', key, ' from file ', infile))
       } else {

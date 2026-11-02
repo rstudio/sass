@@ -479,7 +479,8 @@ write_file_attachments <- function(file_attachments, output_path) {
         dir(src, all.files = TRUE, full.names = TRUE, no.. = TRUE),
         dest,
         overwrite = TRUE,
-        recursive = TRUE
+        recursive = TRUE,
+        copy.mode = FALSE
       )
       return(NULL)
     }
