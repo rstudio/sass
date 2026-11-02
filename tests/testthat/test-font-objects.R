@@ -48,8 +48,6 @@ test_that("Remote font importing basically works", {
 })
 
 test_that("font_google(local = TRUE) basically works", {
-  # skip_if_offline() errors when curl isn't installed
-  skip_if_not_installed("curl")
   skip_if_offline()
 
   # Setup a new file cache and pass it to font_google()
@@ -96,6 +94,48 @@ test_that("font_google(local = TRUE) basically works", {
   )
   tagz <- renderTags(tags$style(sass(scss)))
   expect_equal(tagz$dependencies[[1]]$name, "Crimson_Pro")
+})
+
+test_that("local Google font files get safe, deterministic names (#157)", {
+  # Google Fonts now returns font URLs with query strings, whose basename
+  # isn't a valid file name on Windows (e.g., it contains '?')
+  css <- c(
+    "@font-face {",
+    "  font-family: 'Open Sans';",
+    "  font-style: normal;",
+    "  font-weight: 400;",
+    "  font-display: swap;",
+    "  src: url(https://fonts.gstatic.com/l/font?kit=memSYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0Rk8ZkC1w2MXmNxTZSmB0RWpjhI7Y&skey=62d9d2db33ab95cd&v=v44) format('woff2');",
+    "  unicode-range: U+0000-00FF;",
+    "}",
+    "@font-face {",
+    "  font-family: 'Open Sans';",
+    "  font-style: normal;",
+    "  font-weight: 700;",
+    "  font-display: swap;",
+    "  src: url(https://fonts.gstatic.com/l/font?kit=memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0Rk8ZkC1w2MXmNxTZSmB0RWpjhI7Y&skey=62d9d2db33ab95cd&v=v44) format('woff2');",
+    "  unicode-range: U+0000-00FF;",
+    "}"
+  )
+  files <- gfont_local_files(css)
+  expect_equal(nrow(files), 2)
+  # Names are unique and contain no characters that are
+  # invalid in file names on Windows (e.g., ? & = : / etc)
+  expect_equal(length(unique(files$name)), 2)
+  expect_false(any(grepl("[?&=:/\\\\*\"<>|]", files$name)))
+  # The file extension reflects the font format
+  expect_true(all(grepl("\\.woff2$", files$name)))
+  # Names are deterministic (important for the CSS rewrite + caching)
+  expect_equal(files, gfont_local_files(css))
+})
+
+test_that("gfont_local_files() leaves already-local names unchanged", {
+  # When font_dep_google_local() gets a cache hit on the CSS file, the CSS
+  # already points at local file names -- those names must round-trip so
+  # the font files can still be found in the cache
+  css <- "  src: url(90f4a537786e4aba8d6c86f7abd13d0d.woff2) format('woff2');"
+  files <- gfont_local_files(css)
+  expect_equal(files$name, "90f4a537786e4aba8d6c86f7abd13d0d.woff2")
 })
 
 test_that("font_google(local = TRUE) recovers when fonts are pruned from the cache", {
