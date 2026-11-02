@@ -99,8 +99,14 @@ SEXP compile_file(SEXP file, SEXP options) {
 
   int status = sass_compile_file_context(file_context);
 
-  if (status != 0)
-    error("%s", sass_context_get_error_message(context));
+  if (status != 0) {
+    // Copy the message before freeing the context (#151); no UNPROTECT
+    // needed since error() unwinds the R stack
+    const char* err_msg = sass_context_get_error_message(context);
+    SEXP msg = PROTECT(mkString(err_msg ? err_msg : "Sass compilation failed with no error message"));
+    sass_delete_file_context(file_context);
+    error("%s", CHAR(STRING_ELT(msg, 0)));
+  }
 
   SEXP ret = PROTECT(mkString(sass_context_get_output_string(context)));
 
@@ -128,8 +134,14 @@ SEXP compile_data(SEXP data, SEXP options) {
 
   int status = sass_compile_data_context(data_context);
 
-  if (status != 0)
-    error("%s", sass_context_get_error_message(context));
+  if (status != 0) {
+    // Copy the message before freeing the context (#151); no UNPROTECT
+    // needed since error() unwinds the R stack
+    const char* err_msg = sass_context_get_error_message(context);
+    SEXP msg = PROTECT(mkString(err_msg ? err_msg : "Sass compilation failed with no error message"));
+    sass_delete_data_context(data_context);
+    error("%s", CHAR(STRING_ELT(msg, 0)));
+  }
 
   SEXP ret = PROTECT(mkString(sass_context_get_output_string(context)));
 
