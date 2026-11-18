@@ -1,5 +1,7 @@
 # sass (development version)
 
+- `sass()` no longer fails with `object 'cache_dir' not found` when the default cache directory cannot be determined. It now warns and uses a temporary cache instead. (#93)
+
 - Closed #111: `font_google()` no longer fails with an opaque `curl: HTTP error 400` when the requested font family is misspelled or unavailable; it now errors with an informative message naming the family, the request URL, and a hint to check the family name at fonts.google.com.
 
 - Closed #157: `font_google(local = TRUE)` no longer fails on Windows when Google Fonts returns font URLs containing a query string. Fonts are still downloaded locally when Google omits the `format()` hint, using a recognized extension from the URL path when available.
