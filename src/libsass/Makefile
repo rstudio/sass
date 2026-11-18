@@ -113,11 +113,6 @@ ifeq ($(STATIC_LIBSTDCPP),1)
 	LDFLAGS += -static-libstdc++
 endif
 
-ifeq ($(UNAME),Darwin)
-	CXXFLAGS += -stdlib=libc++
-	LDFLAGS += -stdlib=libc++
-endif
-
 ifneq (Windows,$(UNAME))
 	ifneq (FreeBSD,$(UNAME))
 		ifneq (OpenBSD,$(UNAME))

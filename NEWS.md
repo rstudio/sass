@@ -1,6 +1,6 @@
 # sass (development version)
 
-- Installing sass from source now works with macOS toolchains that require explicit SDK or architecture flags, such as MacPorts R (#144).
+- Installing sass from source now works with macOS toolchains that require explicit SDK or architecture flags, such as MacPorts R (#144). Source builds with GCC on macOS now use the standard library selected by the R toolchain (#120).
 
 - Closed #111: `font_google()` no longer fails with an opaque `curl: HTTP error 400` when the requested font family is misspelled or unavailable; it now errors with an informative message naming the family, the request URL, and a hint to check the family name at fonts.google.com.
 
