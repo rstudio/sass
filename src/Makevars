@@ -8,7 +8,11 @@ all: $(SHLIB) cleanup
 $(SHLIB): $(STATLIB)
 
 $(STATLIB):
-	MAKEFLAGS= CC="$(CC)" CFLAGS="$(CFLAGS)" CXX="$(CXX)" AR="$(AR)" LDFLAGS="$(LDFLAGS)" $(MAKE) -C libsass
+	# Forward R's flags via EXTRA_C{,XX}FLAGS (not C{,XX}FLAGS): variables set on
+	# the make command line would override libsass's own `?=`/`+=` appends,
+	# silently dropping flags it needs (-I include, -fPIC, -O2, -std=c++11).
+	# libsass's Makefile appends EXTRA_C{,XX}FLAGS after its own flags.
+	MAKEFLAGS= CC="$(CC)" EXTRA_CFLAGS="$(CFLAGS)" CXX="$(CXX)" EXTRA_CXXFLAGS="$(CXX17FLAGS)" AR="$(AR)" LDFLAGS="$(LDFLAGS)" $(MAKE) -C libsass
 
 cleanup: $(SHLIB)
 	@rm -f $(STATLIB)
