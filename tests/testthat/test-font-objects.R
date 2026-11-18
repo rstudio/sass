@@ -169,16 +169,26 @@ test_that("font_google(local = TRUE) recovers when fonts are pruned from the cac
   expect_true(has_font_files(src))
 
   # Simulate the cache pruning the font files, but not the CSS file
-  cached <- dir(cache$dir(), full.names = TRUE)
-  is_font <- vapply(
-    cached,
-    function(f) identical(readBin(f, "raw", 4), charToRaw("wOF2")),
-    logical(1)
-  )
-  expect_true(any(is_font))
-  file.remove(cached[is_font])
+  cached_fonts <- function() {
+    cached <- dir(cache$dir(), full.names = TRUE)
+    is_font <- vapply(
+      cached,
+      function(f) identical(readBin(f, "raw", 4), charToRaw("wOF2")),
+      logical(1)
+    )
+    cached[is_font]
+  }
+  expect_true(length(cached_fonts()) > 1)
 
-  # Rendering again should restore the font files
+  # Partial pruning (the common case, since caches evict files one at a
+  # time): fonts still in the cache must also have their URLs rewritten
+  # to the local copies
+  file.remove(cached_fonts()[1])
+  src <- render_src()
+  expect_true(has_font_files(src))
+
+  # Full pruning: every font file is restored
+  file.remove(cached_fonts())
   src <- render_src()
   expect_true(has_font_files(src))
 })

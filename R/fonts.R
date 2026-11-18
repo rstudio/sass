@@ -435,7 +435,15 @@ font_dep_google_local <- function(x) {
     key <- hash_with_user_agent(nm)
     f <- file.path(tmpdir, nm)
     hit <- x$cache$get_file(key, f)
-    if (hit) return()
+    if (hit) {
+      # A remote url with a cache hit happens when the CSS was re-downloaded
+      # after a font-cache miss (i.e., partial pruning): the local file must
+      # still be referenced in the CSS we return and re-cache
+      if (grepl("^\\s*http", url)) {
+        css <<- sub(url, nm, css, fixed = TRUE)
+      }
+      return()
+    }
     # In the event we have a CSS cache hit but miss here, url should actually be
     # a local file. In that case, bust the CSS cache, and start over so we know
     # where to find the font files
