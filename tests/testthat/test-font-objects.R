@@ -126,19 +126,23 @@ test_that("font_collection() basically works", {
   )
   # Don't attempt to quote if , is quoted
   expect_warning(
-    expect_collection(
-      "foo", "'foo, bar', baz",
-      expected = "foo, 'foo, bar', baz"
-    ),
+    collection <- font_collection("foo", "'foo, bar', baz"),
     "quote"
+  )
+  expect_equal(
+    as_sass(list(font = collection)),
+    "$font: foo, 'foo, bar', baz !default;",
+    ignore_attr = TRUE
   )
   # Can suppress the warning with quote = FALSE
   expect_warning(
-    expect_collection(
-      "'foo, bar', baz", quote = FALSE,
-      expected = "'foo, bar', baz"
-    ),
+    collection <- font_collection("'foo, bar', baz", quote = FALSE),
     NA
+  )
+  expect_equal(
+    as_sass(list(font = collection)),
+    "$font: 'foo, bar', baz !default;",
+    ignore_attr = TRUE
   )
   expect_collection(
     font_google("foo bar baz"), "foo",
