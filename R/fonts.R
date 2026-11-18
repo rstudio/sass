@@ -424,24 +424,35 @@ font_dep_google_local <- function(x) {
   # to re-download font file(s) if they've been pruned from the cache
   css <- if (css_hit) readLines(css_file) else read_gfont_url(x$href, css_file, x$family)
 
-  # basename() of these url()s contain a hash key of the font data
-  urls <- extract_group(css, "url\\(([^)]+)")
-  basenames <- basename(urls)
+  # Map each font file URL in the CSS to a local file name
+  files <- gfont_local_files(css)
 
   # If need be, download the font file(s) that the CSS imports,
   # and modify the CSS to point to the local files
+  bust_css_cache <- FALSE
   needs_download_message <- TRUE
   Map(function(url, nm) {
     key <- hash_with_user_agent(nm)
     f <- file.path(tmpdir, nm)
     hit <- x$cache$get_file(key, f)
-    if (hit) return()
+    if (hit) {
+      # A remote url with a cache hit happens when the CSS was re-downloaded
+      # after a font-cache miss (i.e., partial pruning): the local file must
+      # still be referenced in the CSS we return and re-cache
+      if (grepl("^\\s*http", url)) {
+        css <<- sub(url, nm, css, fixed = TRUE)
+      }
+      return()
+    }
     # In the event we have a CSS cache hit but miss here, url should actually be
     # a local file. In that case, bust the CSS cache, and start over so we know
     # where to find the font files
     if (!grepl("^\\s*http", url)) {
-      x$cache$remove(css_key)
-      return(font_dep_google_local(x))
+      if (!bust_css_cache) {
+        x$cache$remove(css_key)
+        bust_css_cache <<- TRUE
+      }
+      return()
     }
 
     if (needs_download_message) {
@@ -456,7 +467,11 @@ font_dep_google_local <- function(x) {
     download_file(url, f, quiet = TRUE)
     x$cache$set_file(key, f)
     css <<- sub(url, nm, css, fixed = TRUE)
-  }, urls, basenames)
+  }, files$url, files$name)
+
+  if (bust_css_cache) {
+    return(font_dep_google_local(x))
+  }
 
   # Cache the *modified* form of the CSS file
   # (with the local file paths instead of remote URLs)
@@ -471,6 +486,53 @@ font_dep_google_local <- function(x) {
     stylesheet = basename(css_file),
     all_files = TRUE
   )
+}
+
+# Extract font file URLs from Google Fonts CSS and map them to local file
+# names that are valid on any platform. Note that basename() of these URLs
+# isn't guaranteed to be a valid file name (Google Fonts URLs may include a
+# query string, and characters like '?' are invalid on Windows), so files are
+# named after a hash of their URL, plus an extension from the format hint
+# or URL path (#157).
+gfont_local_files <- function(css) {
+  matches <- regmatches(
+    css,
+    regexec("url\\(([^)]+)\\)(\\s*format\\(['\"]([^'\"]+)['\"]\\))?", css)
+  )
+  matches <- matches[lengths(matches) == 4]
+  urls <- vapply(matches, `[[`, "", 2)
+  # A url that isn't remote is already a local file name (i.e., the CSS came
+  # from the cache) -- keep it as-is so cache lookups round-trip
+  is_remote <- grepl("^\\s*https?://", urls)
+  names <- urls
+  names[is_remote] <- paste0(
+    vapply(urls[is_remote], rlang::hash, character(1)),
+    font_format_ext(vapply(matches, `[[`, "", 4)[is_remote], urls[is_remote])
+  )
+  data.frame(url = urls, name = names, stringsAsFactors = FALSE)
+}
+
+# Map CSS font format()s to file extensions, falling back to the URL path
+font_format_ext <- function(format, url) {
+  exts <- c(
+    woff2 = ".woff2",
+    woff = ".woff",
+    truetype = ".ttf",
+    opentype = ".otf",
+    `embedded-opentype` = ".eot",
+    svg = ".svg"
+  )
+  res <- unname(exts[format])
+  missing_format <- !nzchar(format)
+  if (any(missing_format)) {
+    url_ext <- paste0(
+      ".",
+      tools::file_ext(sub("[?#].*$", "", url[missing_format]))
+    )
+    res[missing_format] <- ifelse(url_ext %in% exts, url_ext, "")
+  }
+  res[is.na(res)] <- ""
+  res
 }
 
 # Request the relevant @font-face definitions for the font url
