@@ -57,7 +57,8 @@
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="development version" id="sass-development-version">sass (development version)<a class="anchor" aria-label="anchor" href="#sass-development-version"></a></h2>
-<ul><li><p>Closed <a href="https://github.com/rstudio/sass/issues/151" class="external-link">#151</a>: fixed a memory leak of the libsass context when Sass compilation fails (previously <code>sass_delete_file_context()</code>/<code>sass_delete_data_context()</code> were skipped on the error path).</p></li>
+<ul><li><p>Closed <a href="https://github.com/rstudio/sass/issues/111" class="external-link">#111</a>: <code><a href="../reference/font_face.html">font_google()</a></code> no longer fails with an opaque <code>curl: HTTP error 400</code> when the requested font family is misspelled or unavailable; it now errors with an informative message naming the family, the request URL, and a hint to check the family name at fonts.google.com.</p></li>
+<li><p>Closed <a href="https://github.com/rstudio/sass/issues/151" class="external-link">#151</a>: fixed a memory leak of the libsass context when Sass compilation fails (previously <code>sass_delete_file_context()</code>/<code>sass_delete_data_context()</code> were skipped on the error path).</p></li>
 <li><p>Fixed throwing exceptions when running under Emscripten.</p></li>
 <li><p>Copy files without inheriting read/write/execute permissions fixing issues when using sass on immutable operating systems.</p></li>
 </ul></div>
