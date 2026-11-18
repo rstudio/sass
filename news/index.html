@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sass</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.10.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.0</span>
       </span>
     </div>
 
@@ -52,18 +52,18 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href="https://github.com/rstudio/sass/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/rstudio/sass/blob/rc-v0.5.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="development version" id="sass-development-version">sass (development version)<a class="anchor" aria-label="anchor" href="#sass-development-version"></a></h2>
+<h2 class="page-header" data-toc-text="0.5.0" id="sass-050">sass 0.5.0<a class="anchor" aria-label="anchor" href="#sass-050"></a></h2>
 <div class="section level3">
-<h3 id="improvements-development-version">Improvements<a class="anchor" aria-label="anchor" href="#improvements-development-version"></a></h3>
+<h3 id="improvements-0-5-0">Improvements<a class="anchor" aria-label="anchor" href="#improvements-0-5-0"></a></h3>
 <ul><li><p>Closed <a href="https://github.com/rstudio/sass/issues/111" class="external-link">#111</a>: <code><a href="../reference/font_face.html">font_google()</a></code> no longer fails with an opaque <code>curl: HTTP error 400</code> when the requested font family is misspelled or unavailable; it now errors with an informative message naming the family, the request URL, and a hint to check the family name at fonts.google.com. (<a href="https://github.com/rstudio/sass/issues/165" class="external-link">#165</a>)</p></li>
 <li><p>Copy files without inheriting read/write/execute permissions fixing issues when using sass on immutable operating systems. (<a href="https://github.com/rstudio/sass/issues/156" class="external-link">#156</a>)</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<h3 id="bug-fixes-0-5-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-5-0"></a></h3>
 <ul><li><p><code><a href="../reference/sass.html">sass()</a></code> no longer fails with <code>object 'cache_dir' not found</code> when the default cache directory cannot be determined. It now warns and uses a temporary cache instead. (<a href="https://github.com/rstudio/sass/issues/93" class="external-link">#93</a>)</p></li>
 <li><p>Closed <a href="https://github.com/rstudio/sass/issues/157" class="external-link">#157</a>: <code>font_google(local = TRUE)</code> no longer fails on Windows when Google Fonts returns font URLs containing a query string. Fonts are still downloaded locally when Google omits the <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format()</a></code> hint, using a recognized extension from the URL path when available. (<a href="https://github.com/rstudio/sass/issues/164" class="external-link">#164</a>)</p></li>
 <li><p>Closed <a href="https://github.com/rstudio/sass/issues/151" class="external-link">#151</a>: fixed a memory leak of the libsass context when Sass compilation fails (previously <code>sass_delete_file_context()</code>/<code>sass_delete_data_context()</code> were skipped on the error path). (<a href="https://github.com/rstudio/sass/issues/160" class="external-link">#160</a>)</p></li>
