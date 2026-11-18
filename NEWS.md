@@ -1,6 +1,6 @@
 # sass (development version)
 
-- Closed #157: `font_google(local = TRUE)` no longer fails on Windows when Google Fonts returns font URLs containing a query string. Downloaded font files are now named after a hash of their URL (instead of the URL's basename, which may contain characters like `?` that are invalid in Windows file names), with a file extension reflecting the font format.
+- Closed #157: `font_google(local = TRUE)` no longer fails on Windows when Google Fonts returns font URLs containing a query string. Fonts are still downloaded locally when Google omits the `format()` hint, using a recognized extension from the URL path when available.
 
 - Closed #151: fixed a memory leak of the libsass context when Sass compilation fails (previously `sass_delete_file_context()`/`sass_delete_data_context()` were skipped on the error path).
 

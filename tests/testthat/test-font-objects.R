@@ -135,9 +135,40 @@ test_that("gfont_local_files() leaves already-local names unchanged", {
   # When font_dep_google_local() gets a cache hit on the CSS file, the CSS
   # already points at local file names -- those names must round-trip so
   # the font files can still be found in the cache
-  css <- "  src: url(90f4a537786e4aba8d6c86f7abd13d0d.woff2) format('woff2');"
+  css <- c(
+    "  src: url(90f4a537786e4aba8d6c86f7abd13d0d.woff2) format('woff2');",
+    "  src: url(90f4a537786e4aba8d6c86f7abd13d0d.woff2);"
+  )
   files <- gfont_local_files(css)
-  expect_equal(files$name, "90f4a537786e4aba8d6c86f7abd13d0d.woff2")
+  expect_equal(files$name, rep("90f4a537786e4aba8d6c86f7abd13d0d.woff2", 2))
+})
+
+test_that("local font names use URL extensions when format hints are absent", {
+  urls <- c(
+    "https://fonts.gstatic.com/font.woff2?kit=test#subset.woff",
+    "https://fonts.gstatic.com/font.woff",
+    "https://fonts.gstatic.com/font.ttf",
+    "https://fonts.gstatic.com/font.otf",
+    "https://fonts.gstatic.com/font.eot",
+    "https://fonts.gstatic.com/font.svg",
+    "https://fonts.gstatic.com/font?kit=test.woff2",
+    "https://fonts.gstatic.com/font#subset.woff2",
+    "https://fonts.gstatic.com/font.exe"
+  )
+  files <- gfont_local_files(paste0("src: url(", urls, ");"))
+  expect_equal(files$url, urls)
+  expect_equal(
+    tools::file_ext(files$name),
+    c("woff2", "woff", "ttf", "otf", "eot", "svg", "", "", "")
+  )
+  expect_false(any(grepl("[?&=:/\\\\*\"<>|]", files$name)))
+})
+
+test_that("explicit font format hints take precedence over URL extensions", {
+  files <- gfont_local_files(
+    "src: url(https://fonts.gstatic.com/font.ttf) format('woff2');"
+  )
+  expect_equal(tools::file_ext(files$name), "woff2")
 })
 
 test_that("font_google(local = TRUE) recovers when fonts are pruned from the cache", {

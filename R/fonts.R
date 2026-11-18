@@ -492,14 +492,14 @@ font_dep_google_local <- function(x) {
 # names that are valid on any platform. Note that basename() of these URLs
 # isn't guaranteed to be a valid file name (Google Fonts URLs may include a
 # query string, and characters like '?' are invalid on Windows), so files are
-# named after a hash of their URL, plus an extension reflecting the font
-# format (#157).
+# named after a hash of their URL, plus an extension from the format hint
+# or URL path (#157).
 gfont_local_files <- function(css) {
   matches <- regmatches(
     css,
-    regexec("url\\(([^)]+)\\)\\s*format\\(['\"]([^'\"]+)['\"]\\)", css)
+    regexec("url\\(([^)]+)\\)(\\s*format\\(['\"]([^'\"]+)['\"]\\))?", css)
   )
-  matches <- matches[lengths(matches) == 3]
+  matches <- matches[lengths(matches) == 4]
   urls <- vapply(matches, `[[`, "", 2)
   # A url that isn't remote is already a local file name (i.e., the CSS came
   # from the cache) -- keep it as-is so cache lookups round-trip
@@ -507,13 +507,13 @@ gfont_local_files <- function(css) {
   names <- urls
   names[is_remote] <- paste0(
     vapply(urls[is_remote], rlang::hash, character(1)),
-    font_format_ext(vapply(matches, `[[`, "", 3)[is_remote])
+    font_format_ext(vapply(matches, `[[`, "", 4)[is_remote], urls[is_remote])
   )
   data.frame(url = urls, name = names, stringsAsFactors = FALSE)
 }
 
-# Map CSS font format()s to file extensions
-font_format_ext <- function(format) {
+# Map CSS font format()s to file extensions, falling back to the URL path
+font_format_ext <- function(format, url) {
   exts <- c(
     woff2 = ".woff2",
     woff = ".woff",
@@ -523,6 +523,14 @@ font_format_ext <- function(format) {
     svg = ".svg"
   )
   res <- unname(exts[format])
+  missing_format <- !nzchar(format)
+  if (any(missing_format)) {
+    url_ext <- paste0(
+      ".",
+      tools::file_ext(sub("[?#].*$", "", url[missing_format]))
+    )
+    res[missing_format] <- ifelse(url_ext %in% exts, url_ext, "")
+  }
   res[is.na(res)] <- ""
   res
 }
