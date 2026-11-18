@@ -14,7 +14,8 @@ test_that("failed cache directory lookup falls back to a temporary cache", {
   expect_snapshot(cache_dir <- sass_cache_context_dir())
   withr::local_file(cache_dir)
   expect_identical(dir.exists(cache_dir), TRUE)
-  expect_identical(dirname(cache_dir), normalizePath(tempdir()))
+  # dirname() uses "/" while normalizePath() uses "\" on Windows
+  expect_identical(normalizePath(dirname(cache_dir)), normalizePath(tempdir()))
   expect_match(basename(cache_dir), "^sass-")
 
   withr::local_options(sass.cache = cache_dir)
@@ -29,10 +30,12 @@ test_that("failed cache directory creation falls back to a temporary cache", {
 
   expect_snapshot(
     cache_dir <- sass_cache_context_dir(),
-    transform = function(x) gsub(cache_file, "<cache-file>", x, fixed = TRUE)
+    # On Windows, the dir.create() warning renders the path in 8.3 short-name
+    # form with backslashes, so match any quoted path instead of the literal
+    transform = function(x) gsub("'[^']*'", "'<cache-file>'", x)
   )
   withr::local_file(cache_dir)
   expect_identical(dir.exists(cache_dir), TRUE)
-  expect_identical(dirname(cache_dir), normalizePath(tempdir()))
+  expect_identical(normalizePath(dirname(cache_dir)), normalizePath(tempdir()))
   expect_identical(file.exists(cache_file), TRUE)
 })
