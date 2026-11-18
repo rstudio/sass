@@ -3,15 +3,15 @@ Package: sass
 Title: Syntactically Awesome Style Sheets ('Sass')
 Version: 0.4.10.9000
 Authors@R: c(
-    person("Joe", "Cheng", , "joe@rstudio.com", role = "aut"),
+    person("Joe", "Cheng", , "joe@posit.co", role = "aut"),
     person("Timothy", "Mastny", , "tim.mastny@gmail.com", role = "aut"),
-    person("Richard", "Iannone", , "rich@rstudio.com", role = "aut",
+    person("Richard", "Iannone", , "rich@posit.co", role = "aut",
            comment = c(ORCID = "0000-0003-3925-190X")),
-    person("Barret", "Schloerke", , "barret@rstudio.com", role = "aut",
+    person("Barret", "Schloerke", , "barret@posit.co", role = "aut",
            comment = c(ORCID = "0000-0001-9986-114X")),
-    person("Carson", "Sievert", , "carson@rstudio.com", role = c("aut", "cre"),
+    person("Carson", "Sievert", , "carson@posit.co", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-4958-2844")),
-    person("Christophe", "Dervieux", , "cderv@rstudio.com", role = "ctb",
+    person("Christophe", "Dervieux", , "cderv@posit.co", role = "ctb",
            comment = c(ORCID = "0000-0003-4474-2498")),
     person(, "RStudio", role = c("cph", "fnd")),
     person(, "Sass Open Source Foundation", role = c("ctb", "cph"),
