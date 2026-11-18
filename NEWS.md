@@ -1,5 +1,7 @@
 # sass (development version)
 
+- Closed #111: `font_google()` no longer fails with an opaque `curl: HTTP error 400` when the requested font family is misspelled or unavailable; it now errors with an informative message naming the family, the request URL, and a hint to check the family name at fonts.google.com.
+
 - Closed #157: `font_google(local = TRUE)` no longer fails on Windows when Google Fonts returns font URLs containing a query string. Fonts are still downloaded locally when Google omits the `format()` hint, using a recognized extension from the URL path when available.
 
 - Closed #151: fixed a memory leak of the libsass context when Sass compilation fails (previously `sass_delete_file_context()`/`sass_delete_data_context()` were skipped on the error path).
