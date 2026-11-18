@@ -1,5 +1,7 @@
 # sass (development version)
 
+- Closed #144: installing sass from source no longer fails on R installations whose toolchain relies on C++ flags carried in `CXX17FLAGS` (e.g., MacPorts R on macOS, where `-isysroot`/`-arch` live there). Those flags are now forwarded to the bundled libsass build.
+
 - Closed #111: `font_google()` no longer fails with an opaque `curl: HTTP error 400` when the requested font family is misspelled or unavailable; it now errors with an informative message naming the family, the request URL, and a hint to check the family name at fonts.google.com.
 
 - Closed #157: `font_google(local = TRUE)` no longer fails on Windows when Google Fonts returns font URLs containing a query string. Fonts are still downloaded locally when Google omits the `format()` hint, using a recognized extension from the URL path when available.
