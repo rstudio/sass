@@ -154,6 +154,32 @@ test_that("font_collection() basically works", {
   )
 })
 
+test_that("font_google() errors informatively on an unknown font family", {
+  # skip_if_offline() errors when curl isn't installed
+  skip_if_not_installed("curl")
+  skip_if_offline()
+
+  # Use a fresh cache so the CSS download actually happens
+  tmpdir <- tempfile("sass-cache-test-")
+  dir.create(tmpdir)
+  cache <- sass_file_cache(tmpdir)
+
+  scss <- list(
+    list("my-font" = font_google("Source Code", cache = cache)),
+    list("body {font-family: $my-font}")
+  )
+
+  # The error should name the (misspelled) family and suggest checking the name
+  expect_error(
+    renderTags(tags$style(sass(scss))),
+    "Source Code"
+  )
+  expect_error(
+    renderTags(tags$style(sass(scss))),
+    "fonts.google.com"
+  )
+})
+
 test_that("Special named args in font_collection", {
   expect_remote_font(
     font_collection(google = list("foo", local = FALSE))

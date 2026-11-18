@@ -422,7 +422,7 @@ font_dep_google_local <- function(x) {
 
   # Even if we have a cache hit on the CSS file, we may need
   # to re-download font file(s) if they've been pruned from the cache
-  css <- if (css_hit) readLines(css_file) else read_gfont_url(x$href, css_file)
+  css <- if (css_hit) readLines(css_file) else read_gfont_url(x$href, css_file, x$family)
 
   # basename() of these url()s contain a hash key of the font data
   urls <- extract_group(css, "url\\(([^)]+)")
@@ -474,12 +474,24 @@ font_dep_google_local <- function(x) {
 }
 
 # Request the relevant @font-face definitions for the font url
-read_gfont_url <- function(url, file) {
+read_gfont_url <- function(url, file, family) {
 
-  download_file(
-    utils::URLencode(url), file,
-    headers = c("User-Agent" = gfont_user_agent()),
-    quiet = TRUE
+  tryCatch(
+    download_file(
+      utils::URLencode(url), file,
+      headers = c("User-Agent" = gfont_user_agent()),
+      quiet = TRUE
+    ),
+    error = function(e) {
+      stop(
+        "Failed to download Google Font '", family, "' from\n  ",
+        utils::URLencode(url), "\n",
+        "Reason: ", conditionMessage(e), "\n",
+        "Check that the font family is spelled correctly ",
+        "(see https://fonts.google.com for available families).",
+        call. = FALSE
+      )
+    }
   )
   readLines(file)
 }
