@@ -1,0 +1,18 @@
+Let the R toolchain select the C++ standard library for the bundled LibSass build (#120).
+
+diff --git a/src/libsass/Makefile b/src/libsass/Makefile
+--- a/src/libsass/Makefile
++++ b/src/libsass/Makefile
+@@ -113,12 +113,6 @@ ifeq ($(STATIC_LIBSTDCPP),1)
+ 	LDFLAGS += -static-libstdc++
+ endif
+ 
+-ifeq ($(UNAME),Darwin)
+-	CFLAGS += -stdlib=libc++
+-	CXXFLAGS += -stdlib=libc++
+-	LDFLAGS += -stdlib=libc++
+-endif
+-
+ ifneq (Windows,$(UNAME))
+ 	ifneq (FreeBSD,$(UNAME))
+ 		ifneq (OpenBSD,$(UNAME))
