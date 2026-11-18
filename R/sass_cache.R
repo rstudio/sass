@@ -152,6 +152,7 @@ sass_cache_get <- function() {
 #' @keywords internal
 #' @export
 sass_cache_context_dir <- function() {
+  cache_dir <- NULL
   tryCatch(
     {
       # The usual place we'll look. This may be superseded below.
@@ -186,8 +187,11 @@ sass_cache_context_dir <- function() {
     },
     error = function(e) {
       # If all of the attempts to find/create a dir failed, just use a temp dir.
-      warning("Error using cache directory at '", cache_dir,
-              "'. Using temp dir instead.")
+      warning(
+        "Error using cache directory",
+        if (!is.null(cache_dir)) paste0(" at '", cache_dir, "'"),
+        ". Using temp dir instead."
+      )
 
       cache_dir <<- tempfile("sass-")
       dir.create(cache_dir)
